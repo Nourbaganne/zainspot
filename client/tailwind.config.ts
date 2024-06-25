@@ -29,7 +29,7 @@ const config: Config = {
         alert: '#DC2626',
         button: '#C6C6C6',
         span: '#666666'
-      }
+      },
     }
   },
   plugins: [],
