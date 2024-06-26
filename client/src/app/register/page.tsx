@@ -3,6 +3,9 @@ import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 import loginImage from "./assets/login-image.svg";
 import eyeOutline from "./assets/eye-outline.svg";
 
@@ -215,37 +218,35 @@ const Register = () => {
                 )}
             </div>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 ">
             <div className="relative flex flex-col">
-              <input
-                type="number"
-                name="businessNumber"
+              <PhoneInput
+                country={"us"}
                 value={formik.values.businessNumber}
                 onChange={formik.handleChange}
-                className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0  
+                inputProps={{
+                  className: `
+                    border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
                   ${
                     formik.errors.businessNumber &&
                     formik.touched.businessNumber
                       ? "border-alert"
                       : "border-button focus:border-primary"
                   }
-                `}
+                
+                  `,
+                  name: "businessNumber",
+                }}
               />
               <label
                 htmlFor="businessNumber"
-                className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 
+                className={`absolute left-3 top-0 transform -translate-y-1/2 text-xs bg-white text-text-foreground  px-1  
                   ${
                     formik.errors.businessNumber &&
                     formik.touched.businessNumber
-                      ? "peer-focus:text-alert"
-                      : "peer-focus:text-primary"
-                  }
-                  ${
-                    formik.values.businessNumber
-                      ? "top-[0px] left-3 text-xs bg-white z-10"
-                      : ""
-                  }
-                `}
+                      ? "text-alert"
+                      : "text-primary"
+                  }`}
               >
                 Your Business Mobile Number
               </label>
@@ -336,7 +337,7 @@ const Register = () => {
               )}
             </div>
           </div>
-          <div className="flex gap-6">
+          <div className="flex gap-6 ">
             <div className="flex flex-col gap-2 w-full">
               <div className="relative flex flex-col w-full">
                 <select
@@ -765,7 +766,6 @@ const Register = () => {
             {formik.touched.mediaProfile && formik.errors.mediaProfile && (
               <h1 className="pl-4 text-alert">{formik.errors.mediaProfile}</h1>
             )}
-
           </div>
 
           <button
