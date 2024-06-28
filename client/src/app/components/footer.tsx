@@ -6,10 +6,10 @@ import { FOOTER_DATA } from "@/app/constants/footer";
 
 const Footer = () => {
   return (
-    <div className="flex flex-col gap-10 bg-primary text-background py-5 pt-10 px-20">
-      <div className="flex justify-between">
+    <div className="flex flex-col gap-10 bg-primary text-background md:py-5 md:pt-10 md:px-20 justify-center items-center p-6">
+      <div className="flex justify-between w-full">
         <Image src={logo} alt="zainspot-logo" />
-        <div className="grid grid-cols-4 gap-5 w-2/3 ">
+        <div className="hidden md:grid grid-cols-4 gap-5 w-2/3 ">
           {FOOTER_DATA.map((data, index) => (
             <h1
               className={`${
@@ -23,7 +23,7 @@ const Footer = () => {
           ))}
         </div>
       </div>
-      <div className="flex gap-4 text-secondary-foreground text-lg">
+      <div className="flex flex-col md:flex-col gap-4 text-secondary-foreground md:text-lg text-center">
         <p>© 2024 ZainSpot</p>
         <p>
           ZainSpot.com website is protected by reCAPTCHA and the Google Privacy
