@@ -264,7 +264,6 @@ const Register = () => {
                 <input
                   type="text"
                   name="businessName"
-                  id="businessName"
                   value={formik.values.businessName}
                   onChange={formik.handleChange}
                   className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0  

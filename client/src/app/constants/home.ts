@@ -31,61 +31,73 @@ export const ignoredFeatures = [
 export const cities = [
     {
         image: newYork,
+        slug: "new-york",
         title: "Go New York",
         desc: "Your Business Adress"
     },
     {
         image: london,
+        slug: "london",
         title: "Go London",
         desc: "Your Business Adress"
     },
     {
         image: mumbai,
+        slug:"mumbai",
         title: "Go Mumbai",
         desc: "Your Business Adress"
     },
     {
         image: dubai,
+        slug:"dubai",
         title: "Go Dubai",
         desc: "Your Business Adress"
     },
     {
         image: dhaka,
+        slug:"dhaka",
         title: "Go Dhaka",
         desc: "Your Business Adress"
     },
     {
         image: singafora,
+        slug:"singafora",
         title: "Go Singapore",
         desc: "Your Business Adress"
     },
     {
         image: amesterdam,
+        slug:"amesterdam",
         title: "Amesterdam",
         desc: "Opening Soon"
     },
     {
         image: hongKong,
+        slug:"hong-kong",
         title: "Hong Kong",
         desc: "Opening Soon"
     },
     {
         image: riyadh,
+        slug:"riyadh",
         title: "Riyadh",
         desc: "Opening Soon"
     },
     {
         image: toronto,
+        slug:"toronto",
         title: "Toronto",
         desc: "Opening Soon"
     },
     {
         image: tokyo,
+        slug:"tokyo",
         title: "Tokyo",
         desc: "Opening Soon"
     },
     {
         image: kualaLumpur,
+        slug:"kuala-lumpur",
         title: "Kuala Lumpur",
         desc: "Opening Soon"
     },

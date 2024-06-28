@@ -30,6 +30,9 @@ const config: Config = {
         button: '#C6C6C6',
         span: '#666666'
       },
+      fontFamily: {
+        sans: ['"Work Sans"', 'sans-serif'],
+      },
     }
   },
   plugins: [],
