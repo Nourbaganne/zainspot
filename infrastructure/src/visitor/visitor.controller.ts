@@ -6,8 +6,8 @@ import {
   Get,
   HttpException,
   HttpStatus,
-  Param,
   Post,
+  Query,
 } from '@nestjs/common';
 
 @Controller('visitors')
@@ -22,13 +22,19 @@ export class VisitorController {
     } catch (error) {
       throw new HttpException(
         'Failed to create visitor. Please Enter a unique email.',
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.EXPECTATION_FAILED,
+        error,
       );
     }
   }
 
-  @Get(':id')
-  show(@Param('id') id: string) {
-    return this.visitorService.showById(+id);
+  @Get()
+  async show(@Query('id') id: number) {
+    return this.visitorService.findById(id);
+  }
+
+  @Get()
+  findAll() {
+    return this.visitorService.findAll();
   }
 }

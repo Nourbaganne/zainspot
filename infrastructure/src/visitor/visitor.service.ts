@@ -15,20 +15,20 @@ export class VisitorService {
     return visitor;
   }
 
-  async findAll(): Promise<Visitor> {
-    const visitor = this.findAll();
-    return visitor;
+  async findAll(): Promise<Visitor[]> {
+    const visitors = await Visitor.find();
+    return visitors;
   }
 
-  async showById(id: number): Promise<Visitor> {
-    const visitor = await this.findById(id);
+  async findById(id: number): Promise<Visitor> {
+    const visitor = await Visitor.findOne({
+      where: {
+        id,
+      },
+    });
 
     delete visitor.password;
     return visitor;
-  }
-
-  async findById(id: number) {
-    return await this.findById(id);
   }
 
   async findByEmail(email: string) {
