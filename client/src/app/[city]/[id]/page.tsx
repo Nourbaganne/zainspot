@@ -3,6 +3,8 @@ import Link from "next/link";
 
 import returnIcon from "@/app/assets/city-details/return-icon.svg";
 import testImage from "@/app/assets/city-details/test-image.svg";
+import { MapProvider } from "@/app/providers/map-provider";
+import { MapComponent } from "@/app/components/map";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const { city, id } = params;
@@ -37,7 +39,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               transactions makes London a financial powerhouse of
               entrepreneurship for aspiring business owners from every country
               and your perfect Business Address to Go Global. Historic ties to
-              Asia’s financial hubs and modern-day time-zone convenience to
+              Asia&apos;s financial hubs and modern-day time-zone convenience to
               Europe are right for you to expand your company.
             </p>
             <h1 className="text-center font-extrabold text-text text-2xl">
@@ -52,9 +54,9 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               nisi ut aliquip ex ea commodo consequat.
             </p>
 
-            <p className="text-alert border border-alert p-2">
-              Including maps here
-            </p>
+            <MapProvider>
+              <MapComponent />
+            </MapProvider>
           </div>
         </div>
       </div>
@@ -70,14 +72,14 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           <p className="font-semibold">
             Your fully functioning office in a 5-Star CBD Address with onsite
             ZainSpot Professionals to accept, scan and save unlimited mail to
-            the cloud for you. There’s more! Your own local telephone number
+            the cloud for you. There&apos;s more! Your own local telephone number
             answered in your name gives the final touch to your international
             business. Unlimited calls are answered in the local language and
             saved to the cloud with transcripts emailed to you.
           </p>
 
           <h1 className="text-center font-semibold">
-            Now you’re ready to promote your business and Go Global!
+            Now you&apos;re ready to promote your business and Go Global!
           </h1>
 
           <div className="flex justify-between">
@@ -110,7 +112,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           </p>
 
           <h1 className="text-center font-semibold">
-            Now you’re ready to promote your business and Go Global!
+            Now you&apos;re ready to promote your business and Go Global!
           </h1>
 
           <div className="flex justify-between">
@@ -130,8 +132,8 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           </div>
           <div className="flex flex-col gap-4 px-4">
             <p className="font-light text-sm text-end pr-16">Per month</p>
-            {PAYMENT_METHODS.map((pm) => (
-              <div className="flex justify-between">
+            {PAYMENT_METHODS.map((pm, index) => (
+              <div key={index} className="flex justify-between">
                 <h1>{pm.duration}</h1>
                 <h1 className="text-primary">{pm.price}</h1>
                 <div className="flex items-center gap-2">
