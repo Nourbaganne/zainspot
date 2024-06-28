@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { VisitorModule } from './visitor/visitor.module';
 import { Visitor } from './visitor/visitor.entity';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { Visitor } from './visitor/visitor.entity';
     }),
     AuthModule,
     VisitorModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
