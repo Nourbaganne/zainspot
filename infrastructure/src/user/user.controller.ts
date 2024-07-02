@@ -3,14 +3,13 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { Role } from './entities/role.enum';
+import { Role } from '../entities/role.enum';
 import { Roles } from './roles.decorater';
 
 @Controller('user')
@@ -19,8 +18,22 @@ export class UserController {
 
   @Post()
   @Roles(Role.ADMIN)
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    try {
+      const user = await this.userService.create(createUserDto);
+      return user;
+    } catch (error) {
+      console.log('error', error);
+      throw new HttpException(
+        'Failed to create visitor. Please Enter a unique email.',
+        HttpStatus.EXPECTATION_FAILED,
+      );
+    }
+  }
+
+  @Get(':id')
+  async show(@Param('id') id: number) {
+    return this.userService.findById(id);
   }
 
   @Get()
@@ -28,18 +41,13 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  //   return this.userService.update(+id, updateUserDto);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.userService.remove(+id);
+  // }
 }

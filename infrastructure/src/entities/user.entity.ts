@@ -2,15 +2,17 @@ import {
   BaseEntity,
   BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import * as bcrypt from 'bcrypt';
 
-@Entity({ name: 'visitors' })
-export class Visitor extends BaseEntity {
+@Entity({ name: 'User' })
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -21,12 +23,17 @@ export class Visitor extends BaseEntity {
   password: string;
 
   @Column()
-  @UpdateDateColumn()
+  role: string;
+
+  @CreateDateColumn()
   createdAt: Date;
 
   @Column()
   @UpdateDateColumn()
-  updateAt: Date;
+  updatedAt: Date;
+
+  @OneToMany(() => UserRole, userRole => userRole.user)
+  roles: UserRole[];
 
   @BeforeInsert()
   async hashPassword() {
