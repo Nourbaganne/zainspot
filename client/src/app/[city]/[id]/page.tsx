@@ -3,11 +3,21 @@ import Link from "next/link";
 
 import returnIcon from "@/app/assets/city-details/return-icon.svg";
 import testImage from "@/app/assets/city-details/test-image.svg";
-import { MapProvider } from "@/app/providers/map-provider";
-import { MapComponent } from "@/app/components/map";
+
+import dynamic from "next/dynamic";
+import { useMemo } from "react";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const { city, id } = params;
+
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("@/app/components/map"), {
+        loading: () => <p>A map is loading</p>,
+        ssr: false,
+      }),
+    []
+  );
 
   const PAYMENT_METHODS = [
     { duration: "12 months", price: "£23" },
@@ -54,9 +64,9 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               nisi ut aliquip ex ea commodo consequat.
             </p>
 
-            <MapProvider>
-              <MapComponent />
-            </MapProvider>
+            <div className="bg-white-700 mx-auto my-5 w-[98%] h-[480px]">
+              <Map posix={[4.79029, -75.69003]} />
+            </div>
           </div>
         </div>
       </div>
@@ -72,10 +82,10 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           <p className="font-semibold">
             Your fully functioning office in a 5-Star CBD Address with onsite
             ZainSpot Professionals to accept, scan and save unlimited mail to
-            the cloud for you. There&apos;s more! Your own local telephone number
-            answered in your name gives the final touch to your international
-            business. Unlimited calls are answered in the local language and
-            saved to the cloud with transcripts emailed to you.
+            the cloud for you. There&apos;s more! Your own local telephone
+            number answered in your name gives the final touch to your
+            international business. Unlimited calls are answered in the local
+            language and saved to the cloud with transcripts emailed to you.
           </p>
 
           <h1 className="text-center font-semibold">

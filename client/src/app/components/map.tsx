@@ -1,44 +1,38 @@
 "use client";
 
-// Map component from library
-import { GoogleMap } from "@react-google-maps/api";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { LatLngExpression, LatLngTuple } from 'leaflet';
 
-// Map's styling
-const defaultMapContainerStyle = {
-  width: "100%",
-  height: "80vh",
-  borderRadius: "15px 0 0 15px",
-  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import "leaflet-defaulticon-compatibility";
+
+interface MapProps {
+  posix: LatLngExpression | LatLngTuple;
+  zoom?: number;
+}
+
+const defaults = {
+  zoom: 14,
 };
 
-// Coordinates for Berkeley House
-const defaultMapCenter = {
-  lat: 51.509865,
-  lng: -0.147768,
-};
-
-// Decreased zoom level for a wider view
-const defaultMapZoom = 12;
-
-// Map options
-const defaultMapOptions = {
-  zoomControl: true,
-  tilt: 0,
-  gestureHandling: "auto",
-  mapTypeId: "hybrid",
-};
-
-const MapComponent = () => {
+const Map = ({ posix, zoom = defaults.zoom }: MapProps) => {
   return (
-    <div className="w-full h-full p-4">
-      <GoogleMap
-        mapContainerStyle={defaultMapContainerStyle}
-        center={defaultMapCenter}
-        zoom={defaultMapZoom}
-        options={defaultMapOptions}
+    <MapContainer
+      center={posix}
+      zoom={zoom}
+      scrollWheelZoom={false}
+      style={{ height: "100%", width: "100%" }}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-    </div>
+      <Marker position={posix} draggable={false}>
+        <Popup>Hey ! I study here</Popup>
+      </Marker>
+    </MapContainer>
   );
 };
 
-export { MapComponent };
+export default Map;
