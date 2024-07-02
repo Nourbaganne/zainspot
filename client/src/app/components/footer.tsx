@@ -11,7 +11,7 @@ const Footer = () => {
         <Image src={logo} alt="zainspot-logo" />
         <div className="hidden md:grid grid-cols-4 gap-5 w-2/3 ">
           {FOOTER_DATA.map((data, index) => (
-            <h1
+            <h1 key={index}
               className={`${
                 index < 4
                   ? "font-semibold font-sans text-2xl"

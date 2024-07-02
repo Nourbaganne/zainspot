@@ -33,7 +33,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           <Image src={testImage} alt="test-image" className=" w-screen" />
           <div className="flex flex-col px-4 gap-7 pt-7">
             <p className="text-description font-semibold">
-              The world's largest foreign exchange centre with 40% of worldwide
+              The world&apos;s largest foreign exchange centre with 40% of worldwide
               transactions makes London a financial powerhouse of
               entrepreneurship for aspiring business owners from every country
               and your perfect Business Address to Go Global. Historic ties to
@@ -130,8 +130,8 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           </div>
           <div className="flex flex-col gap-4 px-4">
             <p className="font-light text-sm text-end pr-16">Per month</p>
-            {PAYMENT_METHODS.map((pm) => (
-              <div className="flex justify-between">
+            {PAYMENT_METHODS.map((pm, index) => (
+              <div key={index} className="flex justify-between">
                 <h1>{pm.duration}</h1>
                 <h1 className="text-primary">{pm.price}</h1>
                 <div className="flex items-center gap-2">
