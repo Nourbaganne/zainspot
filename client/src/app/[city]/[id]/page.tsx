@@ -2,18 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-
 import returnIcon from "@/app/assets/city-details/return-icon.svg";
 import testImage from "@/app/assets/city-details/test-image.svg";
-
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { MoneyValue } from "@/app/components/MoneyValue";
-
 import { useCurrency } from "@/app/contexts/CurrencyContext";
+import Translation from "@/app/components/translation";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const { city, id } = params;
+  const { currency } = useCurrency();
 
   const Map = useMemo(
     () =>
@@ -27,20 +26,18 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const PAYMENT_METHODS = [
     { duration: "12 months", price: 23 },
     { duration: "6 months", price: 25 },
-    { duration: "1 months", price: 36 },
+    { duration: "1 month", price: 36 }, 
   ];
 
-  const {currency} = useCurrency();
-
   return (
-    <div className="flex flex-col md:flex-row md:gap-10 font-sans ">
-      <div className="flex flex-col py-8 md:py-0 gap-8">
+    <div className="flex flex-col md:grid md:grid-cols-5 font-sans">
+      <div className="flex flex-col md:col-span-2 py-8 md:py-0 gap-8">
         <Link
           href={"/"}
           className="px-4 flex gap-1 text-text-foreground hover:underline"
         >
           <Image src={returnIcon} alt="return-back-icon" />
-          Back to Cities
+          <Translation translationKey="citypage_return_button" />
         </Link>
         <div>
           <div className="px-4">
@@ -49,7 +46,15 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               Mayfair 14 Berkeley Square
             </h1>
           </div>
-          <Image src={testImage} alt="test-image" className=" w-screen" />
+          <div className="relative w-full h-[480px]">
+            <Image
+              src={testImage}
+              alt="test-image"
+              layout="fill"
+              objectFit="cover"
+              
+            />
+          </div>
           <div className="flex flex-col px-4 gap-7 pt-7">
             <p className="text-description font-semibold">
               The world&apos;s largest foreign exchange centre with 40% of
@@ -71,28 +76,25 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               nisi ut aliquip ex ea commodo consequat.
             </p>
 
-            <div className="bg-white-700 mx-auto my-5 w-[98%] h-[480px]">
+            <div className="bg-white-700 mx-auto my-5 w-full h-[480px] rounded-lg overflow-hidden">
               <Map posix={[4.79029, -75.69003]} />
             </div>
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-7 md:px-10">
+      <div className="flex flex-col md:col-span-3 gap-7 md:px-10">
         <div className="flex flex-col gap-4 border-2 rounded-md border-secondary p-2 text-xl">
           <div className="flex justify-between text-text font-bold">
             <h1>ZS Gold</h1>
-            <h1 className="text-alert">MOST POPULAR!</h1>
+            <h1 className="text-alert">
+              <Translation translationKey="citypage_zg_gold_alert" />
+            </h1>
           </div>
           <p className="text-primary font-bold">
-            Your Business Address + Mail Handling + Your Local Phone Number
+            <Translation translationKey="citypage_zg_gold_title" />
           </p>
           <p className="font-semibold">
-            Your fully functioning office in a 5-Star CBD Address with onsite
-            ZainSpot Professionals to accept, scan and save unlimited mail to
-            the cloud for you. There&apos;s more! Your own local telephone
-            number answered in your name gives the final touch to your
-            international business. Unlimited calls are answered in the local
-            language and saved to the cloud with transcripts emailed to you.
+            <Translation translationKey="citypage_zg_gold_description" />
           </p>
 
           <h1 className="text-center font-semibold">
@@ -103,7 +105,12 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
             <h1 className="flex gap-4">
               1 year single payment{" "}
               <span className="text-primary">
-              <MoneyValue value={260} fromCurrency="USD" toCurrency={currency} decimals={0} />
+                <MoneyValue
+                  value={260}
+                  fromCurrency="USD"
+                  toCurrency={currency}
+                  decimals={0}
+                />
               </span>
             </h1>
             <div className="flex items-center gap-2">
@@ -123,12 +130,10 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
             <h1>ZS Classic</h1>
           </div>
           <p className="text-primary font-bold">
-            Your Business Address + Mail Handling
+            <Translation translationKey="citypage_zg_classic_title" />
           </p>
           <p className="font-semibold">
-            Your fully functioning office in a 5-Star CBD Address with onsite
-            ZainSpot Professionals to accept, scan and save unlimited mail to
-            the cloud for you.
+            <Translation translationKey="citypage_zg_classic_description" />
           </p>
 
           <h1 className="text-center font-semibold">
@@ -139,7 +144,12 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
             <h1 className="flex gap-4">
               1 year single payment{" "}
               <span className="text-primary">
-              <MoneyValue value={260} fromCurrency="USD" toCurrency={currency} decimals={0} />
+                <MoneyValue
+                  value={260}
+                  fromCurrency="USD"
+                  toCurrency={currency}
+                  decimals={0}
+                />
               </span>
             </h1>
             <div className="flex items-center gap-2">
@@ -159,7 +169,12 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               <div key={index} className="flex justify-between">
                 <h1>{pm.duration}</h1>
                 <h1 className="text-primary">
-                <MoneyValue value={260} fromCurrency="USD" toCurrency={currency} decimals={0} />
+                  <MoneyValue
+                    value={260}
+                    fromCurrency="USD"
+                    toCurrency={currency}
+                    decimals={0}
+                  />
                 </h1>
                 <div className="flex items-center gap-2">
                   <input

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react"; 
 import Link from "next/link";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { useLanguage } from "../contexts/LanguageContext";
@@ -19,14 +19,43 @@ const Navbar = () => {
   const { setLanguage } = useLanguage();
   const { setCurrency } = useCurrency();
 
-  const handleCurrencyChanges = (cur: string) => {
+  const languagesMenuRef = useRef(null);
+  const currencyMenuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        languagesMenuRef.current &&
+        !languagesMenuRef.current.contains(event.target)
+      ) {
+        setOpenLanguagesMenu(false);
+      }
+      if (
+        currencyMenuRef.current &&
+        !currencyMenuRef.current.contains(event.target)
+      ) {
+        setOpenCurrencyMenu(false);
+      }
+    };
+
+    // Bind the event listener
+    window.addEventListener("click", handleClickOutside);
+
+    // Clean up the event listener on unmount
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const handleCurrencyChanges = (cur) => {
     setCurrency(cur);
     setOpenCurrencyMenu(false);
-  }
-  const handleLanguageChanges = (lang: string) => {
+  };
+
+  const handleLanguageChanges = (lang) => {
     setLanguage(lang);
     setOpenLanguagesMenu(false);
-  }
+  };
 
   return (
     <div className="flex justify-between md:px-10 px-5 py-2">
@@ -36,7 +65,7 @@ const Navbar = () => {
           <button>
             <Translation translationKey={`navbar_titles[${0}]`} />
           </button>
-          <div className="relative">
+          <div className="relative" ref={currencyMenuRef}>
             <button
               className="flex gap-1"
               onClick={() => setOpenCurrencyMenu(!openCurrencyMenu)}
@@ -67,7 +96,7 @@ const Navbar = () => {
               </div>
             )}
           </div>
-          <div className="relative">
+          <div className="relative" ref={languagesMenuRef}>
             <button
               className="flex gap-1"
               onClick={() => setOpenLanguagesMenu(!openLanguagesMenu)}
