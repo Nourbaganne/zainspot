@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Image from "next/image";
 
@@ -7,33 +7,56 @@ import chevron from "@/app/assets/navbar/chevron-down-outline.svg";
 import menu from "@/app/assets/navbar/menu.svg";
 import close from "@/app/assets/navbar/close-icon.svg";
 import { useState } from "react";
+import Link from "next/link";
+import Translation from "./translation";
+import { useLanguage } from "../contexts/LanguageContext";
 
 const Navbar = () => {
-
   const [isOpen, setIsOpen] = useState(false);
+  const [openLanguagesMenu, setOpenLanguagesMenu] = useState(false);
+
+
+  const { language, setLanguage } = useLanguage();
 
   return (
     <div className="flex justify-between md:px-10 px-5  py-2">
       <Image src={logo} alt="logo-zainspot" />
       <div className="hidden md:flex gap-10 font-sans font-bold items-center">
         <div className="flex gap-4 text-text-foreground h-full items-end text-sm pb-3">
-          <button>HOW IT WORKS</button>
+          <button>
+            <Translation translationKey={`navbar_titles[${0}]`} />
+          </button>
           <button className="flex gap-1">
-            SWITCH CURRENCY
+            <Translation translationKey={`navbar_titles[${1}]`} />
             <Image src={chevron} alt="currency" />
           </button>
-          <button className="flex gap-1">
-            SWITCH LANGUAGE
-            <Image src={chevron} alt="language" />
-          </button>
+          <div className="relative">
+            <button
+              className="flex gap-1"
+              onClick={() => setOpenLanguagesMenu(!openLanguagesMenu)}
+            >
+              <Translation translationKey={`navbar_titles[${2}]`} />
+              <Image src={chevron} alt="language" />
+            </button>
+            {openLanguagesMenu && (
+              <div className="absolute flex flex-col z-40 bg-background p-2 w-full gap-2">
+                <button className="hover:text-primary" onClick={() => setLanguage('en')}>English</button>
+                <button className="hover:text-primary" onClick={() => setLanguage('fr')}>Français</button>
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex gap-2 text-primary">
-            <button>JOIN</button>
-            <button>LOGIN</button>
+            <Link href={"/register"}>
+              <Translation translationKey="join" />
+            </Link>
+            <button>
+              <Translation translationKey="login" />
+            </button>
           </div>
           <button className="text-secondary">
-            SECURE CHECKOUT{" "}
+            <Translation translationKey="secure_checkout" />{" "}
             <span className="bg-secondary rounded-full text-background px-1">
               3
             </span>
@@ -41,20 +64,23 @@ const Navbar = () => {
         </div>
       </div>
       <div className="md:hidden flex relative ">
-        <Image src={isOpen ? close : menu} alt="menu-bar" width={isOpen ? 20 : 30} className="cursor-pointer transition-all duration-300" onClick={() =>setIsOpen(!isOpen) } />
-        {
-          isOpen && (
-            <div className="absolute bg-gray-300 top-14 right-5 z-20 w-44 text-center py-4 rounded-md " > 
-              <button>How it works </button>
-              <button>How it works </button>
-              <button>How it works </button>
-              <button>How it works </button>
-              <button>How it works </button>
-              <button>How it works </button>
-            </div>
-          )
-        }
-      
+        <Image
+          src={isOpen ? close : menu}
+          alt="menu-bar"
+          width={isOpen ? 20 : 30}
+          className="cursor-pointer transition-all duration-300"
+          onClick={() => setIsOpen(!isOpen)}
+        />
+        {isOpen && (
+          <div className="absolute bg-gray-300 top-14 right-5 z-20 w-44 text-center py-4 rounded-md ">
+            <button>How it works </button>
+            <button>How it works </button>
+            <button>How it works </button>
+            <button>How it works </button>
+            <button>How it works </button>
+            <button>How it works </button>
+          </div>
+        )}
       </div>
     </div>
   );

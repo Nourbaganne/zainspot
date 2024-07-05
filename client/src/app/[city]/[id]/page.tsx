@@ -6,6 +6,7 @@ import testImage from "@/app/assets/city-details/test-image.svg";
 
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
+import { MoneyValue } from "@/app/money-value";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const { city, id } = params;
@@ -20,9 +21,9 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   );
 
   const PAYMENT_METHODS = [
-    { duration: "12 months", price: "£23" },
-    { duration: "6 months", price: "£25" },
-    { duration: "1 months", price: "£36" },
+    { duration: "12 months", price: 23 },
+    { duration: "6 months", price: 25 },
+    { duration: "1 months", price: 36 },
   ];
 
   return (
@@ -127,7 +128,10 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
           <div className="flex justify-between">
             <h1 className="flex gap-4">
-              1 year single payment <span className="text-primary">£260</span>
+              1 year single payment{" "}
+              <span className="text-primary">
+                <MoneyValue value={260} currency="eur" decimals={0} />
+              </span>
             </h1>
             <div className="flex items-center gap-2">
               <input
@@ -145,7 +149,9 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
             {PAYMENT_METHODS.map((pm, index) => (
               <div key={index} className="flex justify-between">
                 <h1>{pm.duration}</h1>
-                <h1 className="text-primary">{pm.price}</h1>
+                <h1 className="text-primary">
+                  <MoneyValue value={pm.price} currency="GBP" decimals={0} />
+                </h1>
                 <div className="flex items-center gap-2">
                   <input
                     type="radio"

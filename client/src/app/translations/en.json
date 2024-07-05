@@ -1,0 +1,54 @@
+{
+    "login": "LOGIN",
+    "join": "JOIN",
+    "secure_checkout": "SECURE CHECKOUT",
+    "navbar_titles": [
+        "HOW IT WORKS",
+        "SWITCH CUTTENCY",
+        "SWITCH LANGUAGE"
+    ],
+    "homepage_header_title": "Your Overseas Offices from ",
+    "homepage_header_span": "30¢ a day",
+    "homepage_header_features": [
+        "Your Local Phone Number",
+        "Unlimited Mail",
+        "Unlimited Calls",
+        "Unlimited Scanning & Storage",
+        "Answered in Your Business Name",
+        "Transcript of Your Calls Emailed to You"
+    ],
+    "homepage_header_ignoredFeatures": [
+        "No Setup Fee",
+        "No Security Deposit",
+        "No Hidden Charges",
+        "No Penalties"
+    ],
+    "homepage_header_summary": "The world is full of opportunities. Reach the world with ZainSpot!",
+    "homepage_description": "5-Star CBD Addresses in the World’s Top Cities",
+    "homepage_cities_description": "Turn your business into a global company for just cents a day. With your 5-star addresses to promote your business on your website, business cards and letterheads, and to receive your mail, plus your local phone numbers answered in your name, you will be in the worldwide spotlight with international business offices in as many cities as you want.",
+    "homepage_cities_title": "Select Your Cities",
+    "homepage_cities_title_span": "Go Global!",
+    "footer_titles": [
+        "ZainSpotters",
+        "About",
+        "Connect",
+        "Terms",
+        "Join",
+        "How It Works",
+        "Contact",
+        "Terms of Use",
+        "Login",
+        "ZainSpot Mission",
+        "FAQ",
+        "Privacy Policy"
+    ],
+    "footer_privacy_policy": "ZainSpot.com website is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.",
+    "citypage_return_button": "Back to cities",
+    "citypage_zg_gold_header": "ZS Gold",
+    "citypage_zg_gold_alert": "MOST POPULAR!",
+    "citypage_zg_gold_title": "Your Business Address + Mail Handling + Your Local Phone Number",
+    "citypage_zg_gold_description": "Your fully functioning office in a 5-Star CBD Address with onsite ZainSpot Professionals to accept, scan and save unlimited mail to the cloud for you. There's more! Your own local telephone number answered in your name gives the final touch to your international business. Unlimited calls are answered in the local language and saved to the cloud with transcripts emailed to you.",
+    "citypage_zg_classic_header": "ZS Classic",
+    "citypage_zg_classic_title": "Your Business Address + Mail Handling",
+    "citypage_zg_classic_description": "Your fully functioning office in a 5-Star CBD Address with onsite ZainSpot Professionals to accept, scan and save unlimited mail to the cloud for you."
+}

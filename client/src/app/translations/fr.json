@@ -1,0 +1,54 @@
+{
+  "login": "CONNEXION",
+  "join": "PARTICIPER",
+  "secure_checkout": "PAIEMENT SÉCURISÉ",
+  "navbar_titles": [
+    "COMMENT ÇA MARCHE",
+    "CHANGER DE DEVISE",
+    "CHANGER DE LANGUE"
+  ],
+  "homepage_header_title": "Vos Bureaux à l'Étranger à partir de ",
+  "homepage_header_span": "30¢ par jour",
+  "homepage_header_features": [
+    "Votre Numéro de Téléphone Local",
+    "Courrier Illimité",
+    "Appels Illimités",
+    "Numérisation & Stockage Illimités",
+    "Répondu en Votre Nom d'Entreprise",
+    "Transcription de Vos Appels Envoyée par Email"
+  ],
+  "homepage_header_ignoredFeatures": [
+    "Aucun Frais de Mise en Place",
+    "Aucun Dépôt de Garantie",
+    "Aucuns Frais Cachés",
+    "Aucune Pénalité"
+  ],
+  "homepage_header_summary": "Le monde est plein d'opportunités. Atteignez le monde avec ZainSpot!",
+  "homepage_description": "5-étoiles CBD dans les principales villes du monde",
+  "homepage_cities_description": "Transformez votre entreprise en une société mondiale pour quelques centimes par jour. Avec vos adresses 5 étoiles pour promouvoir votre entreprise sur votre site web, vos cartes de visite et vos en-têtes de lettres, et pour recevoir votre courrier, ainsi que vos numéros de téléphone locaux répondus en votre nom, vous serez sous les feux de la rampe mondiale avec des bureaux d'affaires internationaux dans autant de villes que vous le souhaitez.",
+  "homepage_cities_title": "Sélectionnez vos villes",
+  "homepage_cities_title_span": "Devenez global!",
+  "footer_titles": [
+    "ZainSpotters",
+    "À Propos",
+    "Connecter",
+    "Conditions",
+    "Rejoindre",
+    "Comment Ça Marche",
+    "Contact",
+    "Conditions d'Utilisation",
+    "Connexion",
+    "Mission de ZainSpot",
+    "FAQ",
+    "Politique de Confidentialité"
+  ],
+  "footer_privacy_policy": "Le site ZainSpot.com est protégé par reCAPTCHA et les Politiques de Confidentialité et les Conditions de Service de Google s'appliquent.",
+  "citypage_return_button": "Retour aux villes",
+  "citypage_zg_gold_header": "ZS Gold",
+  "citypage_zg_gold_alert": "LE PLUS POPULAIRE!",
+  "citypage_zg_gold_title": "Votre Adresse d'Entreprise + Gestion du Courrier + Votre Numéro de Téléphone Local",
+  "citypage_zg_gold_description": "Votre bureau entièrement fonctionnel dans une adresse CBD 5 étoiles avec des professionnels de ZainSpot sur place pour accepter, numériser et enregistrer un courrier illimité dans le cloud pour vous. Et ce n'est pas tout! Votre propre numéro de téléphone local, répondu en votre nom, donne la touche finale à votre entreprise internationale. Les appels illimités sont répondus dans la langue locale et enregistrés dans le cloud avec des transcriptions envoyées par email.",
+  "citypage_zg_classic_header": "ZS Classic",
+  "citypage_zg_classic_title": "Votre Adresse d'Entreprise + Gestion du Courrier",
+  "citypage_zg_classic_description": "Votre bureau entièrement fonctionnel dans une adresse CBD 5 étoiles avec des professionnels de ZainSpot sur place pour accepter, numériser et enregistrer un courrier illimité dans le cloud pour vous."
+}
