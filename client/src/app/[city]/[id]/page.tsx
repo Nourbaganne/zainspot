@@ -6,7 +6,7 @@ import testImage from "@/app/assets/city-details/test-image.svg";
 
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import { MoneyValue } from "@/app/money-value";
+import { MoneyValue } from "@/app/components/MoneyValue";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const { city, id } = params;
@@ -46,8 +46,8 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           <Image src={testImage} alt="test-image" className=" w-screen" />
           <div className="flex flex-col px-4 gap-7 pt-7">
             <p className="text-description font-semibold">
-              The world&apos;s largest foreign exchange centre with 40% of worldwide
-              transactions makes London a financial powerhouse of
+              The world&apos;s largest foreign exchange centre with 40% of
+              worldwide transactions makes London a financial powerhouse of
               entrepreneurship for aspiring business owners from every country
               and your perfect Business Address to Go Global. Historic ties to
               Asia&apos;s financial hubs and modern-day time-zone convenience to
@@ -95,7 +95,10 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
           <div className="flex justify-between">
             <h1 className="flex gap-4">
-              1 year single payment <span className="text-primary">£360</span>
+              1 year single payment{" "}
+              <span className="text-primary">
+              <MoneyValue value={260} fromCurrency="USD" toCurrency="USD" decimals={0} />
+              </span>
             </h1>
             <div className="flex items-center gap-2">
               <input
@@ -130,7 +133,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
             <h1 className="flex gap-4">
               1 year single payment{" "}
               <span className="text-primary">
-                <MoneyValue value={260} currency="eur" decimals={0} />
+              <MoneyValue value={260} fromCurrency="USD" toCurrency="USD" decimals={0} />
               </span>
             </h1>
             <div className="flex items-center gap-2">
@@ -150,7 +153,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               <div key={index} className="flex justify-between">
                 <h1>{pm.duration}</h1>
                 <h1 className="text-primary">
-                  <MoneyValue value={pm.price} currency="GBP" decimals={0} />
+                <MoneyValue value={260} fromCurrency="USD" toCurrency="USD" decimals={0} />
                 </h1>
                 <div className="flex items-center gap-2">
                   <input

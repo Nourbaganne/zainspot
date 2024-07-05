@@ -1,35 +1,59 @@
 "use client";
 
 import Image from "next/image";
-
+import { useState } from "react";
+import Link from "next/link";
+import { useCurrency } from "../contexts/CurrencyContext"; 
+import { useLanguage } from "../contexts/LanguageContext";
+import Translation from "./translation";
 import logo from "@/app/assets/navbar/logo-zainspot.svg";
 import chevron from "@/app/assets/navbar/chevron-down-outline.svg";
 import menu from "@/app/assets/navbar/menu.svg";
 import close from "@/app/assets/navbar/close-icon.svg";
-import { useState } from "react";
-import Link from "next/link";
-import Translation from "./translation";
-import { useLanguage } from "../contexts/LanguageContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openLanguagesMenu, setOpenLanguagesMenu] = useState(false);
-
+  const [openCurrencyMenu, setOpenCurrencyMenu] = useState(false);
 
   const { language, setLanguage } = useLanguage();
+  const { currency, setCurrency, supportedCurrencies } = useCurrency();
 
   return (
-    <div className="flex justify-between md:px-10 px-5  py-2">
+    <div className="flex justify-between md:px-10 px-5 py-2">
       <Image src={logo} alt="logo-zainspot" />
       <div className="hidden md:flex gap-10 font-sans font-bold items-center">
         <div className="flex gap-4 text-text-foreground h-full items-end text-sm pb-3">
           <button>
             <Translation translationKey={`navbar_titles[${0}]`} />
           </button>
-          <button className="flex gap-1">
-            <Translation translationKey={`navbar_titles[${1}]`} />
-            <Image src={chevron} alt="currency" />
-          </button>
+          <div className="relative">
+            <button
+              className="flex gap-1"
+              onClick={() => setOpenCurrencyMenu(!openCurrencyMenu)}
+            >
+              <Translation translationKey={`navbar_titles[${1}]`} />
+              <Image src={chevron} alt="currency" />
+            </button>
+            {openCurrencyMenu && (
+              <div className="absolute flex flex-col z-40 bg-background p-2 w-full gap-2">
+                {supportedCurrencies.map((cur) => (
+                  <button
+                    key={cur}
+                    className={`hover:text-primary ${
+                      currency === cur ? "font-bold" : ""
+                    }`}
+                    onClick={() => {
+                      setCurrency(cur);
+                      setOpenCurrencyMenu(false);
+                    }}
+                  >
+                    {cur}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <div className="relative">
             <button
               className="flex gap-1"
@@ -40,8 +64,18 @@ const Navbar = () => {
             </button>
             {openLanguagesMenu && (
               <div className="absolute flex flex-col z-40 bg-background p-2 w-full gap-2">
-                <button className="hover:text-primary" onClick={() => setLanguage('en')}>English</button>
-                <button className="hover:text-primary" onClick={() => setLanguage('fr')}>Français</button>
+                <button
+                  className="hover:text-primary"
+                  onClick={() => setLanguage("en")}
+                >
+                  English
+                </button>
+                <button
+                  className="hover:text-primary"
+                  onClick={() => setLanguage("fr")}
+                >
+                  Français
+                </button>
               </div>
             )}
           </div>
@@ -63,7 +97,7 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      <div className="md:hidden flex relative ">
+      <div className="md:hidden flex relative">
         <Image
           src={isOpen ? close : menu}
           alt="menu-bar"
@@ -72,7 +106,7 @@ const Navbar = () => {
           onClick={() => setIsOpen(!isOpen)}
         />
         {isOpen && (
-          <div className="absolute bg-gray-300 top-14 right-5 z-20 w-44 text-center py-4 rounded-md ">
+          <div className="absolute bg-gray-300 top-14 right-5 z-20 w-44 text-center py-4 rounded-md">
             <button>How it works </button>
             <button>How it works </button>
             <button>How it works </button>

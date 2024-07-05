@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import logo from "@/app/assets/footer/zainspot.svg";
 import { FOOTER_DATA } from "@/app/constants/footer";
-import Translation from "./translation"; // Adjust import path as per your project structure
+import Translation from "./translation";
 
 
 const Footer = () => {
