@@ -4,14 +4,19 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
 import * as bcrypt from 'bcrypt';
 
-@Entity({ name: 'User' })
+export enum UserRole {
+  OWNER = 'owner',
+  ADMIN = 'admin',
+  VISITOR = 'visitor',
+  ZAINSPOTTER = 'zainspotter',
+}
+
+@Entity({ name: 'user' })
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -22,9 +27,6 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @Column()
-  role: string;
-
   @CreateDateColumn()
   createdAt: Date;
 
@@ -32,8 +34,12 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => UserRole, userRole => userRole.user)
-  roles: UserRole[];
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.VISITOR,
+  })
+  role: UserRole;
 
   @BeforeInsert()
   async hashPassword() {

@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '../entities/user.entity';
-import { DeepPartial } from 'typeorm';
 
 @Injectable()
 export class UserService {
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const user = User.create(createUserDto as any as DeepPartial<User>);
-    await user.save();
-    console.log('user', user);
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const { email, password, role } = createUserDto;
 
-    delete user.password;
+    const user = User.create({ email, password, role: role });
+    await User.save(user);
     return user;
   }
 
@@ -25,10 +23,12 @@ export class UserService {
         id,
       },
     });
-
     delete user.password;
     return user;
   }
+  // async findById(id: number): Promise<User> {
+  //   return User.findOne({ where: { id } });
+  // }
 
   async findByEmail(email: string) {
     return await User.findOne({

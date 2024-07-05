@@ -9,6 +9,8 @@ import { RolesGuard } from './user/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { User } from './entities/user.entity';
 import { UserService } from './user/user.service';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { JwtStrategy } from './auth/jwt.strategy';
 
 @Module({
   imports: [
@@ -25,7 +27,7 @@ import { UserService } from './user/user.service';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         entities: [User],
-        // synchronize: true,
+        synchronize: true,
       }),
       inject: [ConfigService],
     }),
@@ -36,6 +38,11 @@ import { UserService } from './user/user.service';
   providers: [
     AppService,
     UserService,
+    JwtStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
