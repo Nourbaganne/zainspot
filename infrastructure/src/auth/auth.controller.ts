@@ -9,7 +9,11 @@ export class AuthController {
 
   @Post()
   async login(@Body() authLoginDto: AuthLoginDto) {
-    return this.authService.signIn(authLoginDto);
+    try {
+      return this.authService.signIn(authLoginDto);
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
   @UseGuards(JwtAuthGuard)

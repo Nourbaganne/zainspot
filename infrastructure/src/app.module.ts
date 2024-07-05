@@ -4,9 +4,13 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { VisitorModule } from './visitor/visitor.module';
-import { Visitor } from './visitor/visitor.entity';
 import { UserModule } from './user/user.module';
+import { RolesGuard } from './user/roles.guard';
+import { APP_GUARD } from '@nestjs/core';
+import { User } from './entities/user.entity';
+import { UserService } from './user/user.service';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { JwtStrategy } from './auth/jwt.strategy';
 
 @Module({
   imports: [
@@ -22,16 +26,27 @@ import { UserModule } from './user/user.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Visitor],
+        entities: [User],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
     AuthModule,
-    VisitorModule,
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    UserService,
+    JwtStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {}

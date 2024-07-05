@@ -46,7 +46,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           <Image src={testImage} alt="test-image" className=" w-screen" />
           <div className="flex flex-col px-4 gap-7 pt-7">
             <p className="text-description font-semibold">
-              The world's largest foreign exchange centre with 40% of worldwide
+              The world&apos;s largest foreign exchange centre with 40% of worldwide
               transactions makes London a financial powerhouse of
               entrepreneurship for aspiring business owners from every country
               and your perfect Business Address to Go Global. Historic ties to

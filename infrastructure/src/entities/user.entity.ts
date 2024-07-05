@@ -2,15 +2,22 @@ import {
   BaseEntity,
   BeforeInsert,
   Column,
+  CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
 import * as bcrypt from 'bcrypt';
 
-@Entity({ name: 'visitors' })
-export class Visitor extends BaseEntity {
+export enum UserRole {
+  OWNER = 'owner',
+  ADMIN = 'admin',
+  VISITOR = 'visitor',
+  ZAINSPOTTER = 'zainspotter',
+}
+
+@Entity({ name: 'user' })
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,13 +27,19 @@ export class Visitor extends BaseEntity {
   @Column()
   password: string;
 
-  @Column()
-  @UpdateDateColumn()
+  @CreateDateColumn()
   createdAt: Date;
 
   @Column()
   @UpdateDateColumn()
-  updateAt: Date;
+  updatedAt: Date;
+
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.VISITOR,
+  })
+  role: UserRole;
 
   @BeforeInsert()
   async hashPassword() {
