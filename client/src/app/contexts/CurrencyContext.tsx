@@ -25,3 +25,5 @@ export const CurrencyProvider = ({ children }: { children: ReactNode }) => {
     </CurrencyContext.Provider>
   );
 };
+
+export default CurrencyContext;

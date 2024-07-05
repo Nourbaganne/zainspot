@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
-import { useCurrency } from "../contexts/CurrencyContext"; 
+import { useCurrency } from "../contexts/CurrencyContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import Translation from "./translation";
 import logo from "@/app/assets/navbar/logo-zainspot.svg";
@@ -16,8 +16,17 @@ const Navbar = () => {
   const [openLanguagesMenu, setOpenLanguagesMenu] = useState(false);
   const [openCurrencyMenu, setOpenCurrencyMenu] = useState(false);
 
-  const { language, setLanguage } = useLanguage();
-  const { currency, setCurrency, supportedCurrencies } = useCurrency();
+  const { setLanguage } = useLanguage();
+  const { setCurrency } = useCurrency();
+
+  const handleCurrencyChanges = (cur: string) => {
+    setCurrency(cur);
+    setOpenCurrencyMenu(false);
+  }
+  const handleLanguageChanges = (lang: string) => {
+    setLanguage(lang);
+    setOpenLanguagesMenu(false);
+  }
 
   return (
     <div className="flex justify-between md:px-10 px-5 py-2">
@@ -37,20 +46,24 @@ const Navbar = () => {
             </button>
             {openCurrencyMenu && (
               <div className="absolute flex flex-col z-40 bg-background p-2 w-full gap-2">
-                {supportedCurrencies.map((cur) => (
-                  <button
-                    key={cur}
-                    className={`hover:text-primary ${
-                      currency === cur ? "font-bold" : ""
-                    }`}
-                    onClick={() => {
-                      setCurrency(cur);
-                      setOpenCurrencyMenu(false);
-                    }}
-                  >
-                    {cur}
-                  </button>
-                ))}
+                <button
+                  onClick={() => handleCurrencyChanges("EUR")}
+                  className="hover:text-primary"
+                >
+                  Euro
+                </button>
+                <button
+                  onClick={() => handleCurrencyChanges("USD")}
+                  className="hover:text-primary"
+                >
+                  Dollar
+                </button>
+                <button
+                  onClick={() => handleCurrencyChanges("GBP")}
+                  className="hover:text-primary"
+                >
+                  Pound
+                </button>
               </div>
             )}
           </div>
@@ -66,13 +79,13 @@ const Navbar = () => {
               <div className="absolute flex flex-col z-40 bg-background p-2 w-full gap-2">
                 <button
                   className="hover:text-primary"
-                  onClick={() => setLanguage("en")}
+                  onClick={() => handleLanguageChanges("en")}
                 >
                   English
                 </button>
                 <button
                   className="hover:text-primary"
-                  onClick={() => setLanguage("fr")}
+                  onClick={() => handleLanguageChanges("fr")}
                 >
                   Français
                 </button>

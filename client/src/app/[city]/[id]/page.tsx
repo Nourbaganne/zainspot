@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,6 +9,8 @@ import testImage from "@/app/assets/city-details/test-image.svg";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { MoneyValue } from "@/app/components/MoneyValue";
+
+import { useCurrency } from "@/app/contexts/CurrencyContext";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const { city, id } = params;
@@ -25,6 +29,8 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
     { duration: "6 months", price: 25 },
     { duration: "1 months", price: 36 },
   ];
+
+  const {currency} = useCurrency();
 
   return (
     <div className="flex flex-col md:flex-row md:gap-10 font-sans ">
@@ -97,7 +103,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
             <h1 className="flex gap-4">
               1 year single payment{" "}
               <span className="text-primary">
-              <MoneyValue value={260} fromCurrency="USD" toCurrency="USD" decimals={0} />
+              <MoneyValue value={260} fromCurrency="USD" toCurrency={currency} decimals={0} />
               </span>
             </h1>
             <div className="flex items-center gap-2">
@@ -133,7 +139,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
             <h1 className="flex gap-4">
               1 year single payment{" "}
               <span className="text-primary">
-              <MoneyValue value={260} fromCurrency="USD" toCurrency="USD" decimals={0} />
+              <MoneyValue value={260} fromCurrency="USD" toCurrency={currency} decimals={0} />
               </span>
             </h1>
             <div className="flex items-center gap-2">
@@ -153,7 +159,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               <div key={index} className="flex justify-between">
                 <h1>{pm.duration}</h1>
                 <h1 className="text-primary">
-                <MoneyValue value={260} fromCurrency="USD" toCurrency="USD" decimals={0} />
+                <MoneyValue value={260} fromCurrency="USD" toCurrency={currency} decimals={0} />
                 </h1>
                 <div className="flex items-center gap-2">
                   <input
