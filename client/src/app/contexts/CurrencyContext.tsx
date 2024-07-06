@@ -1,12 +1,20 @@
-'use client'
-import { createContext, useContext, useState, ReactNode } from "react";
+"use client";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 interface CurrencyContextType {
   currency: string;
   setCurrency: (currency: string) => void;
 }
 
-const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
+const CurrencyContext = createContext<CurrencyContextType | undefined>(
+  undefined
+);
 
 export const useCurrency = () => {
   const context = useContext(CurrencyContext);
@@ -17,7 +25,15 @@ export const useCurrency = () => {
 };
 
 export const CurrencyProvider = ({ children }: { children: ReactNode }) => {
-  const [currency, setCurrency] = useState("USD");
+  const initialCurrency =
+    typeof window !== "undefined"
+      ? localStorage.getItem("currency") || "USD"
+      : "USD";
+  const [currency, setCurrency] = useState(initialCurrency);
+
+  useEffect(() => {
+    localStorage.setItem("currency", currency);
+  }, [currency]);
 
   return (
     <CurrencyContext.Provider value={{ currency, setCurrency }}>

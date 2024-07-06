@@ -11,7 +11,7 @@ import { useCurrency } from "@/app/contexts/CurrencyContext";
 import Translation from "@/app/components/translation";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
-  const { city, id } = params;
+  // const { city, id } = params;
   const { currency } = useCurrency();
 
   const Map = useMemo(

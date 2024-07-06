@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react"; 
+import { useState, useEffect, useRef, MouseEvent } from "react";
 import Link from "next/link";
 import { useCurrency } from "../contexts/CurrencyContext";
 import { useLanguage } from "../contexts/LanguageContext";
@@ -19,47 +19,48 @@ const Navbar = () => {
   const { setLanguage } = useLanguage();
   const { setCurrency } = useCurrency();
 
-  const languagesMenuRef = useRef(null);
-  const currencyMenuRef = useRef(null);
+  const languagesMenuRef = useRef<HTMLDivElement>(null);
+  const currencyMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         languagesMenuRef.current &&
-        !languagesMenuRef.current.contains(event.target)
+        !languagesMenuRef.current.contains(event.target as Node)
       ) {
         setOpenLanguagesMenu(false);
       }
       if (
         currencyMenuRef.current &&
-        !currencyMenuRef.current.contains(event.target)
+        !currencyMenuRef.current.contains(event.target as Node)
       ) {
         setOpenCurrencyMenu(false);
       }
     };
 
-    // Bind the event listener
-    window.addEventListener("click", handleClickOutside);
+    window.addEventListener("click", handleClickOutside as unknown as EventListener);
 
-    // Clean up the event listener on unmount
     return () => {
-      window.removeEventListener("click", handleClickOutside);
+      window.removeEventListener("click", handleClickOutside as unknown as EventListener);
     };
   }, []);
 
-  const handleCurrencyChanges = (cur) => {
+  const handleCurrencyChanges = (cur: string) => {
     setCurrency(cur);
     setOpenCurrencyMenu(false);
   };
 
-  const handleLanguageChanges = (lang) => {
+  const handleLanguageChanges = (lang: "en" | "fr") => {
     setLanguage(lang);
     setOpenLanguagesMenu(false);
   };
 
   return (
     <div className="flex justify-between md:px-10 px-5 py-2">
-      <Image src={logo} alt="logo-zainspot" />
+      <Link href="/">
+        <Image src={logo} alt="logo-zainspot" />
+      </Link>
+
       <div className="hidden md:flex gap-10 font-sans font-bold items-center">
         <div className="flex gap-4 text-text-foreground h-full items-end text-sm pb-3">
           <button>
