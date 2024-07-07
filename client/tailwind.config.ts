@@ -32,6 +32,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['"Work Sans"', 'sans-serif'],
+        'regular': ['"Open Sans"', 'sans-serif'],
       },
     }
   },

@@ -125,7 +125,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <div className="flex gap-2 text-primary">
+          <div className="flex gap-2 text-primary text-xl">
             <Link href={"/register"}>
               <Translation translationKey="join" />
             </Link>
@@ -133,7 +133,7 @@ const Navbar = () => {
               <Translation translationKey="login" />
             </button>
           </div>
-          <button className="text-secondary">
+          <button className="text-secondary text-sm">
             <Translation translationKey="secure_checkout" />{" "}
             <span className="bg-secondary rounded-full text-background px-1">
               3

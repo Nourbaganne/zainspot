@@ -8,8 +8,8 @@ import Translation from "./translation";
 const Footer = () => {
 
   return (
-    <div className="flex flex-col gap-10 bg-primary text-background md:py-5 md:pt-10 md:px-20 justify-center items-center p-6">
-      <div className="flex justify-between w-full">
+    <div className="flex flex-col gap-10 bg-primary text-background md:py-5 md:pt-10 md:px-20 justify-center p-6">
+      <div className="flex justify-between w-full  items-center">
         <Image src={logo} alt="zainspot-logo" />
         <div className="hidden md:grid grid-cols-4 gap-5 w-2/3">
           {FOOTER_DATA.map((_, index) => (
@@ -26,7 +26,7 @@ const Footer = () => {
           ))}
         </div>
       </div>
-      <div className="flex flex-col md:flex-row gap-4 text-secondary-foreground md:text-lg text-center">
+      <div className="flex flex-col text-sm md:flex-row gap-8 text-secondary-foreground items-center font-regular">
         <p>© 2024 ZainSpot</p>
         <p>
           <Translation translationKey="footer_privacy_policy" />
