@@ -5,6 +5,7 @@ import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { CurrencyProvider } from "./contexts/CurrencyContext";
+import { QueryProvider } from "./queryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,13 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <LanguageProvider>
-          <CurrencyProvider>
-            <Navbar />
-            {children}
-            <Footer />
-          </CurrencyProvider>
-        </LanguageProvider>
+        <QueryProvider>
+          <LanguageProvider>
+            <CurrencyProvider>
+              <Navbar />
+              {children}
+              <Footer />
+            </CurrencyProvider>
+          </LanguageProvider>
+        </QueryProvider>
       </body>
     </html>
   );

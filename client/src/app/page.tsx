@@ -1,18 +1,36 @@
-import Image from "next/image";
+"use client"
 
+import Image from "next/image";
 import header from "./assets/home/header-image.svg";
 import check from "./assets/home/check-icon.svg";
 import close from "./assets/home/close-icon.svg";
+import axios from "axios";
 
 import {
   zainspotFeatures,
   ignoredFeatures,
   cities,
 } from "@/app/constants/home";
-import Link from "next/link";
+import Link from "next/link"; 
 import Translation from "./components/translation";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Home() {
+  
+  const {data, isLoading, isError, error} = useQuery({
+    queryKey: ["cities"],
+    queryFn: () => axios.get("http://localhost:3001/cities/1")
+  });
+
+  if (isLoading) {
+    return <div>Loading ...</div>
+  }
+
+  if (isError){
+    return <div>{error.message}</div>
+  }
+  
+  
   return (
     <div className="flex flex-col">
       {/* Header Section */}
@@ -104,7 +122,7 @@ export default function Home() {
                   </div>
                 </Link>
               ) : (
-                <div className="relative flex gap-4 items-center p-2 group ">
+                <div key={index} className="relative flex gap-4 items-center p-2 ">
                   <Image src={city.image} alt={city.title} className="w-48" />
                   <div className="flex flex-col gap-2">
                     <h1 className="font-semibold font-sans text-text-foreground">
