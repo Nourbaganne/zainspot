@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsArray } from "class-validator";
+import { IsNotEmpty, IsNumber, IsArray, IsString, IsOptional } from "class-validator";
 
 export class CreateCityDto {
   @IsNotEmpty()
@@ -10,6 +10,7 @@ export class CreateCityDto {
   @IsNotEmpty()
   description: string;
 
+
   @IsNotEmpty()
   @IsNumber()
   goldPrice: number;
@@ -20,4 +21,8 @@ export class CreateCityDto {
     duration: string;
     amount: number;
   }[];
+
+  @IsOptional()
+  @IsString()
+  imageUrl?: string;
 }

@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { CitiesService } from './cities.service';
@@ -22,13 +23,15 @@ export class CitiesController {
   }
 
   @Post()
-  createCity(@Body() createCityDto: CreateCityDto) {
-    return this.cityService.createCity(createCityDto);
+  @UseInterceptors(FileInterceptor('image'))
+  createCity(@Body() createCityDto: CreateCityDto, @UploadedFile() file: Express.Multer.File) {
+    return this.cityService.createCity(createCityDto, file);
   }
 
   @Put(':id')
-  updateCity(@Param('id') id: string, @Body() updateCityDto: UpdateCityDto) {
-    return this.cityService.updateCity(+id, updateCityDto);
+  @UseInterceptors(FileInterceptor('image'))
+  updateCity(@Param('id') id: string, @Body() updateCityDto: UpdateCityDto, @UploadedFile() file: Express.Multer.File) {
+    return this.cityService.updateCity(+id, updateCityDto, file);
   }
 
   @Delete(':id')

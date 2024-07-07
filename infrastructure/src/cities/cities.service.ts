@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { City } from 'src/entities/city.entity';
+import cloudinary from 'src/config/cloudinary.config';
 
 @Injectable()
 export class CitiesService {
@@ -24,12 +25,25 @@ export class CitiesService {
     return city;
   }
 
-  async createCity(createCityDto: CreateCityDto): Promise<City> {
+  async uploadImageToCloudinary(file: Express.Multer.File): Promise<string> {
+    const result = await cloudinary.uploader.upload(file.path);
+    return result.secure_url;
+  }
+
+  async createCity(createCityDto: CreateCityDto, file: Express.Multer.File): Promise<City> {
+    if (file) {
+      const imageUrl = await this.uploadImageToCloudinary(file);
+      createCityDto.imageUrl = imageUrl;
+    }
     const newCity = this.cityRepository.create(createCityDto);
     return await this.cityRepository.save(newCity);
   }
 
-  async updateCity(id: number, updateCityDto: UpdateCityDto): Promise<City> {
+  async updateCity(id: number, updateCityDto: UpdateCityDto, file: Express.Multer.File): Promise<City> {
+    if (file) {
+      const imageUrl = await this.uploadImageToCloudinary(file);
+      updateCityDto.imageUrl = imageUrl;
+    }
     await this.cityRepository.update(id, updateCityDto);
     const updatedCity = await this.cityRepository.findOne({ where: { id } });
     if (!updatedCity) {

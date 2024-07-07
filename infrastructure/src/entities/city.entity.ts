@@ -20,6 +20,10 @@ export class City {
   @Column('json')
   pricing: { duration: string; amount: number }[];
 
+  @Column({ nullable: true })
+  imageUrl: string;
+
+  
   @CreateDateColumn()
   createdAt: Date;
 
