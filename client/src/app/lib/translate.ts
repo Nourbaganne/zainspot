@@ -12,7 +12,6 @@ export default function translate(key: string, lang: Language = 'en'): string {
   try {
     const translations = getTranslations(lang);
 
-    // Parse the key to handle array access if needed
     const matchArrayAccess = key.match(/(.+)\[(\d+)\]/); 
 
     if (matchArrayAccess) {
@@ -20,7 +19,7 @@ export default function translate(key: string, lang: Language = 'en'): string {
       const index = parseInt(matchArrayAccess[2], 10); 
 
       if (translations[arrayKey] && Array.isArray(translations[arrayKey])) {
-        return translations[arrayKey][index] || key; // Return the array item or key if not found
+        return translations[arrayKey][index] || key; 
       } else {
         throw new Error(`Key "${arrayKey}" is not an array or does not exist in ${lang} translations.`);
       }
@@ -33,6 +32,6 @@ export default function translate(key: string, lang: Language = 'en'): string {
     }
   } catch (error) {
     console.error(`Error translating "${key}":`, error);
-    return key; // Return the key itself if translation fails
+    return key; 
   }
 }

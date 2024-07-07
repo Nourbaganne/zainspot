@@ -6,10 +6,11 @@ import {
   ReactNode,
   useEffect,
 } from "react";
+import { Currency } from "../lib/currencyConvert";
 
 interface CurrencyContextType {
-  currency: string;
-  setCurrency: (currency: string) => void;
+  currency: Currency;
+  setCurrency: (currency: Currency) => void;
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(
@@ -25,11 +26,12 @@ export const useCurrency = () => {
 };
 
 export const CurrencyProvider = ({ children }: { children: ReactNode }) => {
-  const initialCurrency =
+  const initialCurrency: Currency =
     typeof window !== "undefined"
-      ? localStorage.getItem("currency") || "USD"
+      ? (localStorage.getItem("currency") as Currency) || "USD"
       : "USD";
-  const [currency, setCurrency] = useState(initialCurrency);
+
+  const [currency, setCurrency] = useState<Currency>(initialCurrency);
 
   useEffect(() => {
     localStorage.setItem("currency", currency);

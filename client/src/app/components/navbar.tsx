@@ -10,6 +10,7 @@ import logo from "@/app/assets/navbar/logo-zainspot.svg";
 import chevron from "@/app/assets/navbar/chevron-down-outline.svg";
 import menu from "@/app/assets/navbar/menu.svg";
 import close from "@/app/assets/navbar/close-icon.svg";
+import { Currency } from "../lib/currencyConvert";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +46,7 @@ const Navbar = () => {
     };
   }, []);
 
-  const handleCurrencyChanges = (cur: string) => {
+  const handleCurrencyChanges = (cur: Currency) => {
     setCurrency(cur);
     setOpenCurrencyMenu(false);
   };

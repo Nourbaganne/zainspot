@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Image from "next/image";
 import Link from "next/link";
@@ -9,9 +9,9 @@ import { useMemo } from "react";
 import { MoneyValue } from "@/app/components/MoneyValue";
 import { useCurrency } from "@/app/contexts/CurrencyContext";
 import Translation from "@/app/components/translation";
+import { Currency } from "@/app/lib/currencyConvert";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
-  // const { city, id } = params;
   const { currency } = useCurrency();
 
   const Map = useMemo(
@@ -26,7 +26,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const PAYMENT_METHODS = [
     { duration: "12 months", price: 23 },
     { duration: "6 months", price: 25 },
-    { duration: "1 month", price: 36 }, 
+    { duration: "1 month", price: 36 },
   ];
 
   return (
@@ -52,7 +52,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               alt="test-image"
               layout="fill"
               objectFit="cover"
-              
             />
           </div>
           <div className="flex flex-col px-4 gap-7 pt-7">
