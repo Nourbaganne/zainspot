@@ -8,6 +8,8 @@ import { UserModule } from './user/user.module';
 import { User } from './entities/user.entity';
 import { UserService } from './user/user.service';
 import { JwtStrategy } from './auth/jwt.strategy';
+import { CitiesModule } from './cities/cities.module';
+import { City } from './entities/city.entity';
 
 @Module({
   imports: [
@@ -23,13 +25,14 @@ import { JwtStrategy } from './auth/jwt.strategy';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User],
+        entities: [User, City],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
     AuthModule,
     UserModule,
+    CitiesModule,
   ],
   controllers: [AppController],
   providers: [AppService, UserService, JwtStrategy],
