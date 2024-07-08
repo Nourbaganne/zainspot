@@ -7,13 +7,11 @@ import testImage from "@/app/assets/city-details/test-image.svg";
 import locationLogo from "@/app/assets/city-details/location-logo.svg";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import { MoneyValue } from "@/app/components/MoneyValue";
-import { useCurrency } from "@/app/contexts/CurrencyContext";
 import Translation from "@/app/components/translation";
-import { Currency } from "@/app/lib/currencyConvert";
+import ZsGold from "../components/zgGold";
+import ZsClassic from "../components/zsClassic";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
-  const { currency } = useCurrency();
 
   const Map = useMemo(
     () =>
@@ -23,12 +21,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
       }),
     []
   );
-
-  const PAYMENT_METHODS = [
-    { duration: "12 months", price: 23 },
-    { duration: "6 months", price: 25 },
-    { duration: "1 month", price: 36 },
-  ];
 
   return (
     <div className="flex flex-col md:grid md:grid-cols-5 font-sans">
@@ -86,113 +78,8 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
         </div>
       </div>
       <div className="flex flex-col md:col-span-3 gap-7 md:px-10">
-        <div className="flex flex-col gap-4 border-2 rounded-md border-secondary p-2 text-xl">
-          <div className="flex justify-between text-text font-bold">
-            <h1>ZS Gold</h1>
-            <h1 className="text-alert">
-              <Translation translationKey="citypage_zg_gold_alert" />
-            </h1>
-          </div>
-          <p className="text-primary font-bold">
-            <Translation translationKey="citypage_zg_gold_title" />
-          </p>
-          <p className="font-semibold">
-            <Translation translationKey="citypage_zg_gold_description" />
-          </p>
-
-          <h1 className="text-center font-semibold">
-            Now you&apos;re ready to promote your business and Go Global!
-          </h1>
-
-          <div className="flex justify-between">
-            <h1 className="flex gap-4">
-              1 year single payment{" "}
-              <span className="text-primary">
-                <MoneyValue
-                  value={260}
-                  fromCurrency="USD"
-                  toCurrency={currency}
-                  decimals={0}
-                />
-              </span>
-            </h1>
-            <div className="flex items-center gap-2">
-              <input
-                type="radio"
-                id="buy"
-                name="buy"
-                className={`w-5 h-5 accent-primary 
-                  `}
-              />
-              <label htmlFor="buy">Buy Now</label>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col gap-4 border-2 rounded-md border-secondary p-2 text-xl">
-          <div className="flex text-text font-bold">
-            <h1>ZS Classic</h1>
-          </div>
-          <p className="text-primary font-bold">
-            <Translation translationKey="citypage_zg_classic_title" />
-          </p>
-          <p className="font-semibold">
-            <Translation translationKey="citypage_zg_classic_description" />
-          </p>
-
-          <h1 className="text-center font-semibold">
-            Now you&apos;re ready to promote your business and Go Global!
-          </h1>
-
-          <div className="flex justify-between">
-            <h1 className="flex gap-4">
-              1 year single payment{" "}
-              <span className="text-primary">
-                <MoneyValue
-                  value={260}
-                  fromCurrency="USD"
-                  toCurrency={currency}
-                  decimals={0}
-                />
-              </span>
-            </h1>
-            <div className="flex items-center gap-2">
-              <input
-                type="radio"
-                id="buy"
-                name="buy"
-                className={`w-5 h-5 accent-primary 
-                  `}
-              />
-              <label htmlFor="buy">Buy Now</label>
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 px-4">
-            <p className="font-light text-sm text-end pr-16">Per month</p>
-            {PAYMENT_METHODS.map((pm, index) => (
-              <div key={index} className="flex justify-between">
-                <h1>{pm.duration}</h1>
-                <h1 className="text-primary">
-                  <MoneyValue
-                    value={260}
-                    fromCurrency="USD"
-                    toCurrency={currency}
-                    decimals={0}
-                  />
-                </h1>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    id="buy"
-                    name="buy"
-                    className={`w-5 h-5 accent-primary 
-                  `}
-                  />
-                  <label htmlFor="buy">Buy Now</label>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <ZsGold />
+        <ZsClassic />
         <div className="flex flex-col justify-center items-center gap-5 py-10">
           <div className="flex flex-col justify-center items-center gap-5 md:flex-row md:justify-between w-full">
             <div className="flex gap-7 text-xl font-bold text-primary">

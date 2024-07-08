@@ -1,37 +1,34 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import header from "./assets/home/header-image.svg";
 import check from "./assets/home/check-icon.svg";
 import close from "./assets/home/close-icon.svg";
 import axios from "axios";
-
 import {
   zainspotFeatures,
   ignoredFeatures,
   cities,
 } from "@/app/constants/home";
-import Link from "next/link"; 
 import Translation from "./components/translation";
 import { useQuery } from "@tanstack/react-query";
+import AvailableCity from "./components/availableCity";
+import UnavailableCity from "./components/unavailableCity";
 
 export default function Home() {
-  
-  const {data, isLoading, isError, error} = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["cities"],
-    queryFn: () => axios.get("http://localhost:3001/cities")
+    queryFn: () => axios.get("http://localhost:3001/cities"),
   });
 
   if (isLoading) {
-    return <div>Loading ...</div>
+    return <div>Loading ...</div>;
   }
 
-  if (isError){
-    return <div>{error.message}</div>
+  if (isError) {
+    return <div>{error.message}</div>;
   }
-  
-  console.log("cities :", data);
-  
+
   return (
     <div className="flex flex-col">
       {/* Header Section */}
@@ -80,7 +77,6 @@ export default function Home() {
           </h1>
         </div>
       </div>
-
       {/* Description section */}
       <div className="bg-primary p-6  md:pl-20 md:py-10 font-semibold font-sans text-background text-2xl md:text-[45px]">
         <Translation translationKey="homepage_description" />
@@ -100,40 +96,9 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:pl-4">
             {cities.map((city, index) =>
               city.desc !== "Opening Soon" ? (
-                <Link
-                  href={`/${city.slug}/${index}`}
-                  className={`relative flex gap-4 items-center cursor-pointer p-2 group
-                  hover:shadow-lg 
-                  `}
-                  key={index}
-                >
-                  <Image src={city.image} alt={city.title} className="w-48" />
-
-                  <div className="flex flex-col gap-2">
-                    <h1 className="font-semibold font-sans text-text-foreground">
-                      {city.title}
-                    </h1>
-                    <p className="text-primary font-sans font-medium text-sm">
-                      {city.desc}
-                    </p>
-
-                    <p className="text-primary hidden group-hover:block underline">
-                      Buy it now!
-                    </p>
-                  </div>
-                </Link>
+                <AvailableCity city={city} index={index} />
               ) : (
-                <div key={index} className="relative flex gap-4 items-center p-2 ">
-                  <Image src={city.image} alt={city.title} className="w-48" />
-                  <div className="flex flex-col gap-2">
-                    <h1 className="font-semibold font-sans text-text-foreground">
-                      {city.title}
-                    </h1>
-                    <p className="text-primary font-sans font-medium text-sm">
-                      {city.desc}
-                    </p>
-                  </div>
-                </div>
+                <UnavailableCity city={city} index={index} />
               )
             )}
           </div>
