@@ -18,7 +18,7 @@ export class City {
   goldPrice: number;
 
   @Column('json')
-  pricing: { duration: string; amount: number }[];
+  classicPrice: { duration: string; amount: number }[];
 
   @Column({ nullable: true })
   imageUrl: string;

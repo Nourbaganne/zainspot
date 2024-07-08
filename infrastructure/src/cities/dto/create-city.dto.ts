@@ -17,7 +17,7 @@ export class CreateCityDto {
 
   @IsNotEmpty()
   @IsArray()
-  pricing: {
+  classicPrice: {
     duration: string;
     amount: number;
   }[];

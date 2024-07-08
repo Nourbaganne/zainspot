@@ -30,6 +30,7 @@ export default function Home() {
     return <div>{error.message}</div>
   }
   
+  console.log("cities :", data);
   
   return (
     <div className="flex flex-col">

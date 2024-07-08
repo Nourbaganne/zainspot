@@ -5,7 +5,6 @@ import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { City } from 'src/entities/city.entity';
 import cloudinary from 'src/config/cloudinary.config';
-
 @Injectable()
 export class CitiesService {
   constructor(
@@ -26,8 +25,18 @@ export class CitiesService {
   }
 
   async uploadImageToCloudinary(file: Express.Multer.File): Promise<string> {
-    const result = await cloudinary.uploader.upload(file.path);
-    return result.secure_url;
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: 'cities' },
+        (error, result) => {
+          if (error) {
+            reject(new Error('Image upload failed'));
+          }
+          resolve(result.secure_url);
+        }
+      );
+      uploadStream.end(file.buffer);
+    });
   }
 
   async createCity(createCityDto: CreateCityDto, file: Express.Multer.File): Promise<City> {
