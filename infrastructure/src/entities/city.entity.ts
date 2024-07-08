@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('cities')
 export class City {
@@ -9,7 +15,14 @@ export class City {
   name: string;
 
   @Column()
-  location: string;
+  disponibility: boolean;
+
+  @Column({
+    type: 'double',
+    precision: 10,
+    scale: 6,
+  })
+  location: { title: string; posx: number; posy: number };
 
   @Column()
   description: string;
@@ -23,7 +36,6 @@ export class City {
   @Column({ nullable: true })
   imageUrl: string;
 
-  
   @CreateDateColumn()
   createdAt: Date;
 

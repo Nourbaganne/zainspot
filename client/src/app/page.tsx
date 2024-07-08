@@ -19,7 +19,7 @@ export default function Home() {
   
   const {data, isLoading, isError, error} = useQuery({
     queryKey: ["cities"],
-    queryFn: () => axios.get("http://localhost:3001/cities/1")
+    queryFn: () => axios.get("http://localhost:3001/cities")
   });
 
   if (isLoading) {

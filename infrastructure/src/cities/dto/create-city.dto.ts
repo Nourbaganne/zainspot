@@ -1,15 +1,23 @@
-import { IsNotEmpty, IsNumber, IsArray, IsString, IsOptional } from "class-validator";
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsArray,
+  IsString,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateCityDto {
   @IsNotEmpty()
   name: string;
 
   @IsNotEmpty()
-  location: string;
+  disponibility: boolean;
+
+  @IsNotEmpty()
+  location: { title: string; posx: number; posy: number };
 
   @IsNotEmpty()
   description: string;
-
 
   @IsNotEmpty()
   @IsNumber()

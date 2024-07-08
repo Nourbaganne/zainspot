@@ -33,13 +33,16 @@ export class CitiesService {
             reject(new Error('Image upload failed'));
           }
           resolve(result.secure_url);
-        }
+        },
       );
       uploadStream.end(file.buffer);
     });
   }
 
-  async createCity(createCityDto: CreateCityDto, file: Express.Multer.File): Promise<City> {
+  async createCity(
+    createCityDto: CreateCityDto,
+    file: Express.Multer.File,
+  ): Promise<City> {
     if (file) {
       const imageUrl = await this.uploadImageToCloudinary(file);
       createCityDto.imageUrl = imageUrl;
@@ -48,7 +51,11 @@ export class CitiesService {
     return await this.cityRepository.save(newCity);
   }
 
-  async updateCity(id: number, updateCityDto: UpdateCityDto, file: Express.Multer.File): Promise<City> {
+  async updateCity(
+    id: number,
+    updateCityDto: UpdateCityDto,
+    file: Express.Multer.File,
+  ): Promise<City> {
     if (file) {
       const imageUrl = await this.uploadImageToCloudinary(file);
       updateCityDto.imageUrl = imageUrl;

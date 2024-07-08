@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import returnIcon from "@/app/assets/city-details/return-icon.svg";
 import testImage from "@/app/assets/city-details/test-image.svg";
+import locationLogo from "@/app/assets/city-details/location-logo.svg";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { MoneyValue } from "@/app/components/MoneyValue";
@@ -74,9 +75,12 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </p>
-
-            <div className="bg-white-700 mx-auto my-5 w-full h-[480px] rounded-lg overflow-hidden">
-              <Map posix={[4.79029, -75.69003]} />
+            <div className="flex flex-col gap-3 bg-white-700 mx-auto my-5 w-full h-[480px] rounded-lg overflow-hidden">
+              <div className="flex gap-1 items-center">
+                <Image src={locationLogo} alt="location-logo" />
+                <h1>Berkeley House 14 Berkeley Square, London W1J 6AF</h1>
+              </div>
+              <Map posix={[51.509865, -0.1419]} />
             </div>
           </div>
         </div>
