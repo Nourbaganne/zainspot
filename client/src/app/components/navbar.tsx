@@ -51,7 +51,7 @@ const Navbar = () => {
     setOpenCurrencyMenu(false);
   };
 
-  const handleLanguageChanges = (lang: "en" | "fr") => {
+  const handleLanguageChanges = (lang: "en" | "fr" | "sp") => {
     setLanguage(lang);
     setOpenLanguagesMenu(false);
   };
@@ -95,6 +95,12 @@ const Navbar = () => {
                 >
                   Pound
                 </button>
+                <button
+                  onClick={() => handleCurrencyChanges("INR")}
+                  className="hover:text-primary"
+                >
+                  Rupee
+                </button>
               </div>
             )}
           </div>
@@ -119,6 +125,12 @@ const Navbar = () => {
                   onClick={() => handleLanguageChanges("fr")}
                 >
                   Français
+                </button>
+                <button
+                  className="hover:text-primary"
+                  onClick={() => handleLanguageChanges("sp")}
+                >
+                  Español
                 </button>
               </div>
             )}

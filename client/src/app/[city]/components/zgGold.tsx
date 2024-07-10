@@ -2,7 +2,7 @@ import { MoneyValue } from "@/app/components/MoneyValue";
 import Translation from "@/app/components/translation";
 import { useCurrency } from "@/app/contexts/CurrencyContext";
 
-const ZsGold = () => {
+const ZsGold = ({ amount }: { amount: number }) => {
   const { currency } = useCurrency();
   return (
     <div className="flex flex-col gap-4 border-2 rounded-md border-secondary p-2 text-xl">
@@ -20,15 +20,15 @@ const ZsGold = () => {
       </p>
 
       <h1 className="text-center font-semibold">
-        Now you&apos;re ready to promote your business and Go Global!
+        <Translation translationKey="citypage_cards_subtitle" />
       </h1>
 
       <div className="flex justify-between">
         <h1 className="flex gap-4">
-          1 year single payment{" "}
+          <Translation translationKey="citypage_single_payment" />
           <span className="text-primary">
             <MoneyValue
-              value={260}
+              value={amount}
               fromCurrency="USD"
               toCurrency={currency}
               decimals={0}
@@ -43,7 +43,9 @@ const ZsGold = () => {
             className={`w-5 h-5 accent-primary 
                   `}
           />
-          <label htmlFor="buy">Buy Now</label>
+          <label htmlFor="buy">
+            <Translation translationKey="citypage_raio_label" />
+          </label>
         </div>
       </div>
     </div>
