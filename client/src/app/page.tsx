@@ -5,15 +5,18 @@ import header from "./assets/home/header-image.svg";
 import check from "./assets/home/check-icon.svg";
 import close from "./assets/home/close-icon.svg";
 import axios from "axios";
-import {
-  zainspotFeatures,
-  ignoredFeatures,
-  cities,
-} from "@/app/constants/home";
+import { zainspotFeatures, ignoredFeatures } from "@/app/constants/home";
 import Translation from "./components/translation";
 import { useQuery } from "@tanstack/react-query";
 import AvailableCity from "./components/availableCity";
 import UnavailableCity from "./components/unavailableCity";
+
+interface City {
+  id: number;
+  name: string;
+  disponibility: boolean;
+  imageUrl: string;
+}
 
 export default function Home() {
   const { data, isLoading, isError, error } = useQuery({
@@ -29,6 +32,7 @@ export default function Home() {
     return <div>{error.message}</div>;
   }
 
+  const cities = data?.data || [];
   return (
     <div className="flex flex-col">
       {/* Header Section */}
@@ -94,12 +98,16 @@ export default function Home() {
             </span>
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:pl-4">
-            {cities.map((city, index) =>
-              city.desc !== "Opening Soon" ? (
-                <AvailableCity city={city} index={index} />
-              ) : (
-                <UnavailableCity city={city} index={index} />
+            {Array.isArray(cities) && cities.length > 0 ? (
+              cities.map((city: City) =>
+                city.disponibility ? (
+                  <AvailableCity city={city} index={city?.id} />
+                ) : (
+                  <UnavailableCity city={city} index={city?.id} />
+                )
               )
+            ) : (
+              <div>No cities available</div>
             )}
           </div>
         </div>

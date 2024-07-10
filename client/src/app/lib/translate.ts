@@ -1,22 +1,33 @@
 import en_translations from '../translations/en.json';
 import fr_translations from '../translations/fr.json';
+import sp_translations from '../translations/sp.json';
+import ar_translations from '../translations/ar.json';
 
-type Language = 'en' | 'fr';
+type Language = 'en' | 'fr' | 'sp' | 'ar';
 
-// Define the type for translations
 interface Translations {
   [key: string]: string | string[];
 }
 
 function getTranslations(lang: Language): Translations {
-  return lang === 'en' ? en_translations : fr_translations;
+  switch (lang) {
+    case 'fr':
+      return fr_translations;
+    case 'sp':
+      return sp_translations;
+    case 'en':
+      return en_translations
+    case 'ar':
+      return ar_translations
+    default:
+      return en_translations;
+  }
 }
 
 export default function translate(key: string, lang: Language = 'en'): string {
   try {
     const translations = getTranslations(lang);
 
-    // Parse the key to handle array access if needed
     const matchArrayAccess = key.match(/(.+)\[(\d+)\]/);
 
     if (matchArrayAccess) {
