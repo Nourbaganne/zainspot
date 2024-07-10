@@ -11,4 +11,5 @@ export const FOOTER_DATA  = [
     "ZainSpot Mission",
     "FAQ",
     "Privacy Policy",
+    "Go to My ZainSpot"
 ]

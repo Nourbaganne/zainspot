@@ -51,7 +51,7 @@ const Navbar = () => {
     setOpenCurrencyMenu(false);
   };
 
-  const handleLanguageChanges = (lang: "en" | "fr" | "sp") => {
+  const handleLanguageChanges = (lang: "en" | "fr" | "sp" | "ar") => {
     setLanguage(lang);
     setOpenLanguagesMenu(false);
   };
@@ -131,6 +131,12 @@ const Navbar = () => {
                   onClick={() => handleLanguageChanges("sp")}
                 >
                   Español
+                </button>
+                <button
+                  className="hover:text-primary"
+                  onClick={() => handleLanguageChanges("ar")}
+                >
+                  العربية
                 </button>
               </div>
             )}

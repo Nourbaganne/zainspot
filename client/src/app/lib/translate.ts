@@ -1,8 +1,9 @@
 import en_translations from '../translations/en.json';
 import fr_translations from '../translations/fr.json';
 import sp_translations from '../translations/sp.json';
+import ar_translations from '../translations/ar.json';
 
-type Language = 'en' | 'fr' | 'sp';
+type Language = 'en' | 'fr' | 'sp' | 'ar';
 
 interface Translations {
   [key: string]: string | string[];
@@ -15,6 +16,9 @@ function getTranslations(lang: Language): Translations {
     case 'sp':
       return sp_translations;
     case 'en':
+      return en_translations
+    case 'ar':
+      return ar_translations
     default:
       return en_translations;
   }
