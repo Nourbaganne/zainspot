@@ -8,7 +8,7 @@ import {
   useEffect,
 } from "react";
 
-type Language = "usa" | "fr" | "sp" | "ar" | "bn" | "br" | "hn" | 'kn';
+import { Language } from "../lib/translate";
 
 interface LanguageContextProps {
   language: Language;

@@ -1,6 +1,7 @@
 import { MoneyValue } from "@/app/components/MoneyValue";
 import Translation from "@/app/components/translation";
 import { useCurrency } from "@/app/contexts/CurrencyContext";
+import { CURRENCIES_DATA } from "@/app/constants/navbar";
 
 const ZsGold = ({ amount }: { amount: number }) => {
   const { currency } = useCurrency();

@@ -1,24 +1,22 @@
-"use client";
+"use client"
 
 import Image from "next/image";
 import { useState, useEffect, useRef, MouseEvent } from "react";
 import Link from "next/link";
-import { useCurrency } from "../contexts/CurrencyContext";
 import Translation from "./translation";
 import logo from "@/app/assets/navbar/logo-zainspot.svg";
 import chevron from "@/app/assets/navbar/chevron-down-outline.svg";
 import menu from "@/app/assets/navbar/menu.svg";
 import close from "@/app/assets/navbar/close-icon.svg";
+import MenuButton from "./menuButton";
+import { LANGUAGES_DATA, CURRENCIES_DATA } from "../constants/navbar";
+import { Language } from "../lib/translate";
 import { Currency } from "../lib/currencyConvert";
-import LanguageButton from "./languageButton";
-import { LANGUAGES_DATA } from "../constants/navbar";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openLanguagesMenu, setOpenLanguagesMenu] = useState(false);
   const [openCurrencyMenu, setOpenCurrencyMenu] = useState(false);
-
-  const { setCurrency } = useCurrency();
 
   const languagesMenuRef = useRef<HTMLDivElement>(null);
   const currencyMenuRef = useRef<HTMLDivElement>(null);
@@ -39,17 +37,18 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener("click", handleClickOutside as unknown as EventListener);
+    window.addEventListener(
+      "click",
+      handleClickOutside as unknown as EventListener
+    );
 
     return () => {
-      window.removeEventListener("click", handleClickOutside as unknown as EventListener);
+      window.removeEventListener(
+        "click",
+        handleClickOutside as unknown as EventListener
+      );
     };
   }, []);
-
-  const handleCurrencyChanges = (cur: Currency) => {
-    setCurrency(cur);
-    setOpenCurrencyMenu(false);
-  };
 
   return (
     <div className="flex justify-between md:px-10 px-5 py-2">
@@ -71,31 +70,16 @@ const Navbar = () => {
               <Image src={chevron} alt="currency" />
             </button>
             {openCurrencyMenu && (
-              <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 shadow-lg rounded-md">
-                <button
-                  onClick={() => handleCurrencyChanges("EUR")}
-                  className="hover:text-primary"
-                >
-                  Euro
-                </button>
-                <button
-                  onClick={() => handleCurrencyChanges("USD")}
-                  className="hover:text-primary"
-                >
-                  Dollar
-                </button>
-                <button
-                  onClick={() => handleCurrencyChanges("GBP")}
-                  className="hover:text-primary"
-                >
-                  Pound
-                </button>
-                <button
-                  onClick={() => handleCurrencyChanges("INR")}
-                  className="hover:text-primary"
-                >
-                  Rupee
-                </button>
+              <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md">
+                {CURRENCIES_DATA.map((currency) => (
+                  <MenuButton
+                    key={currency.key}
+                    lang={currency.key as Currency}
+                    title={currency.title}
+                    setOpenLanguagesMenu={setOpenCurrencyMenu}
+                    type="currency"
+                  />
+                ))}
               </div>
             )}
           </div>
@@ -110,11 +94,12 @@ const Navbar = () => {
             {openLanguagesMenu && (
               <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md">
                 {LANGUAGES_DATA.map((language) => (
-                  <LanguageButton
+                  <MenuButton
                     key={language.key}
-                    lang={language.key}
+                    lang={language.key as Language}
                     title={language.title}
                     setOpenLanguagesMenu={setOpenLanguagesMenu}
+                    type="language"
                   />
                 ))}
               </div>
@@ -148,12 +133,24 @@ const Navbar = () => {
         />
         {isOpen && (
           <div className="absolute bg-gray-300 top-14 right-5 z-20 w-44 text-center py-4 rounded-md shadow-lg">
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
+              How it works
+            </button>
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
+              How it works
+            </button>
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
+              How it works
+            </button>
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
+              How it works
+            </button>
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
+              How it works
+            </button>
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
+              How it works
+            </button>
           </div>
         )}
       </div>
