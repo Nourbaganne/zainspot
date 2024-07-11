@@ -10,9 +10,21 @@ export const LANGUAGES_DATA = [
     { key: "kn", title: "Kannada" },
     { key: "ml", title: "Malay" },
     { key: "mn", title: "Mandarin" },
+    { key: "mr", title: "Marathi" },
     { key: "pn", title: "Punjabi" },
     { key: "rj", title: "Rajasthani" },
     { key: "tm", title: "Tamil" },
     { key: "tl", title: "Telugu" },
     { key: "ur", title: "Urdu" },
+];
+
+export const CURRENCIES_DATA = [
+    { key: "EUR", title: "Euro", symbol: "€" },
+    { key: "USD", title: "Dollar", symbol: "$" },
+    { key: "GBP", title: "Pound", symbol: "£" },
+    { key: "INR", title: "Rupee", symbol: "₹" },
+    { key: "AED", title: "AED", symbol: "د.إ" },
+    { key: "AUD", title: "AUD", symbol: "A$" },
+    { key: "BDT", title: "BDT", symbol: "৳" },
+    { key: "SGD", title: "SGD", symbol: "S$" },
 ];
