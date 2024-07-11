@@ -1,0 +1,18 @@
+export const LANGUAGES_DATA = [
+    { key: "usa", title: "English (USA)" },
+    { key: "br", title: "English (British)" },
+    { key: "fr", title: "Français" },
+    { key: "sp", title: "Español" },
+    { key: "ar", title: "العربية" },
+    { key: "bn", title: "Bangla" },
+    { key: "gj", title: "Gujarati" },
+    { key: "hn", title: "Hindi" },
+    { key: "kn", title: "Kannada" },
+    { key: "ml", title: "Malay" },
+    { key: "mn", title: "Mandarin" },
+    { key: "pn", title: "Punjabi" },
+    { key: "rj", title: "Rajasthani" },
+    { key: "tm", title: "Tamil" },
+    { key: "tl", title: "Telugu" },
+    { key: "ur", title: "Urdu" },
+];

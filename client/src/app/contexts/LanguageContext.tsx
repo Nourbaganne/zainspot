@@ -8,7 +8,7 @@ import {
   useEffect,
 } from "react";
 
-type Language = "en" | "fr" | "sp" | "ar";
+type Language = "usa" | "fr" | "sp" | "ar" | "bn" | "br" | "hn" | 'kn';
 
 interface LanguageContextProps {
   language: Language;
@@ -25,7 +25,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       typeof window !== "undefined"
         ? localStorage.getItem("preferredLanguage")
         : null;
-    return (storedLanguage as Language) || "en";
+    return (storedLanguage as Language) || "usa";
   });
 
   const setLanguage = (lang: Language) => {

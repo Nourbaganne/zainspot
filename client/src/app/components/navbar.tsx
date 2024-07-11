@@ -4,20 +4,20 @@ import Image from "next/image";
 import { useState, useEffect, useRef, MouseEvent } from "react";
 import Link from "next/link";
 import { useCurrency } from "../contexts/CurrencyContext";
-import { useLanguage } from "../contexts/LanguageContext";
 import Translation from "./translation";
 import logo from "@/app/assets/navbar/logo-zainspot.svg";
 import chevron from "@/app/assets/navbar/chevron-down-outline.svg";
 import menu from "@/app/assets/navbar/menu.svg";
 import close from "@/app/assets/navbar/close-icon.svg";
 import { Currency } from "../lib/currencyConvert";
+import LanguageButton from "./languageButton";
+import { LANGUAGES_DATA } from "../constants/navbar";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openLanguagesMenu, setOpenLanguagesMenu] = useState(false);
   const [openCurrencyMenu, setOpenCurrencyMenu] = useState(false);
 
-  const { setLanguage } = useLanguage();
   const { setCurrency } = useCurrency();
 
   const languagesMenuRef = useRef<HTMLDivElement>(null);
@@ -51,11 +51,6 @@ const Navbar = () => {
     setOpenCurrencyMenu(false);
   };
 
-  const handleLanguageChanges = (lang: "en" | "fr" | "sp" | "ar") => {
-    setLanguage(lang);
-    setOpenLanguagesMenu(false);
-  };
-
   return (
     <div className="flex justify-between md:px-10 px-5 py-2">
       <Link href="/">
@@ -64,19 +59,19 @@ const Navbar = () => {
 
       <div className="hidden md:flex gap-10 font-sans font-bold items-center">
         <div className="flex gap-4 text-text-foreground h-full items-end text-sm pb-3">
-          <button>
-            <Translation translationKey={`navbar_titles[${0}]`} />
+          <button className="min-w-[150px]">
+            <Translation translationKey={`navbar_titles[0]`} />
           </button>
-          <div className="relative" ref={currencyMenuRef}>
+          <div className="relative min-w-[150px]" ref={currencyMenuRef}>
             <button
-              className="flex gap-1"
+              className="flex gap-1 items-center justify-between"
               onClick={() => setOpenCurrencyMenu(!openCurrencyMenu)}
             >
-              <Translation translationKey={`navbar_titles[${1}]`} />
+              <Translation translationKey={`navbar_titles[1]`} />
               <Image src={chevron} alt="currency" />
             </button>
             {openCurrencyMenu && (
-              <div className="absolute flex flex-col z-40 bg-background p-2 w-full gap-2">
+              <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 shadow-lg rounded-md">
                 <button
                   onClick={() => handleCurrencyChanges("EUR")}
                   className="hover:text-primary"
@@ -104,40 +99,24 @@ const Navbar = () => {
               </div>
             )}
           </div>
-          <div className="relative" ref={languagesMenuRef}>
+          <div className="relative min-w-[150px]" ref={languagesMenuRef}>
             <button
-              className="flex gap-1"
+              className="flex gap-1 items-center justify-between"
               onClick={() => setOpenLanguagesMenu(!openLanguagesMenu)}
             >
-              <Translation translationKey={`navbar_titles[${2}]`} />
+              <Translation translationKey={`navbar_titles[2]`} />
               <Image src={chevron} alt="language" />
             </button>
             {openLanguagesMenu && (
-              <div className="absolute flex flex-col z-40 bg-background p-2 w-full gap-2">
-                <button
-                  className="hover:text-primary"
-                  onClick={() => handleLanguageChanges("en")}
-                >
-                  English
-                </button>
-                <button
-                  className="hover:text-primary"
-                  onClick={() => handleLanguageChanges("fr")}
-                >
-                  Français
-                </button>
-                <button
-                  className="hover:text-primary"
-                  onClick={() => handleLanguageChanges("sp")}
-                >
-                  Español
-                </button>
-                <button
-                  className="hover:text-primary"
-                  onClick={() => handleLanguageChanges("ar")}
-                >
-                  العربية
-                </button>
+              <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md">
+                {LANGUAGES_DATA.map((language) => (
+                  <LanguageButton
+                    key={language.key}
+                    lang={language.key}
+                    title={language.title}
+                    setOpenLanguagesMenu={setOpenLanguagesMenu}
+                  />
+                ))}
               </div>
             )}
           </div>
@@ -168,13 +147,13 @@ const Navbar = () => {
           onClick={() => setIsOpen(!isOpen)}
         />
         {isOpen && (
-          <div className="absolute bg-gray-300 top-14 right-5 z-20 w-44 text-center py-4 rounded-md">
-            <button>How it works </button>
-            <button>How it works </button>
-            <button>How it works </button>
-            <button>How it works </button>
-            <button>How it works </button>
-            <button>How it works </button>
+          <div className="absolute bg-gray-300 top-14 right-5 z-20 w-44 text-center py-4 rounded-md shadow-lg">
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
+            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">How it works</button>
           </div>
         )}
       </div>
