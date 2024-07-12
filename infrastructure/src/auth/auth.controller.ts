@@ -1,12 +1,13 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthLoginDto } from './dto/auth-login.dto';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post()
   async login(@Body() authLoginDto: AuthLoginDto) {
     try {
@@ -16,7 +17,6 @@ export class AuthController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   async test() {
     return 'success login';
