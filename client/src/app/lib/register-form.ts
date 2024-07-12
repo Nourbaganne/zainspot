@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 export const useRegisterForm = () => {
   return useFormik({
@@ -31,7 +32,7 @@ export const useRegisterForm = () => {
         .required("Email is required"),
       password: Yup.string()
         .required("Password is required")
-        .min(8, '8 charaters minimum')
+        .min(8, '8 characters minimum')
         .matches(/[A-Z]/, '1 uppercase letter')
         .matches(/[a-z]/, '1 lowercase letter')
         .matches(/[0-9]/, 'Password requires a number')
@@ -40,26 +41,36 @@ export const useRegisterForm = () => {
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password")], "Passwords must match")
         .required("Confirm password is required"),
-      businessNumber: Yup.number().required("Business Number is required"),
+      businessNumber: Yup.string(),
       businessName: Yup.string().required("Business name is required"),
       tradeName: Yup.string().required("Business name is required"),
       businessType: Yup.string().required("Business type is required"),
       country: Yup.string().required("Business country is required"),
-      businessWebsite: Yup.string().required("Business website is required"),
+      businessWebsite: Yup.string(),
       city: Yup.string().required("City is required"),
       state: Yup.string().required(
         "State or Province or Department is required"
       ),
       interestRegion: Yup.string().required("Regions of interest are required"),
       name: Yup.string().required("Name is required"),
-      middleName: Yup.string().required("Middle name is required"),
+      middleName: Yup.string(),
       lastName: Yup.string().required("Last name is required"),
       gender: Yup.string().required("Gender is required"),
-      birthday: Yup.string().required("Birthday is required"),
-      mediaProfile: Yup.string().required("Social media is required"),
+      birthday: Yup.date(),
+      mediaProfile: Yup.string(),
     }),
     onSubmit: async (values) => {
-      console.log("register with success");
+      try {
+        const formattedValues = {
+          ...values,
+          birthday: values.birthday ? new Date(values.birthday).toISOString().split('T')[0] : null,
+        };
+
+        const response = await axios.post("http://localhost:3001/user", formattedValues);
+        console.log(response.data); 
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
     },
   });
 };

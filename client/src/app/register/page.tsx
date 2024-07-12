@@ -11,14 +11,13 @@ import { useRegisterForm } from "../lib/register-form";
 import Translation from "../components/translation";
 
 const Register = () => {
-  const formik = useRegisterForm();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const toggleConfirmPasswordVisibility = () =>
     setShowConfirmPassword(!showConfirmPassword);
-
+  const formik = useRegisterForm();
   return (
     <div className="grid grid-cols-5 py-14">
       <div className="pt-16 z-0 col-span-2">
