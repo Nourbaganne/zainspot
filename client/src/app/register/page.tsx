@@ -1,4 +1,5 @@
 "use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -11,24 +12,30 @@ import Translation from "../components/translation";
 
 const Register = () => {
   const formik = useRegisterForm();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword(!showConfirmPassword);
 
   return (
-    <div className="grid grid-cols-5 py-14  ">
+    <div className="grid grid-cols-5 py-14">
       <div className="pt-16 z-0 col-span-2">
         <Image
-          className="absolute w-[1100px]  "
+          className="absolute w-[1100px]"
           src={loginImage}
           alt="login image"
         />
       </div>
 
-      <div className="col-span-3 flex flex-col items-center gap-10 w-full px-16  bg-background z-10">
-        <h1 className="font-bold text-2xl text-text ">
+      <div className="col-span-3 flex flex-col items-center gap-10 w-full px-16 bg-background z-10">
+        <h1 className="font-bold text-2xl text-text">
           <Translation translationKey="registerpage_header" />
         </h1>
 
         <div className="flex flex-col gap-4">
-          <h1 className="text-4xl font-bold text-description  ">
+          <h1 className="text-4xl font-bold text-description">
             <Translation translationKey="registerpage_title" />
           </h1>
           <p className="text-description-foreground">
@@ -50,7 +57,7 @@ const Register = () => {
           <div className="flex gap-6">
             <div className="relative w-full">
               <Input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 labelKey="register_password_label"
                 value={formik.values.password}
                 name="password"
@@ -64,21 +71,32 @@ const Register = () => {
                   src={eyeOutline}
                   alt="eye-outline"
                   className="cursor-pointer"
+                  onClick={togglePasswordVisibility}
                 />
               </div>
             </div>
-            <Input
-              type="password"
-              labelKey="register_confirm_password_label"
-              value={formik.values.confirmPassword}
-              name="confirmPassword"
-              handleChange={formik.handleChange}
-              touched={formik.touched.confirmPassword}
-              errors={formik.errors.confirmPassword}
-              formik={formik}
-            />
+            <div className="relative w-full">
+              <Input
+                type={showConfirmPassword ? "text" : "password"}
+                labelKey="register_confirm_password_label"
+                value={formik.values.confirmPassword}
+                name="confirmPassword"
+                handleChange={formik.handleChange}
+                touched={formik.touched.confirmPassword}
+                errors={formik.errors.confirmPassword}
+                formik={formik}
+              />
+              <div className="absolute inset-y-0 right-3 flex items-center">
+                <Image
+                  src={eyeOutline}
+                  alt="eye-outline"
+                  className="cursor-pointer"
+                  onClick={toggleConfirmPasswordVisibility}
+                />
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col gap-2 ">
+          <div className="flex flex-col gap-2">
             <div className="relative flex flex-col">
               <PhoneInput
                 country={"us"}
@@ -100,7 +118,7 @@ const Register = () => {
               />
               <label
                 htmlFor="businessNumber"
-                className={`absolute left-3 top-0 transform -translate-y-1/2 text-xs bg-white text-text-foreground  px-1  
+                className={`absolute left-3 top-0 transform -translate-y-1/2 text-xs bg-white text-text-foreground px-1  
                   ${
                     formik.errors.businessNumber &&
                     formik.touched.businessNumber
@@ -140,7 +158,7 @@ const Register = () => {
               formik={formik}
             />
           </div>
-          <div className="flex gap-6 ">
+          <div className="flex gap-6">
             <div className="flex flex-col gap-2 w-full">
               <div className="relative flex flex-col w-full">
                 <select

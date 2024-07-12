@@ -91,7 +91,7 @@ export default function Home() {
           <Translation translationKey="homepage_cities_description" />
         </p>
         <div className="flex flex-col md:pl-12 gap-5">
-          <h1 className="text-span text-4xl font-semibold font-sans flex gap-2">
+          <h1 className="text-span text-2xl md:text-4xl font-semibold font-sans flex gap-2">
             <Translation translationKey="homepage_cities_title" />
             <span className="text-primary">
               <Translation translationKey="homepage_cities_title_span" />

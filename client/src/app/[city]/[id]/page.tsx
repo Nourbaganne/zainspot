@@ -39,7 +39,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const city = data?.data;
 
   return (
-    <div className="flex flex-col md:grid md:grid-cols-5 font-sans">
+    <div className="flex flex-col md:grid md:grid-cols-5 font-sans ">
       <div className="flex flex-col md:col-span-2 py-8 md:py-0 gap-8">
         <Link
           href={"/"}
@@ -57,8 +57,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           </div>
           <div className="relative w-full h-[480px]">
 
-            <Image src={city?.imageUrl} alt="image" layout="fill"
-              objectFit="cover" />
+            <Image src={city?.imageUrl} alt="image" layout="fill" />
           </div>
           <div className="flex flex-col px-4 gap-7 pt-7">
             <p className="text-description font-semibold">

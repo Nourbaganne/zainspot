@@ -29,7 +29,14 @@ export const useRegisterForm = () => {
       email: Yup.string()
         .email("Invalid email address")
         .required("Email is required"),
-      password: Yup.string().required("Password is required"),
+      password: Yup.string()
+        .required("Password is required")
+        .min(8, '8 charaters minimum')
+        .matches(/[A-Z]/, '1 uppercase letter')
+        .matches(/[a-z]/, '1 lowercase letter')
+        .matches(/[0-9]/, 'Password requires a number')
+        .matches(/[^\w]/, '1 special character, e.g.: !@#%&*^°'),
+
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password")], "Passwords must match")
         .required("Confirm password is required"),

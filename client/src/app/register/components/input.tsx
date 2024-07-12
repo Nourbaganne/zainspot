@@ -1,5 +1,9 @@
-import Translation from '@/app/components/translation';
+import React from 'react';
 import { FormikProps } from 'formik';
+import Translation from '@/app/components/translation';
+import checked from "@/app/assets/register/checked.svg";
+import alert from "@/app/assets/register/alert.svg";
+import Image from 'next/image';
 
 interface InputProps {
   type: string;
@@ -13,6 +17,8 @@ interface InputProps {
 }
 
 export function Input({ type, labelKey, value, name, handleChange, touched, errors, formik }: InputProps) {
+  const showIcon = touched && (errors ? alert : checked);
+
   return (
     <div className="flex flex-col gap-2 w-full">
       <div className="relative flex flex-col">
@@ -34,13 +40,19 @@ export function Input({ type, labelKey, value, name, handleChange, touched, erro
               ? 'peer-focus:text-alert'
               : 'peer-focus:text-primary'
           } ${
-            value ? 'top-[0px] left-3 text-xs bg-white z-10' : ''
+            value ? 'top-[0px] left-3 text-xs bg-white z-10 ' : ''
           }`}
         >
           <Translation translationKey={labelKey} />
         </label>
+        {showIcon && (
+          <Image
+            src={showIcon}
+            alt={errors ? 'Alert' : 'Checked'}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+          />
+        )}
       </div>
-
       {touched && errors && (
         <h1 className="pl-4 text-alert">{errors}</h1>
       )}
