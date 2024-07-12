@@ -59,7 +59,7 @@ export const useRegisterForm = () => {
       birthday: Yup.date(),
       mediaProfile: Yup.string(),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values, {resetForm}) => {
       try {
         const formattedValues = {
           ...values,
@@ -67,7 +67,9 @@ export const useRegisterForm = () => {
         };
 
         const response = await axios.post("http://localhost:3001/user", formattedValues);
-        console.log(response.data); 
+        
+        resetForm();
+
       } catch (error) {
         console.error("Error submitting form:", error);
       }

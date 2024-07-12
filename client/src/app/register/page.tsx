@@ -100,30 +100,29 @@ const Register = () => {
               <PhoneInput
                 country={"us"}
                 value={formik.values.businessNumber}
-                onChange={formik.handleChange}
+                onChange={(value: string) =>
+                  formik.setFieldValue("businessNumber", value)
+                }
                 inputProps={{
                   className: `
-                    border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
-                  ${
-                    formik.errors.businessNumber &&
-                    formik.touched.businessNumber
-                      ? "border-alert"
-                      : "border-button focus:border-primary"
-                  }
-                
-                  `,
+                border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
+              ${
+                formik.errors.businessNumber && formik.touched.businessNumber
+                  ? "border-alert"
+                  : "border-button focus:border-primary"
+              }
+              `,
                   name: "businessNumber",
                 }}
               />
               <label
                 htmlFor="businessNumber"
                 className={`absolute left-3 top-0 transform -translate-y-1/2 text-xs bg-white text-text-foreground px-1  
-                  ${
-                    formik.errors.businessNumber &&
-                    formik.touched.businessNumber
-                      ? "text-alert"
-                      : "text-primary"
-                  }`}
+              ${
+                formik.errors.businessNumber && formik.touched.businessNumber
+                  ? "text-alert"
+                  : "text-primary"
+              }`}
               >
                 <Translation translationKey="register_business_number_label" />
               </label>
