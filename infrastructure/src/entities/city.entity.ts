@@ -4,7 +4,13 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  NumericType,
 } from 'typeorm';
+
+interface PerMonth {
+  duration: number;
+  amount: number;
+}
 
 @Entity('cities')
 export class City {
@@ -14,24 +20,20 @@ export class City {
   @Column()
   name: string;
 
-  @Column()
+  @Column('bool')
   disponibility: boolean;
 
-  @Column({
-    type: 'double',
-    precision: 10,
-    scale: 6,
-  })
-  location: { title: string; posx: number; posy: number };
+  @Column('json',{ nullable: true })
+  location: { title: string; posx: NumericType; posy: NumericType };
 
-  @Column()
+  @Column('text',{ nullable: true })
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   goldPrice: number;
 
-  @Column('json')
-  classicPrice: { duration: string; amount: number }[];
+  @Column('json',{ nullable: true })
+  classicPrice: { perYear: number; perMonth: PerMonth[] };
 
   @Column({ nullable: true })
   imageUrl: string;
