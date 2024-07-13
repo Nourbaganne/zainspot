@@ -28,6 +28,7 @@ export class UserController {
     return this.userService.findById(id);
   }
 
+  @Roles(UserRole.ADMIN)
   @Get()
   async findAll() {
     return this.userService.findAll();

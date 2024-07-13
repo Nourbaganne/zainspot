@@ -14,11 +14,14 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { CitiesService } from './cities.service';
+import { Roles } from 'src/decorators/roles.decorator';
+import { UserRole } from 'src/entities/user.entity';
 
 @Controller('cities')
 export class CitiesController {
   constructor(private readonly cityService: CitiesService) {}
 
+  // @Roles(UserRole.VISITOR)
   @Get()
   getCities() {
     return this.cityService.getCities();
@@ -33,6 +36,7 @@ export class CitiesController {
     }
   }
 
+  @Roles(UserRole.OWNER)
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   createCity(
@@ -42,6 +46,7 @@ export class CitiesController {
     return this.cityService.createCity(createCityDto, file);
   }
 
+  @Roles(UserRole.OWNER)
   @Patch(':id')
   @UseInterceptors(FileInterceptor('image'))
   updateCity(
@@ -52,6 +57,7 @@ export class CitiesController {
     return this.cityService.updateCity(+id, updateCityDto, file);
   }
 
+  @Roles(UserRole.OWNER)
   @Delete(':id')
   removeCity(@Param('id') id: string) {
     return this.cityService.removeCity(+id);

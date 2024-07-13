@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '../entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -9,7 +9,7 @@ export class UserService {
     const { email, password, role, businessNumber, businessName, tradeName, businessType, country, city, businessWebsite, state, interestRegion, name, middleName, lastName, gender, birthday, mediaProfile } = createUserDto;
 
 
-    const user = User.create({ email, password, role: role, businessNumber, businessName , tradeName, businessType, country, city, businessWebsite, state, interestRegion, name, middleName, lastName, gender, birthday, mediaProfile});
+    const user = User.create({ email, password, role: role, businessNumber, businessName, tradeName, businessType, country, city, businessWebsite, state, interestRegion, name, middleName, lastName, gender, birthday, mediaProfile });
     await User.save(user);
 
     delete user.password;
@@ -36,13 +36,29 @@ export class UserService {
     });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    console.log('updateUserDto', updateUserDto);
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await User.findOne({ where: { id } });
 
-    return `This action updates a #${id} user`;
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+
+    Object.assign(user, updateUserDto);
+
+    await User.save(user);
+
+    delete user.password;
+
+    return user;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number): Promise<void> {
+    const user = await User.findOne({ where: { id } });
+
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+
+    await User.remove(user);
   }
 }

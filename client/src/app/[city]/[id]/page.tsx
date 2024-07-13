@@ -13,7 +13,6 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
-
   const Map = useMemo(
     () =>
       dynamic(() => import("@/app/components/map"), {
@@ -23,9 +22,17 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
     []
   );
 
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW1pbmVAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzIwODc5Nzc5fQ.Si5BIOIQpYPhmaRBiL7MnVarRC7NOAzCKcNDndvVTDs";
+
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["cities"],
-    queryFn: () => axios.get(`http://localhost:3001/cities/${params.id}`),
+    queryFn: () =>
+      axios.get(`http://localhost:3001/cities/${params.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
   });
 
   if (isLoading) {
@@ -56,7 +63,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
             </h1>
           </div>
           <div className="relative w-full h-[480px]">
-
             <Image src={city?.imageUrl} alt="image" layout="fill" />
           </div>
           <div className="flex flex-col px-4 gap-7 pt-7">
