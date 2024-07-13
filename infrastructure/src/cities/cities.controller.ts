@@ -16,17 +16,19 @@ import { UpdateCityDto } from './dto/update-city.dto';
 import { CitiesService } from './cities.service';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserRole } from 'src/entities/user.entity';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('cities')
 export class CitiesController {
   constructor(private readonly cityService: CitiesService) {}
 
-  // @Roles(UserRole.VISITOR)
+  @Public()
   @Get()
   getCities() {
     return this.cityService.getCities();
   }
 
+  @Public()
   @Get(':id')
   getOneCity(@Param('id') id: string) {
     try {
