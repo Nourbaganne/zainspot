@@ -101,9 +101,9 @@ export default function Home() {
             {Array.isArray(cities) && cities.length > 0 ? (
               cities.map((city: City) =>
                 city.disponibility ? (
-                  <AvailableCity city={city} index={city?.id} />
+                  <AvailableCity key={city.id} city={city} index={city?.id} />
                 ) : (
-                  <UnavailableCity city={city} index={city?.id} />
+                  <UnavailableCity key={city.id} city={city} index={city?.id} />
                 )
               )
             ) : (
