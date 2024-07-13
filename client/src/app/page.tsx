@@ -18,16 +18,10 @@ interface City {
   imageUrl: string;
 }
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYW1pbmVAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzIwODc5Nzc5fQ.Si5BIOIQpYPhmaRBiL7MnVarRC7NOAzCKcNDndvVTDs";
-
 export default function Home() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["cities"],
-    queryFn: () => axios.get("http://localhost:3001/cities", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }),
+    queryFn: () => axios.get("http://localhost:3001/cities"),
   });
 
   if (isLoading) {

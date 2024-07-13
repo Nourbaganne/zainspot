@@ -52,7 +52,7 @@ export class UserService {
     return user;
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number): Promise<string> {
     const user = await User.findOne({ where: { id } });
 
     if (!user) {
@@ -60,5 +60,8 @@ export class UserService {
     }
 
     await User.remove(user);
+
+    return `User with id ${id} deleted successfully`;
+
   }
 }
