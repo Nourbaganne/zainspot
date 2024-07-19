@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { EDIT_PAGE_CARDS_DATA } from "../constants/edit-page"
 import ProfileCard from "./component/profileCard"
+import Translation from "../components/translation"
 
 const EditProfile = () => {
     return (
@@ -15,9 +16,11 @@ const EditProfile = () => {
                 ))}
             </div>
             <div className="flex flex-col gap-4 text-span justify-center items-center text-sm">
-                <p>Need to deactivate your account?</p>
+                <p>
+                    <Translation translationKey="editProfile_desactivation" />
+                </p>
                 <button className="text-xs underline hover:no-underline">
-                    Take care of that now
+                    <Translation translationKey="editProfile_desactivation_button" />
                 </button>
             </div>
         </div>

@@ -88,5 +88,39 @@
     "register_birthday_label": "તમારી જન્મ તારીખ",
     "register_media_profile_label": "તમારા સોશિયલ મીડિયા પ્રોફાઇલ્સ",
     "prefered_language": "ભાષા",
-    "prefered_currency": "નાણા"
+    "prefered_currency": "નાણા",
+
+    "editProfile_ProfileDetails": "પ્રોફાઇલ વિગતો",
+    "editProfile_Login_Security": "લૉગિન અને સુરક્ષા",
+    "editProfile_Payment_details": "ચુકવણી વિગતો",
+    "editProfile_Payment_history": "ચુકવણી ઇતિહાસ",
+    "editProfile_Invoices": "મારા ઇન્વોઇસ",
+    "editProfile_notifications": "ઝેનસ્પોટ સૂચનાઓ",
+    "editProfile_services": "સબ્સ્ક્રાઇબ કરેલી સેવાઓ",
+    "editProfile_cancellation": "રદ નીતી TBD",
+
+    "editProfile_desactivation": "તમારું એકાઉન્ટ ડિએક્ટિવેટ કરવાની જરૂર છે?",
+    "editProfile_desactivation_button": "ત્યાં હવે જાઉં",
+
+    "profile_details_email_alert": "તમે તમારા ઇમેઇલને માન્ય બનાવ્યું નથી. નોંધણી કરવા અને ખરીદી કરવા માટે, કૃપા કરીને",
+    "profile_details_email_verification": "તમારા ઇમેઇલને માન્ય બનાવો.",
+    "profile_details_title": "એકાઉન્ટ માહિતી",
+    "profile_details_personalSection": "વ્યક્તિગત",
+    "profile_details_businessSection": "વ્યાપાર",
+    "profile_details_preferencesSection": "પસંદગીઓ",
+    "profile_details_saving_button": "બદલાવ સાચવો",
+    "profile_details_deletingAccount_header": "એકાઉન્ટ હટાવો",
+    "profile_details_deletingAccount_question": "શું તમે તમારા ZainSpot એકાઉન્ટને હટાવવા માંગો છો:",
+    "profile_details_deletingAccount_description": "આ એકાઉન્ટમાં 0 સબ્સ્ક્રિપ્શન અને ખરીદીઓ છે. તમારું એકાઉન્ટ દૂર કરવા માટે તે સંબંધિત તમામ સામગ્રી અને માહિતી દૂર કરવામાં આવશે.",
+    "profile_details_deletingAccount_button": "હું મારું એકાઉન્ટ કાઢવા માંગું છું",
+
+    "login_security_header": "લૉગિન અને સુરક્ષા",
+    "login_security_password": "પાસવર્ડ",
+    "login_security_authentification_title": "બિન્ન-ફેક્ટર માન્યકરણ",
+    "login_security_authentification_desc": "તમારી પસંદગીની 2FA પદ્ધતિ પસંદ કરો",
+    "login_security_smsAuth_title": "SMS માન્યકરણ",
+    "login_security_smsAuth_desc": "તમારા એકાઉન્ટ પર SMS દ્વારા તમારા માન્યકરણ કોડ મેળવો",
+    "login_security_emailAuth_title": "ઇમેઇલ માન્યકરણ",
+    "login_security_emailAuth_desc": "તમારા એકાઉન્ટ પર ઇમેઇલ દ્વારા તમારા માન્યકરણ કોડ મેળવો",
+    "login_security_button_title": "સક્રિય કરો"
 }

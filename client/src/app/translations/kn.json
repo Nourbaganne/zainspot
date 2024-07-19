@@ -88,5 +88,39 @@
     "register_birthday_label": "ನಿಮ್ಮ ಜನ್ಮದಿನ",
     "register_media_profile_label": "ನಿಮ್ಮ ಸಾಮಾಜಿಕ ಮಾಧ್ಯಮ ಪ್ರೊಫೈಲ್ಸ್",
      "prefered_language": "ಭಾಷೆ",
-    "prefered_currency": "ನಾಣೆ"
+    "prefered_currency": "ನಾಣೆ",
+
+    "editProfile_ProfileDetails": "ಪ್ರೊಫೈಲ್ ವಿವರಗಳು",
+    "editProfile_Login_Security": "ಲಾಗಿನ್ ಮತ್ತು ಭದ್ರತೆ",
+    "editProfile_Payment_details": "ಪಾವತಿ ವಿವರಗಳು",
+    "editProfile_Payment_history": "ಪಾವತಿ ಇತಿಹಾಸ",
+    "editProfile_Invoices": "ನನ್ನ ಇನ್ವಾಯ್ಸ್‌ಗಳು",
+    "editProfile_notifications": "ಜೈನ್‌ಸ್ಪಾಟ್ ಅಧಿಸೂಚನೆಗಳು",
+    "editProfile_services": "ಚಂದಾದಾರ ಸೇವೆಗಳು",
+    "editProfile_cancellation": "ರದ್ದುಪಡಿಸುವ ನೀತಿ TBD",
+
+    "editProfile_desactivation": "ನಿಮ್ಮ ಖಾತೆಯನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲು ಬೇಕಾಗಿದೆಯೆ?",
+    "editProfile_desactivation_button": "ಈಗ ನೋಡಿಕೊಳ್ಳಿ",
+
+    "profile_details_email_alert": "ನೀವು ನಿಮ್ಮ ಇಮೇಲ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿಲ್ಲ. ಚಂದಾ ಮಾಡುವುದು ಮತ್ತು ಖರೀದಿಗಳು ಮಾಡಲು, ದಯವಿಟ್ಟು",
+    "profile_details_email_verification": "ನಿಮ್ಮ ಇಮೇಲ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ.",
+    "profile_details_title": "ಖಾತೆ ಮಾಹಿತಿಯು",
+    "profile_details_personalSection": "ವೈಯಕ್ತಿಕ",
+    "profile_details_businessSection": "ವ್ಯಾಪಾರ",
+    "profile_details_preferencesSection": "ಆಸಕ್ತಿಗಳು",
+    "profile_details_saving_button": "ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ",
+    "profile_details_deletingAccount_header": "ಖಾತೆ ಅಳಿಸಿ",
+    "profile_details_deletingAccount_question": "ನೀವು ನಿಮ್ಮ ZainSpot ಖಾತೆಯನ್ನು ಅಳಿಸಲು ಇಚ್ಛಿಸುತ್ತೀರಾ:",
+    "profile_details_deletingAccount_description": "ಈ ಖಾತೆಯಲ್ಲಿ 0 ಚಂದಾ ಮತ್ತು ಖರೀದಿಗಳು ಇವೆ. ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಅಳಿಸುವ ಮೂಲಕ ಅದಕ್ಕೆ ಸಂಬಂಧಿಸಿದ ಎಲ್ಲಾ ವಿಷಯಗಳು ಮತ್ತು ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.",
+    "profile_details_deletingAccount_button": "ನಾನು ನನ್ನ ಖಾತೆ ಅಳಿಸಲು ಇಚ್ಛಿಸುತ್ತೇನೆ",
+
+    "login_security_header": "ಲಾಗಿನ್ & ಭದ್ರತೆ",
+    "login_security_password": "ಪಾಸ್ವರ್ಡ್",
+    "login_security_authentification_title": "ಬೇರು-ಕಾರಕ ಪ್ರಮಾಣೀಕರಣ",
+    "login_security_authentification_desc": "ನಿಮ್ಮ ಇಚ್ಛಿತ 2FA ವಿಧಾನವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ",
+    "login_security_smsAuth_title": "SMS ಪ್ರಮಾಣೀಕರಣ",
+    "login_security_smsAuth_desc": "ನೀವು ನಿಮ್ಮ ಖಾತೆಗೆ SMS ಮೂಲಕ ಪ್ರಮಾಣೀಕರಣ ಕೋಡ್ ಪಡೆಯುತ್ತೀರಿ",
+    "login_security_emailAuth_title": "ಇಮೇಲ್ ಪರಿಶೀಲನೆ",
+    "login_security_emailAuth_desc": "ನೀವು ನಿಮ್ಮ ಖಾತೆಗೆ ಇಮೇಲ್ ಮೂಲಕ ಪ್ರಮಾಣೀಕರಣ ಕೋಡ್ ಪಡೆಯುತ್ತೀರಿ",
+    "login_security_button_title": "ಆಕ್ಟಿವೇಟ್"
 }

@@ -88,5 +88,42 @@
   "register_birthday_label": "Votre date de naissance",
   "register_media_profile_label": "Vos profils sur les réseaux sociaux",
   "prefered_language": "Langue",
-  "prefered_currency": "Devise"
+  "prefered_currency": "Devise",
+  
+  "editProfile_ProfileDetails": "Détails du profil",
+  "editProfile_Login_Security": "Connexion et sécurité",
+  "editProfile_Payment_details": "Détails du paiement",
+  "editProfile_Payment_history": "Historique des paiements",
+  "editProfile_Invoices": "Mes factures",
+  "editProfile_notifications": "Notifications ZainSpot",
+  "editProfile_services": "Services souscrits",
+  "editProfile_cancellation": "Politique d'annulation à déterminer",
+
+  "editProfile_desactivation": "Besoin de désactiver votre compte ?",
+    "editProfile_desactivation_button": "Prenez soin de cela maintenant",
+
+    "profile_details_email_alert": "Vous n'avez pas vérifié votre email. Pour vous abonner et effectuer des achats, veuillez",
+    "profile_details_email_verification": "vérifier votre email.",
+    "profile_details_title": "INFORMATIONS DU COMPTE",
+    "profile_details_personalSection": "Personnel",
+    "profile_details_businessSection": "Entreprise",
+    "profile_details_preferencesSection": "Préférences",
+    "profile_details_saving_button": "Sauvegarder les modifications",
+    "profile_details_deletingAccount_header": "SUPPRIMER LE COMPTE",
+    "profile_details_deletingAccount_question": "Souhaitez-vous supprimer votre compte ZainSpot :",
+    "profile_details_deletingAccount_description": "Ce compte contient 0 abonnements et achats. La suppression de votre compte supprimera tout votre contenu et vos données associées.",
+    "profile_details_deletingAccount_button": "Je souhaite supprimer mon compte",
+
+    "login_security_header": "Connexion & Sécurité",
+    "login_security_password": "Mot de passe",
+    "login_security_authentification_title": "Authentification à deux facteurs",
+    "login_security_authentification_desc": "Sélectionnez votre méthode 2FA préférée",
+    "login_security_smsAuth_title": "Authentification par SMS",
+    "login_security_smsAuth_desc": "Vous recevrez votre code d'authentification par SMS sur votre compte",
+    "login_security_emailAuth_title": "Vérification par email",
+    "login_security_emailAuth_desc": "Vous recevrez votre code d'authentification par email sur votre compte",
+    "login_security_button_title": "ACTIVER"
+
+
+  
 }

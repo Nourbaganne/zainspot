@@ -1,5 +1,6 @@
 
 import Image, { StaticImageData } from 'next/image'
+import Translation from '@/app/components/translation'
 
 const ProfileCard = ({ logo, title, description }: { logo: string | StaticImageData, title: string, description: string }) => {
     return (
@@ -7,7 +8,9 @@ const ProfileCard = ({ logo, title, description }: { logo: string | StaticImageD
             <div>
                 <Image src={logo} alt='logo' className='group-hover:fill-primary' />
             </div>
-            <h1 className='text-xl'>{title}</h1>
+            <h1 className='text-xl'>
+            <Translation translationKey={title} />
+            </h1>
             <p className='text-span'>{description}</p>
         </div>
     )

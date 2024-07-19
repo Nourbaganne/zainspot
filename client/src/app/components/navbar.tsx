@@ -17,11 +17,13 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openLanguagesMenu, setOpenLanguagesMenu] = useState(false);
   const [openCurrencyMenu, setOpenCurrencyMenu] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   const languagesMenuRef = useRef<HTMLDivElement>(null);
   const currencyMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setIsClient(true);
     const handleClickOutside = (event: MouseEvent) => {
       if (
         languagesMenuRef.current &&
@@ -50,6 +52,10 @@ const Navbar = () => {
     };
   }, []);
 
+  if (!isClient) {
+    return null;
+  }
+
   return (
     <div className="flex justify-between md:px-10 px-5 py-2">
       <Link href="/">
@@ -73,7 +79,6 @@ const Navbar = () => {
               <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md">
                 {CURRENCIES_DATA.map((currency) => (
                   <MenuButton
-                    key={currency.key}
                     lang={currency.key as Currency}
                     title={currency.title}
                     setOpenLanguagesMenu={setOpenCurrencyMenu}
@@ -93,14 +98,15 @@ const Navbar = () => {
             </button>
             {openLanguagesMenu && (
               <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md">
-                {LANGUAGES_DATA.map((language) => (
+                {LANGUAGES_DATA.map((language, index) => (
                   <MenuButton
-                    key={language.key}
+                    key={index}
                     lang={language.key as Language}
                     title={language.title}
                     setOpenLanguagesMenu={setOpenLanguagesMenu}
                     type="language"
                   />
+
                 ))}
               </div>
             )}

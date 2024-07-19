@@ -32,7 +32,7 @@ const MenuButton = ({
       className="hover:text-primary p-2 rounded-md text-left w-full"
       onClick={() => handleSelection(lang)}
     >
-      {title}
+      {title}{" "}({lang})
     </button>
   );
 };

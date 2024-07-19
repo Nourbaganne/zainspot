@@ -88,5 +88,39 @@
     "register_birthday_label": "تاريخ ميلادك",
     "register_media_profile_label": "ملفات تعريف وسائل التواصل الاجتماعي الخاصة بك",
     "prefered_language": "اللغة ",
-    "prefered_currency": "العملة"
+    "prefered_currency": "العملة",
+    
+    "editProfile_ProfileDetails": "تفاصيل الملف الشخصي",
+    "editProfile_Login_Security": "تسجيل الدخول والأمان",
+    "editProfile_Payment_details": "تفاصيل الدفع",
+    "editProfile_Payment_history": "تاريخ الدفع",
+    "editProfile_Invoices": "فواتيري",
+    "editProfile_notifications": "إشعارات زين سبوت",
+    "editProfile_services": "الخدمات المشتركة",
+    "editProfile_cancellation": "سياسة الإلغاء سيتم تحديدها لاحقاً",
+
+    "editProfile_desactivation": "هل تحتاج إلى إلغاء تنشيط حسابك؟",
+    "editProfile_desactivation_button": "اعتني بذلك الآن",
+
+    "profile_details_email_alert": "لم تقم بالتحقق من بريدك الإلكتروني. للاشتراك وإجراء عمليات الشراء، يرجى",
+    "profile_details_email_verification": "التحقق من بريدك الإلكتروني.",
+    "profile_details_title": "معلومات الحساب",
+    "profile_details_personalSection": "شخصي",
+    "profile_details_businessSection": "عمل",
+    "profile_details_preferencesSection": "تفضيلات",
+    "profile_details_saving_button": "حفظ التغييرات",
+    "profile_details_deletingAccount_header": "حذف الحساب",
+    "profile_details_deletingAccount_question": "هل ترغب في حذف حسابك في زين سبوت:",
+    "profile_details_deletingAccount_description": "يحتوي هذا الحساب على 0 اشتراكات وعمليات شراء. حذف حسابك سيؤدي إلى إزالة جميع المحتويات والبيانات المرتبطة به.",
+    "profile_details_deletingAccount_button": "أريد حذف حسابي",
+
+    "login_security_header": "تسجيل الدخول والأمان",
+    "login_security_password": "كلمة المرور",
+    "login_security_authentification_title": "المصادقة الثنائية",
+    "login_security_authentification_desc": "اختر طريقة المصادقة الثنائية المفضلة لديك",
+    "login_security_smsAuth_title": "مصادقة عبر SMS",
+    "login_security_smsAuth_desc": "ستتلقى رمز المصادقة عبر الرسائل القصيرة على حسابك",
+    "login_security_emailAuth_title": "التحقق عبر البريد الإلكتروني",
+    "login_security_emailAuth_desc": "ستتلقى رمز المصادقة عبر البريد الإلكتروني على حسابك",
+    "login_security_button_title": "تفعيل"
 }

@@ -88,5 +88,14 @@
     "register_birthday_label": "Your Birthday",
     "register_media_profile_label": "Your Social Media Profiles",
     "prefered_language": "Language",
-    "prefered_currency": "Currency"
+    "prefered_currency": "Currency",
+
+    "editProfile_ProfileDetails": "Profile Details",
+    "editProfile_Login_Security": "Login & Security",
+    "editProfile_Payment_details": "Payment Details",
+    "editProfile_Payment_history": "Payment History",
+    "editProfile_Invoices": "My Invoices",
+    "editProfile_notifications": "ZainSpot Notifications",
+    "editProfile_services": "Subscribed Services",
+    "editProfile_cancellation": "Cancellation Policy TBD"
 }

@@ -88,5 +88,39 @@
     "register_birthday_label": "আপনার জন্মদিন",
     "register_media_profile_label": "আপনার সামাজিক মিডিয়া প্রোফাইল",
     "prefered_language": "ভাষা",
-    "prefered_currency": "মুদ্রা"
+    "prefered_currency": "মুদ্রা",
+
+    "editProfile_ProfileDetails": "প্রোফাইল বিবরণী",
+    "editProfile_Login_Security": "লগইন ও সুরক্ষা",
+    "editProfile_Payment_details": "পেমেন্ট বিবরণী",
+    "editProfile_Payment_history": "পেমেন্ট ইতিহাস",
+    "editProfile_Invoices": "আমার ইনভয়েস",
+    "editProfile_notifications": "ZainSpot বিজ্ঞপ্তি",
+    "editProfile_services": "সাবস্ক্রাইব করা পরিষেবা",
+    "editProfile_cancellation": "বাতিলকরণ নীতি TBD",
+
+    "editProfile_desactivation": "আপনার অ্যাকাউন্ট নিষ্ক্রিয় করতে হবে?",
+    "editProfile_desactivation_button": "এখনই যত্ন নিন",
+
+    "profile_details_email_alert": "আপনি আপনার ইমেইল যাচাই করেননি। সাবস্ক্রাইব করতে এবং কেনাকাটা করতে, অনুগ্রহ করে",
+    "profile_details_email_verification": "আপনার ইমেইল যাচাই করুন.",
+    "profile_details_title": "অ্যাকাউন্ট তথ্য",
+    "profile_details_personalSection": "ব্যক্তিগত",
+    "profile_details_businessSection": "ব্যবসায়িক",
+    "profile_details_preferencesSection": "পছন্দসমূহ",
+    "profile_details_saving_button": "পরিবর্তন সংরক্ষণ করুন",
+    "profile_details_deletingAccount_header": "অ্যাকাউন্ট মুছুন",
+    "profile_details_deletingAccount_question": "আপনি কি আপনার ZainSpot অ্যাকাউন্ট মুছতে চান:",
+    "profile_details_deletingAccount_description": "এই অ্যাকাউন্টে 0 সাবস্ক্রিপশন এবং কেনাকাটা রয়েছে। আপনার অ্যাকাউন্ট মুছলে এর সমস্ত বিষয়বস্তু এবং ডেটা মুছে যাবে।",
+    "profile_details_deletingAccount_button": "আমি আমার অ্যাকাউন্ট মুছতে চাই",
+
+    "login_security_header": "লগইন ও সিকিউরিটি",
+    "login_security_password": "পাসওয়ার্ড",
+    "login_security_authentification_title": "দ্বি-ফ্যাক্টর প্রমাণীকরণ",
+    "login_security_authentification_desc": "আপনার পছন্দসই 2FA পদ্ধতি নির্বাচন করুন",
+    "login_security_smsAuth_title": "SMS প্রমাণীকরণ",
+    "login_security_smsAuth_desc": "আপনি আপনার প্রমাণীকরণ কোড SMS দ্বারা আপনার অ্যাকাউন্টে পাবেন",
+    "login_security_emailAuth_title": "ইমেইল যাচাই",
+    "login_security_emailAuth_desc": "আপনি আপনার প্রমাণীকরণ কোড ইমেইল দ্বারা আপনার অ্যাকাউন্টে পাবেন",
+    "login_security_button_title": "সক্রিয় করুন"
 }

@@ -9,6 +9,7 @@ import Image from 'next/image'
 import smsVerification from '@/app/assets/profile-details/smsVerification.svg'
 import emailVerification from '@/app/assets/profile-details/emailVerification.svg'
 import Layout from '../Layout';
+import Translation from '@/app/components/translation';
 
 const Page = () => {
 
@@ -17,10 +18,14 @@ const Page = () => {
     return (
         <Layout>
             <div className='col-span-6 flex flex-col p-4 px-6 gap-3 bg-background border'>
-                <h1 className='font-bold'>LOGIN & SECURITY</h1>
+                <h1 className='font-bold'>
+                    <Translation translationKey='login_security_header' />
+                </h1>
                 <form action="">
                     <div className='flex flex-col py-6 gap-8 border-b'>
-                        <h1 className='text-span font-semibold'>Password</h1>
+                        <h1 className='text-span font-semibold'>
+                            <Translation translationKey='login_security_password' />
+                        </h1>
                         <div className="flex gap-6">
                             <div className="relative w-full">
                                 <Input
@@ -51,7 +56,7 @@ const Page = () => {
                         <div className='flex justify-end'>
                             <button className='flex gap-2 bg-button p-4 rounded-md text-background justify-end  transition-all duration-300'>
                                 <Image src={save} alt='save-changes' />
-                                Save changes
+                                <Translation translationKey='profile_details_saving_button' />
                             </button>
                         </div>
                     </div>
@@ -59,19 +64,27 @@ const Page = () => {
                 </form>
                 <div className='flex flex-col gap-8'>
                     <div className='flex flex-col gap-2 '>
-                        <h1 className='text-span'>Two-factor Authentication</h1>
-                        <p className='text-span-foreground'>Select your preferred 2FA method</p>
+                        <h1 className='text-span'>
+                            <Translation translationKey='login_security_authentification_title' />
+                        </h1>
+                        <p className='text-span-foreground'>
+                            <Translation translationKey='login_security_authentification_desc' />
+                        </p>
                     </div>
                     <div className='flex justify-between text-sm '>
                         <div className='flex items-center gap-5'>
                             <Image src={smsVerification} alt='sms-verification' />
                             <div className='flex flex-col gap-2'>
-                                <h1 className='text-span'>SMS Authentification</h1>
-                                <p className='text-span-foreground'>You will receive your authentication code by SMS to your account</p>
+                                <h1 className='text-span'>
+                                    <Translation translationKey='login_security_smsAuth_title' />
+                                </h1>
+                                <p className='text-span-foreground'>
+                                    <Translation translationKey='login_security_smsAuth_desc' />
+                                </p>
                             </div>
                         </div>
                         <button className='px-4 py-2 border-2 rounded-md border-primary text-primary'>
-                            ENABLE
+                            <Translation translationKey='login_security_button_title' />
                         </button>
 
                     </div>
@@ -79,12 +92,16 @@ const Page = () => {
                         <div className='flex items-center gap-5'>
                             <Image src={emailVerification} alt='sms-verification' />
                             <div className='flex flex-col gap-2'>
-                                <h1 className='text-span'>SMS Authentification</h1>
-                                <p className='text-span-foreground'>You will receive your authentication code by SMS to your account</p>
+                                <h1 className='text-span'>
+                                    <Translation translationKey='login_security_emailAuth_title' />
+                                </h1>
+                                <p className='text-span-foreground'>
+                                    <Translation translationKey='login_security_emailAuth_desc' />
+                                </p>
                             </div>
                         </div>
                         <button className='px-4 py-2 border-2 rounded-md border-primary text-primary'>
-                            ENABLE
+                            <Translation translationKey='login_security_button_title' />
                         </button>
 
                     </div>

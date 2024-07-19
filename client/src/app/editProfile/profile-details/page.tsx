@@ -17,17 +17,20 @@ const Page = () => {
     <Layout>
       <div className="flex flex-col gap-10 text-sm">
         <div className="col-span-6 flex flex-col p-4 px-6 gap-3 bg-background border">
-          <h1 className="font-bold">ACCOUNT INFORMATION</h1>
+          <h1 className="font-bold">
+            <Translation translationKey="profile_details_title" />
+          </h1>
           <p className="p-2 bg-alert-foreground border text-span text-sm py-4">
-            You haven't verified your email. To subscribe and make purchases,
-            please{" "}
+            <Translation translationKey="profile_details_email_alert" />
             <span className="text-secondary cursor-pointer hover:underline">
-              verify your email.
+              <Translation translationKey="profile_details_email_verification" />
             </span>
           </p>
           <form action="">
             <div className="flex flex-col py-6 gap-8 border-b">
-              <h1 className="text-span font-semibold">Personal</h1>
+              <h1 className="text-span font-semibold">
+                <Translation translationKey="profile_details_personalSection" />
+              </h1>
               <div className="flex gap-4">
                 <Input
                   type="text"
@@ -134,7 +137,9 @@ const Page = () => {
               </div>
             </div>
             <div className="flex flex-col py-6 gap-8 border-b">
-              <h1 className="text-span font-semibold">Business</h1>
+              <h1 className="text-span font-semibold">
+                <Translation translationKey="profile_details_businessSection" />
+              </h1>
               <div className="flex gap-4">
                 <Input
                   type="text"
@@ -319,86 +324,94 @@ const Page = () => {
                                     formik={formik}
                                 />
                             </div>
-                        </div>
-                        <div className='flex flex-col py-6 gap-8'>
-                            <h1 className='text-span font-semibold'>Preferences</h1>
-                            <div className='flex w-full  gap-5'>
-                                <div className="relative flex flex-col w-full">
-                                    <select name="preferedLanguage"
-                                        value={formik.values.preferedLanguage}
-                                        onChange={formik.handleChange}
-                                        className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedLanguage && formik.touched.preferedLanguage
-                                            ? "border-alert"
-                                            : "border-button focus:border-primary"
-                                            }`}>
-                                        <option value=""></option>
-                                        {LANGUAGES_DATA.map((language, index) => (
-                                            <option value={language.key} key={index}>
-                                                {language.title}{" "}({language.key})
-                                            </option>
-                                        ))}
+            </div>
+            <div className='flex flex-col py-6 gap-8'>
+                <h1 className='text-span font-semibold'>
+                  <Translation translationKey="profile_details_preferencesSection" />
+                </h1>
+                <div className='flex w-full  gap-5'>
+                    <div className="relative flex flex-col w-full">
+                        <select name="preferedLanguage"
+                            value={formik.values.preferedLanguage}
+                            onChange={formik.handleChange}
+                            className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedLanguage && formik.touched.preferedLanguage
+                                ? "border-alert"
+                                : "border-button focus:border-primary"
+                                }`}>
+                            <option value=""></option>
+                            {LANGUAGES_DATA.map((language, index) => (
+                                <option value={language.key} key={index}>
+                                    {language.title}{" "}({language.key})
+                                </option>
+                            ))}
 
-                                    </select>
-                                    <label
-                                        htmlFor="preferedLanguage"
-                                        className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
-                                            ? "peer-focus:text-alert text-alert"
-                                            : "peer-focus:text-primary"
-                                            } ${formik.values.preferedLanguage
-                                                ? "top-[0px] left-3 text-xs bg-white z-10"
-                                                : ""
-                                            }`}
-                                    >
-                                        <Translation translationKey="prefered_language" />
-                                    </label>
-                                </div>
-                                <div className="relative flex flex-col w-full">
-                                    <select name="preferedCurrency"
-                                        value={formik.values.preferedCurrency}
-                                        onChange={formik.handleChange}
-                                        className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedCurrency && formik.touched.preferedCurrency
-                                            ? "border-alert"
-                                            : "border-button focus:border-primary"
-                                            }`}>
-                                        <option value=""></option>
-                                        {CURRENCIES_DATA.map((currency) => (
-                                            <option value={currency.key}>
-                                                {currency.title}{" "}({currency.key})
-                                            </option>
-                                        ))}
+                        </select>
+                        <label
+                            htmlFor="preferedLanguage"
+                            className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
+                                ? "peer-focus:text-alert text-alert"
+                                : "peer-focus:text-primary"
+                                } ${formik.values.preferedLanguage
+                                    ? "top-[0px] left-3 text-xs bg-white z-10"
+                                    : ""
+                                }`}
+                        >
+                            <Translation translationKey="prefered_language" />
+                        </label>
+                    </div>
+                    <div className="relative flex flex-col w-full">
+                        <select name="preferedCurrency"
+                            value={formik.values.preferedCurrency}
+                            onChange={formik.handleChange}
+                            className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedCurrency && formik.touched.preferedCurrency
+                                ? "border-alert"
+                                : "border-button focus:border-primary"
+                                }`}>
+                            <option value=""></option>
+                            {CURRENCIES_DATA.map((currency) => (
+                                <option value={currency.key} key={currency.key}>
+                                    {currency.title}{" "}({currency.key})
+                                </option>
+                            ))}
 
-                                    </select>
-                                    <label
-                                        htmlFor="preferedCurrency"
-                                        className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
-                                            ? "peer-focus:text-alert text-alert"
-                                            : "peer-focus:text-primary"
-                                            } ${formik.values.preferedCurrency
-                                                ? "top-[0px] left-3 text-xs bg-white z-10"
-                                                : ""
-                                            }`}
-                                    >
-                                        <Translation translationKey="prefered_currency" />
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex justify-end'>
-                            <button className='flex gap-2 bg-primary p-4 rounded-md text-background justify-end hover:bg-primary-foreground transition-all duration-300'>
-                                <Image src={save} alt='save-changes' />
-                                Save changes
-                            </button>
-                        </div>
-                    </form>
+                        </select>
+                        <label
+                            htmlFor="preferedCurrency"
+                            className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
+                                ? "peer-focus:text-alert text-alert"
+                                : "peer-focus:text-primary"
+                                } ${formik.values.preferedCurrency
+                                    ? "top-[0px] left-3 text-xs bg-white z-10"
+                                    : ""
+                                }`}
+                        >
+                            <Translation translationKey="prefered_currency" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div className='flex justify-end'>
+                <button className='flex gap-2 bg-primary p-4 rounded-md text-background justify-end hover:bg-primary-foreground transition-all duration-300'>
+                    <Image src={save} alt='save-changes' />
+                    <Translation translationKey="profile_details_saving_button" />
+                </button>
+            </div>
+        </form>
                 </div>
                 <div className='flex flex-col bg-background gap-4 p-6 border'>
-                    <h1 className=' font-semibold'>DELETE ACCOUNT</h1>
+                    <h1 className=' font-semibold'>
+                      <Translation translationKey="profile_details_deletingAccount_header" />
+                    </h1>
                     <p className='text-span text-sm'>
-                        Would you like to delete your ZainSpot account:
+                        <Translation translationKey="profile_details_deletingAccount_question" />
                         <span className='text-secondary'>John Doe</span>?
                     </p>
-                    <p className='text-sm max-w-2xl'>This account contains 0 subscriptions and purchases. Deleting your account will remove all of your content and data associated with it.</p>
-                    <button className='text-alert text-sm font-semibold text-start'>I want to delete my account</button>
+                    <p className='text-sm max-w-2xl'>
+                        <Translation translationKey="profile_details_deletingAccount_description" />
+                    </p>
+                    <button className='text-alert text-sm font-semibold text-start'>
+                      <Translation translationKey="profile_details_deletingAccount_button" />
+                    </button>
                 </div>
             </div>
         </Layout>

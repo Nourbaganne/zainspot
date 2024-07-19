@@ -89,7 +89,48 @@
     "register_media_profile_label": "Your Social Media Profiles",
 
     "prefered_language": "Language",
-    "prefered_currency": "Currency"
+    "prefered_currency": "Currency",
+    
+    "editProfile_ProfileDetails": "Profile Details",
+    "editProfile_Login_Security": "Login & Security",
+    "editProfile_Payment_details": "Payment Details",
+    "editProfile_Payment_history": "Payment History",
+    "editProfile_Invoices": "My Invoices",
+    "editProfile_notifications": "ZainSpot Notifications",
+    "editProfile_services": "Subscribed Services",
+    "editProfile_cancellation": "Cancellation Policy TBD",
+
+
+    "editProfile_desactivation": "Need to deactivate your account?",
+    "editProfile_desactivation_button": "Take care of that Now",
+
+    "profile_details_email_alert" : "You haven't verified your email. To subscribe and make purchases, please",
+    "profile_details_email_verification" : "verify your email.",
+    "profile_details_title": "ACCOUNT INFORMATION",
+    "profile_details_personalSection": "Personal",
+    "profile_details_businessSection": "Business",
+    "profile_details_preferencesSection": "Preferences",
+    "profile_details_saving_button" : "Save changes",
+    "profile_details_deletingAccount_header": "DELETE ACCOUNT",
+    "profile_details_deletingAccount_question": "Would you like to delete your ZainSpot account:",
+    "profile_details_deletingAccount_description": "This account contains 0 subscriptions and purchases. Deleting your account will remove all of your content and data associated with it.",
+    "profile_details_deletingAccount_button": "I want to delete my account",
+
+
+    "login_security_header": "Login & Security",
+    "login_security_password": "Password",
+    "login_security_authentification_title": "Two-factor Authentication",
+    "login_security_authentification_desc": "Select your preferred 2FA method",
+    "login_security_smsAuth_title": "SMS Authentification",
+    "login_security_smsAuth_desc": "You will receive your authentication code by SMS to your account",
+    "login_security_emailAuth_title": "Email Verification",
+    "login_security_emailAuth_desc": "You will receive your authentication code by Email to your account",
+    "login_security_button_title": "ENABLE" 
+
+
+
+
+    
 
 
 }
