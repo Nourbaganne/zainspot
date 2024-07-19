@@ -79,6 +79,7 @@ const Navbar = () => {
               <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md">
                 {CURRENCIES_DATA.map((currency) => (
                   <MenuButton
+                    key={currency.key}
                     lang={currency.key as Currency}
                     title={currency.title}
                     setOpenLanguagesMenu={setOpenCurrencyMenu}
