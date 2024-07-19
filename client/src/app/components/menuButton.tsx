@@ -11,7 +11,7 @@ const MenuButton = ({
 }: {
   lang: Language | Currency; 
   title: string;
-  setOpenLanguagesMenu: (value: boolean) => void;
+  setOpenLanguagesMenu?: ((value: boolean) => void) | undefined; 
   type: 'language' | 'currency'; 
 }) => {
   const { setLanguage } = useLanguage();
@@ -20,10 +20,10 @@ const MenuButton = ({
   const handleSelection = (value: Language | Currency) => {
     if (type === 'language') {
       setLanguage(value as Language);
-      setOpenLanguagesMenu(false);
+      if (setOpenLanguagesMenu) setOpenLanguagesMenu(false); 
     } else if (type === 'currency') {
       setCurrency(value as Currency); 
-      setOpenLanguagesMenu(false);
+      if (setOpenLanguagesMenu) setOpenLanguagesMenu(false); 
     }
   };
 
@@ -36,5 +36,6 @@ const MenuButton = ({
     </button>
   );
 };
+
 
 export default MenuButton;

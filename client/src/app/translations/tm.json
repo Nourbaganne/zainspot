@@ -86,5 +86,7 @@
     "register_gender_male_label": "ஆண்",
     "register_gender_female_label": "பெண்",
     "register_birthday_label": "உங்கள் பிறந்த நாள்",
-    "register_media_profile_label": "உங்கள் சமூக ஊடகப் புத்தகங்கள்"
+    "register_media_profile_label": "உங்கள் சமூக ஊடகப் புத்தகங்கள்",
+    "prefered_language": "மொழி",
+    "prefered_currency": "நாணயம்"
 }

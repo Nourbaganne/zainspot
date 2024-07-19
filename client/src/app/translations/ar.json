@@ -86,5 +86,7 @@
     "register_gender_male_label": "ذكر",
     "register_gender_female_label": "أنثى",
     "register_birthday_label": "تاريخ ميلادك",
-    "register_media_profile_label": "ملفات تعريف وسائل التواصل الاجتماعي الخاصة بك"
+    "register_media_profile_label": "ملفات تعريف وسائل التواصل الاجتماعي الخاصة بك",
+    "prefered_language": "اللغة ",
+    "prefered_currency": "العملة"
 }

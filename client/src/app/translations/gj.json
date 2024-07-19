@@ -86,5 +86,7 @@
     "register_gender_male_label": "પુરૂષ",
     "register_gender_female_label": "સ્ત્રી",
     "register_birthday_label": "તમારી જન્મ તારીખ",
-    "register_media_profile_label": "તમારા સોશિયલ મીડિયા પ્રોફાઇલ્સ"
+    "register_media_profile_label": "તમારા સોશિયલ મીડિયા પ્રોફાઇલ્સ",
+    "prefered_language": "ભાષા",
+    "prefered_currency": "નાણા"
 }

@@ -86,5 +86,7 @@
     "register_gender_male_label": "男",
     "register_gender_female_label": "女",
     "register_birthday_label": "您的生日",
-    "register_media_profile_label": "您的社交媒体资料"
+    "register_media_profile_label": "您的社交媒体资料",
+    "prefered_language": "语言",
+    "prefered_currency": "货币"
 }

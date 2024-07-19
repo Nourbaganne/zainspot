@@ -86,5 +86,7 @@
     "register_gender_male_label": "পুরুষ",
     "register_gender_female_label": "মহিলা",
     "register_birthday_label": "আপনার জন্মদিন",
-    "register_media_profile_label": "আপনার সামাজিক মিডিয়া প্রোফাইল"
+    "register_media_profile_label": "আপনার সামাজিক মিডিয়া প্রোফাইল",
+    "prefered_language": "ভাষা",
+    "prefered_currency": "মুদ্রা"
 }

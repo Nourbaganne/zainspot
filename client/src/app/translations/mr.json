@@ -86,5 +86,7 @@
     "register_gender_male_label": "पुरुष",
     "register_gender_female_label": "स्त्री",
     "register_birthday_label": "आपला वाढदिवस",
-    "register_media_profile_label": "आपल्या सामाजिक मिडिया प्रोफाइल्स"
+    "register_media_profile_label": "आपल्या सामाजिक मिडिया प्रोफाइल्स",
+    "prefered_language": "भाषा",
+    "prefered_currency": "चलन"
 }

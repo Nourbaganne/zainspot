@@ -24,6 +24,8 @@ export const useRegisterForm = () => {
       gender: "",
       birthday: "",
       mediaProfile: "",
+      preferedLanguage: "",
+      preferedCurrency: ""
     },
 
     validationSchema: Yup.object({

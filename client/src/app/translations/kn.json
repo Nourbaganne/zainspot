@@ -86,5 +86,7 @@
     "register_gender_male_label": "ಪುರುಷ",
     "register_gender_female_label": "ಮಹಿಳೆ",
     "register_birthday_label": "ನಿಮ್ಮ ಜನ್ಮದಿನ",
-    "register_media_profile_label": "ನಿಮ್ಮ ಸಾಮಾಜಿಕ ಮಾಧ್ಯಮ ಪ್ರೊಫೈಲ್ಸ್"
+    "register_media_profile_label": "ನಿಮ್ಮ ಸಾಮಾಜಿಕ ಮಾಧ್ಯಮ ಪ್ರೊಫೈಲ್ಸ್",
+     "prefered_language": "ಭಾಷೆ",
+    "prefered_currency": "ನಾಣೆ"
 }

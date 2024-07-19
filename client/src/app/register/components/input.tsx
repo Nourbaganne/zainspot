@@ -27,7 +27,7 @@ export function Input({ type, labelKey, value, name, handleChange, touched, erro
           name={name}
           value={value}
           onChange={handleChange}
-          className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${
+          className={`border border-button px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${
             errors && touched
               ? 'border-alert'
               : 'border-button focus:border-primary'
@@ -35,7 +35,7 @@ export function Input({ type, labelKey, value, name, handleChange, touched, erro
         />
         <label
           htmlFor={name}
-          className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${
+          className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${
             errors && touched
               ? 'peer-focus:text-alert'
               : 'peer-focus:text-primary'

@@ -9,11 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary:{
+        primary: {
           DEFAULT: '#00927C',
-          foreground: '#189781'
-        } ,
-        background: '#FFFFFF',
+          foreground: '#00604F'
+        },
+        background: {
+          DEFAULT: '#FFFFFF',
+          foreground: '#F3F3F3'
+        },
         text: {
           DEFAULT: '#131313',
           foreground: '#535353'
@@ -26,9 +29,15 @@ const config: Config = {
           DEFAULT: '#323232',
           foreground: '#727272'
         },
-        alert: '#DC2626',
+        alert: {
+          DEFAULT:'#DC2626',
+          foreground: '#FCF6CF'
+        },
         button: '#C6C6C6',
-        span: '#666666'
+        span: {
+          DEFAULT:'#666666',
+          foreground: '#868686'
+        }
       },
       fontFamily: {
         sans: ['"Work Sans"', 'sans-serif'],
