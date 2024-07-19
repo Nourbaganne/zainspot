@@ -1,3 +1,5 @@
+"use client"
+
 import React, { ReactNode, useState, useRef, useEffect } from 'react';
 import ProfileSidebar from './component/profileSidebar';
 import openSideBar from '@/app/assets/profile-details/openSidebar.svg';
