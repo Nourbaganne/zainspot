@@ -17,7 +17,7 @@ const Page = () => {
 
     return (
         <Layout>
-            <div className='col-span-6 flex flex-col p-4 px-6 gap-3 bg-background border'>
+            <div className='flex flex-col p-4 px-6 gap-3 bg-background border'>
                 <h1 className='font-bold'>
                     <Translation translationKey='login_security_header' />
                 </h1>
@@ -26,7 +26,7 @@ const Page = () => {
                         <h1 className='text-span font-semibold'>
                             <Translation translationKey='login_security_password' />
                         </h1>
-                        <div className="flex gap-6">
+                        <div className="flex flex-col md:flex-row gap-6">
                             <div className="relative w-full">
                                 <Input
                                     type={"password"}
@@ -53,8 +53,8 @@ const Page = () => {
                                 />
                             </div>
                         </div>
-                        <div className='flex justify-end'>
-                            <button className='flex gap-2 bg-button p-4 rounded-md text-background justify-end  transition-all duration-300'>
+                        <div className='flex md:justify-end'>
+                            <button className='flex w-full md:w-auto gap-2 bg-button p-4 rounded-md text-background justify-center md:justify-end  transition-all duration-300'>
                                 <Image src={save} alt='save-changes' />
                                 <Translation translationKey='profile_details_saving_button' />
                             </button>
@@ -71,7 +71,7 @@ const Page = () => {
                             <Translation translationKey='login_security_authentification_desc' />
                         </p>
                     </div>
-                    <div className='flex justify-between text-sm '>
+                    <div className='flex flex-col md:flex-row md:justify-between gap-4 md:gap-0 text-sm '>
                         <div className='flex items-center gap-5'>
                             <Image src={smsVerification} alt='sms-verification' />
                             <div className='flex flex-col gap-2'>
@@ -88,7 +88,7 @@ const Page = () => {
                         </button>
 
                     </div>
-                    <div className='flex justify-between text-sm'>
+                    <div className='flex flex-col md:flex-row md:justify-between gap-4 md:gap-0 text-sm'>
                         <div className='flex items-center gap-5'>
                             <Image src={emailVerification} alt='sms-verification' />
                             <div className='flex flex-col gap-2'>

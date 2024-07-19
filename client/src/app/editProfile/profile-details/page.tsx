@@ -15,8 +15,8 @@ const Page = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col gap-10 text-sm">
-        <div className="col-span-6 flex flex-col p-4 px-6 gap-3 bg-background border">
+      <div className="flex flex-col gap-10 text-sm" >
+        <div className="flex flex-col py-8  px-6 gap-3 bg-background border">
           <h1 className="font-bold">
             <Translation translationKey="profile_details_title" />
           </h1>
@@ -31,7 +31,7 @@ const Page = () => {
               <h1 className="text-span font-semibold">
                 <Translation translationKey="profile_details_personalSection" />
               </h1>
-              <div className="flex gap-4">
+              <div className="flex flex-col md:flex-row gap-4">
                 <Input
                   type="text"
                   labelKey="register_first_name_label"
@@ -63,7 +63,7 @@ const Page = () => {
                   formik={formik}
                 />
               </div>
-              <div className="flex gap-12 w-full items-center ">
+              <div className="flex flex-col md:flex-row gap-8 md:gap-12 w-full md:items-center ">
                 <div className="flex flex-col gap-6 ">
                   <div className="flex gap-4 items-center">
                     <label htmlFor="gender" className="text-sm">
@@ -140,7 +140,7 @@ const Page = () => {
               <h1 className="text-span font-semibold">
                 <Translation translationKey="profile_details_businessSection" />
               </h1>
-              <div className="flex gap-4">
+              <div className="flex flex-col md:flex-row gap-4">
                 <Input
                   type="text"
                   labelKey="register_business_name_label"
@@ -162,7 +162,7 @@ const Page = () => {
                   formik={formik}
                 />
               </div>
-              <div className="flex gap-4">
+              <div className="flex flex-col md:flex-row gap-4">
                 <Input
                   type="text"
                   labelKey="register_email_label"
@@ -218,7 +218,7 @@ const Page = () => {
                     )}
                 </div>
               </div>
-              <div className="grid grid-cols-5 gap-6">
+              <div className="flex flex-col md:grid md:grid-cols-5 gap-6">
                 <div className=" col-span-2 flex flex-col gap-2 w-full">
                   <div className="relative flex flex-col w-full">
                     <select
@@ -230,106 +230,105 @@ const Page = () => {
                         formik.touched.businessType
                           ? "border-alert"
                           : "border-button focus:border-primary"
-                      }`}
-                    >
-                                            <option value="" disabled></option>
-                                            <option value="business1">Business 1</option>
-                                            <option value="business2">Business 2</option>
-                                            <option value="business3">Business 3</option>
-                                        </select>
-                                        <label
-                                            htmlFor="businessType"
-                                            className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
-                                                ? "peer-focus:text-alert text-alert"
-                                                : "peer-focus:text-primary"
-                                                } ${formik.values.businessType
-                                                    ? "top-[0px] left-3 text-xs bg-white z-10"
-                                                    : ""
-                                                }`}
-                                        >
-                                            <Translation translationKey="register_typeof_business_label" />
-                                        </label>
-                                    </div>
-                                    {formik.touched.businessType && formik.errors.businessType && (
-                                        <h1 className="pl-4 text-alert">
-                                            {formik.errors.businessType}
-                                        </h1>
-                                    )}
-                                </div>
+                      }`}>
+                          <option value="" disabled></option>
+                          <option value="business1">Business 1</option>
+                          <option value="business2">Business 2</option>
+                          <option value="business3">Business 3</option>
+                      </select>
+                      <label
+                          htmlFor="businessType"
+                          className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
+                              ? "peer-focus:text-alert text-alert"
+                              : "peer-focus:text-primary"
+                              } ${formik.values.businessType
+                                  ? "top-[0px] left-3 text-xs bg-white z-10"
+                                  : ""
+                              }`}
+                      >
+                          <Translation translationKey="register_typeof_business_label" />
+                      </label>
+                  </div>
+                  {formik.touched.businessType && formik.errors.businessType && (
+                      <h1 className="pl-4 text-alert">
+                          {formik.errors.businessType}
+                      </h1>
+                  )}
+              </div>
 
-                                <div className='col-span-3'>
-                                    <Input
-                                        type="text"
-                                        labelKey="register_website_label"
-                                        value={formik.values.businessWebsite}
-                                        name="businessWebsite"
-                                        handleChange={formik.handleChange}
-                                        touched={formik.touched.businessWebsite}
-                                        errors={formik.errors.businessWebsite}
-                                        formik={formik}
-                                    />
-                                </div>
+              <div className='col-span-3'>
+                  <Input
+                      type="text"
+                      labelKey="register_website_label"
+                      value={formik.values.businessWebsite}
+                      name="businessWebsite"
+                      handleChange={formik.handleChange}
+                      touched={formik.touched.businessWebsite}
+                      errors={formik.errors.businessWebsite}
+                      formik={formik}
+                  />
+              </div>
 
-                            </div>
+          </div>
 
-                            <div className='grid grid-cols-7 gap-4'>
+          <div className='flex flex-col md:grid md:grid-cols-7 gap-4'>
 
-                                <div className='col-span-2'>
-                                    <Input
-                                        type="text"
-                                        labelKey="register_business_country_label"
-                                        value={formik.values.country}
-                                        name="country"
-                                        handleChange={formik.handleChange}
-                                        touched={formik.touched.country}
-                                        errors={formik.errors.country}
-                                        formik={formik}
-                                    />
-                                </div>
-                                <div className='col-span-2'>
-                                    <Input
-                                        type="text"
-                                        labelKey="register_city_label"
-                                        value={formik.values.city}
-                                        name="city"
-                                        handleChange={formik.handleChange}
-                                        touched={formik.touched.city}
-                                        errors={formik.errors.city}
-                                        formik={formik}
-                                    />
-                                </div>
-                                <div className='col-span-3'>
-                                    <Input
-                                        type="text"
-                                        labelKey="register_state_label"
-                                        value={formik.values.state}
-                                        name="state"
-                                        handleChange={formik.handleChange}
-                                        touched={formik.touched.state}
-                                        errors={formik.errors.state}
-                                        formik={formik}
-                                    />
-                                </div>
-                            </div>
+              <div className='col-span-2'>
+                  <Input
+                      type="text"
+                      labelKey="register_business_country_label"
+                      value={formik.values.country}
+                      name="country"
+                      handleChange={formik.handleChange}
+                      touched={formik.touched.country}
+                      errors={formik.errors.country}
+                      formik={formik}
+                  />
+              </div>
+              <div className='col-span-2'>
+                  <Input
+                      type="text"
+                      labelKey="register_city_label"
+                      value={formik.values.city}
+                      name="city"
+                      handleChange={formik.handleChange}
+                      touched={formik.touched.city}
+                      errors={formik.errors.city}
+                      formik={formik}
+                  />
+              </div>
+              <div className='col-span-3'>
+                  <Input
+                      type="text"
+                      labelKey="register_state_label"
+                      value={formik.values.state}
+                      name="state"
+                      handleChange={formik.handleChange}
+                      touched={formik.touched.state}
+                      errors={formik.errors.state}
+                      formik={formik}
+                  />
+              </div>
+          </div>
 
-                            <div>
-                                <Input
-                                    type="text"
-                                    labelKey="register_media_profile_label"
-                                    value={formik.values.mediaProfile}
-                                    name="mediaProfile"
-                                    handleChange={formik.handleChange}
-                                    touched={formik.touched.mediaProfile}
-                                    errors={formik.errors.mediaProfile}
-                                    formik={formik}
-                                />
-                            </div>
+          <div>
+              <Input
+                  type="text"
+                  labelKey="register_media_profile_label"
+                  value={formik.values.mediaProfile}
+                  name="mediaProfile"
+                  handleChange={formik.handleChange}
+                  touched={formik.touched.mediaProfile}
+                  errors={formik.errors.mediaProfile}
+                  formik={formik}
+              />
+          </div>
             </div>
             <div className='flex flex-col py-6 gap-8'>
                 <h1 className='text-span font-semibold'>
                   <Translation translationKey="profile_details_preferencesSection" />
                 </h1>
-                <div className='flex w-full  gap-5'>
+                <div className='flex flex-col md:flex-row w-full  gap-5'>
                     <div className="relative flex flex-col w-full">
                         <select name="preferedLanguage"
                             value={formik.values.preferedLanguage}
@@ -390,31 +389,31 @@ const Page = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex justify-end'>
-                <button className='flex gap-2 bg-primary p-4 rounded-md text-background justify-end hover:bg-primary-foreground transition-all duration-300'>
+            <div className='flex md:justify-end'>
+                <button className='flex w-full md:w-auto justify-center gap-2 bg-primary p-4 rounded-md text-background md:justify-end hover:bg-primary-foreground transition-all duration-300'>
                     <Image src={save} alt='save-changes' />
                     <Translation translationKey="profile_details_saving_button" />
                 </button>
             </div>
         </form>
-                </div>
-                <div className='flex flex-col bg-background gap-4 p-6 border'>
-                    <h1 className=' font-semibold'>
-                      <Translation translationKey="profile_details_deletingAccount_header" />
-                    </h1>
-                    <p className='text-span text-sm'>
-                        <Translation translationKey="profile_details_deletingAccount_question" />
-                        <span className='text-secondary'>John Doe</span>?
-                    </p>
-                    <p className='text-sm max-w-2xl'>
-                        <Translation translationKey="profile_details_deletingAccount_description" />
-                    </p>
-                    <button className='text-alert text-sm font-semibold text-start'>
-                      <Translation translationKey="profile_details_deletingAccount_button" />
-                    </button>
-                </div>
-            </div>
-        </Layout>
+        </div>
+        <div className='flex flex-col bg-background gap-4 p-6 border'>
+            <h1 className=' font-semibold'>
+              <Translation translationKey="profile_details_deletingAccount_header" />
+            </h1>
+            <p className='text-span text-sm'>
+                <Translation translationKey="profile_details_deletingAccount_question" />
+                <span className='text-secondary'>John Doe</span>?
+            </p>
+            <p className='text-sm max-w-2xl'>
+                <Translation translationKey="profile_details_deletingAccount_description" />
+            </p>
+            <button className='text-alert text-sm font-semibold text-start'>
+              <Translation translationKey="profile_details_deletingAccount_button" />
+            </button>
+        </div>
+    </div>
+    </Layout>
     )
 }
 

@@ -117,9 +117,9 @@ const Navbar = () => {
             <Link href={"/register"}>
               <Translation translationKey="join" />
             </Link>
-            <button>
+            <Link href="/login">
               <Translation translationKey="login" />
-            </button>
+            </Link >
           </div>
           <button className="text-secondary text-sm">
             <Translation translationKey="secure_checkout" />{" "}
