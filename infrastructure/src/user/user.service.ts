@@ -6,10 +6,47 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UserService {
   async register(createUserDto: CreateUserDto): Promise<User> {
-    const { email, password, role, businessNumber, businessName, tradeName, businessType, country, city, businessWebsite, state, interestRegion, name, middleName, lastName, gender, birthday, mediaProfile } = createUserDto;
+    const {
+      email,
+      password,
+      role,
+      businessNumber,
+      businessName,
+      tradeName,
+      businessType,
+      country,
+      city,
+      businessWebsite,
+      state,
+      interestRegion,
+      name,
+      middleName,
+      lastName,
+      gender,
+      birthday,
+      mediaProfile,
+    } = createUserDto;
 
-
-    const user = User.create({ email, password, role: role, businessNumber, businessName, tradeName, businessType, country, city, businessWebsite, state, interestRegion, name, middleName, lastName, gender, birthday, mediaProfile });
+    const user = User.create({
+      email,
+      password,
+      role: role,
+      businessNumber,
+      businessName,
+      tradeName,
+      businessType,
+      country,
+      city,
+      businessWebsite,
+      state,
+      interestRegion,
+      name,
+      middleName,
+      lastName,
+      gender,
+      birthday,
+      mediaProfile,
+    });
     await User.save(user);
 
     delete user.password;
@@ -62,6 +99,5 @@ export class UserService {
     await User.remove(user);
 
     return `User with id ${id} deleted successfully`;
-
   }
 }

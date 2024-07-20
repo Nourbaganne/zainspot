@@ -9,8 +9,8 @@ import { useMemo } from "react";
 import Translation from "@/app/components/translation";
 import ZsGold from "../components/zgGold";
 import ZsClassic from "../components/zsClassic";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import axiosInstance from "@/app/lib/axios/axiosInstance";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
@@ -23,10 +23,11 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
     []
   );
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({  
     queryKey: ["cities"],
-    queryFn: () => axios.get(`https://zainspot-backend.vercel.app/cities/${params.id}`),
+    queryFn: () => axiosInstance.get(`/cities/${params.id}`),
   });
+  
 
   if (isLoading) {
     return <div>Loading ...</div>;
