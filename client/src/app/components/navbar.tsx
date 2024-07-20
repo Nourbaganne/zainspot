@@ -21,6 +21,8 @@ const Navbar = () => {
   const [openCurrencyMenu, setOpenCurrencyMenu] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
+  const { user, dispatch } = useContext(AuthContext);
+
 
   const languagesMenuRef = useRef<HTMLDivElement>(null);
   const currencyMenuRef = useRef<HTMLDivElement>(null);
@@ -58,8 +60,6 @@ const Navbar = () => {
   if (!isClient) {
     return null;
   }
-
-  const { user, dispatch } = useContext(AuthContext);
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT", payload: undefined });
