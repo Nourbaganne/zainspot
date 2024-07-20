@@ -4,12 +4,12 @@ import Image from "next/image";
 import header from "./assets/home/header-image.svg";
 import check from "./assets/home/check-icon.svg";
 import close from "./assets/home/close-icon.svg";
-import axios from "axios";
 import { zainspotFeatures, ignoredFeatures } from "@/app/constants/home";
 import Translation from "./components/translation";
 import { useQuery } from "@tanstack/react-query";
 import AvailableCity from "./components/availableCity";
 import UnavailableCity from "./components/unavailableCity";
+import axiosInstance from "./lib/axios/axiosInstance";
 
 interface City {
   id: number;
@@ -21,8 +21,9 @@ interface City {
 export default function Home() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["cities"],
-    queryFn: () => axios.get("http://localhost:3001/cities"),
+    queryFn: () => axiosInstance.get("/cities"),
   });
+
 
   if (isLoading) {
     return <div>Loading ...</div>;
