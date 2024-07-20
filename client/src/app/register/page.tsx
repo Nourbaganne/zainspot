@@ -9,6 +9,7 @@ import eyeOutline from "@/app/assets/register/eye-outline.svg";
 import { Input } from "./components/input";
 import { useRegisterForm } from "../lib/register-form";
 import Translation from "../components/translation";
+import { withNoAuth } from "../lib/withNoAuth";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -419,4 +420,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default withNoAuth(Register);

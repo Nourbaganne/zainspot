@@ -5,6 +5,7 @@ import ProfileSidebar from './component/profileSidebar';
 import openSideBar from '@/app/assets/profile-details/openSidebar.svg';
 import closeSideBar from '@/app/assets/profile-details/closeSidebar.svg';
 import Image from 'next/image';
+import { withAuth } from '../lib/withAuth';
 
 interface LayoutProps {
     children: ReactNode;
@@ -69,4 +70,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     );
 }
 
-export default Layout;
+export default withAuth(Layout);

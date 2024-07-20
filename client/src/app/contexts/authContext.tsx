@@ -1,0 +1,72 @@
+"use client"
+
+import React, { createContext, useReducer, useEffect, ReactNode } from 'react';
+
+interface User {
+  token: string;
+  role: string;
+}
+
+interface AuthState {
+  user: User | null;
+}
+
+interface AuthAction {
+  type: 'LOGIN' | 'LOGOUT';
+  payload?: User;
+}
+
+interface AuthContextProps extends AuthState {
+  dispatch: React.Dispatch<AuthAction>;
+}
+
+const defaultState: AuthState = {
+  user: null, 
+};
+
+export const AuthContext = createContext<AuthContextProps>({
+  ...defaultState,
+  dispatch: () => undefined,
+});
+
+export const authReducer = (state: AuthState, action: AuthAction): AuthState => {
+  switch (action.type) {
+    case 'LOGIN':
+      return { user: action.payload || null };
+    case 'LOGOUT':
+      return { user: null };
+    default:
+      return state;
+  }
+};
+
+interface AuthContextProviderProps {
+  children: ReactNode;
+}
+
+export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
+  const [state, dispatch] = useReducer(authReducer, defaultState);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      dispatch({ type: 'LOGIN', payload: JSON.parse(storedUser) });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (state.user) {
+      localStorage.setItem('user', JSON.stringify(state.user));
+    } else {
+      localStorage.removeItem('user');
+    }
+  }, [state.user]);
+
+  console.log('AuthContext state:', state);
+
+  return (
+    <AuthContext.Provider value={{ ...state, dispatch }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

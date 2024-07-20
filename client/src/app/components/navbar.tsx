@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image";
-import { useState, useEffect, useRef, MouseEvent } from "react";
+import { useState, useEffect, useRef, MouseEvent, useContext } from "react";
 import Link from "next/link";
 import Translation from "./translation";
 import logo from "@/app/assets/navbar/logo-zainspot.svg";
@@ -12,12 +12,15 @@ import MenuButton from "./menuButton";
 import { LANGUAGES_DATA, CURRENCIES_DATA } from "../constants/navbar";
 import { Language } from "../lib/translate";
 import { Currency } from "../lib/currencyConvert";
+import { useRouter } from "next/navigation"; 
+import { AuthContext } from "../contexts/authContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openLanguagesMenu, setOpenLanguagesMenu] = useState(false);
   const [openCurrencyMenu, setOpenCurrencyMenu] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
 
   const languagesMenuRef = useRef<HTMLDivElement>(null);
   const currencyMenuRef = useRef<HTMLDivElement>(null);
@@ -54,6 +57,14 @@ const Navbar = () => {
 
   if (!isClient) {
     return null;
+  }
+
+  const { user, dispatch } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT", payload: undefined });
+    router.push('/login');
+    
   }
 
   return (
@@ -113,15 +124,21 @@ const Navbar = () => {
             )}
           </div>
         </div>
+
         <div className="flex flex-col gap-2">
-          <div className="flex gap-2 text-primary text-xl">
-            <Link href={"/register"}>
-              <Translation translationKey="join" />
-            </Link>
-            <Link href="/login">
-              <Translation translationKey="login" />
-            </Link >
-          </div>
+          {user ? (
+            <button className="text-alert font-semibold text-start" onClick={handleLogout}>LOGOUT</button>
+          ) : (
+            <div className="flex gap-2 text-primary text-xl">
+              <Link href={"/register"}>
+                <Translation translationKey="join" />
+              </Link>
+              <Link href="/login">
+                <Translation translationKey="login" />
+              </Link >
+            </div>
+          )}
+
           <button className="text-secondary text-sm">
             <Translation translationKey="secure_checkout" />{" "}
             <span className="bg-secondary rounded-full text-background px-1">
@@ -129,7 +146,7 @@ const Navbar = () => {
             </span>
           </button>
         </div>
-      </div>
+      </div >
       <div className="md:hidden flex relative">
         <Image
           src={isOpen ? close : menu}
@@ -161,7 +178,7 @@ const Navbar = () => {
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 };
 
