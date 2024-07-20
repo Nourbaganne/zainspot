@@ -25,7 +25,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["cities"],
-    queryFn: () => axios.get(`http://localhost:3001/cities/${params.id}`),
+    queryFn: () => axios.get(`https://zainspot-backend.vercel.app/cities/${params.id}`),
   });
 
   if (isLoading) {

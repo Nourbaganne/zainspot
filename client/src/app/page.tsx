@@ -21,7 +21,7 @@ interface City {
 export default function Home() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["cities"],
-    queryFn: () => axios.get("http://localhost:3001/cities"),
+    queryFn: () => axios.get("https://zainspot-backend.vercel.app/cities"),
   });
 
   if (isLoading) {
