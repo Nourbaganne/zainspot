@@ -17,7 +17,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const Map = useMemo(
     () =>
       dynamic(() => import("@/app/components/map"), {
-        loading: () => <p>A map is loading</p>,
+        loading: () => <p>A map is loading.</p>,
         ssr: false,
       }),
     []
