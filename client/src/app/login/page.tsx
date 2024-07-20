@@ -8,10 +8,9 @@ import Image from "next/image";
 import eyeOutline from "@/app/assets/register/eye-outline.svg";
 import Translation from '../components/translation';
 import Link from 'next/link';
-
+import { withNoAuth } from '../lib/withNoAuth';
 
 const Page = () => {
-
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -75,7 +74,7 @@ const Page = () => {
                 <div className='flex justify-center gap-1'>
                     <h1 className='text-text-foreground'>Don’t Have an Account?</h1>
                     <Link href="/register" className='text-primary underline hover:no-underline'>
-                     Join ZainSpot
+                        Join ZainSpot
                     </Link>
                 </div>
             </div>
@@ -83,4 +82,4 @@ const Page = () => {
     )
 }
 
-export default Page
+export default withNoAuth(Page); 
