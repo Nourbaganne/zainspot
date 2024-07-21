@@ -6,49 +6,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UserService {
   async register(createUserDto: CreateUserDto): Promise<User> {
-    const {
-      email,
-      password,
-      role,
-      businessNumber,
-      businessName,
-      tradeName,
-      businessType,
-      country,
-      city,
-      businessWebsite,
-      state,
-      interestRegion,
-      name,
-      middleName,
-      lastName,
-      gender,
-      birthday,
-      mediaProfile,
-    } = createUserDto;
-
     const user = User.create({
-      email,
-      password,
-      role: role,
-      businessNumber,
-      businessName,
-      tradeName,
-      businessType,
-      country,
-      city,
-      businessWebsite,
-      state,
-      interestRegion,
-      name,
-      middleName,
-      lastName,
-      gender,
-      birthday,
-      mediaProfile,
+      ...createUserDto,
     });
-    await User.save(user);
 
+    await User.save(user);
     delete user.password;
 
     return user;

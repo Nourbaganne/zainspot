@@ -12,7 +12,6 @@ import * as bcrypt from 'bcrypt';
 export enum UserRole {
   OWNER = 'owner',
   ADMIN = 'admin',
-  VISITOR = 'visitor',
   ZAINSPOTTER = 'zainspotter',
 }
 
@@ -37,7 +36,7 @@ export class User extends BaseEntity {
   @Column({
     type: 'enum',
     enum: UserRole,
-    default: UserRole.VISITOR,
+    default: UserRole.ZAINSPOTTER,
   })
   role: UserRole;
 
@@ -62,10 +61,10 @@ export class User extends BaseEntity {
   @Column()
   businessType: string;
 
-  @Column({ default: 'Unknown' })
+  @Column({})
   country: string;
 
-  @Column({ default: 'Unknown' })
+  @Column({})
   city: string;
 
   @Column({ default: 'Unknown' })
@@ -91,8 +90,7 @@ export class User extends BaseEntity {
 
   @Column({ type: 'date', nullable: true })
   birthday: Date;
-  
+
   @Column({ nullable: true, default: '' })
   mediaProfile: string;
-
 }
