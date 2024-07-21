@@ -1,27 +1,26 @@
-"use client"
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "../contexts/authContext";
 
-import { useRouter } from 'next/navigation';
-import { useContext, ComponentType, useEffect, useState } from 'react';
-import { AuthContext } from '../contexts/authContext';
-
-export function withAuth<P extends object>(Component: ComponentType<P>) {
-  return function WithAuth(props: P) {
+export function WithAuth<P extends object>(WrappedComponent: React.ComponentType<P>) {
+  return function WithAuthComponent(props: P) {
+    const { user, loading } = useContext(AuthContext);
     const router = useRouter();
-    const { user } = useContext(AuthContext);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      if (!user) {
+      if (!loading && !user) {
         router.push('/login');
-      } else {
-        setLoading(false);
       }
-    }, [user, router]);
+    }, [user, loading, router]);
 
     if (loading) {
       return <div>Loading...</div>;
     }
 
-    return <Component {...props} />;
+    if (!user) {
+      return null;
+    }
+
+    return <WrappedComponent {...props} />;
   };
 }
