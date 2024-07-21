@@ -68,7 +68,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="flex justify-between md:px-10 px-5 py-2">
+    <div className="flex justify-between md:px-10 px-5 py-2 border border-b-gray-200">
       <Link href="/">
         <Image src={logo} alt="logo-zainspot" />
       </Link>
