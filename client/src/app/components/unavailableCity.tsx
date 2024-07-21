@@ -7,8 +7,8 @@ interface City {
 }
 const UnavailableCity = ({ city, index }: { city: City; index: number }) => {
   return (
-    <div key={index} className=" flex gap-4 items-center p-2 ">
-      <div className="w-40 h-36 relative">
+    <div key={index} className=" flex bg-secondary-foreground gap-4 items-center p-2 ">
+      <div className="w-44 h-40 relative">
         <Image
           src={city.imageUrl}
           alt={city.name}

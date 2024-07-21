@@ -159,7 +159,7 @@ const Page = () => {
                   formik={formik}
                 />
               </div>
-              <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex flex-col md:flex-row gap-6">
                 <Input
                   type="text"
                   labelKey="register_email_label"

@@ -1,19 +1,18 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import { useRouter } from "next/navigation"; 
+import axios, { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/useAuth";
 
-export const useLoginForm = () => {
+export const useLoginForm = (setIsError: (error: string) => void) => {
     const router = useRouter();
-    const { dispatch } = useAuth(); 
+    const { dispatch } = useAuth();
 
     return useFormik({
         initialValues: {
             email: "",
             password: "",
         },
-
         validationSchema: Yup.object({
             email: Yup.string()
                 .email("Invalid email address")
@@ -29,7 +28,13 @@ export const useLoginForm = () => {
                     router.push('/zainspotter');
                 }
             } catch (error) {
-                console.log(error);
+                if (axios.isAxiosError(error)) {
+                    const errorMessage = error.response?.data?.message || "An error occurred";
+                    setIsError(errorMessage);
+                } else {
+                    
+                    setIsError("An unknown error occurred");
+                }
             }
         },
     });

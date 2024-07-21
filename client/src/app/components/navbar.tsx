@@ -12,8 +12,9 @@ import MenuButton from "./menuButton";
 import { LANGUAGES_DATA, CURRENCIES_DATA } from "../constants/navbar";
 import { Language } from "../lib/translate";
 import { Currency } from "../lib/currencyConvert";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import { AuthContext } from "../contexts/authContext";
+import Menubar from "./menubar";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,6 @@ const Navbar = () => {
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   const { user, dispatch } = useContext(AuthContext);
-
 
   const languagesMenuRef = useRef<HTMLDivElement>(null);
   const currencyMenuRef = useRef<HTMLDivElement>(null);
@@ -64,13 +64,12 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch({ type: "LOGOUT", payload: undefined });
     router.push('/login');
-    
   }
 
   return (
     <div className="flex justify-between md:px-10 px-5 py-2">
       <Link href="/">
-        <Image src={logo} alt="logo-zainspot" />
+        <Image src={logo} alt="logo-zainspot" className="w-52 md:w-full" />
       </Link>
 
       <div className="hidden md:flex gap-10 font-sans font-bold items-center">
@@ -87,7 +86,7 @@ const Navbar = () => {
               <Image src={chevron} alt="currency" />
             </button>
             {openCurrencyMenu && (
-              <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md">
+              <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md left-0">
                 {CURRENCIES_DATA.map((currency) => (
                   <MenuButton
                     key={currency.key}
@@ -109,7 +108,7 @@ const Navbar = () => {
               <Image src={chevron} alt="language" />
             </button>
             {openLanguagesMenu && (
-              <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md">
+              <div className="absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md left-0">
                 {LANGUAGES_DATA.map((language, index) => (
                   <MenuButton
                     key={index}
@@ -118,7 +117,6 @@ const Navbar = () => {
                     setOpenLanguagesMenu={setOpenLanguagesMenu}
                     type="language"
                   />
-
                 ))}
               </div>
             )}
@@ -156,26 +154,20 @@ const Navbar = () => {
           onClick={() => setIsOpen(!isOpen)}
         />
         {isOpen && (
-          <div className="absolute bg-gray-300 top-14 right-5 z-20 w-44 text-center py-4 rounded-md shadow-lg">
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
-              How it works
-            </button>
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
-              How it works
-            </button>
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
-              How it works
-            </button>
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
-              How it works
-            </button>
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
-              How it works
-            </button>
-            <button className="hover:bg-gray-200 p-2 rounded-md min-w-[150px]">
-              How it works
-            </button>
-          </div>
+          <>
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-20" onClick={() => setIsOpen(false)} />
+            <Menubar
+              isOpen={isOpen}
+              handleLogout={handleLogout}
+              setIsOpen={setIsOpen}
+              openCurrencyMenu={openCurrencyMenu}
+              setOpenCurrencyMenu={setOpenCurrencyMenu}
+              openLanguagesMenu={openLanguagesMenu}
+              setOpenLanguagesMenu={setOpenLanguagesMenu}
+              currencyMenuRef={currencyMenuRef}
+              languagesMenuRef={languagesMenuRef}
+            />
+          </>
         )}
       </div>
     </div >

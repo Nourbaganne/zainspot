@@ -12,14 +12,15 @@ import { withNoAuth } from '../lib/withNoAuth';
 
 const Page = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [isError, setIsError] = useState("");
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-    const formik = useLoginForm();
+    const formik = useLoginForm(setIsError);
 
     return (
         <div className='flex pt-4 pb-20'>
-            <div className='flex flex-col gap-2'>
+            <div className='hidden md:flex flex-col gap-2'>
                 <h1 className="text-4xl font-bold text-text-foreground px-8">
                     <Translation translationKey="registerpage_title" />
                 </h1>
@@ -30,7 +31,7 @@ const Page = () => {
                 />
             </div>
             <div className='flex flex-col gap-6 px-12'>
-                <h1 className="font-bold text-4xl text-text-foreground">
+                <h1 className="font-bold text-2xl md:text-4xl text-text-foreground">
                     Login to Your Secure ZainSpot Account
                 </h1>
                 <p className='text-sm text-text-foreground'>
@@ -71,7 +72,11 @@ const Page = () => {
                         Login to Zainspot
                     </button>
                 </form>
-                <div className='flex justify-center gap-1'>
+                {isError && (
+                    <h1 className='text-center text-alert'>{isError}</h1>
+                )}
+
+                <div className='flex justify-center gap-1 text-sm md:text-base'>
                     <h1 className='text-text-foreground'>Don’t Have an Account?</h1>
                     <Link href="/register" className='text-primary underline hover:no-underline'>
                         Join ZainSpot
