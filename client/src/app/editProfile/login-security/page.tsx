@@ -1,6 +1,5 @@
 "use client"
 
-import React, { useState } from 'react'
 import { Input } from '../../register/components/input'
 import { useRegisterForm } from '../../lib/register-form'
 import "react-phone-input-2/lib/style.css";
@@ -112,4 +111,4 @@ const Page = () => {
     )
 }
 
-export default Page
+export default Page;

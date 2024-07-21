@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useReducer, useEffect, ReactNode } from 'react';
+import React, { createContext, useReducer, useEffect, ReactNode, useState } from 'react';
 
 interface User {
   token: string;
@@ -18,6 +18,7 @@ interface AuthAction {
 
 interface AuthContextProps extends AuthState {
   dispatch: React.Dispatch<AuthAction>;
+  loading: boolean;
 }
 
 const defaultState: AuthState = {
@@ -27,6 +28,7 @@ const defaultState: AuthState = {
 export const AuthContext = createContext<AuthContextProps>({
   ...defaultState,
   dispatch: () => undefined,
+  loading: true,
 });
 
 export const authReducer = (state: AuthState, action: AuthAction): AuthState => {
@@ -46,12 +48,14 @@ interface AuthContextProviderProps {
 
 export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, defaultState);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       dispatch({ type: 'LOGIN', payload: JSON.parse(storedUser) });
     }
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -65,7 +69,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
   console.log('AuthContext state:', state);
 
   return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
+    <AuthContext.Provider value={{ ...state, dispatch, loading }}>
       {children}
     </AuthContext.Provider>
   );

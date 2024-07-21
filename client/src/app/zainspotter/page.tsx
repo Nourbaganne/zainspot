@@ -4,7 +4,7 @@ import Link from "next/link";
 import { EDIT_PAGE_CARDS_DATA } from "../constants/edit-page";
 import ProfileCard from "./component/profileCard";
 import Translation from "../components/translation";
-import { withAuth } from "../lib/withAuth";
+import { WithAuth } from "../lib/withAuth";
 
 const Page = () => {
   return (
@@ -35,4 +35,4 @@ const Page = () => {
   );
 };
 
-export default withAuth(Page);
+export default WithAuth(Page);
