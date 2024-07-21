@@ -1,4 +1,10 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+} from 'class-validator';
 import { UserRole } from 'src/entities/user.entity';
 
 export class CreateUserDto {
@@ -18,7 +24,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   businessName: string;
 
-
   @IsNotEmpty()
   tradeName: string;
 
@@ -27,7 +32,7 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   country: string;
-  
+
   @IsNotEmpty()
   city: string;
 
@@ -56,5 +61,4 @@ export class CreateUserDto {
 
   @IsOptional()
   mediaProfile: string;
-
 }

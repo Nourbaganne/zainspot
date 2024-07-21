@@ -6,6 +6,8 @@ import "react-phone-input-2/lib/style.css";
 
 import loginImage from "@/app/assets/register/login-image.svg";
 import eyeOutline from "@/app/assets/register/eye-outline.svg";
+import eyeOffOutline from "@/app/assets/register/eye-off-outline.svg"
+import errorIcon from "@/app/assets/register/alert.svg"
 import { Input } from "./components/input";
 import { useRegisterForm } from "../lib/register-form";
 import Translation from "../components/translation";
@@ -20,24 +22,24 @@ const Register = () => {
     setShowConfirmPassword(!showConfirmPassword);
   const formik = useRegisterForm();
   return (
-    <div className="grid grid-cols-5 py-14">
-      <div className="pt-16 z-0 col-span-2">
+    <div className="grid grid-cols-10 pb-56 pt-10">
+      <div className="z-0 col-span-4">
+        <h1 className="text-4xl pl-8 pb-4 font-bold text-text-foreground leading-snug">
+          <Translation translationKey="registerpage_title" />
+        </h1>
         <Image
-          className="absolute w-[1100px]"
+          className="absolute w-[665px] h-96"
           src={loginImage}
           alt="login image"
         />
       </div>
 
-      <div className="col-span-3 flex flex-col items-center gap-10 w-full px-16 bg-background z-10">
-        <h1 className="font-bold text-2xl text-text">
+      <div className="col-span-6 flex flex-col items-center gap-10 w-full px-16 bg-background z-10">
+        <h1 className="text-4xl font-bold text-text-foreground leading-snug">
           <Translation translationKey="registerpage_header" />
         </h1>
 
         <div className="flex flex-col gap-4">
-          <h1 className="text-4xl font-bold text-description">
-            <Translation translationKey="registerpage_title" />
-          </h1>
           <p className="text-description-foreground">
             <Translation translationKey="registerpage_desc" />
           </p>
@@ -47,6 +49,7 @@ const Register = () => {
             type="text"
             labelKey="register_email_label"
             value={formik.values.email}
+            placeholderValue="example@mail.com"
             name="email"
             handleChange={formik.handleChange}
             touched={formik.touched.email}
@@ -68,8 +71,8 @@ const Register = () => {
               />
               <div className="absolute inset-y-0 right-3 flex items-center">
                 <Image
-                  src={eyeOutline}
-                  alt="eye-outline"
+                  src={formik.errors.password && formik.touched.password ? '' :(showPassword ? eyeOffOutline : eyeOutline)}
+                  alt={formik.errors.password && formik.touched.password ? '' : "eye-outline"}
                   className="cursor-pointer"
                   onClick={togglePasswordVisibility}
                 />
@@ -86,11 +89,11 @@ const Register = () => {
                 errors={formik.errors.confirmPassword}
                 formik={formik}
               />
-              <div className="absolute inset-y-0 right-3 flex items-center">
+              <div className='absolute inset-y-0 right-3 flex items-center'>
                 <Image
-                  src={eyeOutline}
+                  src={showConfirmPassword? eyeOffOutline : eyeOutline}
                   alt="eye-outline"
-                  className="cursor-pointer"
+                  className='cursor-pointer'
                   onClick={toggleConfirmPasswordVisibility}
                 />
               </div>
@@ -106,19 +109,19 @@ const Register = () => {
                 }
                 inputProps={{
                   className: `
-                border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
-              ${
-                formik.errors.businessNumber && formik.touched.businessNumber
-                  ? "border-alert"
-                  : "border-button focus:border-primary"
-              }
-              `,
+                  border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
+                  ${
+                    formik.errors.businessNumber && formik.touched.businessNumber
+                      ? "border-alert"
+                      : "border-button focus:border-primary"
+                  }
+                  `,
                   name: "businessNumber",
                 }}
               />
               <label
                 htmlFor="businessNumber"
-                className={`absolute left-3 top-0 transform -translate-y-1/2 text-xs bg-white text-text-foreground px-1  
+                className={`absolute left-3 top-0 transform -translate-y-1/2 text-xs bg-white text-text px-1  
               ${
                 formik.errors.businessNumber && formik.touched.businessNumber
                   ? "text-alert"
@@ -164,7 +167,7 @@ const Register = () => {
                   name="businessType"
                   value={formik.values.businessType}
                   onChange={formik.handleChange}
-                  className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${
+                  className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${
                     formik.errors.businessType && formik.touched.businessType
                       ? "border-alert"
                       : "border-button focus:border-primary"
@@ -201,6 +204,7 @@ const Register = () => {
               type="text"
               labelKey="register_website_label"
               value={formik.values.businessWebsite}
+              placeholderValue="www.website.com"
               name="businessWebsite"
               handleChange={formik.handleChange}
               touched={formik.touched.businessWebsite}
@@ -246,13 +250,13 @@ const Register = () => {
                 name="interestRegion"
                 value={formik.values.interestRegion}
                 onChange={formik.handleChange}
-                className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${
+                className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${
                   formik.errors.interestRegion && formik.touched.interestRegion
                     ? "border-alert"
                     : "border-button focus:border-primary"
                 }`}
               >
-                <option value="" disabled></option>
+                <option value=""></option>
                 <option value="region1">Region 1</option>
                 <option value="region2">Region 2</option>
                 <option value="region3">Region 3</option>

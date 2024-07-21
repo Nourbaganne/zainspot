@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import axiosInstance from "./axios/axiosInstance";
 
 export const useRegisterForm = () => {
   return useFormik({
@@ -43,7 +43,7 @@ export const useRegisterForm = () => {
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password")], "Passwords must match")
         .required("Confirm password is required"),
-      businessNumber: Yup.string(),
+      businessNumber: Yup.string().required("Business Phone Number is required"),
       businessName: Yup.string().required("Business name is required"),
       tradeName: Yup.string().required("Business name is required"),
       businessType: Yup.string().required("Business type is required"),
@@ -68,7 +68,7 @@ export const useRegisterForm = () => {
           birthday: values.birthday ? new Date(values.birthday).toISOString().split('T')[0] : null,
         };
 
-        const response = await axios.post("http://localhost:3001/user", formattedValues);
+        const response = await axiosInstance.post("/user/register", formattedValues);
         
         resetForm();
 
