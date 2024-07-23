@@ -25,7 +25,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
   const { data, isLoading, isError, error } = useQuery({  
     queryKey: ["cities"],
-    queryFn: () => axiosInstance.get(`/cities/${params.id}`),
+    queryFn: async () => await axiosInstance.get(`/cities/${params.id}`),
   });
   
 
@@ -41,7 +41,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
   return (
     <div className="flex flex-col md:grid md:grid-cols-5 font-sans ">
-      <div className="flex flex-col md:col-span-2 py-8 md:py-0 gap-8">
+      <div className="flex flex-col md:col-span-2 py-2 md:py-0 gap-8">
         <Link
           href={"/"}
           className="px-4 flex gap-1 text-text-foreground hover:underline"
@@ -56,7 +56,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               Mayfair 14 Berkeley Square
             </h1>
           </div>
-          <div className="relative w-full h-[480px]">
+          <div className="relative w-full h-[360px] md:h-[480px]">
 
             <Image src={city?.imageUrl} alt="image" layout="fill" />
           </div>
