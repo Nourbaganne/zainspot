@@ -13,10 +13,10 @@ const AvailableCity = ({ city, index }: { city: City; index: number }) => {
   return (
     <Link
       href={`/${city.name}/${city?.id}`}
-      className={`relative flex gap-4 items-center cursor-pointer p-2 group hover:shadow-lg`}
+      className={`relative flex bg-secondary-foreground hover:bg-background gap-4 items-center cursor-pointer p-2 group hover:shadow-lg `}
       key={index}
     >
-      <div className="w-40 h-36 relative">
+      <div className="w-44 h-40 relative">
         <Image
           src={city.imageUrl}
           alt={city.name}

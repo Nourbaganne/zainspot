@@ -38,7 +38,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className='md:hidden flex'>
                 <div 
                     ref={sidebarRef}
-                    className={`fixed h-full top-20 left-0 w-64 bg-background border transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} z-20`}
+                    className={`fixed h-full top-0 left-0 w-64 bg-background border transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} z-20`}
                 >
                     <div className="flex items-center justify-between p-4 border-b">
                         <span className="font-bold text-lg">Menu</span>

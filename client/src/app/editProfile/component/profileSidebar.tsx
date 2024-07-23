@@ -8,7 +8,7 @@ const ProfileSidebar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col justify-center items-start bg-background border">
+    <div className="flex flex-col justify-center items-start bg-background border ">
       {EDIT_PAGE_CARDS_DATA.map((item, index) => {
         const isActive = pathname === `/editProfile/${item.link}`;
         
