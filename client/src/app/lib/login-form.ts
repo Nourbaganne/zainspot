@@ -24,7 +24,7 @@ export const useLoginForm = (setIsError: (error: string) => void) => {
             try {
                 const response = await axios.post("http://localhost:3001/auth", values);
                 if (response.status === 201) {
-                    dispatch({ type: 'LOGIN', payload: response.data.access_token });
+                    dispatch({ type: 'LOGIN', payload: response.data });
                     router.push('/zainspotter');
                 }
             } catch (error) {

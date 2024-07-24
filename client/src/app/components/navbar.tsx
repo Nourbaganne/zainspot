@@ -64,6 +64,7 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch({ type: "LOGOUT", payload: undefined });
     router.push('/login');
+    setIsOpen(false);
   }
 
   return (

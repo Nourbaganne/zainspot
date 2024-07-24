@@ -1,8 +1,11 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axiosInstance from "./axios/axiosInstance";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export const useRegisterForm = () => {
+  const router = useRouter();
+
   return useFormik({
     initialValues: {
       email: "",
@@ -25,7 +28,7 @@ export const useRegisterForm = () => {
       birthday: "",
       mediaProfile: "",
       preferedLanguage: "",
-      preferedCurrency: ""
+      preferedCurrency: "",
     },
 
     validationSchema: Yup.object({
@@ -61,16 +64,19 @@ export const useRegisterForm = () => {
       birthday: Yup.date(),
       mediaProfile: Yup.string(),
     }),
-    onSubmit: async (values, {resetForm}) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const formattedValues = {
           ...values,
           birthday: values.birthday ? new Date(values.birthday).toISOString().split('T')[0] : null,
         };
 
-        const response = await axiosInstance.post("/user/register", formattedValues);
-        
-        resetForm();
+
+        const response = await axios.post("http://localhost:3001/user/register", formattedValues);
+        if (response.status === 201) {
+          resetForm();
+          router.push('/login')
+        }
 
       } catch (error) {
         console.error("Error submitting form:", error);
