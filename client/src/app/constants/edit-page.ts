@@ -23,5 +23,5 @@ export const EDIT_PAGE_CARDS_DATA = [
     { logo: Invoices, hoverLogo: InvoicesHovering, link: "my-invoices", title: "editProfile_Invoices", description: "Manage taxpayer information and tax documents" },
     { logo: notifications, hoverLogo: notificationsHovering, link: "zainspot-notifications", title: "editProfile_notifications", description: "Choose notification preferences and how you want to be contacted" },
     { logo: services, hoverLogo: servicesHovering, link: "subscribed-services", title: "editProfile_services", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-    { logo: cancelation, hoverLogo: cancelationHovering, ink: "cancelation-policy", title: "editProfile_cancellation", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
+    { logo: cancelation, hoverLogo: cancelationHovering, link: "cancellation-policy", title: "editProfile_cancellation", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
 ]
