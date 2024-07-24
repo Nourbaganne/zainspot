@@ -34,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     }, [isSidebarOpen]);
 
     return (
-        <div className="relative md:grid md:grid-cols-8 bg-background-foreground md:px-16 md:py-8 md:gap-8 md:pb-20">
+        <div className="relative md:grid md:grid-cols-8 md:gap-8">
             <div className='md:hidden flex'>
                 <div 
                     ref={sidebarRef}

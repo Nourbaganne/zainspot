@@ -112,10 +112,10 @@ const Menubar: React.FC<MenubarProps> = ({
                     </button>
                 ) : (
                     <div className='flex flex-col text-lg gap-3 text-primary font-semibold '>
-                        <Link href="/register" className="">
+                        <Link href="/register" className="" onClick={() => setIsOpen(false)}>
                             <Translation translationKey="join" />
                         </Link>
-                        <Link href="/login" className="">
+                        <Link href="/login" className="" onClick={() => setIsOpen(false)}>
                             <Translation translationKey="login" />
                         </Link>
                     </div>

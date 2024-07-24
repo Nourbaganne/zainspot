@@ -1,19 +1,25 @@
+import { useState } from 'react';
+import Image, { StaticImageData } from 'next/image';
+import Translation from '@/app/components/translation';
 
-import Image, { StaticImageData } from 'next/image'
-import Translation from '@/app/components/translation'
+const ProfileCard = ({ logo, hoverLogo, title, description }: { logo: string | StaticImageData, hoverLogo: string | StaticImageData, title: string, description: string }) => {
+    const [isHovered, setIsHovered] = useState(false);
 
-const ProfileCard = ({ logo, title, description }: { logo: string | StaticImageData, title: string, description: string }) => {
     return (
-        <div className='flex flex-col p-7 bg-background border gap-4 hover:shadow-md cursor-default group'>
-            <div>
-                <Image src={logo} alt='logo' className='group-hover:fill-primary' />
+        <div
+            className='flex flex-col p-7 bg-background border gap-4 hover:shadow-md group cursor-pointer'
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            <div className=' stroke-cyan-500'>
+                <Image src={isHovered ? hoverLogo : logo} alt='logo' className='stroke-cyan-500'/>
             </div>
             <h1 className='text-xl'>
-            <Translation translationKey={title} />
+                <Translation translationKey={title} />
             </h1>
             <p className='text-span'>{description}</p>
         </div>
-    )
-}
+    );
+};
 
-export default ProfileCard
+export default ProfileCard;

@@ -22,8 +22,8 @@ const Register = () => {
     setShowConfirmPassword(!showConfirmPassword);
   const formik = useRegisterForm();
   return (
-    <div className="grid grid-cols-10 pb-56 pt-10">
-      <div className="z-0 col-span-4">
+    <div className="md:grid md:grid-cols-10 pb-20 md:pb-56 pt-10 px-4 md:px-0">
+      <div className="hidden z-0 md:block col-span-4">
         <h1 className="text-4xl pl-8 pb-4 font-bold text-text-foreground leading-snug">
           <Translation translationKey="registerpage_title" />
         </h1>
@@ -34,8 +34,8 @@ const Register = () => {
         />
       </div>
 
-      <div className="col-span-6 flex flex-col items-center gap-10 w-full px-16 bg-background z-10">
-        <h1 className="text-4xl font-bold text-text-foreground leading-snug">
+      <div className="col-span-6 flex flex-col items-center gap-10 w-full md:px-16 bg-background z-10">
+        <h1 className="text-2xl md:text-4xl font-bold text-text-foreground leading-snug">
           <Translation translationKey="registerpage_header" />
         </h1>
 
@@ -57,7 +57,7 @@ const Register = () => {
             formik={formik}
           />
 
-          <div className="flex gap-6">
+          <div className="flex flex-col md:flex-row gap-6">
             <div className="relative w-full">
               <Input
                 type={showPassword ? "text" : "password"}
@@ -70,12 +70,15 @@ const Register = () => {
                 formik={formik}
               />
               <div className="absolute inset-y-0 right-3 flex items-center">
-                <Image
-                  src={formik.errors.password && formik.touched.password ? '' :(showPassword ? eyeOffOutline : eyeOutline)}
-                  alt={formik.errors.password && formik.touched.password ? '' : "eye-outline"}
-                  className="cursor-pointer"
-                  onClick={togglePasswordVisibility}
-                />
+                {!formik.touched.password && (
+                  <Image
+                    src={formik.errors.password && formik.touched.password ? '' : (showPassword ? eyeOffOutline : eyeOutline)}
+                    alt={formik.errors.password && formik.touched.password ? '' : "eye-outline"}
+                    className="cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                )}
+
               </div>
             </div>
             <div className="relative w-full">
@@ -89,13 +92,16 @@ const Register = () => {
                 errors={formik.errors.confirmPassword}
                 formik={formik}
               />
-              <div className='absolute inset-y-0 right-3 flex items-center'>
-                <Image
-                  src={showConfirmPassword? eyeOffOutline : eyeOutline}
-                  alt="eye-outline"
-                  className='cursor-pointer'
-                  onClick={toggleConfirmPasswordVisibility}
-                />
+              <div className="absolute inset-y-0 right-3 flex items-center">
+                {!formik.touched.confirmPassword && (
+                  <Image
+                    src={formik.errors.confirmPassword && formik.touched.confirmPassword ? '' : (showConfirmPassword ? eyeOffOutline : eyeOutline)}
+                    alt={formik.errors.confirmPassword && formik.touched.confirmPassword ? '' : "eye-outline"}
+                    className="cursor-pointer"
+                    onClick={toggleConfirmPasswordVisibility}
+                  />
+                )}
+
               </div>
             </div>
           </div>
@@ -110,11 +116,10 @@ const Register = () => {
                 inputProps={{
                   className: `
                   border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
-                  ${
-                    formik.errors.businessNumber && formik.touched.businessNumber
+                  ${formik.errors.businessNumber && formik.touched.businessNumber
                       ? "border-alert"
                       : "border-button focus:border-primary"
-                  }
+                    }
                   `,
                   name: "businessNumber",
                 }}
@@ -122,11 +127,10 @@ const Register = () => {
               <label
                 htmlFor="businessNumber"
                 className={`absolute left-3 top-0 transform -translate-y-1/2 text-xs bg-white text-text px-1  
-              ${
-                formik.errors.businessNumber && formik.touched.businessNumber
-                  ? "text-alert"
-                  : "text-primary"
-              }`}
+              ${formik.errors.businessNumber && formik.touched.businessNumber
+                    ? "text-alert"
+                    : "text-primary"
+                  }`}
               >
                 <Translation translationKey="register_business_number_label" />
               </label>
@@ -138,7 +142,7 @@ const Register = () => {
               </h1>
             )}
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-col md:flex-row gap-6">
             <Input
               type="text"
               labelKey="register_business_name_label"
@@ -160,18 +164,17 @@ const Register = () => {
               formik={formik}
             />
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-col md:flex-row gap-6">
             <div className="flex flex-col gap-2 w-full">
               <div className="relative flex flex-col w-full">
                 <select
                   name="businessType"
                   value={formik.values.businessType}
                   onChange={formik.handleChange}
-                  className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${
-                    formik.errors.businessType && formik.touched.businessType
-                      ? "border-alert"
-                      : "border-button focus:border-primary"
-                  }`}
+                  className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.businessType && formik.touched.businessType
+                    ? "border-alert"
+                    : "border-button focus:border-primary"
+                    }`}
                 >
                   <option value="" disabled></option>
                   <option value="business1">Business 1</option>
@@ -180,15 +183,13 @@ const Register = () => {
                 </select>
                 <label
                   htmlFor="businessType"
-                  className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${
-                    formik.errors.businessType && formik.touched.businessType
-                      ? "peer-focus:text-alert text-alert"
-                      : "peer-focus:text-primary"
-                  } ${
-                    formik.values.businessType
+                  className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
+                    ? "peer-focus:text-alert text-alert"
+                    : "peer-focus:text-primary"
+                    } ${formik.values.businessType
                       ? "top-[0px] left-3 text-xs bg-white z-10"
                       : ""
-                  }`}
+                    }`}
                 >
                   <Translation translationKey="register_typeof_business_label" />
                 </label>
@@ -212,7 +213,7 @@ const Register = () => {
               formik={formik}
             />
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-col md:flex-row gap-6">
             <Input
               type="text"
               labelKey="register_business_country_label"
@@ -250,11 +251,10 @@ const Register = () => {
                 name="interestRegion"
                 value={formik.values.interestRegion}
                 onChange={formik.handleChange}
-                className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${
-                  formik.errors.interestRegion && formik.touched.interestRegion
-                    ? "border-alert"
-                    : "border-button focus:border-primary"
-                }`}
+                className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.interestRegion && formik.touched.interestRegion
+                  ? "border-alert"
+                  : "border-button focus:border-primary"
+                  }`}
               >
                 <option value=""></option>
                 <option value="region1">Region 1</option>
@@ -263,15 +263,13 @@ const Register = () => {
               </select>
               <label
                 htmlFor="interestRegion"
-                className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${
-                  formik.errors.interestRegion && formik.touched.interestRegion
-                    ? "peer-focus:text-alert text-alert"
-                    : "peer-focus:text-primary"
-                } ${
-                  formik.values.interestRegion
+                className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.interestRegion && formik.touched.interestRegion
+                  ? "peer-focus:text-alert text-alert"
+                  : "peer-focus:text-primary"
+                  } ${formik.values.interestRegion
                     ? "top-[0px] left-3 text-xs bg-white z-10"
                     : ""
-                }`}
+                  }`}
               >
                 <Translation translationKey="regster_interest_region_label" />
               </label>
@@ -282,7 +280,7 @@ const Register = () => {
               </h1>
             )}
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-col md:flex-row gap-6">
             <Input
               type="text"
               labelKey="register_first_name_label"
@@ -314,7 +312,7 @@ const Register = () => {
               formik={formik}
             />
           </div>
-          <div className="flex gap-12 text-lg w-full items-center ">
+          <div className="flex flex-col md:flex-row gap-12 text-lg w-full items-center ">
             <div className="flex flex-col gap-6 ">
               <div className="flex gap-4 items-center">
                 <label htmlFor="gender" className="font-bold">
@@ -328,11 +326,10 @@ const Register = () => {
                     value="male"
                     checked={formik.values.gender === "male"}
                     onChange={formik.handleChange}
-                    className={`w-5 h-5 accent-primary ${
-                      formik.errors.gender && formik.touched.gender
-                        ? "border-alert"
-                        : ""
-                    }`}
+                    className={`w-5 h-5 accent-primary ${formik.errors.gender && formik.touched.gender
+                      ? "border-alert"
+                      : ""
+                      }`}
                   />
                   <label htmlFor="male">
                     <Translation translationKey="register_gender_male_label" />
@@ -346,11 +343,10 @@ const Register = () => {
                     value="female"
                     checked={formik.values.gender === "female"}
                     onChange={formik.handleChange}
-                    className={`w-5 h-5 accent-primary ${
-                      formik.errors.gender && formik.touched.gender
-                        ? "border-alert"
-                        : ""
-                    }`}
+                    className={`w-5 h-5 accent-primary ${formik.errors.gender && formik.touched.gender
+                      ? "border-alert"
+                      : ""
+                      }`}
                   />
                   <label htmlFor="female">
                     <Translation translationKey="register_gender_female_label" />
@@ -373,11 +369,10 @@ const Register = () => {
                   id="birthday"
                   value={formik.values.birthday}
                   onChange={formik.handleChange}
-                  className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 w-2/3 ${
-                    formik.errors.birthday && formik.touched.birthday
-                      ? "border-alert"
-                      : "border-button focus:border-primary"
-                  }`}
+                  className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 w-2/3 ${formik.errors.birthday && formik.touched.birthday
+                    ? "border-alert"
+                    : "border-button focus:border-primary"
+                    }`}
                 />
               </div>
 

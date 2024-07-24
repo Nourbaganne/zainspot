@@ -10,12 +10,12 @@ const ProfileSidebar = () => {
   return (
     <div className="flex flex-col justify-center items-start bg-background border ">
       {EDIT_PAGE_CARDS_DATA.map((item, index) => {
-        const isActive = pathname === `/editProfile/${item.link}`;
+        const isActive = pathname === `/zainspotter/${item.link}`;
         
         return (
           <Link
             key={index}
-            href={`/editProfile/${item.link}`}
+            href={`/zainspotter/${item.link}`}
             className={`p-3 text-sm w-full items-start flex border-b focus:outline-none ${
               isActive
                 ? "text-primary border-l-2 border-l-primary"

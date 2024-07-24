@@ -3,8 +3,12 @@
 import React, { createContext, useReducer, useEffect, ReactNode, useState } from 'react';
 
 interface User {
-  token: string;
-  role: string;
+  access_token: string;
+  user :{
+    email: string,
+    role: string,
+    userId: number
+  }
 }
 
 interface AuthState {
@@ -22,7 +26,7 @@ interface AuthContextProps extends AuthState {
 }
 
 const defaultState: AuthState = {
-  user: null, 
+  user: null,
 };
 
 export const AuthContext = createContext<AuthContextProps>({

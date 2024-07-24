@@ -12,3 +12,16 @@
   background: url('./assets/register/Vector-select.svg') no-repeat right 0.75rem center/1rem;
   padding-right: 2.5rem; /* Adjust padding to prevent text overlap with the arrow */
 }
+
+/* Custom autofill styles */
+@layer utilities {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: inherit;
+    border: 1px solid inherit;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}

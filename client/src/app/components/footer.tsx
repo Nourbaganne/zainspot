@@ -3,6 +3,7 @@ import Image from "next/image";
 import logo from "@/app/assets/footer/zainspot.svg";
 import { FOOTER_DATA } from "@/app/constants/footer";
 import Translation from "./translation";
+import Link from "next/link";
 
 
 const Footer = () => {
@@ -12,8 +13,9 @@ const Footer = () => {
       <div className="flex justify-between w-full  items-center">
         <Image src={logo} alt="zainspot-logo" />
         <div className="hidden md:grid grid-cols-4 gap-5 w-2/3">
-          {FOOTER_DATA.map((_, index) => (
-            <h1
+          {FOOTER_DATA.map((data, index) => (
+            <Link
+              href={data.link}
               key={index}
               className={`${
                 index < 4
@@ -22,7 +24,7 @@ const Footer = () => {
               }`}
             >
               <Translation translationKey={`footer_titles[${index}]`} />
-            </h1>
+            </Link>
           ))}
         </div>
       </div>
