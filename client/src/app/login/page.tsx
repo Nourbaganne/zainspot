@@ -20,24 +20,20 @@ const Page = () => {
     const formik = useLoginForm(setIsError);
 
     return (
-        <div className='flex pt-4 pb-20'>
-            <div className='hidden md:flex flex-col gap-2'>
-                <h1 className="text-4xl font-bold text-text-foreground px-8">
+        <div className='grid grid-cols-2 pt-6 pb-32'>
+            <div className='hidden md:flex flex-col gap-6'>
+                <h1 className="text-3xl font-bold text-text-foreground px-8">
                     <Translation translationKey="registerpage_title" />
                 </h1>
                 <Image
-                    className=""
                     src={loginImage}
                     alt="login image"
                 />
             </div>
-            <div className='flex flex-col gap-6 px-12'>
-                <h1 className="font-bold text-2xl md:text-4xl text-text-foreground">
+            <div className='flex flex-col gap-10 px-12'>
+                <h1 className="font-bold text-2xl md:text-3xl  text-primary">
                     Login to Your Secure ZainSpot Account
                 </h1>
-                <p className='text-sm text-text-foreground'>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
                 <form onSubmit={formik.handleSubmit} className='flex flex-col gap-8'>
                     <Input
                         type="text"

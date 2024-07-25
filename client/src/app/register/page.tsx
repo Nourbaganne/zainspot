@@ -1,30 +1,22 @@
-"use client";
-import React, { useState } from "react";
+"use client"
+
 import Image from "next/image";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-
 import loginImage from "@/app/assets/register/login-image.svg";
-import eyeOutline from "@/app/assets/register/eye-outline.svg";
-import eyeOffOutline from "@/app/assets/register/eye-off-outline.svg"
-import errorIcon from "@/app/assets/register/alert.svg"
 import { Input } from "./components/input";
 import { useRegisterForm } from "../lib/register-form";
 import Translation from "../components/translation";
 import { withNoAuth } from "../lib/withNoAuth";
+import InputPassword from "../components/inputPassword";
 
 const Register = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleConfirmPasswordVisibility = () =>
-    setShowConfirmPassword(!showConfirmPassword);
   const formik = useRegisterForm();
+
   return (
-    <div className="md:grid md:grid-cols-10 pb-20 md:pb-56 pt-10 px-4 md:px-0">
-      <div className="hidden z-0 md:block col-span-4">
-        <h1 className="text-4xl pl-8 pb-4 font-bold text-text-foreground leading-snug">
+    <div className="md:grid md:grid-cols-2 pb-20 md:pb-56 pt-10 px-4 md:px-0">
+      <div className="hidden z-0 md:block">
+        <h1 className="text-3xl pb-4 font-bold text-text-foreground leading-snug">
           <Translation translationKey="registerpage_title" />
         </h1>
         <Image
@@ -34,16 +26,10 @@ const Register = () => {
         />
       </div>
 
-      <div className="col-span-6 flex flex-col items-center gap-10 w-full md:px-16 bg-background z-10">
-        <h1 className="text-2xl md:text-4xl font-bold text-text-foreground leading-snug">
+      <div className="flex flex-col items-center gap-10 w-full md:pr-12 bg-background z-10">
+        <h1 className="text-2xl md:text-4xl font-bold text-primary leading-snug">
           <Translation translationKey="registerpage_header" />
         </h1>
-
-        <div className="flex flex-col gap-4">
-          <p className="text-description-foreground">
-            <Translation translationKey="registerpage_desc" />
-          </p>
-        </div>
         <form onSubmit={formik.handleSubmit} className="flex flex-col gap-10">
           <Input
             type="text"
@@ -58,52 +44,23 @@ const Register = () => {
           />
 
           <div className="flex flex-col md:flex-row gap-6">
-            <div className="relative w-full">
-              <Input
-                type={showPassword ? "text" : "password"}
-                labelKey="register_password_label"
-                value={formik.values.password}
-                name="password"
-                handleChange={formik.handleChange}
-                touched={formik.touched.password}
-                errors={formik.errors.password}
-                formik={formik}
-              />
-              <div className="absolute inset-y-0 right-3 flex items-center">
-                {!formik.touched.password && (
-                  <Image
-                    src={formik.errors.password && formik.touched.password ? '' : (showPassword ? eyeOffOutline : eyeOutline)}
-                    alt={formik.errors.password && formik.touched.password ? '' : "eye-outline"}
-                    className="cursor-pointer"
-                    onClick={togglePasswordVisibility}
-                  />
-                )}
+            <InputPassword
+              labelKey="register_password_label"
+              value={formik.values.password}
+              name="password"
+              touched={formik.touched.password}
+              errors={formik.errors.password}
+              formik={formik}
+            />
 
-              </div>
-            </div>
-            <div className="relative w-full">
-              <Input
-                type={showConfirmPassword ? "text" : "password"}
-                labelKey="register_confirm_password_label"
-                value={formik.values.confirmPassword}
-                name="confirmPassword"
-                handleChange={formik.handleChange}
-                touched={formik.touched.confirmPassword}
-                errors={formik.errors.confirmPassword}
-                formik={formik}
-              />
-              <div className="absolute inset-y-0 right-3 flex items-center">
-                {!formik.touched.confirmPassword && (
-                  <Image
-                    src={formik.errors.confirmPassword && formik.touched.confirmPassword ? '' : (showConfirmPassword ? eyeOffOutline : eyeOutline)}
-                    alt={formik.errors.confirmPassword && formik.touched.confirmPassword ? '' : "eye-outline"}
-                    className="cursor-pointer"
-                    onClick={toggleConfirmPasswordVisibility}
-                  />
-                )}
-
-              </div>
-            </div>
+            <InputPassword
+              labelKey="register_confirm_password_label"
+              value={formik.values.confirmPassword}
+              name="confirmPassword"
+              touched={formik.touched.confirmPassword}
+              errors={formik.errors.confirmPassword}
+              formik={formik}
+            />
           </div>
           <div className="flex flex-col gap-2">
             <div className="relative flex flex-col">
@@ -359,7 +316,7 @@ const Register = () => {
             </div>
 
             <div className="flex flex-col w-full gap-2">
-              <div className="flex gap-4 items-center ">
+              <div className="flex gap-0 md:gap-4 items-center ">
                 <h1 className="font-bold">
                   <Translation translationKey="register_birthday_label" />
                 </h1>
@@ -369,7 +326,7 @@ const Register = () => {
                   id="birthday"
                   value={formik.values.birthday}
                   onChange={formik.handleChange}
-                  className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 w-2/3 ${formik.errors.birthday && formik.touched.birthday
+                  className={`border text-sm md:text-base px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 w-2/3 ${formik.errors.birthday && formik.touched.birthday
                     ? "border-alert"
                     : "border-button focus:border-primary"
                     }`}

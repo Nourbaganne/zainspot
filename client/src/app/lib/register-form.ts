@@ -2,9 +2,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export const useRegisterForm = () => {
   const router = useRouter();
+  
 
   return useFormik({
     initialValues: {
@@ -30,19 +32,17 @@ export const useRegisterForm = () => {
       preferedLanguage: "",
       preferedCurrency: "",
     },
-
     validationSchema: Yup.object({
       email: Yup.string()
         .email("Invalid email address")
         .required("Email is required"),
       password: Yup.string()
-        .required("Password is required")
-        .min(8, '8 characters minimum')
-        .matches(/[A-Z]/, '1 uppercase letter')
-        .matches(/[a-z]/, '1 lowercase letter')
-        .matches(/[0-9]/, 'Password requires a number')
-        .matches(/[^\w]/, '1 special character, e.g.: !@#%&*^°'),
-
+        .required("Helping text is here")
+        .min(8, 'Helping text is here')
+        .matches(/[A-Z]/, 'Helping text is here')
+        .matches(/[a-z]/, 'Helping text is here')
+        .matches(/[0-9]/, 'Helping text is here')
+        .matches(/[^\w]/, 'Helping text is here'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password")], "Passwords must match")
         .required("Confirm password is required"),
@@ -71,11 +71,12 @@ export const useRegisterForm = () => {
           birthday: values.birthday ? new Date(values.birthday).toISOString().split('T')[0] : null,
         };
 
-
         const response = await axios.post("http://localhost:3001/user/register", formattedValues);
         if (response.status === 201) {
           resetForm();
-          router.push('/login')
+          console.log('user added successfully')
+          router.push('/login');
+          
         }
 
       } catch (error) {
