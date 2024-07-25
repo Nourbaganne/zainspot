@@ -6,34 +6,17 @@ import check from "./assets/home/check-icon.svg";
 import close from "./assets/home/close-icon.svg";
 import { zainspotFeatures, ignoredFeatures } from "@/app/constants/home";
 import Translation from "./components/translation";
-import { useQuery } from "@tanstack/react-query";
-import AvailableCity from "./components/availableCity";
-import UnavailableCity from "./components/unavailableCity";
-import axiosInstance from "./lib/axios/axiosInstance";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import Cities from "./components/cities";
+import { getCities } from "./lib/getCitites";
 
-interface City {
-  id: number;
-  name: string;
-  disponibility: boolean;
-  imageUrl: string;
-}
-
-export default function Home() {
-  const { data, isLoading, isError, error } = useQuery({
+export default async function Home() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
     queryKey: ["cities"],
-    queryFn: () => axiosInstance.get("/cities"),
-  });
+    queryFn: getCities
+  })
 
-
-  if (isLoading) {
-    return <div>Loading ...</div>;
-  }
-
-  if (isError) {
-    return <div>{error.message}</div>;
-  }
-
-  const cities = data?.data || [];
   return (
     <div className="flex flex-col">
       {/* Header Section */}
@@ -98,19 +81,9 @@ export default function Home() {
               <Translation translationKey="homepage_cities_title_span" />
             </span>
           </h1>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:pl-4">
-            {Array.isArray(cities) && cities.length > 0 ? (
-              cities.map((city: City) =>
-                city.disponibility ? (
-                  <AvailableCity key={city.id} city={city} index={city?.id} />
-                ) : (
-                  <UnavailableCity key={city.id} city={city} index={city?.id} />
-                )
-              )
-            ) : (
-              <div>No cities available</div>
-            )}
-          </div>
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <Cities />
+          </HydrationBoundary>
         </div>
       </div>
     </div>

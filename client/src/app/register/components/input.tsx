@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormikProps } from 'formik';
 import Translation from '@/app/components/translation';
 import checked from "@/app/assets/register/checked.svg";
@@ -17,8 +17,20 @@ interface InputProps {
   placeholderValue?: string;
 }
 
-export function Input({ type, labelKey, value, name, handleChange, touched, errors, placeholderValue }: InputProps) {
+export function Input({
+  type,
+  labelKey,
+  value,
+  name,
+  handleChange,
+  touched,
+  errors,
+  placeholderValue,
+
+
+}: InputProps) {
   const showIcon = touched && (errors ? alert : checked);
+
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -29,17 +41,11 @@ export function Input({ type, labelKey, value, name, handleChange, touched, erro
           value={value}
           onChange={handleChange}
           placeholder={placeholderValue}
-          className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 autofill:bg-white ${
-            errors && touched ? 'border-alert' : 'border-button focus:border-primary'
-          }`}
+          className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 autofill:bg-white ${errors && touched ? 'border-alert' : 'border-button focus:border-primary'}`}
         />
         <label
           htmlFor={name}
-          className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm transition-all duration-300 pointer-events-none px-1 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${
-            placeholderValue ? 'top-[0px] left-3 text-xs bg-white z-10' : 'peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0'
-          } ${
-            errors && touched ? 'peer-focus:text-alert' : 'peer-focus:text-primary'
-          } ${value ? 'top-[0px] left-3 text-xs bg-white z-10 text-primary' : 'text-text-foreground'}`}
+          className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm transition-all duration-300 pointer-events-none px-1 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${placeholderValue ? 'top-[0px] left-3 text-xs bg-white z-10' : 'peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0'} ${errors && touched ? 'peer-focus:text-alert' : 'peer-focus:text-primary'} ${value ? 'top-[0px] left-3 text-xs bg-white z-10 text-primary' : 'text-text-foreground'}`}
         >
           <Translation translationKey={labelKey} />
         </label>

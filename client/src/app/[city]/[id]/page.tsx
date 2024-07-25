@@ -24,8 +24,8 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   );
 
   const { data, isLoading, isError, error } = useQuery({  
-    queryKey: ["cities"],
-    queryFn: async () => await axiosInstance.get(`/cities/${params.id}`),
+    queryKey: ["city", params.id],
+    queryFn: () => axiosInstance.get(`/cities/${params.id}`),
   });
   
 
@@ -40,7 +40,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const city = data?.data;
 
   return (
-    <div className="flex flex-col md:grid md:grid-cols-5 font-sans ">
+    <div className="flex flex-col md:grid md:grid-cols-5 font-sans md:pt-5 ">
       <div className="flex flex-col md:col-span-2 py-2 md:py-0 gap-8">
         <Link
           href={"/"}
@@ -57,7 +57,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
             </h1>
           </div>
           <div className="relative w-full h-[360px] md:h-[480px]">
-
             <Image src={city?.imageUrl} alt="image" layout="fill" />
           </div>
           <div className="flex flex-col px-4 gap-7 pt-7">
