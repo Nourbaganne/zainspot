@@ -23,16 +23,16 @@ export class City {
   @Column('bool')
   disponibility: boolean;
 
-  @Column('json',{ nullable: true })
+  @Column('json', { nullable: true })
   location: { title: string; posx: NumericType; posy: NumericType };
 
-  @Column('text',{ nullable: true })
+  @Column('text', { nullable: true })
   description: string;
 
   @Column({ nullable: true })
   goldPrice: number;
 
-  @Column('json',{ nullable: true })
+  @Column('json', { nullable: true })
   classicPrice: { perYear: number; perMonth: PerMonth[] };
 
   @Column({ nullable: true })

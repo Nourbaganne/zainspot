@@ -10,6 +10,8 @@ import { UserService } from './user/user.service';
 import { JwtStrategy } from './auth/jwt.strategy';
 import { CitiesModule } from './cities/cities.module';
 import { City } from './entities/city.entity';
+import { Role } from './entities/role.entity';
+import { Permission } from './entities/permission.entity';
 
 @Module({
   imports: [
@@ -25,7 +27,7 @@ import { City } from './entities/city.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, City],
+        entities: [User, City, Role, Permission],
         synchronize: true,
       }),
       inject: [ConfigService],

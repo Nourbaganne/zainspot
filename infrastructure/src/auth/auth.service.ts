@@ -16,7 +16,7 @@ export class AuthService {
     const payload = {
       userId: user.id,
       email: user.email,
-      role: user.role,
+      role: user.roleId,
     };
 
     return {
@@ -28,13 +28,13 @@ export class AuthService {
   async validateUser(authLoginDto: AuthLoginDto) {
     const { email, password } = authLoginDto;
 
-    const visitor = await this.userService.findByEmail(email);
-    if (!(await visitor?.validatePassword(password))) {
+    const user = await this.userService.findByEmail(email);
+    if (!(await user?.validatePassword(password))) {
       throw new UnauthorizedException();
     }
 
-    delete visitor.password;
+    delete user.password;
 
-    return visitor;
+    return user;
   }
 }
