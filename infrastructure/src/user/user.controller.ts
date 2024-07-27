@@ -13,14 +13,21 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/decorators/public.decorator';
 import { UserRole } from 'src/entities/user.entity';
 import { Roles } from 'src/decorators/roles.decorator';
+import { EmailConfirmationService } from 'src/email-confirmation/email-confirmation.service';
+
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly emailConfirmationService: EmailConfirmationService
+  ) { }
 
   @Public()
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
-    return this.userService.register(createUserDto);
+    const user = this.userService.register(createUserDto);
+    await this.emailConfirmationService.sendVerificationLink(createUserDto.email);
+    return user
   }
 
   @Get(':id')

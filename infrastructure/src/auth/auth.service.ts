@@ -29,6 +29,10 @@ export class AuthService {
     const { email, password } = authLoginDto;
 
     const visitor = await this.userService.findByEmail(email);
+    if (!visitor) {
+      throw new UnauthorizedException();
+    }
+    console.log('Password from DB:', visitor.password);
     if (!(await visitor?.validatePassword(password))) {
       throw new UnauthorizedException();
     }

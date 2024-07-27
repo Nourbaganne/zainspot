@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -10,6 +11,10 @@ import { UserRole } from 'src/entities/user.entity';
 export class CreateUserDto {
   @IsEmail()
   email: string;
+
+  @IsBoolean()
+  @IsOptional()
+  isEmailConfirmed?: boolean;
 
   @IsNotEmpty()
   password: string;
