@@ -1,9 +1,19 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+} from 'class-validator';
 import { Role } from 'src/entities/role.entity';
 
 export class CreateUserDto {
   @IsEmail()
   email: string;
+
+  @IsBoolean()
+  @IsOptional()
+  isEmailConfirmed?: boolean;
 
   @IsNotEmpty()
   password: string;

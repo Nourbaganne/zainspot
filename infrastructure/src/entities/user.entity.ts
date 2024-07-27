@@ -19,6 +19,9 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   email: string;
 
+  @Column({ default: false})
+  isEmailConfirmed: boolean;
+
   @Column()
   password: string;
 
@@ -30,8 +33,11 @@ export class User extends BaseEntity {
   updatedAt: Date;
 
   async validatePassword(password: string): Promise<boolean> {
+    console.log('Password:', password);
+    console.log('Hashed Password:', this.password);
     return bcrypt.compare(password, this.password);
   }
+  
 
   @Column({ nullable: true })
   businessNumber: string;
