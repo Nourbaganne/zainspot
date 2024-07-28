@@ -42,7 +42,6 @@ const InputPassword = ({
     });
     const [checkPasswordReq, setCheckPasswordReq] = useState(false);
 
-    // Create a ref for the input container
     const inputRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -104,7 +103,8 @@ const InputPassword = ({
                 />
                 <label
                     htmlFor={name}
-                    className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm transition-all duration-300 pointer-events-none px-1 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${value ? 'top-[0px] left-3 text-xs bg-white z-10 text-primary' : 'peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0'} ${errors && touched ? 'peer-focus:text-alert' : 'peer-focus:text-primary'} ${value ? 'top-[0px] left-3 text-xs bg-white z-10 text-primary' : 'text-text-foreground'}`}
+                    className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
+                        ${value && !errors ? 'text-primary' : errors && touched ? 'text-alert' : 'text-text-foreground'} `}
                 >
                     <Translation translationKey={labelKey} />
                 </label>

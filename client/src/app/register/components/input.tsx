@@ -41,15 +41,16 @@ export function Input({
           value={value}
           onChange={handleChange}
           placeholder={placeholderValue}
-          className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 autofill:bg-white ${errors && touched ? 'border-alert' : 'border-button focus:border-primary'}`}
+          className={`border px-2 py-3 rounded-md focus:outline-none focus:ring-0 autofill:bg-white ${errors && touched ? 'border-alert' : 'border-button focus:border-primary'}`}
         />
         <label
           htmlFor={name}
-          className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-sm transition-all duration-300 pointer-events-none px-1 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${placeholderValue ? 'top-[0px] left-3 text-xs bg-white z-10' : 'peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0'} ${errors && touched ? 'peer-focus:text-alert' : 'peer-focus:text-primary'} ${value ? 'top-[0px] left-3 text-xs bg-white z-10 text-primary' : 'text-text-foreground'}`}
+          className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
+            ${value && !errors ?  'text-primary' : errors && touched ? 'text-alert' : 'text-text-foreground'} `}
         >
           <Translation translationKey={labelKey} />
         </label>
-        {showIcon && (
+        {showIcon && (name !== "businessWebsite" && name !== "middleName" && name !== "mediaProfile")  && (
           <Image
             src={showIcon}
             alt={errors ? 'Alert' : 'Checked'}

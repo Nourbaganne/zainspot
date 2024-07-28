@@ -1,101 +1,85 @@
-import { useFormik } from "formik";
+import { useFormik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../contexts/authContext";
 
-export const useUpdateForm = () => {
+export interface UserData {
+    isEmailConfirmed: boolean;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+    businessNumber?: string;
+    businessName?: string;
+    tradeName?: string;
+    businessTradingName?: string;
+    businessType?: string;
+    businessWebsite?: string;
+    country?: string;
+    city?: string;
+    state?: string;
+    interestRegion?: string;
+    name?: string;
+    middleName?: string;
+    lastName?: string;
+    gender?: string;
+    birthday?: string;
+    mediaProfile?: string;
+    preferedLanguage?: string;
+    preferedCurrency?: string;
+}
 
+export const useUpdateForm = (userData: UserData | null) => {
     const { user } = useContext(AuthContext);
 
-
-    const [initialValues, setInitialValues] = useState({
-        email: "",
+    const initialValues: UserData = {
+        email: userData?.email || "",
+        isEmailConfirmed: userData?.isEmailConfirmed || false,
         password: "",
         confirmPassword: "",
-        businessNumber: "",
-        businessName: "",
-        tradeName: "",
-        businessTradingName: "",
-        businessType: "",
-        businessWebsite: "",
-        country: "",
-        city: "",
-        state: "",
-        interestRegion: "",
-        name: "",
-        middleName: "",
-        lastName: "",
-        gender: "",
-        birthday: "",
-        mediaProfile: "",
-        preferedLanguage: "",
-        preferedCurrency: "",
-    });
-
-    useEffect(() => {
-        const getUserData = async () => {
-            try {
-                const userResponse = await axios.get(`http://localhost:3001/user/${user?.user.userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${user?.access_token}`,
-                    }
-                });
-
-                setInitialValues({
-                    ...initialValues,
-                    email: userResponse.data.email || "",
-                    password: userResponse.data.password || "",
-                    businessNumber: userResponse.data.businessNumber || "",
-                    businessName: userResponse.data.businessName || "",
-                    tradeName: userResponse.data.tradeName || "",
-                    businessTradingName: userResponse.data.businessTradingName || "",
-                    businessType: userResponse.data.businessType || "",
-                    businessWebsite: userResponse.data.businessWebsite || "",
-                    country: userResponse.data.country || "",
-                    city: userResponse.data.city || "",
-                    state: userResponse.data.state || "",
-                    interestRegion: userResponse.data.interestRegion || "",
-                    name: userResponse.data.name || "",
-                    middleName: userResponse.data.middleName || "",
-                    lastName: userResponse.data.lastName || "",
-                    gender: userResponse.data.gender || "",
-                    birthday: userResponse.data.birthday || "",
-                    mediaProfile: userResponse.data.mediaProfile || "",
-                    preferedLanguage: userResponse.data.preferedLanguage || "",
-                    preferedCurrency: userResponse.data.preferedCurrency || "",
-
-                });
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
-
-        if (user?.user.userId && user?.access_token) {
-            getUserData();
-        }
-    }, [user?.user.userId, user?.access_token]);
+        businessNumber: userData?.businessNumber || "",
+        businessName: userData?.businessName || "",
+        tradeName: userData?.tradeName || "",
+        businessTradingName: userData?.businessTradingName || "",
+        businessType: userData?.businessType || "",
+        businessWebsite: userData?.businessWebsite || "",
+        country: userData?.country || "",
+        city: userData?.city || "",
+        state: userData?.state || "",
+        interestRegion: userData?.interestRegion || "",
+        name: userData?.name || "",
+        middleName: userData?.middleName || "",
+        lastName: userData?.lastName || "",
+        gender: userData?.gender || "",
+        birthday: userData?.birthday || "",
+        mediaProfile: userData?.mediaProfile || "",
+        preferedLanguage: userData?.preferedLanguage || "",
+        preferedCurrency: userData?.preferedCurrency || "",
+    };
 
     return useFormik({
         initialValues,
         enableReinitialize: true,
         validationSchema: Yup.object({
-            email: Yup.string()
-                .email("Invalid email address"),
+            email: Yup.string().email("Invalid email address"),
             password: Yup.string()
-                .min(8, '8 characters minimum')
-                .matches(/[A-Z]/, '1 uppercase letter')
-                .matches(/[a-z]/, '1 lowercase letter')
-                .matches(/[0-9]/, 'Password requires a number')
-                .matches(/[^\w]/, '1 special character, e.g.: !@#%&*^°'),
-            confirmPassword: Yup.string()
-                .oneOf([Yup.ref("password")], "Passwords must match"),
+                .min(8, "8 characters minimum")
+                .matches(/[A-Z]/, "1 uppercase letter")
+                .matches(/[a-z]/, "1 lowercase letter")
+                .matches(/[0-9]/, "Password requires a number")
+                .matches(/[^\w]/, "1 special character, e.g.: !@#%&*^°"),
+            confirmPassword: Yup.string().oneOf(
+                [Yup.ref("password")],
+                "Passwords must match"
+            ),
         }),
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values, { resetForm }: FormikHelpers<UserData>) => {
             try {
                 const formattedValues = {
                     ...values,
-                    birthday: values?.birthday ? new Date(values.birthday).toISOString().split('T')[0] : null,
+                    birthday: values?.birthday
+                        ? new Date(values.birthday).toISOString().split("T")[0]
+                        : null,
                 };
 
                 const response = await axios.patch(
@@ -104,7 +88,7 @@ export const useUpdateForm = () => {
                     {
                         headers: {
                             Authorization: `Bearer ${user?.access_token}`,
-                        }
+                        },
                     }
                 );
                 if (response.status === 200) {

@@ -10,10 +10,44 @@ import Image from "next/image";
 import Layout from "../Layout";
 import { useUpdateForm } from "@/app/lib/update-form";
 import Breadcrumb from "../component/breadcrumb";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "@/app/contexts/authContext";
+import axios from "axios";
+import { UserData } from "@/app/lib/update-form";
+import Dialog from "@/app/components/dialog";
+import { handleEmailVerification } from "@/app/lib/email-verification";
 
 const Page = () => {
-  const formik = useUpdateForm();
+  const { user } = useContext(AuthContext);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
 
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const userResponse = await axios.get(`http://localhost:3001/user/${user?.user.userId}`, {
+          headers: {
+            Authorization: `Bearer ${user?.access_token}`,
+          }
+        });
+
+        setUserData(userResponse.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    if (user?.user.userId && user?.access_token) {
+      getUserData();
+    }
+  }, [user?.user.userId, user?.access_token, userData]);
+
+  const formik = useUpdateForm(userData);
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+  
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "My Zainspotter", href: "/zainspotter" },
@@ -21,19 +55,23 @@ const Page = () => {
   ];
   return (
     <div className="flex flex-col gap-6 bg-background-foreground md:px-16 md:py-8  md:pb-20">
-        <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumb items={breadcrumbItems} />
       <Layout>
         <div className="flex flex-col gap-10 text-sm" >
           <div className="flex flex-col py-8  px-6 gap-3 bg-background border">
             <h1 className="font-bold">
               <Translation translationKey="profile_details_title" />
             </h1>
-            <p className="p-2 bg-alert-foreground border text-span text-sm py-4">
-              <Translation translationKey="profile_details_email_alert" />
-              <span className="text-secondary cursor-pointer hover:underline">
-                <Translation translationKey="profile_details_email_verification" />
-              </span>
-            </p>
+            {!userData?.isEmailConfirmed && (
+              <p className="flex gap-2 p-2 bg-alert-foreground border text-span text-sm py-4">
+                <Translation translationKey="profile_details_email_alert" />
+                <span
+                  onClick={() => handleEmailVerification(userData?.email, setIsOpenDialog)}
+                  className="text-secondary cursor-pointer hover:underline">
+                  <Translation translationKey="profile_details_email_verification" />
+                </span>
+              </p>
+            )}
             <form onSubmit={formik.handleSubmit}>
               <div className="flex flex-col py-6 gap-8 border-b">
                 <h1 className="text-span font-semibold">
@@ -43,7 +81,7 @@ const Page = () => {
                   <Input
                     type="text"
                     labelKey="register_first_name_label"
-                    value={formik.values.name}
+                    value={formik.values.name || ""}
                     name="name"
                     handleChange={formik.handleChange}
                     touched={formik.touched.name}
@@ -53,7 +91,7 @@ const Page = () => {
                   <Input
                     type="text"
                     labelKey="register_middle_name_label"
-                    value={formik.values.middleName}
+                    value={formik.values.middleName || ""}
                     name="middleName"
                     handleChange={formik.handleChange}
                     touched={formik.touched.middleName}
@@ -63,7 +101,7 @@ const Page = () => {
                   <Input
                     type="text"
                     labelKey="register_last_name_label"
-                    value={formik.values.lastName}
+                    value={formik.values.lastName || ""}
                     name="lastName"
                     handleChange={formik.handleChange}
                     touched={formik.touched.lastName}
@@ -149,7 +187,7 @@ const Page = () => {
                   <Input
                     type="text"
                     labelKey="register_business_name_label"
-                    value={formik.values.businessName}
+                    value={formik.values.businessName || ""}
                     name="businessName"
                     handleChange={formik.handleChange}
                     touched={formik.touched.businessName}
@@ -159,7 +197,7 @@ const Page = () => {
                   <Input
                     type="text"
                     labelKey="register_business_trading_name_label"
-                    value={formik.values.tradeName}
+                    value={formik.values.tradeName || ""}
                     name="tradeName"
                     handleChange={formik.handleChange}
                     touched={formik.touched.tradeName}
@@ -171,7 +209,7 @@ const Page = () => {
                   <Input
                     type="text"
                     labelKey="register_email_label"
-                    value={formik.values.email}
+                    value={formik.values.email || ""}
                     name="email"
                     handleChange={formik.handleChange}
                     touched={formik.touched.email}
@@ -262,7 +300,7 @@ const Page = () => {
                     <Input
                       type="text"
                       labelKey="register_website_label"
-                      value={formik.values.businessWebsite}
+                      value={formik.values.businessWebsite || ""}
                       name="businessWebsite"
                       handleChange={formik.handleChange}
                       touched={formik.touched.businessWebsite}
@@ -279,7 +317,7 @@ const Page = () => {
                     <Input
                       type="text"
                       labelKey="register_business_country_label"
-                      value={formik.values.country}
+                      value={formik.values.country || ""}
                       name="country"
                       handleChange={formik.handleChange}
                       touched={formik.touched.country}
@@ -291,7 +329,7 @@ const Page = () => {
                     <Input
                       type="text"
                       labelKey="register_city_label"
-                      value={formik.values.city}
+                      value={formik.values.city || ""}
                       name="city"
                       handleChange={formik.handleChange}
                       touched={formik.touched.city}
@@ -303,7 +341,7 @@ const Page = () => {
                     <Input
                       type="text"
                       labelKey="register_state_label"
-                      value={formik.values.state}
+                      value={formik.values.state || ""}
                       name="state"
                       handleChange={formik.handleChange}
                       touched={formik.touched.state}
@@ -317,7 +355,7 @@ const Page = () => {
                   <Input
                     type="text"
                     labelKey="register_media_profile_label"
-                    value={formik.values.mediaProfile}
+                    value={formik.values.mediaProfile || ""}
                     name="mediaProfile"
                     handleChange={formik.handleChange}
                     touched={formik.touched.mediaProfile}
@@ -416,6 +454,7 @@ const Page = () => {
           </div>
         </div>
       </Layout>
+      {isOpenDialog && <Dialog email={userData?.email} isOpenDialog={isOpenDialog} setIsOpenDialog={setIsOpenDialog} />}
     </div>
   )
 }

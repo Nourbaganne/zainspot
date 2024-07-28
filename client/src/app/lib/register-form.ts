@@ -2,11 +2,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
-export const useRegisterForm = () => {
+export const useRegisterForm = ({ setIsOpenDialog }: { setIsOpenDialog: (isOpen: boolean) => void; }) => {
   const router = useRouter();
-  
+
 
   return useFormik({
     initialValues: {
@@ -61,7 +60,7 @@ export const useRegisterForm = () => {
       middleName: Yup.string(),
       lastName: Yup.string().required("Last name is required"),
       gender: Yup.string().required("Gender is required"),
-      birthday: Yup.date(),
+      birthday: Yup.date().required("Your Birthday is required"),
       mediaProfile: Yup.string(),
     }),
     onSubmit: async (values, { resetForm }) => {
@@ -74,9 +73,9 @@ export const useRegisterForm = () => {
         const response = await axios.post("http://localhost:3001/user/register", formattedValues);
         if (response.status === 201) {
           resetForm();
-          console.log('user added successfully')
-          router.push('/login');
-          
+          setIsOpenDialog(true)
+          // router.push('/login');
+
         }
 
       } catch (error) {

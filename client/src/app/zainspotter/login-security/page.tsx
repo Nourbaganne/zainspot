@@ -10,20 +10,45 @@ import Layout from '../Layout';
 import eyeOutline from "@/app/assets/register/eye-outline.svg";
 import eyeOffOutline from "@/app/assets/register/eye-off-outline.svg"
 import Translation from '@/app/components/translation';
-import { useState } from 'react';
-import { useUpdateForm } from '@/app/lib/update-form';
+import { useContext, useEffect, useState } from 'react';
+import { UserData, useUpdateForm } from '@/app/lib/update-form';
 import Breadcrumb from '../component/breadcrumb';
+import axios from 'axios';
+import { AuthContext } from '@/app/contexts/authContext';
 
 const Page = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const { user } = useContext(AuthContext);
+    const [userData, setUserData] = useState<UserData | null>(null);
+
+    useEffect(() => {
+        const getUserData = async () => {
+            try {
+                const userResponse = await axios.get(`http://localhost:3001/user/${user?.user.userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${user?.access_token}`,
+                    }
+                });
+
+                setUserData(userResponse.data);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+
+        if (user?.user.userId && user?.access_token) {
+            getUserData();
+        }
+    }, [user?.user.userId, user?.access_token, userData]);
 
     const breadcrumbItems = [
         { label: "Home", href: "/" },
         { label: "My Zainspotter", href: "/zainspotter" },
         { label: "Login & Security" }
     ];
-    const formik = useUpdateForm()
+    const formik = useUpdateForm(userData);
 
     return (
         <div className="flex flex-col gap-6 bg-background-foreground md:px-16 md:py-8  md:pb-20">
@@ -43,7 +68,7 @@ const Page = () => {
                                     <Input
                                         type={showPassword ? "text" : "password"}
                                         labelKey="register_password_label"
-                                        value={formik.values.password}
+                                        value={formik.values.password || ""}
                                         name="password"
                                         handleChange={formik.handleChange}
                                         touched={formik.touched.password}
@@ -66,7 +91,7 @@ const Page = () => {
                                     <Input
                                         type={showConfirmPassword ? "text" : "password"}
                                         labelKey="register_confirm_password_label"
-                                        value={formik.values.confirmPassword}
+                                        value={formik.values.confirmPassword || ""}
                                         name="confirmPassword"
                                         handleChange={formik.handleChange}
                                         touched={formik.touched.confirmPassword}

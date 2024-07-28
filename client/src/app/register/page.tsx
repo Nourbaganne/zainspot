@@ -9,9 +9,14 @@ import { useRegisterForm } from "../lib/register-form";
 import Translation from "../components/translation";
 import { withNoAuth } from "../lib/withNoAuth";
 import InputPassword from "../components/inputPassword";
+import { useState } from "react";
+import Dialog from "../components/dialog";
+
 
 const Register = () => {
-  const formik = useRegisterForm();
+
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+    const formik = useRegisterForm({setIsOpenDialog});
 
   return (
     <div className="md:grid md:grid-cols-2 pb-20 md:pb-56 pt-10 px-4 md:px-0">
@@ -83,11 +88,8 @@ const Register = () => {
               />
               <label
                 htmlFor="businessNumber"
-                className={`absolute left-3 top-0 transform -translate-y-1/2 text-xs bg-white text-text px-1  
-              ${formik.errors.businessNumber && formik.touched.businessNumber
-                    ? "text-alert"
-                    : "text-primary"
-                  }`}
+                className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
+                  ${formik.values.businessNumber && !formik.errors.businessNumber ? 'text-primary' : formik.errors.businessNumber && formik.touched.businessNumber ? 'text-alert' : 'text-text-foreground'} `}
               >
                 <Translation translationKey="register_business_number_label" />
               </label>
@@ -140,13 +142,8 @@ const Register = () => {
                 </select>
                 <label
                   htmlFor="businessType"
-                  className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
-                    ? "peer-focus:text-alert text-alert"
-                    : "peer-focus:text-primary"
-                    } ${formik.values.businessType
-                      ? "top-[0px] left-3 text-xs bg-white z-10"
-                      : ""
-                    }`}
+                  className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
+                    ${formik.values.businessType && !formik.errors.businessType ? 'text-primary' : formik.errors.businessType && formik.touched.businessType ? 'text-alert' : 'text-text-foreground'} `}
                 >
                   <Translation translationKey="register_typeof_business_label" />
                 </label>
@@ -220,13 +217,8 @@ const Register = () => {
               </select>
               <label
                 htmlFor="interestRegion"
-                className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.interestRegion && formik.touched.interestRegion
-                  ? "peer-focus:text-alert text-alert"
-                  : "peer-focus:text-primary"
-                  } ${formik.values.interestRegion
-                    ? "top-[0px] left-3 text-xs bg-white z-10"
-                    : ""
-                  }`}
+                className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
+                    ${formik.values.interestRegion && !formik.errors.interestRegion ? 'text-primary' : formik.errors.interestRegion && formik.touched.interestRegion ? 'text-alert' : 'text-text-foreground'} `}
               >
                 <Translation translationKey="regster_interest_region_label" />
               </label>
@@ -269,45 +261,51 @@ const Register = () => {
               formik={formik}
             />
           </div>
-          <div className="flex flex-col md:flex-row gap-12 text-lg w-full items-center ">
-            <div className="flex flex-col gap-6 ">
-              <div className="flex gap-4 items-center">
-                <label htmlFor="gender" className="font-bold">
+          <div className="flex flex-col md:flex-row gap-4 text-sm w-full items-center justify-center ">
+            <div className=" flex flex-col gap-2 w-full ">
+              <div className={`relative flex border px-2 py-4 rounded-md peer focus:outline-none focus:ring-0 autofill:bg-white ${formik.errors.gender && formik.touched.gender ? 'border-alert' : 'border-button focus:border-primary'}`}
+              >
+                <label htmlFor="gender"
+                className={`absolute left-3 bottom-11 pointer-events-none px-1 text-xs bg-white z-10   
+                  ${formik.values.gender && !formik.errors.gender ?  'text-primary' : formik.errors.gender && formik.touched.gender ? 'text-alert' : 'text-text-foreground'} `}
+                >
                   <Translation translationKey="register_gender_label" />
                 </label>
-                <div className="flex gap-3">
-                  <input
-                    type="radio"
-                    id="male"
-                    name="gender"
-                    value="male"
-                    checked={formik.values.gender === "male"}
-                    onChange={formik.handleChange}
-                    className={`w-5 h-5 accent-primary ${formik.errors.gender && formik.touched.gender
-                      ? "border-alert"
-                      : ""
-                      }`}
-                  />
-                  <label htmlFor="male">
-                    <Translation translationKey="register_gender_male_label" />
-                  </label>
-                </div>
-                <div className="flex gap-3">
-                  <input
-                    type="radio"
-                    id="female"
-                    name="gender"
-                    value="female"
-                    checked={formik.values.gender === "female"}
-                    onChange={formik.handleChange}
-                    className={`w-5 h-5 accent-primary ${formik.errors.gender && formik.touched.gender
-                      ? "border-alert"
-                      : ""
-                      }`}
-                  />
-                  <label htmlFor="female">
-                    <Translation translationKey="register_gender_female_label" />
-                  </label>
+                <div className="flex gap-5">
+                  <div className="flex gap-3">
+                    <input
+                      type="radio"
+                      id="male"
+                      name="gender"
+                      value="male"
+                      checked={formik.values.gender === "male"}
+                      onChange={formik.handleChange}
+                      className={`w-5 h-5 accent-primary ${formik.errors.gender && formik.touched.gender
+                        ? "border-alert"
+                        : ""
+                        }`}
+                    />
+                    <label htmlFor="male">
+                      <Translation translationKey="register_gender_male_label" />
+                    </label>
+                  </div>
+                  <div className="flex gap-3">
+                    <input
+                      type="radio"
+                      id="female"
+                      name="gender"
+                      value="female"
+                      checked={formik.values.gender === "female"}
+                      onChange={formik.handleChange}
+                      className={`w-5 h-5 accent-primary ${formik.errors.gender && formik.touched.gender
+                        ? "border-alert"
+                        : ""
+                        }`}
+                    />
+                    <label htmlFor="female">
+                      <Translation translationKey="register_gender_female_label" />
+                    </label>
+                  </div>
                 </div>
               </div>
               {formik.touched.gender && formik.errors.gender && (
@@ -315,9 +313,9 @@ const Register = () => {
               )}
             </div>
 
-            <div className="flex flex-col w-full gap-2">
+            <div className="flex flex-col w-full gap-2 place-self-start">
               <div className="flex gap-0 md:gap-4 items-center ">
-                <h1 className="font-bold">
+                <h1 className="text-xs text-text-foreground">
                   <Translation translationKey="register_birthday_label" />
                 </h1>
                 <input
@@ -326,7 +324,7 @@ const Register = () => {
                   id="birthday"
                   value={formik.values.birthday}
                   onChange={formik.handleChange}
-                  className={`border text-sm md:text-base px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 w-2/3 ${formik.errors.birthday && formik.touched.birthday
+                  className={`border  px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 w-2/3 ${formik.errors.birthday && formik.touched.birthday
                     ? "border-alert"
                     : "border-button focus:border-primary"
                     }`}
@@ -358,20 +356,28 @@ const Register = () => {
           >
             <Translation translationKey="registerpage_submit_button" />
           </button>
-          <p className="text-center">
-            <Translation translationKey="registerpage_privacy_policy" />
-            <span className="text-primary underline cursor-pointer hover:no-underline">
-              {" "}
-              <Translation translationKey="registerpage_termsofuse_span" />{" "}
-            </span>{" "}
-            <Translation translationKey="registerpage_relating_privacy_policy" />{" "}
-            <span className="text-primary underline cursor-pointer hover:no-underline">
-              {" "}
-              <Translation translationKey="registerpage_privacy_policy_span" />
-            </span>
-          </p>
         </form>
+        <p className="text-center">
+          <Translation translationKey="registerpage_privacy_policy" />
+          <span className="text-primary underline cursor-pointer hover:no-underline">
+            {" "}
+            <Translation translationKey="registerpage_termsofuse_span" />{" "}
+          </span>{" "}
+          <Translation translationKey="registerpage_relating_privacy_policy" />{" "}
+          <span className="text-primary underline cursor-pointer hover:no-underline">
+            {" "}
+            <Translation translationKey="registerpage_privacy_policy_span" />
+          </span>
+        </p>
       </div>
+
+      {isOpenDialog && (
+        <Dialog
+          email={formik?.values?.email}
+          isOpenDialog={isOpenDialog}
+          setIsOpenDialog={setIsOpenDialog}
+        />
+      )}
     </div>
   );
 };

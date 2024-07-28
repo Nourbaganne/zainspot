@@ -39,7 +39,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     if (storedLanguage && storedLanguage !== language) {
       setLanguageState(storedLanguage as Language);
     }
-  }, []);
+  }, [language]);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>
