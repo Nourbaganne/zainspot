@@ -3,16 +3,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-
-export enum UserRole {
-  OWNER = 'owner',
-  ADMIN = 'admin',
-  ZAINSPOTTER = 'zainspotter',
-}
+import { Role } from './role.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -34,13 +31,6 @@ export class User extends BaseEntity {
   @Column()
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @Column({
-    type: 'enum',
-    enum: UserRole,
-    default: UserRole.ZAINSPOTTER,
-  })
-  role: UserRole;
 
   async validatePassword(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);
@@ -90,4 +80,8 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true, default: '' })
   mediaProfile: string;
+
+  @ManyToOne(() => Role)
+  @JoinColumn({ name: 'role_id' })
+  roleId: Role;
 }

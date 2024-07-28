@@ -11,23 +11,23 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/decorators/public.decorator';
-import { UserRole } from 'src/entities/user.entity';
-import { Roles } from 'src/decorators/roles.decorator';
 import { EmailConfirmationService } from 'src/email-confirmation/email-confirmation.service';
 
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly emailConfirmationService: EmailConfirmationService
-  ) { }
+    private readonly emailConfirmationService: EmailConfirmationService,
+  ) {}
 
   @Public()
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     const user = this.userService.register(createUserDto);
-    await this.emailConfirmationService.sendVerificationLink(createUserDto.email);
-    return user
+    await this.emailConfirmationService.sendVerificationLink(
+      createUserDto.email,
+    );
+    return user;
   }
 
   @Get(':id')
@@ -35,19 +35,16 @@ export class UserController {
     return this.userService.findById(id);
   }
 
-  @Roles(UserRole.ADMIN)
   @Get()
   async findAll() {
     return this.userService.findAll();
   }
 
-  @Roles(UserRole.ADMIN, UserRole.OWNER, UserRole.ZAINSPOTTER)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
-  @Roles(UserRole.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
