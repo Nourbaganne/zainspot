@@ -18,7 +18,7 @@ export class EmailConfirmationService {
     const payload: VerificationTokenPayload = { email };
     const token = this.jwtService.sign(payload, {
       secret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
-      expiresIn: `${process.env.JWT_VERIFICATION_TOKEN_EXPIRATION_TIME}s`
+      expiresIn: `${process.env.JWT_VERIFICATION_TOKEN_EXPIRATION_TIME}s`,
     });
   
     const frontendUrl = `${process.env.FRONTEND_URL}/email-confirmation?token=${token}`;
@@ -32,7 +32,10 @@ export class EmailConfirmationService {
       });
       this.logger.log(`Verification email sent to ${email}`);
     } catch (error) {
-      this.logger.error(`Failed to send verification email to ${email}`, error.stack);
+      this.logger.error(
+        `Failed to send verification email to ${email}`,
+        error.stack,
+      );
       throw new Error('Failed to send verification email');
     }
   }

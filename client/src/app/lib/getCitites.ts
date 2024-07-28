@@ -1,3 +1,3 @@
-import axios from "axios";
+import axiosInstance from "./axios/axiosInstance";
 
-export async function getCities() { return await axios.get("http://localhost:3001/cities") }
+export async function getCities() { return await axiosInstance.get("/cities") }

@@ -10,9 +10,9 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import Cities from "./components/cities";
 import { getCities } from "./lib/getCitites";
 
-export default async function Home() {
+export default function Home() {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
+  queryClient.prefetchQuery({
     queryKey: ["cities"],
     queryFn: getCities
   })

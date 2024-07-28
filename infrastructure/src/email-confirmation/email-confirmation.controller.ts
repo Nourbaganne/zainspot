@@ -1,21 +1,36 @@
-import { Controller, Get, Query, Res, HttpStatus, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Res,
+  HttpStatus,
+  Post,
+  Body,
+} from '@nestjs/common';
 import { EmailConfirmationService } from './email-confirmation.service';
 import { Response } from 'express';
 import { Public } from 'src/decorators/public.decorator';
 
 @Controller('email-confirmation')
 export class EmailConfirmationController {
-  constructor(private readonly emailConfirmationService: EmailConfirmationService) {}
+  constructor(
+    private readonly emailConfirmationService: EmailConfirmationService,
+  ) {}
 
   @Public()
   @Post('send-verification')
-  async sendVerificationEmail(@Body('email') email: string, @Res() res: Response) {
+  async sendVerificationEmail(
+    @Body('email') email: string,
+    @Res() res: Response,
+  ) {
     try {
       await this.emailConfirmationService.sendVerificationLink(email);
       res.status(HttpStatus.OK).send('Verification email sent successfully!');
     } catch (error) {
       console.error('Error sending verification email:', error.message);
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).send('Failed to send verification email.');
+      res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .send('Failed to send verification email.');
     }
   }
 

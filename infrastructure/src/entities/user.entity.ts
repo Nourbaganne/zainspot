@@ -1,6 +1,5 @@
 import {
   BaseEntity,
-  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -23,7 +22,7 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   email: string;
 
-  @Column({ default: false})
+  @Column({ default: false })
   isEmailConfirmed: boolean;
 
   @Column()
@@ -46,7 +45,6 @@ export class User extends BaseEntity {
   async validatePassword(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);
   }
-  
 
   @Column({ nullable: true })
   businessNumber: string;

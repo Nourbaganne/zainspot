@@ -10,17 +10,21 @@ import { EmailConfirmationController } from './email-confirmation.controller';
   imports: [
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
-        signOptions: { expiresIn: `${process.env.JWT_VERIFICATION_TOKEN_EXPIRATION_TIME}s` },
-      }),
+      useFactory: async () => {
+        return {
+          secret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
+          signOptions: {
+            expiresIn: `${process.env.JWT_VERIFICATION_TOKEN_EXPIRATION_TIME}s`,
+          },
+        };
+      },
       inject: [ConfigService],
     }),
     ConfigModule,
-    forwardRef(() => UserModule), 
+    forwardRef(() => UserModule),
   ],
   providers: [EmailConfirmationService, EmailService],
   exports: [EmailConfirmationService],
-  controllers: [EmailConfirmationController]
-}) 
+  controllers: [EmailConfirmationController],
+})
 export class EmailConfirmationModule {}
