@@ -14,6 +14,8 @@ import { EmailModule } from './email/email.module';
 import * as Joi from '@hapi/joi';
 import { ScheduleModule } from '@nestjs/schedule';
 import { EmailConfirmationModule } from './email-confirmation/email-confirmation.module';
+import { Role } from './entities/role.entity';
+import { Permission } from './entities/permission.entity';
 
 @Module({
   imports: [
@@ -38,7 +40,7 @@ import { EmailConfirmationModule } from './email-confirmation/email-confirmation
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, City],
+        entities: [User, City, Role, Permission],
         synchronize: true,
       }),
       inject: [ConfigService],
