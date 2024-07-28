@@ -44,8 +44,6 @@ export class User extends BaseEntity {
   role: UserRole;
 
   async validatePassword(password: string): Promise<boolean> {
-    console.log('Password:', password);
-    console.log('Hashed Password:', this.password);
     return bcrypt.compare(password, this.password);
   }
   

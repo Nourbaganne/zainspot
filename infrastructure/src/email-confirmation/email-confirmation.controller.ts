@@ -7,7 +7,6 @@ import { Public } from 'src/decorators/public.decorator';
 export class EmailConfirmationController {
   constructor(private readonly emailConfirmationService: EmailConfirmationService) {}
 
-
   @Public()
   @Post('send-verification')
   async sendVerificationEmail(@Body('email') email: string, @Res() res: Response) {
@@ -36,4 +35,3 @@ export class EmailConfirmationController {
     }
   }
 }
-

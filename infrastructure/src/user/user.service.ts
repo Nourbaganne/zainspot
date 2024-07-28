@@ -19,9 +19,8 @@ export class UserService {
       password: hashedPassword,
       isEmailConfirmed: false,
     });
-    console.log('User before save:', user);
     await User.save(user);
-    console.log('User after save:', user);
+    
     delete user.password;
     return user;
   }
@@ -29,7 +28,6 @@ export class UserService {
   async findAll(): Promise<User[]> {
     const users = await User.find();
     users.forEach(user => {
-      console.log('User found:', user);
       delete user.password;
     });
     return users;
@@ -38,7 +36,6 @@ export class UserService {
   async findById(id: number): Promise<User> {
     const user = await User.findOne({ where: { id } });
     if (user) {
-      console.log('User found:', user);
       delete user.password;
     }
     return user;
@@ -48,9 +45,8 @@ export class UserService {
     const user = await User.findOne({
       where: { email },
     });
-    if (user) {
-      console.log('User found:', user);
-      // Don't delete password here
+    if (!user) {
+      throw new NotFoundException(`User with email ${email} not found`);
     }
     return user;
   }
@@ -68,9 +64,7 @@ export class UserService {
 
     Object.assign(user, updateUserDto);
 
-    console.log('User before update save:', user);
     await User.save(user);
-    console.log('User after update save:', user);
 
     delete user.password;
 

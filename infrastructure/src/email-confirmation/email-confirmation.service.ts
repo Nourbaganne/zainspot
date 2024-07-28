@@ -12,7 +12,7 @@ export class EmailConfirmationService {
     private readonly jwtService: JwtService,
     private readonly emailService: EmailService,
     @Inject(UserService) private readonly userService: UserService,
-  ) { }
+  ) {}
 
   public async sendVerificationLink(email: string): Promise<void> {
     const payload: VerificationTokenPayload = { email };
@@ -20,10 +20,10 @@ export class EmailConfirmationService {
       secret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
       expiresIn: `${process.env.JWT_VERIFICATION_TOKEN_EXPIRATION_TIME}s`
     });
-
-    const url = `${process.env.EMAIL_CONFIRMATION_URL}?token=${token}`;
-    const text = `Welcome to the Zainspott application. To confirm the email address, click here: ${url}`;
-
+  
+    const frontendUrl = `${process.env.FRONTEND_URL}/email-confirmation?token=${token}`;
+    const text = `Welcome to the Zainspott application. To confirm your email address, please click here: ${frontendUrl}`;
+  
     try {
       await this.emailService.sendMail({
         to: email,
@@ -39,7 +39,6 @@ export class EmailConfirmationService {
 
   public async confirmEmail(token: string): Promise<void> {
     try {
-
       const payload = this.jwtService.verify<VerificationTokenPayload>(token, {
         secret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
       });
@@ -48,19 +47,14 @@ export class EmailConfirmationService {
       if (!user) {
         throw new NotFoundException('User not found');
       }
-
-      if (user.isEmailConfirmed) {
-        throw new Error('Email is already confirmed');
-      }
-
       await this.userService.markEmailAsConfirmed(payload.email);
       this.logger.log(`Email confirmed for ${payload.email}`);
     } catch (error) {
       if (error.message.includes('invalid signature')) {
         throw new Error('Invalid or expired token.');
       }
+      this.logger.error(`Email confirmation failed: ${error.message}`, error.stack);
       throw new Error('Email confirmation failed');
     }
   }
-
 }

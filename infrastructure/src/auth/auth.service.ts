@@ -32,7 +32,6 @@ export class AuthService {
     if (!visitor) {
       throw new UnauthorizedException();
     }
-    console.log('Password from DB:', visitor.password);
     if (!(await visitor?.validatePassword(password))) {
       throw new UnauthorizedException();
     }
