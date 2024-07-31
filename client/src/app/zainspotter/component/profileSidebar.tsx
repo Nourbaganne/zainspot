@@ -1,7 +1,7 @@
 "use client";
 
 import Translation from "@/app/components/translation";
-import { EDIT_PAGE_CARDS_DATA } from "@/app/constants/edit-page";
+import { ZAINSPOTTER_DASHBOARD } from "@/app/constants/dashboards";
 import Link from "next/link";
 import { usePathname } from "next/navigation"; 
 const ProfileSidebar = () => {
@@ -9,7 +9,7 @@ const ProfileSidebar = () => {
 
   return (
     <div className="flex flex-col justify-center items-start bg-background border ">
-      {EDIT_PAGE_CARDS_DATA.map((item, index) => {
+      {ZAINSPOTTER_DASHBOARD.map((item, index) => {
         const isActive = pathname === `/zainspotter/${item.link}`;
         
         return (

@@ -14,8 +14,11 @@ import cancelation from '@/app/assets/profile-details/cancelation.svg'
 import cancelationHovering from '@/app/assets/profile-details/cancelationHovering.svg'
 import paymentHistory from '@/app/assets/profile-details/paymentHistory.svg'
 import paymentHistoryHover from '@/app/assets/profile-details/paymentHistoryHover.svg'
+import reportsIcon from '@/app/assets/owner/reportsIcon.svg'
+import userIcon from '@/app/assets/owner/userIcon.svg'
+import locationLogo from '@/app/assets/owner/location-outline.svg'
 
-export const EDIT_PAGE_CARDS_DATA = [
+export const ZAINSPOTTER_DASHBOARD = [
     { logo: profileDetails, hoverLogo: profileDetailsHovering, link: "profile-details", title: "editProfile_ProfileDetails", description: "Provide personal details and how we can reach you" },
     { logo: Security, hoverLogo: SecurityHovering, link: "login-security", title: "editProfile_Login_Security", description: "Update your password and secure your account" },
     { logo: payment, hoverLogo: paymentHovering, link: "payment-details", title: "editProfile_Payment_details", description: "Provide personal details and how we can reach you" },
@@ -24,4 +27,11 @@ export const EDIT_PAGE_CARDS_DATA = [
     { logo: notifications, hoverLogo: notificationsHovering, link: "zainspot-notifications", title: "editProfile_notifications", description: "Choose notification preferences and how you want to be contacted" },
     { logo: services, hoverLogo: servicesHovering, link: "subscribed-services", title: "editProfile_services", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
     { logo: cancelation, hoverLogo: cancelationHovering, link: "cancellation-policy", title: "editProfile_cancellation", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }
+]
+
+export const OWNER_DASHBOARD = [
+    { logo: reportsIcon, hoverLogo: '', link: "reports", title: "Reports", description: "View reports of revenue, visitors, subscribers and Zainspot locations" },
+    { logo: userIcon, hoverLogo: SecurityHovering, link: "users", title: "Users", description: "A detailed list of Zainspot users, admins and managers" },
+    { logo: locationLogo, hoverLogo: paymentHovering, link: "locations", title: "Zainspot Locations", description: "View, edit or add locations, cities and countries where Zainspot is available" },
+
 ]
