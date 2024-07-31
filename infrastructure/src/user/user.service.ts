@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '../entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
+import { Role } from 'src/entities/role.entity';
 
 @Injectable()
 export class UserService {
@@ -13,11 +14,17 @@ export class UserService {
 
   async register(createUserDto: CreateUserDto): Promise<User> {
     const hashedPassword = await this.hashPassword(createUserDto.password);
+    const defaultRole = await Role.findOne({ where: { name: 'zainspotter' } });
+
     const user = User.create({
       ...createUserDto,
       password: hashedPassword,
       isEmailConfirmed: false,
+      role: defaultRole,
+      roleId: defaultRole.id,
     });
+    console.log('user', user);
+
     await User.save(user);
 
     delete user.password;
@@ -25,7 +32,7 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    const users = await User.find();
+    const users = await User.find({ relations: ['role'] });
     users.forEach((user) => {
       delete user.password;
     });
@@ -33,17 +40,16 @@ export class UserService {
   }
 
   async findById(id: number): Promise<User> {
-    const user = await User.findOne({ where: { id } });
-    if (user) {
-      delete user.password;
+    const user = await User.findOne({ where: { id }, relations: ['role'] });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
     }
+    delete user.password;
     return user;
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await User.findOne({
-      where: { email },
-    });
+    const user = await User.findOne({ where: { email }, relations: ['role'] });
     if (!user) {
       throw new NotFoundException(`User with email ${email} not found`);
     }
@@ -51,10 +57,10 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = await User.findOne({ where: { id } });
+    const user = await User.findOne({ where: { id }, relations: ['role'] });
 
     if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new NotFoundException(`User with ID ${id} not found`);
     }
 
     if (updateUserDto.password) {
@@ -66,7 +72,6 @@ export class UserService {
     await User.save(user);
 
     delete user.password;
-
     return user;
   }
 
@@ -74,12 +79,11 @@ export class UserService {
     const user = await User.findOne({ where: { id } });
 
     if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new NotFoundException(`User with ID ${id} not found`);
     }
 
     await User.remove(user);
-
-    return `User with id ${id} deleted successfully`;
+    return `User with ID ${id} deleted successfully`;
   }
 
   async markEmailAsConfirmed(email: string): Promise<void> {
@@ -90,5 +94,18 @@ export class UserService {
 
     user.isEmailConfirmed = true;
     await User.save(user);
+  }
+
+  async findRoleAndPermissions(userId: number): Promise<Role> {
+    const user = await User.findOne({
+      where: { id: userId },
+      relations: ['role', 'role.permissions'],
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+
+    return user.role;
   }
 }

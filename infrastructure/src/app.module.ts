@@ -16,6 +16,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { EmailConfirmationModule } from './email-confirmation/email-confirmation.module';
 import { Role } from './entities/role.entity';
 import { Permission } from './entities/permission.entity';
+import { RoleModule } from './role/role.module';
+import { PermissionModule } from './permission/permission.module';
 
 @Module({
   imports: [
@@ -50,6 +52,8 @@ import { Permission } from './entities/permission.entity';
     CitiesModule,
     EmailModule,
     EmailConfirmationModule,
+    RoleModule,
+    PermissionModule,
   ],
   controllers: [AppController],
   providers: [AppService, UserService, JwtStrategy],

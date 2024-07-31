@@ -18,8 +18,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   password: string;
 
-  roleId: Role;
-
   @IsNumber()
   @IsOptional()
   businessNumber: string;
@@ -64,4 +62,8 @@ export class CreateUserDto {
 
   @IsOptional()
   mediaProfile: string;
+
+  role: Role;
+
+  roleId: number;
 }
