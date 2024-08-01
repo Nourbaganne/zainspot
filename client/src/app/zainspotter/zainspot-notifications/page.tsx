@@ -1,6 +1,6 @@
 "use client"
 
-import Breadcrumb from '../component/breadcrumb';
+import Breadcrumb from '../components/breadcrumb';
 import Layout from '../Layout'
 
 const Page = () => {

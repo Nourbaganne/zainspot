@@ -12,7 +12,7 @@ import eyeOffOutline from "@/app/assets/register/eye-off-outline.svg"
 import Translation from '@/app/components/translation';
 import { useContext, useEffect, useState } from 'react';
 import { UserData, useUpdateForm } from '@/app/lib/update-form';
-import Breadcrumb from '../component/breadcrumb';
+import Breadcrumb from '../components/breadcrumb';
 import axios from 'axios';
 import { AuthContext } from '@/app/contexts/authContext';
 

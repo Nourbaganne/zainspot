@@ -9,7 +9,7 @@ import save from "@/app/assets/profile-details/save.svg";
 import Image from "next/image";
 import Layout from "../Layout";
 import { useUpdateForm } from "@/app/lib/update-form";
-import Breadcrumb from "../component/breadcrumb";
+import Breadcrumb from "../components/breadcrumb";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/app/contexts/authContext";
 import axios from "axios";

@@ -23,7 +23,6 @@ export class UserService {
       role: defaultRole,
       roleId: defaultRole.id,
     });
-    console.log('user', user);
 
     await User.save(user);
 

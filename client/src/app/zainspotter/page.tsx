@@ -5,7 +5,7 @@ import { ZAINSPOTTER_DASHBOARD } from "../constants/dashboards";
 import ProfileCard from "../components/profileCard";
 import Translation from "../components/translation";
 import { WithAuth } from "../lib/withAuth";
-import Breadcrumb from "./component/breadcrumb";
+import Breadcrumb from "./components/breadcrumb";
 
 const Page = () => {
   const breadcrumbItems = [
