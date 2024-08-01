@@ -1,8 +1,8 @@
 "use client"
 
+import Breadcrumb from '../components/breadcrumb';
+import Layout from '../Layout'
 import { usePaymentForm } from '@/app/lib/payment-form';
-import Breadcrumb from '../component/breadcrumb';
-import Layout from '../Layout';
 import InputPassword from '@/app/components/inputPassword';
 import SaveChangesButton from '@/app/components/saveChangesButton';
 import PaypalLogo from '@/app/assets/payment-details/paypal.svg';

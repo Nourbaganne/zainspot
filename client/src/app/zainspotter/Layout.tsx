@@ -1,7 +1,7 @@
 "use client"
 
 import React, { ReactNode, useState, useRef, useEffect } from 'react';
-import ProfileSidebar from './component/profileSidebar';
+import ProfileSidebar from './components/profileSidebar';
 import openSideBar from '@/app/assets/profile-details/openSidebar.svg';
 import closeSideBar from '@/app/assets/profile-details/closeSidebar.svg';
 import Image from 'next/image';
