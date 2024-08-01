@@ -121,5 +121,13 @@
     "login_security_smsAuth_desc": "మీ ఖాతాకు SMS ద్వారా మీ ప్రామాణీకరణ కోడ్ లభిస్తుంది",
     "login_security_emailAuth_title": "ఈమెయిల్ పరిశీలన",
     "login_security_emailAuth_desc": "మీ ఖాతాకు ఈమెయిల్ ద్వారా మీ ప్రామాణీకరణ కోడ్ లభిస్తుంది",
-    "login_security_button_title": "సక్రియం చేయండి"
+    "login_security_button_title": "సక్రియం చేయండి",
+
+    "Breadcrumb_home": "హోమ్ పేజి",
+    "Breadcrumb_zainspotter": "నా Zainspotter",
+    "payment_details_title": "చెల్లింపు వివరాలు",
+    "payment_details_subtitle": "చెల్లింపు వివరాలు",
+    "payment_details_defaultPayment": "డీఫాల్ట్ చెల్లింపు పద్ధతి",
+    "payment_details_defaultPayment_subtitle": "మీకు ఇష్టమైన చెల్లింపు పద్ధతి ఎంచుకోండి",
+    "payment_details_addingCard": "కొత్త కార్డు జోడించండి"
 }

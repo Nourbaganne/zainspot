@@ -122,5 +122,14 @@
     "login_security_smsAuth_desc": "ستتلقى رمز المصادقة عبر الرسائل القصيرة على حسابك",
     "login_security_emailAuth_title": "التحقق عبر البريد الإلكتروني",
     "login_security_emailAuth_desc": "ستتلقى رمز المصادقة عبر البريد الإلكتروني على حسابك",
-    "login_security_button_title": "تفعيل"
+    "login_security_button_title": "تفعيل",
+
+    "Breadcrumb_home": "الصفحة الرئيسية",
+    "Breadcrumb_zainspotter": "زاينسبوتر الخاص بي",
+
+    "payment_details_title": "تفاصيل الدفع",
+    "payment_details_subtitle": "تفاصيل الدفع",
+    "payment_details_defaultPayment": "طريقة الدفع الافتراضية",
+    "payment_details_defaultPayment_subtitle": "اختر طريقة الدفع المفضلة لديك",
+    "payment_details_addingCard": "إضافة بطاقة جديدة"
 }

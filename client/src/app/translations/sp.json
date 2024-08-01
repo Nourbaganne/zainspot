@@ -121,5 +121,13 @@
     "login_security_smsAuth_desc": "Recibirás tu código de autenticación por SMS en tu cuenta",
     "login_security_emailAuth_title": "Verificación de correo electrónico",
     "login_security_emailAuth_desc": "Recibirás tu código de autenticación por correo electrónico en tu cuenta",
-    "login_security_button_title": "ACTIVAR"
+    "login_security_button_title": "ACTIVAR",
+
+    "Breadcrumb_home": "Página principal",
+    "Breadcrumb_zainspotter": "Mi Zainspotter",
+    "payment_details_title": "Detalles de pago",
+    "payment_details_subtitle": "Detalles de pago",
+    "payment_details_defaultPayment": "Método de pago predeterminado",
+    "payment_details_defaultPayment_subtitle": "Seleccione su método de pago preferido",
+    "payment_details_addingCard": "Agregar nueva tarjeta"
 }

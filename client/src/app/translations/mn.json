@@ -121,5 +121,13 @@
     "login_security_smsAuth_desc": "您将通过 SMS 收到您的认证码",
     "login_security_emailAuth_title": "电子邮件验证",
     "login_security_emailAuth_desc": "您将通过电子邮件收到您的认证码",
-    "login_security_button_title": "启用"
+    "login_security_button_title": "启用",
+
+    "Breadcrumb_home": "主页",
+    "Breadcrumb_zainspotter": "我的Zainspotter",
+    "payment_details_title": "支付详情",
+    "payment_details_subtitle": "支付详情",
+    "payment_details_defaultPayment": "默认支付方式",
+    "payment_details_defaultPayment_subtitle": "选择您喜欢的支付方式",
+    "payment_details_addingCard": "添加新卡"
 }

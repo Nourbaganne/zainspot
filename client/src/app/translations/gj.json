@@ -122,5 +122,13 @@
     "login_security_smsAuth_desc": "તમારા એકાઉન્ટ પર SMS દ્વારા તમારા માન્યકરણ કોડ મેળવો",
     "login_security_emailAuth_title": "ઇમેઇલ માન્યકરણ",
     "login_security_emailAuth_desc": "તમારા એકાઉન્ટ પર ઇમેઇલ દ્વારા તમારા માન્યકરણ કોડ મેળવો",
-    "login_security_button_title": "સક્રિય કરો"
+    "login_security_button_title": "સક્રિય કરો",
+
+    "Breadcrumb_home": "મુખપૃષ્ઠ",
+    "Breadcrumb_zainspotter": "મારો ઝૈનસ્પોટર",
+    "payment_details_title": "ચુકવણી વિગતો",
+    "payment_details_subtitle": "ચુકવણી વિગતો",
+    "payment_details_defaultPayment": "ડિફોલ્ટ ચુકવણી પદ્ધતિ",
+    "payment_details_defaultPayment_subtitle": "તમારો પ્રિય ચુકવણી પદ્ધતિ પસંદ કરો",
+    "payment_details_addingCard": "નવી કાર્ડ ઉમેરો"
 }

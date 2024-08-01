@@ -121,5 +121,13 @@
     "login_security_smsAuth_desc": "آپ کو اپنے اکاؤنٹ پر SMS کے ذریعے تصدیقی کوڈ موصول ہوگا",
     "login_security_emailAuth_title": "ای میل تصدیق",
     "login_security_emailAuth_desc": "آپ کو اپنے اکاؤنٹ پر ای میل کے ذریعے تصدیقی کوڈ موصول ہوگا",
-    "login_security_button_title": "فعال کریں"
+    "login_security_button_title": "فعال کریں",
+
+    "Breadcrumb_home": "صفحہ اول",
+    "Breadcrumb_zainspotter": "میرا زین اسپاٹر",
+    "payment_details_title": "ادائیگی کی تفصیلات",
+    "payment_details_subtitle": "ادائیگی کی تفصیلات",
+    "payment_details_defaultPayment": "پہلے سے طے شدہ ادائیگی کا طریقہ",
+    "payment_details_defaultPayment_subtitle": "اپنا پسندیدہ ادائیگی کا طریقہ منتخب کریں",
+    "payment_details_addingCard": "نیا کارڈ شامل کریں"
 }

@@ -121,5 +121,13 @@
     "login_security_smsAuth_desc": "आपको आपके खाते पर SMS द्वारा प्रमाणीकरण कोड प्राप्त होगा",
     "login_security_emailAuth_title": "ईमेल सत्यापन",
     "login_security_emailAuth_desc": "आपको आपके खाते पर ईमेल द्वारा प्रमाणीकरण कोड प्राप्त होगा",
-    "login_security_button_title": "सक्षम करें"
+    "login_security_button_title": "सक्षम करें",
+
+    "Breadcrumb_home": "मुखपृष्ठ",
+    "Breadcrumb_zainspotter": "मेरा ज़ैनस्पॉटर",
+    "payment_details_title": "भुगतान विवरण",
+    "payment_details_subtitle": "भुगतान विवरण",
+    "payment_details_defaultPayment": "डिफ़ॉल्ट भुगतान विधि",
+    "payment_details_defaultPayment_subtitle": "अपनी पसंदीदा भुगतान विधि चुनें",
+    "payment_details_addingCard": "नया कार्ड जोड़ें"
 }

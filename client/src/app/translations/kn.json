@@ -122,5 +122,13 @@
     "login_security_smsAuth_desc": "ನೀವು ನಿಮ್ಮ ಖಾತೆಗೆ SMS ಮೂಲಕ ಪ್ರಮಾಣೀಕರಣ ಕೋಡ್ ಪಡೆಯುತ್ತೀರಿ",
     "login_security_emailAuth_title": "ಇಮೇಲ್ ಪರಿಶೀಲನೆ",
     "login_security_emailAuth_desc": "ನೀವು ನಿಮ್ಮ ಖಾತೆಗೆ ಇಮೇಲ್ ಮೂಲಕ ಪ್ರಮಾಣೀಕರಣ ಕೋಡ್ ಪಡೆಯುತ್ತೀರಿ",
-    "login_security_button_title": "ಆಕ್ಟಿವೇಟ್"
+    "login_security_button_title": "ಆಕ್ಟಿವೇಟ್",
+
+    "Breadcrumb_home": "ಮುಖಪುಟ",
+    "Breadcrumb_zainspotter": "ನನ್ನ Zainspotter",
+    "payment_details_title": "ಪಾವತಿ ವಿವರಗಳು",
+    "payment_details_subtitle": "ಪಾವತಿ ವಿವರಗಳು",
+    "payment_details_defaultPayment": "ಮೂಲಪಾಯಿ ಪಾವತಿ ವಿಧಾನ",
+    "payment_details_defaultPayment_subtitle": "ನಿಮ್ಮ ಇಷ್ಟದ ಪಾವತಿ ವಿಧಾನ ಆಯ್ಕೆಮಾಡಿ",
+    "payment_details_addingCard": "ಹೊಸ ಕಾರ್ಡ್ ಸೇರಿಸಿ"
 }

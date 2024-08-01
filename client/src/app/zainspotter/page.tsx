@@ -14,7 +14,7 @@ const Page = () => {
   ];
 
   return (
-    <div className='flex flex-col bg-background-foreground gap-8 p-8 p md:px-16 md:py-8 '>
+    <div className='flex flex-col bg-background-foreground gap-8 px-2 py-6 md:px-16 md:py-8 '>
       <Breadcrumb items={breadcrumbItems} />
       <h1 className='text-xl font-bold'>My Zainspot</h1>
       <p className='text-span max-w-2xl'>

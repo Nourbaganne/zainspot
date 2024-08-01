@@ -122,5 +122,14 @@
     "login_security_smsAuth_desc": "আপনি আপনার প্রমাণীকরণ কোড SMS দ্বারা আপনার অ্যাকাউন্টে পাবেন",
     "login_security_emailAuth_title": "ইমেইল যাচাই",
     "login_security_emailAuth_desc": "আপনি আপনার প্রমাণীকরণ কোড ইমেইল দ্বারা আপনার অ্যাকাউন্টে পাবেন",
-    "login_security_button_title": "সক্রিয় করুন"
+    "login_security_button_title": "সক্রিয় করুন",
+
+    "Breadcrumb_home": "হোম পেজ",
+    "Breadcrumb_zainspotter": "আমার জাইনস্পটার",
+
+    "payment_details_title": "পেমেন্টের বিবরণ",
+    "payment_details_subtitle": "পেমেন্টের বিবরণ",
+    "payment_details_defaultPayment": "ডিফল্ট পেমেন্ট পদ্ধতি",
+    "payment_details_defaultPayment_subtitle": "আপনার পছন্দের পেমেন্ট পদ্ধতি নির্বাচন করুন",
+    "payment_details_addingCard": "নতুন কার্ড যোগ করুন"
 }

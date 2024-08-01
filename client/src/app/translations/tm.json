@@ -121,5 +121,13 @@
     "login_security_smsAuth_desc": "உங்கள் கணக்கிற்கு SMS மூலம் உங்கள் அங்கீகாரக் கோடு கிடைக்கும்",
     "login_security_emailAuth_title": "மின்னஞ்சல் சரிபார்ப்பு",
     "login_security_emailAuth_desc": "உங்கள் கணக்கிற்கு மின்னஞ்சல் மூலம் உங்கள் அங்கீகாரக் கோடு கிடைக்கும்",
-    "login_security_button_title": "சக்தி"
+    "login_security_button_title": "சக்தி",
+
+    "Breadcrumb_home": "முகப்பு பக்கம்",
+    "Breadcrumb_zainspotter": "என் Zainspotter",
+    "payment_details_title": "கட்டண விவரங்கள்",
+    "payment_details_subtitle": "கட்டண விவரங்கள்",
+    "payment_details_defaultPayment": "இயல்புநிலை கட்டண முறை",
+    "payment_details_defaultPayment_subtitle": "உங்கள் விருப்பமான கட்டண முறையைத் தேர்ந்தெடுக்கவும்",
+    "payment_details_addingCard": "புதிய கார்டு சேர்க்கவும்"
 }

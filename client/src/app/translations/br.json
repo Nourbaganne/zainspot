@@ -97,5 +97,13 @@
     "editProfile_Invoices": "My Invoices",
     "editProfile_notifications": "ZainSpot Notifications",
     "editProfile_services": "Subscribed Services",
-    "editProfile_cancellation": "Cancellation Policy TBD"
+    "editProfile_cancellation": "Cancellation Policy TBD",
+    "Breadcrumb_home": "Home Page",
+    "Breadcrumb_zainspotter": "My Zainspotter",
+
+    "payment_details_title": "Payment Details",
+    "payment_details_subtitle": "Payment Details",
+    "payment_details_defaultPayment": "Default Payment Method",
+    "payment_details_defaultPayment_subtitle": "Select your preferred payment method",
+    "payment_details_addingCard": "Add New Card"
 }

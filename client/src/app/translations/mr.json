@@ -121,5 +121,13 @@
     "login_security_smsAuth_desc": "तुम्हाला तुमच्या खात्यावर SMS द्वारे प्रमाणीकरण कोड मिळेल",
     "login_security_emailAuth_title": "ईमेल सत्यापन",
     "login_security_emailAuth_desc": "तुम्हाला तुमच्या खात्यावर ईमेल द्वारे प्रमाणीकरण कोड मिळेल",
-    "login_security_button_title": "सक्षम करा"
+    "login_security_button_title": "सक्षम करा",
+
+    "Breadcrumb_home": "मुखपृष्ठ",
+    "Breadcrumb_zainspotter": "माझा Zainspotter",
+    "payment_details_title": "पेमेंट तपशील",
+    "payment_details_subtitle": "पेमेंट तपशील",
+    "payment_details_defaultPayment": "मूलभूत पेमेंट पद्धत",
+    "payment_details_defaultPayment_subtitle": "तुमची आवडती पेमेंट पद्धत निवडा",
+    "payment_details_addingCard": "नवीन कार्ड जोडा"
 }

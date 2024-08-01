@@ -103,8 +103,8 @@ const InputPassword = ({
                 />
                 <label
                     htmlFor={name}
-                    className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
-                        ${value && !errors ? 'text-primary' : errors && touched ? 'text-alert' : 'text-text-foreground'} `}
+                    className={`absolute left-3 bottom-[41px] pointer-events-none px-1 text-xs bg-white z-10   
+                        ${value && !errors ? 'text-primary' : errors && touched ? 'text-alert' : 'text-primary'} `}
                 >
                     <Translation translationKey={labelKey} />
                 </label>

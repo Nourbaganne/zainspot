@@ -121,5 +121,13 @@
     "login_security_smsAuth_desc": "ਤੁਹਾਨੂੰ ਆਪਣੇ ਖਾਤੇ ਨੂੰ SMS ਰਾਹੀਂ ਪ੍ਰਮਾਣੀਕਰਨ ਕੋਡ ਮਿਲੇਗਾ",
     "login_security_emailAuth_title": "ਈਮੇਲ ਸੱਚਾਈ",
     "login_security_emailAuth_desc": "ਤੁਹਾਨੂੰ ਆਪਣੇ ਖਾਤੇ ਨੂੰ ਈਮੇਲ ਰਾਹੀਂ ਪ੍ਰਮਾਣੀਕਰਨ ਕੋਡ ਮਿਲੇਗਾ",
-    "login_security_button_title": "ਸਕਰੀਆ ਕਰੋ"
+    "login_security_button_title": "ਸਕਰੀਆ ਕਰੋ",
+
+    "Breadcrumb_home": "ਮੁੱਖ ਸਫ਼ਾ",
+    "Breadcrumb_zainspotter": "ਮੇਰਾ Zainspotter",
+    "payment_details_title": "ਭੁਗਤਾਨ ਵੇਰਵਾ",
+    "payment_details_subtitle": "ਭੁਗਤਾਨ ਵੇਰਵਾ",
+    "payment_details_defaultPayment": "ਮੂਲਭੂਤ ਭੁਗਤਾਨ ਢੰਗ",
+    "payment_details_defaultPayment_subtitle": "ਆਪਣਾ ਪਸੰਦੀਦਾ ਭੁਗਤਾਨ ਢੰਗ ਚੁਣੋ",
+    "payment_details_addingCard": "ਨਵਾਂ ਕਾਰਡ ਸ਼ਾਮਲ ਕਰੋ"
 }

@@ -121,5 +121,13 @@
     "login_security_smsAuth_desc": "Anda akan menerima kod pengesahan anda melalui SMS ke akaun anda",
     "login_security_emailAuth_title": "Pengesahan E-mel",
     "login_security_emailAuth_desc": "Anda akan menerima kod pengesahan anda melalui E-mel ke akaun anda",
-    "login_security_button_title": "AKTIFKAN"
+    "login_security_button_title": "AKTIFKAN",
+
+    "Breadcrumb_home": "Laman Utama",
+    "Breadcrumb_zainspotter": "Zainspotter Saya",
+    "payment_details_title": "Butiran Pembayaran",
+    "payment_details_subtitle": "Butiran Pembayaran",
+    "payment_details_defaultPayment": "Kaedah Pembayaran Lalai",
+    "payment_details_defaultPayment_subtitle": "Pilih kaedah pembayaran pilihan anda",
+    "payment_details_addingCard": "Tambah Kad Baharu"
 }

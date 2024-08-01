@@ -10,51 +10,40 @@ import Image from "next/image";
 import Layout from "../Layout";
 import { useUpdateForm } from "@/app/lib/update-form";
 import Breadcrumb from "../component/breadcrumb";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "@/app/contexts/authContext";
-import axios from "axios";
-import { UserData } from "@/app/lib/update-form";
 import Dialog from "@/app/components/dialog";
 import { handleEmailVerification } from "@/app/lib/email-verification";
+import getUserData from "@/app/lib/getUserData";
+import { useQuery } from "@tanstack/react-query";
 
 const Page = () => {
   const { user } = useContext(AuthContext);
-  const [userData, setUserData] = useState<UserData | null>(null);
+
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const userResponse = await axios.get(`http://localhost:3001/user/${user?.user.userId}`, {
-          headers: {
-            Authorization: `Bearer ${user?.access_token}`,
-          }
-        });
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["users", user?.user.userId],
+    queryFn: () => getUserData(user?.user.userId, user?.access_token),
+    enabled: !!user?.user.userId && !!user?.access_token,
+  });
 
-        setUserData(userResponse.data);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
+  const formik = useUpdateForm(data);
 
-    if (user?.user.userId && user?.access_token) {
-      getUserData();
-    }
-  }, [user?.user.userId, user?.access_token, userData]);
-
-  const formik = useUpdateForm(userData);
-
-  if (!userData) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return <div>Loading ...</div>
   }
-  
+  if (isError) {
+    return <div>{(error as Error).message}</div>
+  }
+
   const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "My Zainspotter", href: "/zainspotter" },
-    { label: "Edit Profile" }
+    { label: "Breadcrumb_home", href: "/" },
+    { label: "Breadcrumb_zainspotter", href: "/zainspotter" },
+    { label: "editProfile_ProfileDetails" }
   ];
   return (
-    <div className="flex flex-col gap-6 bg-background-foreground md:px-16 md:py-8  md:pb-20">
+    <div className="flex flex-col gap-4 md:gap-6 bg-background-foreground md:px-16 md:py-8 py-6 px-2  md:pb-20">
       <Breadcrumb items={breadcrumbItems} />
       <Layout>
         <div className="flex flex-col gap-10 text-sm" >
@@ -62,12 +51,12 @@ const Page = () => {
             <h1 className="font-bold">
               <Translation translationKey="profile_details_title" />
             </h1>
-            {!userData?.isEmailConfirmed && (
-              <p className="flex gap-2 p-2 bg-alert-foreground border text-span text-sm py-4">
+            {!data?.isEmailConfirmed && (
+              <p className="flex gap-1 p-2 bg-alert-foreground border border-text-foreground text-span text-sm py-4">
                 <Translation translationKey="profile_details_email_alert" />
                 <span
-                  onClick={() => handleEmailVerification(userData?.email, setIsOpenDialog)}
-                  className="text-secondary cursor-pointer hover:underline">
+                  onClick={() => handleEmailVerification(data?.email, setIsOpenDialog)}
+                  className="text-secondary font-semibold cursor-pointer hover:underline">
                   <Translation translationKey="profile_details_email_verification" />
                 </span>
               </p>
@@ -266,7 +255,7 @@ const Page = () => {
                         name="businessType"
                         value={formik.values.businessType}
                         onChange={formik.handleChange}
-                        className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.businessType &&
+                        className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.businessType &&
                           formik.touched.businessType
                           ? "border-alert"
                           : "border-button focus:border-primary"
@@ -373,7 +362,7 @@ const Page = () => {
                     <select name="preferedLanguage"
                       value={formik.values.preferedLanguage}
                       onChange={formik.handleChange}
-                      className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedLanguage && formik.touched.preferedLanguage
+                      className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedLanguage && formik.touched.preferedLanguage
                         ? "border-alert"
                         : "border-button focus:border-primary"
                         }`}>
@@ -402,7 +391,7 @@ const Page = () => {
                     <select name="preferedCurrency"
                       value={formik.values.preferedCurrency}
                       onChange={formik.handleChange}
-                      className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedCurrency && formik.touched.preferedCurrency
+                      className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedCurrency && formik.touched.preferedCurrency
                         ? "border-alert"
                         : "border-button focus:border-primary"
                         }`}>
@@ -443,7 +432,7 @@ const Page = () => {
             </h1>
             <p className='text-span text-sm'>
               <Translation translationKey="profile_details_deletingAccount_question" />
-              <span className='text-secondary'>John Doe</span>?
+              <span className='text-secondary'>{data?.name}{" "}{data?.lastName}</span>?
             </p>
             <p className='text-sm max-w-2xl'>
               <Translation translationKey="profile_details_deletingAccount_description" />
@@ -454,7 +443,7 @@ const Page = () => {
           </div>
         </div>
       </Layout>
-      {isOpenDialog && <Dialog email={userData?.email} isOpenDialog={isOpenDialog} setIsOpenDialog={setIsOpenDialog} />}
+      {isOpenDialog && <Dialog email={data?.email} isOpenDialog={isOpenDialog} setIsOpenDialog={setIsOpenDialog} />}
     </div>
   )
 }

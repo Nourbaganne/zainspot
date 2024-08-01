@@ -125,8 +125,18 @@
     "login_security_smsAuth_desc": "You will receive your authentication code by SMS to your account",
     "login_security_emailAuth_title": "Email Verification",
     "login_security_emailAuth_desc": "You will receive your authentication code by Email to your account",
-    "login_security_button_title": "ENABLE" 
+    "login_security_button_title": "ENABLE", 
 
+
+
+    "Breadcrumb_home": "Home",
+    "Breadcrumb_zainspotter": "My Zainspotter",
+
+    "payment_details_title": "PAYMENT DETAILS",
+    "payment_details_subtitle": "PAYMENT DETAILS",
+    "payment_details_defaultPayment": "Default Payment Method",
+    "payment_details_defaultPayment_subtitle": "Select your preferred payment method",
+    "payment_details_addingCard": "Add New Card"
 
 
 
