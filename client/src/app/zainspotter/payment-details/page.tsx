@@ -36,7 +36,7 @@ const Page = () => {
     };
 
     return (
-        <div className="flex flex-col gap-6 bg-background-foreground md:px-16 md:py-8  md:pb-20">
+        <div className="flex flex-col gap-4 md:gap-6 bg-background-foreground md:px-16 md:py-8 py-6 px-2  md:pb-20">
             <Breadcrumb items={breadcrumbItems} />
             <Layout>
                 <div className='flex flex-col p-4 px-6 gap-3 bg-background border mb-20'>
