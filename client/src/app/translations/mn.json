@@ -1,6 +1,7 @@
 {
     "login": "登录",
     "join": "加入",
+     "logout": "退出",
     "secure_checkout": "安全结账",
     "navbar_titles": [
         "如何运作",
@@ -89,7 +90,6 @@
     "register_media_profile_label": "您的社交媒体资料",
     "prefered_language": "语言",
     "prefered_currency": "货币",
-
     "editProfile_ProfileDetails": "个人资料",
     "editProfile_Login_Security": "登录与安全",
     "editProfile_Payment_details": "支付详情",
@@ -100,7 +100,6 @@
     "editProfile_cancellation": "取消政策待定",
     "editProfile_desactivation": "需要停用您的账户吗？",
     "editProfile_desactivation_button": "现在处理",
-
     "profile_details_email_alert": "您尚未验证您的电子邮件。要订阅和进行购买，请",
     "profile_details_email_verification": "验证您的电子邮件。",
     "profile_details_title": "账户信息",
@@ -112,7 +111,6 @@
     "profile_details_deletingAccount_question": "您是否希望删除您的 ZainSpot 账户：",
     "profile_details_deletingAccount_description": "该账户包含 0 个订阅和购买。删除您的账户将删除所有相关的内容和数据。",
     "profile_details_deletingAccount_button": "我想删除我的账户",
-
     "login_security_header": "登录与安全",
     "login_security_password": "密码",
     "login_security_authentification_title": "双因素认证",
@@ -122,12 +120,31 @@
     "login_security_emailAuth_title": "电子邮件验证",
     "login_security_emailAuth_desc": "您将通过电子邮件收到您的认证码",
     "login_security_button_title": "启用",
-
     "Breadcrumb_home": "主页",
     "Breadcrumb_zainspotter": "我的Zainspotter",
     "payment_details_title": "支付详情",
     "payment_details_subtitle": "支付详情",
     "payment_details_defaultPayment": "默认支付方式",
     "payment_details_defaultPayment_subtitle": "选择您喜欢的支付方式",
-    "payment_details_addingCard": "添加新卡"
+    "payment_details_addingCard": "添加新卡",
+    "cancelation_overview_title": "取消政策概述",
+    "cancelation_overview_description": "在 ZainSpotter，我们努力为我们的订户提供卓越的服务和支持。我们理解情况可能会发生变化，您可能需要取消订阅。此政策概述了取消订阅的条款和条件。",
+    "cancelation_requiredPeriod_title": "所需通知期",
+    "cancelation_requiredPeriod_description": "为了确保顺利过渡并在不影响服务的情况下处理您的取消，我们需要 30 天的通知期。此通知期允许我们完成任何未完成的交易并适当管理您的账户。",
+    "cancelation_eligibility_title": "退款资格",
+    "cancelation_eligibility_description_overview": "退款根据取消的时间和原因进行处理:",
+    "cancelation_eligibility_description_timeframe": "前14天内: 如果您在注册后的前14天内取消订阅，您有资格获得订阅费的全额退款。",
+    "cancelation_eligibility_description_timeframe2": "14天后但在续订前: 如果您在最初的14天后但在下一个计费周期前取消，您将不会收到当前计费周期的退款。但是，您不会被收取下一个计费周期的费用。",
+    "cancelation_eligibility_description_annualSubs": "年度订阅: 对于年度订阅，如果您在前30天内取消，您将收到剩余月份的按比例退款。",
+    "cancelation_steps_title": "取消订阅步骤",
+    "cancelation_step_1": "登录: 使用您的凭据登录您的 ZainSpotter 账户。",
+    "cancelation_step_2": "导航到订阅服务: 转到账户设置中的 '订阅服务' 部分。",
+    "cancelation_step_3": "选择订阅: 选择您希望取消的订阅。",
+    "cancelation_step_4": "启动取消: 点击 '取消订阅' 按钮。",
+    "cancelation_step_5": "提供原因（可选）: 您可能会被要求提供取消原因，以帮助我们改进服务。",
+    "cancelation_step_6": "确认取消: 查看取消详细信息并确认您的请求。",
+    "cancelation_step_7": "接收确认: 您将收到一封电子邮件确认取消请求。",
+    "cancelation_note_title": "如果您有任何问题或需要取消过程的帮助，请联系客户支持团队。",
+    "cancelation_note_span": "注意 :",
+    "cancelation_note_desc": "此取消政策可能会发生变化，我们会通过电子邮件和我们的网站通知订户任何更新。"
 }

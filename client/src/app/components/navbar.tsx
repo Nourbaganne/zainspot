@@ -126,7 +126,9 @@ const Navbar = () => {
 
         <div className="flex flex-col gap-2">
           {user ? (
-            <button className="text-alert font-semibold text-start" onClick={handleLogout}>LOGOUT</button>
+            <button className="text-alert font-semibold text-start" onClick={handleLogout}>
+              <Translation translationKey="logout" />
+            </button>
           ) : (
             <div className="flex gap-2 text-primary text-xl">
               <Link href={"/register"}>

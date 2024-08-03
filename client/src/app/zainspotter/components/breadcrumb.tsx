@@ -16,11 +16,11 @@ interface BreadcrumbProps {
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   return (
-    <div className="text-sm text-text-foreground flex gap-4">
+    <div className="text-sm text-span-foreground flex gap-4">
       {items.map((item, index) => (
         <div key={index} className="flex gap-3 items-center">
           {item.href ? (
-            <Link href={item.href} className={`flex gap-3  ${index === 0 ? 'text-primary' : 'text-text-foreground'} `}>
+            <Link href={item.href} className={`flex gap-3  ${index === 0 ? 'text-primary' : ''} `}>
               <span className="hover:underline">
                 <Translation translationKey={item.label} />
               </span>
@@ -29,7 +29,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
               )}
             </Link>
           ) : (
-            <span className="text-text-foreground">
+            <span >
               <Translation translationKey={item.label} />
             </span>
           )}

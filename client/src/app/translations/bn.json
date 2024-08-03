@@ -1,6 +1,7 @@
 {
     "login": "লগইন",
     "join": "যোগদান",
+    "logout": "লগ আউট",
     "secure_checkout": "নিরাপদ চেকআউট",
     "navbar_titles": [
         "কিভাবে কাজ করে",
@@ -89,7 +90,6 @@
     "register_media_profile_label": "আপনার সামাজিক মিডিয়া প্রোফাইল",
     "prefered_language": "ভাষা",
     "prefered_currency": "মুদ্রা",
-
     "editProfile_ProfileDetails": "প্রোফাইল বিবরণী",
     "editProfile_Login_Security": "লগইন ও সুরক্ষা",
     "editProfile_Payment_details": "পেমেন্ট বিবরণী",
@@ -98,10 +98,8 @@
     "editProfile_notifications": "ZainSpot বিজ্ঞপ্তি",
     "editProfile_services": "সাবস্ক্রাইব করা পরিষেবা",
     "editProfile_cancellation": "বাতিলকরণ নীতি TBD",
-
     "editProfile_desactivation": "আপনার অ্যাকাউন্ট নিষ্ক্রিয় করতে হবে?",
     "editProfile_desactivation_button": "এখনই যত্ন নিন",
-
     "profile_details_email_alert": "আপনি আপনার ইমেইল যাচাই করেননি। সাবস্ক্রাইব করতে এবং কেনাকাটা করতে, অনুগ্রহ করে",
     "profile_details_email_verification": "আপনার ইমেইল যাচাই করুন.",
     "profile_details_title": "অ্যাকাউন্ট তথ্য",
@@ -113,7 +111,6 @@
     "profile_details_deletingAccount_question": "আপনি কি আপনার ZainSpot অ্যাকাউন্ট মুছতে চান:",
     "profile_details_deletingAccount_description": "এই অ্যাকাউন্টে 0 সাবস্ক্রিপশন এবং কেনাকাটা রয়েছে। আপনার অ্যাকাউন্ট মুছলে এর সমস্ত বিষয়বস্তু এবং ডেটা মুছে যাবে।",
     "profile_details_deletingAccount_button": "আমি আমার অ্যাকাউন্ট মুছতে চাই",
-
     "login_security_header": "লগইন ও সিকিউরিটি",
     "login_security_password": "পাসওয়ার্ড",
     "login_security_authentification_title": "দ্বি-ফ্যাক্টর প্রমাণীকরণ",
@@ -123,13 +120,31 @@
     "login_security_emailAuth_title": "ইমেইল যাচাই",
     "login_security_emailAuth_desc": "আপনি আপনার প্রমাণীকরণ কোড ইমেইল দ্বারা আপনার অ্যাকাউন্টে পাবেন",
     "login_security_button_title": "সক্রিয় করুন",
-
     "Breadcrumb_home": "হোম পেজ",
     "Breadcrumb_zainspotter": "আমার জাইনস্পটার",
-
     "payment_details_title": "পেমেন্টের বিবরণ",
     "payment_details_subtitle": "পেমেন্টের বিবরণ",
     "payment_details_defaultPayment": "ডিফল্ট পেমেন্ট পদ্ধতি",
     "payment_details_defaultPayment_subtitle": "আপনার পছন্দের পেমেন্ট পদ্ধতি নির্বাচন করুন",
-    "payment_details_addingCard": "নতুন কার্ড যোগ করুন"
+    "payment_details_addingCard": "নতুন কার্ড যোগ করুন",
+    "cancelation_overview_title": "বাতিলকরণের নীতি পর্যালোচনা",
+    "cancelation_overview_description": "জেইনস্পটারে, আমরা আমাদের গ্রাহকদের ব্যতিক্রমী সেবা এবং সমর্থন প্রদান করতে চেষ্টা করি। আমরা বুঝতে পারি যে পরিস্থিতি পরিবর্তিত হতে পারে, এবং আপনি আপনার সাবস্ক্রিপশন বাতিল করতে হতে পারে। এই নীতি আপনার সাবস্ক্রিপশন বাতিল করার শর্তাবলী এবং শর্তাবলী নির্ধারণ করে।",
+    "cancelation_requiredPeriod_title": "প্রয়োজনীয় নোটিশ সময়কাল",
+    "cancelation_requiredPeriod_description": "একটি মসৃণ ট্রানজিশন নিশ্চিত করতে এবং কোন পরিষেবা বিঘ্নিত না করে আপনার বাতিলকরণ প্রক্রিয়া করতে, আমরা ৩০ দিনের একটি নোটিশ সময়কাল প্রয়োজন। এই নোটিশ সময় আমাদের কোনো বকেয়া লেনদেন চূড়ান্ত করতে এবং আপনার অ্যাকাউন্ট সঠিকভাবে পরিচালনা করতে সক্ষম করে।",
+    "cancelation_eligibility_title": "রিফান্ড যোগ্যতা",
+    "cancelation_eligibility_description_overview": "রিফান্ডগুলি বাতিলকরণের সময় এবং কারণ অনুযায়ী প্রক্রিয়া করা হয়:",
+    "cancelation_eligibility_description_timeframe": "প্রথম ১৪ দিনের মধ্যে: যদি আপনি সাইন আপ করার প্রথম ১৪ দিনের মধ্যে আপনার সাবস্ক্রিপশন বাতিল করেন, আপনি সাবস্ক্রিপশন ফি সম্পূর্ণ রিফান্ড পেতে যোগ্য।",
+    "cancelation_eligibility_description_timeframe2": "১৪ দিনের পরে কিন্তু নবায়নের আগে: যদি আপনি প্রাথমিক ১৪ দিনের সময়সীমার পরে কিন্তু পরবর্তী বিলিং চক্রের আগে বাতিল করেন, আপনি বর্তমান বিলিং সময়ের জন্য রিফান্ড পাবেন না। তবে, পরবর্তী বিলিং সময়ের জন্য আপনার থেকে কোনো চার্জ নেওয়া হবে না।",
+    "cancelation_eligibility_description_annualSubs": "বার্ষিক সাবস্ক্রিপশন: বার্ষিক সাবস্ক্রিপশনের জন্য, যদি আপনি প্রথম ৩০ দিনের মধ্যে বাতিল করেন, আপনি অবশিষ্ট মাসগুলির জন্য একটি প্রো-রেটেড রিফান্ড পাবেন।",
+    "cancelation_steps_title": "সাবস্ক্রিপশন বাতিল করার পদক্ষেপ",
+    "cancelation_step_1": "লগ ইন করুন: আপনার ক্রেডেনশিয়ালগুলি ব্যবহার করে আপনার জেইনস্পটার অ্যাকাউন্টে প্রবেশ করুন।",
+    "cancelation_step_2": "সাবস্ক্রাইবড পরিষেবায় যান: আপনার অ্যাকাউন্ট সেটিংসে 'সাবস্ক্রাইবড পরিষেবা' বিভাগে যান।",
+    "cancelation_step_3": "সাবস্ক্রিপশন নির্বাচন করুন: যে সাবস্ক্রিপশনটি আপনি বাতিল করতে চান তা নির্বাচন করুন।",
+    "cancelation_step_4": "বাতিলকরণ শুরু করুন: 'সাবস্ক্রিপশন বাতিল করুন' বোতামে ক্লিক করুন।",
+    "cancelation_step_5": "কারণ প্রদান করুন (ঐচ্ছিক): আপনাকে বাতিলকরণের কারণ প্রদানের জন্য অনুরোধ করা হতে পারে আমাদের পরিষেবাগুলি উন্নত করতে সহায়তা করার জন্য।",
+    "cancelation_step_6": "বাতিলকরণ নিশ্চিত করুন: বাতিলকরণের বিবরণ পর্যালোচনা করুন এবং আপনার অনুরোধ নিশ্চিত করুন।",
+    "cancelation_step_7": "নিশ্চিতকরণ গ্রহণ করুন: বাতিলকরণের অনুরোধ স্বীকার করে একটি ইমেইল নিশ্চিতকরণ পাবেন।",
+    "cancelation_note_title": "যদি আপনার কোনো প্রশ্ন থাকে বা বাতিলকরণ প্রক্রিয়ায় সহায়তা প্রয়োজন হয়, অনুগ্রহ করে আমাদের গ্রাহক সহায়তা দলের সাথে যোগাযোগ করুন।",
+    "cancelation_note_span": "দ্রষ্টব্য :",
+    "cancelation_note_desc": "এই বাতিলকরণ নীতি পরিবর্তন সাপেক্ষে, এবং আমরা আমাদের ওয়েবসাইটে এবং ইমেইলের মাধ্যমে যে কোনও আপডেটের গ্রাহকদের জানাব।"
 }

@@ -1,6 +1,7 @@
 {
     "login": "LOGIN",
     "join": "JOIN",
+    "logout": "LOGOUT",
     "secure_checkout": "SECURE CHECKOUT",
     "navbar_titles": [
         "HOW IT WORKS",
@@ -89,7 +90,6 @@
     "register_media_profile_label": "Your Social Media Profiles",
     "prefered_language": "Language",
     "prefered_currency": "Currency",
-
     "editProfile_ProfileDetails": "Profile Details",
     "editProfile_Login_Security": "Login & Security",
     "editProfile_Payment_details": "Payment Details",
@@ -100,10 +100,29 @@
     "editProfile_cancellation": "Cancellation Policy TBD",
     "Breadcrumb_home": "Home Page",
     "Breadcrumb_zainspotter": "My Zainspotter",
-
     "payment_details_title": "Payment Details",
     "payment_details_subtitle": "Payment Details",
     "payment_details_defaultPayment": "Default Payment Method",
     "payment_details_defaultPayment_subtitle": "Select your preferred payment method",
-    "payment_details_addingCard": "Add New Card"
+    "payment_details_addingCard": "Add New Card",
+    "cancelation_overview_title": "Overview of Cancellation Policy",
+    "cancelation_overview_description": "At ZainSpotter, we strive to provide exceptional service and support to our subscribers. We understand that circumstances may change, and you may need to cancel your subscription. This policy outlines the terms and conditions for cancelling your subscription with us.",
+    "cancelation_requiredPeriod_title": "Notice Period Required",
+    "cancelation_requiredPeriod_description": "To ensure a smooth transition and to process your cancellation without service disruption, we require a notice period of 30 days. This notice period allows us to finalise any pending transactions and manage your account appropriately.",
+    "cancelation_eligibility_title": "Refund Eligibility",
+    "cancelation_eligibility_description_overview": "Refunds are processed based on the timing and reason for cancellation:",
+    "cancelation_eligibility_description_timeframe": "Within the First 14 Days: If you cancel your subscription within the first 14 days of signing up, you are eligible for a full refund of the subscription fee.",
+    "cancelation_eligibility_description_timeframe2": "After 14 Days but Before Renewal: If you cancel after the initial 14-day period but before the next billing cycle, you will not receive a refund for the current billing period. However, you will not be charged for the subsequent billing period.",
+    "cancelation_eligibility_description_annualSubs": "Annual Subscriptions: For annual subscriptions, if you cancel within the first 30 days, you will receive a prorated refund for the remaining months.",
+    "cancelation_steps_title": "Steps to Cancel Subscription",
+    "cancelation_step_1": "Log In: Access your ZainSpotter account by logging in with your credentials.",
+    "cancelation_step_2": "Navigate to Subscribed Services: Go to the 'Subscribed Services' section in your account settings.",
+    "cancelation_step_3": "Select Subscription: Choose the subscription you wish to cancel.",
+    "cancelation_step_4": "Initiate Cancellation: Click on the 'Cancel Subscription' button.",
+    "cancelation_step_5": "Provide Reason (Optional):You may be prompted to provide a reason for cancellation to help us improve our services.",
+    "cancelation_step_6": "Confirm Cancellation: Review the cancellation details and confirm your request.",
+    "cancelation_step_7": "Receive Confirmation: You will receive an email confirmation acknowledging the cancellation request.",
+    "cancelation_note_title": "If you have any questions or require assistance with the cancellation process, please contact our customer support team.",
+    "cancelation_note_span": "Note :",
+    "cancelation_note_desc": "This cancellation policy is subject to change, and we will notify subscribers of any updates via email and on our website."
 }
