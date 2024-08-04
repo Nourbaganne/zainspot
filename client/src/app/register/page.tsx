@@ -35,7 +35,7 @@ const Register = () => {
         <h1 className="text-2xl md:text-4xl font-bold text-primary leading-snug">
           <Translation translationKey="registerpage_header" />
         </h1>
-        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-10">
+        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-10 w-full">
           <Input
             type="text"
             labelKey="register_email_label"

@@ -1,6 +1,7 @@
 {
     "login": "INICIAR SESIÓN",
     "join": "UNIRSE",
+    "logout": "CERRAR SESIÓN",
     "secure_checkout": "PAGO SEGURO",
     "navbar_titles": [
         "CÓMO FUNCIONA",
@@ -89,7 +90,6 @@
     "register_media_profile_label": "Tus Perfiles en Redes Sociales",
     "prefered_language": "Idioma",
     "prefered_currency": "Moneda",
-
     "editProfile_ProfileDetails": "Detalles del perfil",
     "editProfile_Login_Security": "Inicio de sesión y seguridad",
     "editProfile_Payment_details": "Detalles del pago",
@@ -100,7 +100,6 @@
     "editProfile_cancellation": "Política de cancelación TBD",
     "editProfile_desactivation": "¿Necesitas desactivar tu cuenta?",
     "editProfile_desactivation_button": "Encárgate de eso ahora",
-
     "profile_details_email_alert": "No has verificado tu correo electrónico. Para suscribirte y realizar compras, por favor",
     "profile_details_email_verification": "verifica tu correo electrónico.",
     "profile_details_title": "INFORMACIÓN DE LA CUENTA",
@@ -112,7 +111,6 @@
     "profile_details_deletingAccount_question": "¿Deseas eliminar tu cuenta de ZainSpot:",
     "profile_details_deletingAccount_description": "Esta cuenta contiene 0 suscripciones y compras. Eliminar tu cuenta eliminará todo tu contenido y datos asociados.",
     "profile_details_deletingAccount_button": "Quiero eliminar mi cuenta",
-
     "login_security_header": "Inicio de sesión y seguridad",
     "login_security_password": "Contraseña",
     "login_security_authentification_title": "Autenticación en dos pasos",
@@ -121,5 +119,32 @@
     "login_security_smsAuth_desc": "Recibirás tu código de autenticación por SMS en tu cuenta",
     "login_security_emailAuth_title": "Verificación de correo electrónico",
     "login_security_emailAuth_desc": "Recibirás tu código de autenticación por correo electrónico en tu cuenta",
-    "login_security_button_title": "ACTIVAR"
+    "login_security_button_title": "ACTIVAR",
+    "Breadcrumb_home": "Página principal",
+    "Breadcrumb_zainspotter": "Mi Zainspotter",
+    "payment_details_title": "Detalles de pago",
+    "payment_details_subtitle": "Detalles de pago",
+    "payment_details_defaultPayment": "Método de pago predeterminado",
+    "payment_details_defaultPayment_subtitle": "Seleccione su método de pago preferido",
+    "payment_details_addingCard": "Agregar nueva tarjeta",
+    "cancelation_overview_title": "Resumen de la política de cancelación",
+    "cancelation_overview_description": "En ZainSpotter, nos esforzamos por proporcionar un servicio y soporte excepcionales a nuestros suscriptores. Entendemos que las circunstancias pueden cambiar y que puede necesitar cancelar su suscripción. Esta política describe los términos y condiciones para cancelar su suscripción con nosotros.",
+    "cancelation_requiredPeriod_title": "Período de aviso requerido",
+    "cancelation_requiredPeriod_description": "Para asegurar una transición sin problemas y procesar su cancelación sin interrupción del servicio, requerimos un período de aviso de 30 días. Este período de aviso nos permite finalizar cualquier transacción pendiente y gestionar su cuenta adecuadamente.",
+    "cancelation_eligibility_title": "Elegibilidad para reembolso",
+    "cancelation_eligibility_description_overview": "Los reembolsos se procesan en función del momento y la razón de la cancelación:",
+    "cancelation_eligibility_description_timeframe": "Dentro de los primeros 14 días: Si cancela su suscripción dentro de los primeros 14 días después de registrarse, es elegible para un reembolso completo de la tarifa de suscripción.",
+    "cancelation_eligibility_description_timeframe2": "Después de 14 días pero antes de la renovación: Si cancela después del período inicial de 14 días pero antes del siguiente ciclo de facturación, no recibirá un reembolso por el período de facturación actual. Sin embargo, no se le cobrará por el siguiente período de facturación.",
+    "cancelation_eligibility_description_annualSubs": "Suscripciones anuales: Para suscripciones anuales, si cancela dentro de los primeros 30 días, recibirá un reembolso prorrateado por los meses restantes.",
+    "cancelation_steps_title": "Pasos para cancelar la suscripción",
+    "cancelation_step_1": "Iniciar sesión: Acceda a su cuenta de ZainSpotter iniciando sesión con sus credenciales.",
+    "cancelation_step_2": "Ir a servicios suscritos: Vaya a la sección 'Servicios suscritos' en la configuración de su cuenta.",
+    "cancelation_step_3": "Seleccionar suscripción: Elija la suscripción que desea cancelar.",
+    "cancelation_step_4": "Iniciar cancelación: Haga clic en el botón 'Cancelar suscripción'.",
+    "cancelation_step_5": "Proporcione la razón (opcional): Puede que se le pida que proporcione una razón para la cancelación para ayudarnos a mejorar nuestros servicios.",
+    "cancelation_step_6": "Confirmar cancelación: Revise los detalles de la cancelación y confirme su solicitud.",
+    "cancelation_step_7": "Recibir confirmación: Recibirá una confirmación por correo electrónico reconociendo la solicitud de cancelación.",
+    "cancelation_note_title": "Si tiene alguna pregunta o necesita ayuda con el proceso de cancelación, por favor contacte a nuestro equipo de soporte al cliente.",
+    "cancelation_note_span": "Nota :",
+    "cancelation_note_desc": "Esta política de cancelación está sujeta a cambios, y notificaremos a los suscriptores de cualquier actualización por correo electrónico y en nuestro sitio web."
 }

@@ -2,7 +2,6 @@
 
 import { Input } from '../../register/components/input'
 import "react-phone-input-2/lib/style.css";
-import save from '@/app/assets/profile-details/save.svg'
 import Image from 'next/image'
 import smsVerification from '@/app/assets/profile-details/smsVerification.svg'
 import emailVerification from '@/app/assets/profile-details/emailVerification.svg'
@@ -15,43 +14,40 @@ import { UserData, useUpdateForm } from '@/app/lib/update-form';
 import Breadcrumb from '../components/breadcrumb';
 import axios from 'axios';
 import { AuthContext } from '@/app/contexts/authContext';
+import SaveChangesButton from '@/app/components/saveChangesButton';
+import { useQuery } from '@tanstack/react-query';
+import getUserData from '@/app/lib/getUserData';
 
 const Page = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const { user } = useContext(AuthContext);
-    const [userData, setUserData] = useState<UserData | null>(null);
 
-    useEffect(() => {
-        const getUserData = async () => {
-            try {
-                const userResponse = await axios.get(`http://localhost:3001/user/${user?.user.userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${user?.access_token}`,
-                    }
-                });
+    const { data, isLoading, isError, error } = useQuery({
+        queryKey: ["users", user?.user.userId],
+        queryFn: () => getUserData(user?.user.userId, user?.access_token),
+        enabled: !!user?.user.userId && !!user?.access_token,
+    });
 
-                setUserData(userResponse.data);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
+    const formik = useUpdateForm(data);
 
-        if (user?.user.userId && user?.access_token) {
-            getUserData();
-        }
-    }, [user?.user.userId, user?.access_token, userData]);
+    if (isLoading) {
+        return <div>Loading ...</div>
+    }
+    if (isError) {
+        return <div>{(error as Error).message}</div>
+    }
 
     const breadcrumbItems = [
-        { label: "Home", href: "/" },
-        { label: "My Zainspotter", href: "/zainspotter" },
-        { label: "Login & Security" }
+        { label: "Breadcrumb_home", href: "/" },
+        { label: "Breadcrumb_zainspotter", href: "/zainspotter" },
+        { label: "editProfile_Login_Security" }
     ];
-    const formik = useUpdateForm(userData);
+
 
     return (
-        <div className="flex flex-col gap-6 bg-background-foreground md:px-16 md:py-8  md:pb-20">
+        <div className="flex flex-col gap-4 md:gap-6 bg-background-foreground py-6 px-2 md:px-16 md:py-8  md:pb-20">
             <Breadcrumb items={breadcrumbItems} />
             <Layout>
                 <div className='flex flex-col p-4 px-6 gap-3 bg-background border mb-20'>
@@ -111,12 +107,7 @@ const Page = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex md:justify-end'>
-                                <button type='submit' className='flex w-full md:w-auto gap-2 bg-button p-4 rounded-md text-background justify-center md:justify-end  transition-all duration-300'>
-                                    <Image src={save} alt='save-changes' />
-                                    <Translation translationKey='profile_details_saving_button' />
-                                </button>
-                            </div>
+                            <SaveChangesButton />
                         </div>
 
                     </form>

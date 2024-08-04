@@ -18,7 +18,7 @@ const Dialog = ({email, isOpenDialog, setIsOpenDialog }: DialogProps) => {
 
     return (
         <div
-            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 px-5 md:px-0 "
             onClick={handleClose}
         >
             <div

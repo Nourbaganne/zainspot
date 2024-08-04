@@ -13,6 +13,9 @@ const config: Config = {
           DEFAULT: '#00927C',
           foreground: '#00604F'
         },
+        darkBackground: {
+          DEFAULT: '#031612'
+        },
         background: {
           DEFAULT: '#FFFFFF',
           foreground: '#F3F3F3'

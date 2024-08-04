@@ -1,6 +1,7 @@
 {
     "login": "Log masuk",
     "join": "Sertai",
+    "logout": "KELUAR",
     "secure_checkout": "Semak keluar yang selamat",
     "navbar_titles": [
         "Bagaimana Ia Berfungsi",
@@ -121,5 +122,34 @@
     "login_security_smsAuth_desc": "Anda akan menerima kod pengesahan anda melalui SMS ke akaun anda",
     "login_security_emailAuth_title": "Pengesahan E-mel",
     "login_security_emailAuth_desc": "Anda akan menerima kod pengesahan anda melalui E-mel ke akaun anda",
-    "login_security_button_title": "AKTIFKAN"
+    "login_security_button_title": "AKTIFKAN",
+
+    "Breadcrumb_home": "Laman Utama",
+    "Breadcrumb_zainspotter": "Zainspotter Saya",
+    "payment_details_title": "Butiran Pembayaran",
+    "payment_details_subtitle": "Butiran Pembayaran",
+    "payment_details_defaultPayment": "Kaedah Pembayaran Lalai",
+    "payment_details_defaultPayment_subtitle": "Pilih kaedah pembayaran pilihan anda",
+    "payment_details_addingCard": "Tambah Kad Baharu",
+
+    "cancelation_overview_title": "Gambaran Keseluruhan Dasar Pembatalan",
+    "cancelation_overview_description": "Di ZainSpotter, kami berusaha untuk memberikan perkhidmatan dan sokongan yang luar biasa kepada pelanggan kami. Kami memahami bahawa keadaan mungkin berubah, dan anda mungkin perlu membatalkan langganan anda. Dasar ini menggariskan terma dan syarat untuk membatalkan langganan anda dengan kami.",
+    "cancelation_requiredPeriod_title": "Tempoh Notis Diperlukan",
+    "cancelation_requiredPeriod_description": "Untuk memastikan peralihan yang lancar dan untuk memproses pembatalan anda tanpa gangguan perkhidmatan, kami memerlukan tempoh notis selama 30 hari. Tempoh notis ini membolehkan kami menyelesaikan sebarang transaksi tertunggak dan mengurus akaun anda dengan sewajarnya.",
+    "cancelation_eligibility_title": "Kelayakan Bayaran Balik",
+    "cancelation_eligibility_description_overview": "Bayaran balik diproses berdasarkan masa dan sebab pembatalan:",
+    "cancelation_eligibility_description_timeframe": "Dalam 14 Hari Pertama: Jika anda membatalkan langganan anda dalam tempoh 14 hari pertama selepas mendaftar, anda layak mendapat bayaran balik penuh yuran langganan.",
+    "cancelation_eligibility_description_timeframe2": "Selepas 14 Hari tetapi Sebelum Pembaharuan: Jika anda membatalkan selepas tempoh awal 14 hari tetapi sebelum kitaran bil seterusnya, anda tidak akan menerima bayaran balik untuk tempoh bil semasa. Walau bagaimanapun, anda tidak akan dikenakan bayaran untuk tempoh bil yang seterusnya.",
+    "cancelation_eligibility_description_annualSubs": "Langganan Tahunan: Untuk langganan tahunan, jika anda membatalkan dalam tempoh 30 hari pertama, anda akan menerima bayaran balik prorata untuk bulan yang tinggal.",
+    "cancelation_steps_title": "Langkah-langkah untuk Membatalkan Langganan",
+    "cancelation_step_1": "Log Masuk: Akses akaun ZainSpotter anda dengan log masuk menggunakan kelayakan anda.",
+    "cancelation_step_2": "Navigasi ke Perkhidmatan Berlangganan: Pergi ke bahagian 'Perkhidmatan Berlangganan' dalam tetapan akaun anda.",
+    "cancelation_step_3": "Pilih Langganan: Pilih langganan yang anda ingin batalkan.",
+    "cancelation_step_4": "Mulakan Pembatalan: Klik butang 'Batalkan Langganan'.",
+    "cancelation_step_5": "Berikan Sebab (Pilihan): Anda mungkin diminta untuk memberikan sebab pembatalan untuk membantu kami meningkatkan perkhidmatan kami.",
+    "cancelation_step_6": "Sahkan Pembatalan: Semak butiran pembatalan dan sahkan permintaan anda.",
+    "cancelation_step_7": "Terima Pengesahan: Anda akan menerima pengesahan e-mel yang mengakui permintaan pembatalan.",
+    "cancelation_note_title": "Jika anda mempunyai sebarang soalan atau memerlukan bantuan dengan proses pembatalan, sila hubungi pasukan sokongan pelanggan kami.",
+    "cancelation_note_span": "Nota :",
+    "cancelation_note_desc": "Dasar pembatalan ini tertakluk kepada perubahan, dan kami akan memberitahu pelanggan tentang sebarang kemas kini melalui e-mel dan di laman web kami."
 }
