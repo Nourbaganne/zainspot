@@ -13,10 +13,14 @@ export class Role extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
-  name: string;
+  @Column()
+  role: string;
 
   @ManyToMany(() => Permission, { cascade: true })
-  @JoinTable()
+  @JoinTable({
+    name: 'role_permissions', // Custom join table name
+    joinColumn: { name: 'roleId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'permissionId', referencedColumnName: 'id' },
+  })
   permissions: Permission[];
 }

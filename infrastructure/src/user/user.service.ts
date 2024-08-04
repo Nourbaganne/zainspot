@@ -14,14 +14,14 @@ export class UserService {
 
   async register(createUserDto: CreateUserDto): Promise<User> {
     const hashedPassword = await this.hashPassword(createUserDto.password);
-    const defaultRole = await Role.findOne({ where: { name: 'zainspotter' } });
+    const defaultRole = await Role.findOne({ where: { role: 'zainspotter' } });
+    console.log('defaultRole', defaultRole);
 
     const user = User.create({
       ...createUserDto,
       password: hashedPassword,
       isEmailConfirmed: false,
       role: defaultRole,
-      roleId: defaultRole.id,
     });
 
     await User.save(user);
@@ -66,6 +66,17 @@ export class UserService {
       updateUserDto.password = await this.hashPassword(updateUserDto.password);
     }
 
+    // Update the user's role if a new role ID is provided
+    if (updateUserDto.roleId) {
+      const role = await Role.findOne({ where: { id: updateUserDto.roleId } });
+      if (!role) {
+        throw new NotFoundException(
+          `Role with ID ${updateUserDto.roleId} not found`,
+        );
+      }
+      user.role = role;
+    }
+
     Object.assign(user, updateUserDto);
 
     await User.save(user);
@@ -95,16 +106,10 @@ export class UserService {
     await User.save(user);
   }
 
-  async findRoleAndPermissions(userId: number): Promise<Role> {
-    const user = await User.findOne({
+  async findUserRolesAndPermissionsById(userId: number): Promise<User> {
+    return User.findOne({
       where: { id: userId },
-      relations: ['role', 'role.permissions'],
+      relations: ['role', 'role.permissions'], // Ensure it fetches roles and permissions
     });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    return user.role;
   }
 }

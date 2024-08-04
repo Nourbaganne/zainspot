@@ -64,6 +64,4 @@ export class CreateUserDto {
   mediaProfile: string;
 
   role: Role;
-
-  roleId: number;
 }

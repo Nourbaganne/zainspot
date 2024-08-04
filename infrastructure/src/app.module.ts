@@ -18,6 +18,7 @@ import { Role } from './entities/role.entity';
 import { Permission } from './entities/permission.entity';
 import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
   imports: [
@@ -43,7 +44,7 @@ import { PermissionModule } from './permission/permission.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         entities: [User, City, Role, Permission],
-        synchronize: true,
+        // synchronize: true,
       }),
       inject: [ConfigService],
     }),
@@ -54,6 +55,7 @@ import { PermissionModule } from './permission/permission.module';
     EmailConfirmationModule,
     RoleModule,
     PermissionModule,
+    CaslModule,
   ],
   controllers: [AppController],
   providers: [AppService, UserService, JwtStrategy],
