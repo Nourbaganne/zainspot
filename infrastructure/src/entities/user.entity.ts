@@ -81,7 +81,7 @@ export class User extends BaseEntity {
   @Column({ nullable: true, default: '' })
   mediaProfile: string;
 
-  @ManyToOne(() => Role, { eager: true })
+  @ManyToOne(() => Role, { cascade: true })
   @JoinColumn({ name: 'roleId' })
   role: Role;
 }
