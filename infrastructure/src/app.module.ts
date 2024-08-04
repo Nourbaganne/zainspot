@@ -1,23 +1,25 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
+import * as Joi from '@hapi/joi';
+
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { User } from './entities/user.entity';
-import { UserService } from './user/user.service';
-import { JwtStrategy } from './auth/jwt.strategy';
 import { CitiesModule } from './cities/cities.module';
-import { City } from './entities/city.entity';
 import { EmailModule } from './email/email.module';
-import * as Joi from '@hapi/joi';
-import { ScheduleModule } from '@nestjs/schedule';
 import { EmailConfirmationModule } from './email-confirmation/email-confirmation.module';
-import { Role } from './entities/role.entity';
-import { Permission } from './entities/permission.entity';
 import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
+import { PaymentHistoryModule } from './payment-history/payment-history.module';
+
+import { User } from './entities/user.entity';
+import { City } from './entities/city.entity';
+import { Role } from './entities/role.entity';
+import { Permission } from './entities/permission.entity';
+import { PaymentHistory } from './entities/payment-history.entity';
 
 @Module({
   imports: [
@@ -42,7 +44,7 @@ import { PermissionModule } from './permission/permission.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, City, Role, Permission],
+        entities: [User, City, Role, Permission, PaymentHistory],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -54,8 +56,9 @@ import { PermissionModule } from './permission/permission.module';
     EmailConfirmationModule,
     RoleModule,
     PermissionModule,
+    PaymentHistoryModule,
   ],
   controllers: [AppController],
-  providers: [AppService, UserService, JwtStrategy],
+  providers: [AppService],
 })
 export class AppModule {}
