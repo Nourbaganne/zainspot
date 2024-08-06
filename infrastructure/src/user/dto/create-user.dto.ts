@@ -5,7 +5,6 @@ import {
   IsNumber,
   IsOptional,
 } from 'class-validator';
-import { Role } from 'src/entities/role.entity';
 
 export class CreateUserDto {
   @IsEmail()
@@ -62,8 +61,6 @@ export class CreateUserDto {
 
   @IsOptional()
   mediaProfile: string;
-
-  role: Role;
 
   roleId: number;
 }

@@ -83,7 +83,7 @@ export class User extends BaseEntity {
   @Column({ nullable: true, default: '' })
   mediaProfile: string;
 
-  @ManyToOne(() => Role)
+  @ManyToOne(() => Role, { cascade: true })
   @JoinColumn({ name: 'roleId' })
   role: Role;
 

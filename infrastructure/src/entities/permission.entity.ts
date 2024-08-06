@@ -14,9 +14,6 @@ export class Permission extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
-  name: string;
-
   @Column()
   @IsEnum(Action)
   action: Action;
