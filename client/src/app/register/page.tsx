@@ -89,7 +89,7 @@ const Register = () => {
               <label
                 htmlFor="businessNumber"
                 className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
-                  ${formik.values.businessNumber && !formik.errors.businessNumber ? 'text-primary' : formik.errors.businessNumber && formik.touched.businessNumber ? 'text-alert' : 'text-text-foreground'} `}
+                  ${formik.values.businessNumber && !formik.errors.businessNumber ? 'text-primary' : formik.errors.businessNumber && formik.touched.businessNumber ? 'text-alert' : 'text-primary'} `}
               >
                 <Translation translationKey="register_business_number_label" />
               </label>
@@ -143,7 +143,7 @@ const Register = () => {
                 <label
                   htmlFor="businessType"
                   className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
-                    ${formik.values.businessType && !formik.errors.businessType ? 'text-primary' : formik.errors.businessType && formik.touched.businessType ? 'text-alert' : 'text-text-foreground'} `}
+                    ${formik.values.businessType && !formik.errors.businessType ? 'text-primary' : formik.errors.businessType && formik.touched.businessType ? 'text-alert' : 'text-primary'} `}
                 >
                   <Translation translationKey="register_typeof_business_label" />
                 </label>
@@ -218,7 +218,7 @@ const Register = () => {
               <label
                 htmlFor="interestRegion"
                 className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
-                    ${formik.values.interestRegion && !formik.errors.interestRegion ? 'text-primary' : formik.errors.interestRegion && formik.touched.interestRegion ? 'text-alert' : 'text-text-foreground'} `}
+                    ${formik.values.interestRegion && !formik.errors.interestRegion ? 'text-primary' : formik.errors.interestRegion && formik.touched.interestRegion ? 'text-alert' : 'text-primary'} `}
               >
                 <Translation translationKey="regster_interest_region_label" />
               </label>
@@ -267,7 +267,7 @@ const Register = () => {
               >
                 <label htmlFor="gender"
                 className={`absolute left-3 bottom-11 pointer-events-none px-1 text-xs bg-white z-10   
-                  ${formik.values.gender && !formik.errors.gender ?  'text-primary' : formik.errors.gender && formik.touched.gender ? 'text-alert' : 'text-text-foreground'} `}
+                  ${formik.values.gender && !formik.errors.gender ?  'text-primary' : formik.errors.gender && formik.touched.gender ? 'text-alert' : 'text-primary'} `}
                 >
                   <Translation translationKey="register_gender_label" />
                 </label>

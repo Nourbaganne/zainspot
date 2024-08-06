@@ -11,7 +11,8 @@ const config: Config = {
       colors: {
         primary: {
           DEFAULT: '#00927C',
-          foreground: '#00604F'
+          foreground: '#00604F',
+          dark:'#003A2F'
         },
         darkBackground: {
           DEFAULT: '#031612'
@@ -34,12 +35,17 @@ const config: Config = {
         },
         alert: {
           DEFAULT:'#DC2626',
-          foreground: '#FCF6CF'
+          foreground: '#FCF6CF',
+          dark: '#B21010'
         },
-        button: '#C6C6C6',
+        button: {
+          DEFAULT: '#C6C6C6',
+          text: '#B0B0B0',
+        },
         span: {
           DEFAULT:'#666666',
-          foreground: '#868686'
+          foreground: '#868686',
+          background: '#E8E8E8',
         }
       },
       fontFamily: {

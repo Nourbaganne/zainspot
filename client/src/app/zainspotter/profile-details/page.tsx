@@ -229,7 +229,7 @@ const Page = () => {
                       />
                       <label
                         htmlFor="businessNumber"
-                        className={`absolute left-3 top-0 transform -translate-y-1/2 text-xs bg-white text-text-foreground px-1  
+                        className={`absolute left-3 top-0 transform -translate-y-1/2 text-xs bg-white text-primary px-1  
                         ${formik.errors.businessNumber &&
                             formik.touched.businessNumber
                             ? "text-alert"
@@ -376,7 +376,7 @@ const Page = () => {
                     </select>
                     <label
                       htmlFor="preferedLanguage"
-                      className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
+                      className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
                         ? "peer-focus:text-alert text-alert"
                         : "peer-focus:text-primary"
                         } ${formik.values.preferedLanguage
@@ -405,7 +405,7 @@ const Page = () => {
                     </select>
                     <label
                       htmlFor="preferedCurrency"
-                      className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
+                      className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType && formik.touched.businessType
                         ? "peer-focus:text-alert text-alert"
                         : "peer-focus:text-primary"
                         } ${formik.values.preferedCurrency
