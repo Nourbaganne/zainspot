@@ -3,7 +3,10 @@ import Breadcrumb from '@/app/zainspotter/components/breadcrumb';
 import React, { useState } from 'react';
 import RoleCard from '../components/roleCard';
 import searchIcon from '@/app/assets/owner/users/search-outline.svg'
+import upButton from '@/app/assets/owner/users/Up.svg'
+import downButton from '@/app/assets/owner/users/Down.svg'
 import Image from 'next/image';
+import UserItem from '../components/userItem';
 
 const Users = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('View All');
@@ -20,6 +23,75 @@ const Users = () => {
   ]
 
   const FILTERING_TYPE = ["View All", "Zainspotters", "Admins", "Managers"];
+
+
+  const USERS_DATA = [
+    {
+      user: { name: "John Doe", desc: "Zainspot" },
+      contact: {
+        email: "john.doe@mail.com",
+        phoneNumber: "+55 55 555 555"
+      },
+      subscriptions: ["London", "Mumbai", "+1"],
+      Renewals: {
+        upcoming: true,
+        date: "31 October 2024",
+      },
+      role: "Zainspotter",
+    },
+    {
+      user: { name: "John Doe", desc: "Zainspot" },
+      contact: {
+        email: "john.doe@mail.com",
+        phoneNumber: "+55 55 555 555"
+      },
+      subscriptions: ["Mumbai", "+1"],
+      Renewals: {
+        upcoming: false,
+        date: "31 October 2024",
+      },
+      role: "Admin",
+    },
+    {
+      user: { name: "John Doe", desc: "Zainspot" },
+      contact: {
+        email: "john.doe@mail.com",
+        phoneNumber: "+55 55 555 555"
+      },
+      subscriptions: ["London", "Mumbai", "+1"],
+      Renewals: {
+        upcoming: true,
+        date: "31 October 2024",
+      },
+      role: "Zainspotter",
+    },
+    {
+      user: { name: "John Doe", desc: "Zainspot" },
+      contact: {
+        email: "john.doe@mail.com",
+        phoneNumber: "+55 55 555 555"
+      },
+      subscriptions: null,
+      Renewals: {
+        upcoming: true,
+        date: "31 October 2024",
+      },
+      role: "Zainspotter",
+    },
+    {
+      user: { name: "John Doe", desc: "Zainspot" },
+      contact: {
+        email: "john.doe@mail.com",
+        phoneNumber: "+55 55 555 555"
+      },
+      subscriptions: ["London", "Mumbai", "+1"],
+      Renewals: {
+        upcoming: true,
+        date: "31 October 2024",
+      },
+      role: "Zainspotter",
+    },
+  ]
 
   return (
     <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
@@ -65,26 +137,50 @@ const Users = () => {
           </div>
 
         </div>
-        <div className='flex flex-col pl-12 py-10 border border-button rounded-md bg-background'>
-          <div className='flex gap-36 text-sm text-span border-b-2 pb-3' >
-            <div className='flex gap-2 items-center'>
+        <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
+          <div className='grid grid-cols-5 text-sm text-span border-b-2 pb-4 pt-6 pl-4'>
+            <div className='flex items-center gap-2'>
               <input type="checkbox" name="" id="" />
-              <div>
-                User
+              <div className='flex flex-col gap-1 pl-3'>
+                <button>
+                  <Image src={upButton} alt='up-users' />
+                </button>
+                <button>
+                  <Image src={downButton} alt='down-users' />
+                </button>
               </div>
+              <p>User</p>
             </div>
-            <div>
+            <p>
               Email & Number
-            </div>
-            <div>
+            </p>
+            <p>
               Subscriptions
+            </p>
+            <div className='flex items-center gap-3'>
+              <div className='flex flex-col gap-1'>
+                <button>
+                  <Image src={upButton} alt='up-users' />
+                </button>
+                <button>
+                  <Image src={downButton} alt='down-users' />
+                </button>
+              </div>
+              <p>Renewals</p>
             </div>
-            <div>
-              Renewals
-            </div>
-            <div>
-              Role
-            </div>
+            <p>Role</p>
+
+          </div>
+          <div className='flex flex-col gap-2'>
+            {USERS_DATA.map((user, index) => (
+              <UserItem
+                key={index}
+                user={user?.user}
+                contact={user?.contact}
+                subscriptions={user?.subscriptions}
+                renewals={user?.Renewals}
+                role={user?.role} />
+            ))}
           </div>
         </div>
       </div>
