@@ -1,7 +1,7 @@
-import { dataSourceOptions } from './db/data-source';
+import { dataSourceOptions } from '../db/data-source';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import * as Joi from '@hapi/joi';
 
@@ -16,16 +16,18 @@ import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
 import { PaymentHistoryModule } from './payment-history/payment-history.module';
 
-import { User } from './entities/user.entity';
-import { City } from './entities/city.entity';
-import { Role } from './entities/role.entity';
-import { Permission } from './entities/permission.entity';
-import { PaymentHistory } from './entities/payment-history.entity';
-import { Invoices } from './entities/invoices.entity';
 import { InvoicesModule } from './invoices/invoices.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -38,20 +40,7 @@ import { InvoicesModule } from './invoices/invoices.module';
         EMAIL_PASSWORD: Joi.string().required(),
       }),
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'mysql',
-        host: configService.get('DB_HOST'),
-        port: +configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_NAME'),
-        entities: [User, City, Role, Permission, PaymentHistory, Invoices],
-        synchronize: true,
-      }),
-      inject: [ConfigService],
-    }),
+    TypeOrmModule.forRoot(dataSourceOptions),
     AuthModule,
     UserModule,
     CitiesModule,
@@ -63,6 +52,12 @@ import { InvoicesModule } from './invoices/invoices.module';
     InvoicesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

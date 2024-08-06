@@ -87,9 +87,6 @@ export class User extends BaseEntity {
   @JoinColumn({ name: 'roleId' })
   role: Role;
 
-  @Column()
-  roleId: number;
-
-  @OneToMany(() => PaymentHistory, paymentHistory => paymentHistory.user)
+  @OneToMany(() => PaymentHistory, (paymentHistory) => paymentHistory.user)
   paymentHistories: PaymentHistory[];
 }
