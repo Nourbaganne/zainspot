@@ -1,22 +1,191 @@
+"use client"
 import Breadcrumb from '@/app/zainspotter/components/breadcrumb';
-import React from 'react'
+import React, { useState } from 'react';
 import RoleCard from '../components/roleCard';
+import searchIcon from '@/app/assets/owner/users/search-outline.svg'
+import upButton from '@/app/assets/owner/users/Up.svg'
+import downButton from '@/app/assets/owner/users/Down.svg'
+import Image from 'next/image';
+import UserItem from '../components/userItem';
 
 const Users = () => {
+  const [selectedFilter, setSelectedFilter] = useState<string>('View All');
+
   const breadcrumbItems = [
     { label: "Owner Dashboard", href: "/owner" },
     { label: "Users" },
   ];
+
+  const USERS_HEADER_DATA = [
+    { title: 'ZainSpotters', value: 10107, editPermissions: false, stats: { increase: true, purcentage: 2.15 } },
+    { title: 'Admins', value: 3, editPermissions: true, stats: { increase: true, purcentage: 2.15 } },
+    { title: 'Managers', value: 1, editPermissions: true, stats: { increase: false, purcentage: 2.15 } }
+  ]
+
+  const FILTERING_TYPE = ["View All", "Zainspotters", "Admins", "Managers"];
+
+
+  const USERS_DATA = [
+    {
+      user: { name: "John Doe", desc: "Zainspot" },
+      contact: {
+        email: "john.doe@mail.com",
+        phoneNumber: "+55 55 555 555"
+      },
+      subscriptions: ["London", "Mumbai", "+1"],
+      Renewals: {
+        upcoming: true,
+        date: "31 October 2024",
+      },
+      role: "Zainspotter",
+    },
+    {
+      user: { name: "John Doe", desc: "Zainspot" },
+      contact: {
+        email: "john.doe@mail.com",
+        phoneNumber: "+55 55 555 555"
+      },
+      subscriptions: ["Mumbai", "+1"],
+      Renewals: {
+        upcoming: false,
+        date: "31 October 2024",
+      },
+      role: "Admin",
+    },
+    {
+      user: { name: "John Doe", desc: "Zainspot" },
+      contact: {
+        email: "john.doe@mail.com",
+        phoneNumber: "+55 55 555 555"
+      },
+      subscriptions: ["London", "Mumbai", "+1"],
+      Renewals: {
+        upcoming: true,
+        date: "31 October 2024",
+      },
+      role: "Zainspotter",
+    },
+    {
+      user: { name: "John Doe", desc: "Zainspot" },
+      contact: {
+        email: "john.doe@mail.com",
+        phoneNumber: "+55 55 555 555"
+      },
+      subscriptions: null,
+      Renewals: {
+        upcoming: true,
+        date: "31 October 2024",
+      },
+      role: "Zainspotter",
+    },
+    {
+      user: { name: "John Doe", desc: "Zainspot" },
+      contact: {
+        email: "john.doe@mail.com",
+        phoneNumber: "+55 55 555 555"
+      },
+      subscriptions: ["London", "Mumbai", "+1"],
+      Renewals: {
+        upcoming: true,
+        date: "31 October 2024",
+      },
+      role: "Zainspotter",
+    },
+  ]
+
   return (
-    <div className='flex flex-col gap-6 bg-background-foreground md:px-16 md:py-8 md:pb-20'>
+    <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
       <Breadcrumb items={breadcrumbItems} />
       <div className='grid gap-x-8 gap-y-4 grid-cols-1 md:grid-cols-3'>
-        <RoleCard></RoleCard>
-        <RoleCard></RoleCard>
-        <RoleCard></RoleCard>
+        {USERS_HEADER_DATA.map((data, index) => (
+          <RoleCard key={index} title={data?.title} value={data?.value} editPermissions={data?.editPermissions} stats={data?.stats} />
+        ))}
+      </div>
+      <div className='flex flex-col pt-5 gap-10'>
+        <h1 className='flex gap-2 font-semibold text-xl'>
+          All Users <span className='font-normal'>(10,111)</span>
+        </h1>
+        <div className='flex justify-between'>
+          <div className='bg-span-background flex text-span-foreground rounded-md p-1 w-fit gap-2'>
+            <div className='flex gap-2 md:font-semibold whitespace-nowrap md:whitespace-normal max-w-56 md:max-w-none overflow-x-auto'>
+              {FILTERING_TYPE.map((value, index) => (
+                <div
+                  key={index}
+                  className={`px-2 py-1 rounded-md cursor-pointer ${selectedFilter === value ? 'bg-background text-text' : ''}`}
+                  onClick={() => setSelectedFilter(value)}
+                >
+                  {value}
+                </div>
+              ))}
+            </div>
+            <button className='border-l border-l-button text-xl px-2' type="button">
+              +
+            </button>
+          </div>
+
+          <div className='flex gap-5 items-center '>
+            <div className='flex bg-background gap-2 items-center p-2 text-span border border-button rounded-md'>
+              <Image src={searchIcon} alt='search-user' />
+              <input type="text" name="" id="" placeholder='Search User' className='w-80 outline-none' />
+            </div>
+            <div className='flex gap-3 text-xs font-semibold'>
+              <button className='py-3 px-4 border-2 border-button  text-button-text rounded-md'>Deselect All</button>
+              <button className='py-3 px-4 border-2 border-primary rounded-md text-primary'>Select All</button>
+              <button className='py-3 px-4 bg-button text-background rounded-md'>Desactivate User</button>
+            </div>
+
+          </div>
+
+        </div>
+        <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
+          <div className='grid grid-cols-5 text-sm text-span border-b-2 pb-4 pt-6 pl-4'>
+            <div className='flex items-center gap-2'>
+              <input type="checkbox" name="" id="" />
+              <div className='flex flex-col gap-1 pl-3'>
+                <button>
+                  <Image src={upButton} alt='up-users' />
+                </button>
+                <button>
+                  <Image src={downButton} alt='down-users' />
+                </button>
+              </div>
+              <p>User</p>
+            </div>
+            <p>
+              Email & Number
+            </p>
+            <p>
+              Subscriptions
+            </p>
+            <div className='flex items-center gap-3'>
+              <div className='flex flex-col gap-1'>
+                <button>
+                  <Image src={upButton} alt='up-users' />
+                </button>
+                <button>
+                  <Image src={downButton} alt='down-users' />
+                </button>
+              </div>
+              <p>Renewals</p>
+            </div>
+            <p>Role</p>
+
+          </div>
+          <div className='flex flex-col gap-2'>
+            {USERS_DATA.map((user, index) => (
+              <UserItem
+                key={index}
+                user={user?.user}
+                contact={user?.contact}
+                subscriptions={user?.subscriptions}
+                renewals={user?.Renewals}
+                role={user?.role} />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Users
+export default Users;
