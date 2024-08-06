@@ -17,7 +17,9 @@ export class PermissionService {
   }
 
   async findOne(id: number): Promise<Permission> {
-    const permission = await Permission.findOneBy({ id });
+    const permission = await Permission.findOne({
+      where: { id },
+    });
     if (!permission) {
       throw new NotFoundException(`Permission with ID ${id} not found`);
     }

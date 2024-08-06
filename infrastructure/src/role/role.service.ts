@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { Role } from 'src/entities/role.entity';
+import { Permission } from 'src/entities/permission.entity';
 
 @Injectable()
 export class RoleService {
@@ -27,6 +28,57 @@ export class RoleService {
     if (!role) {
       throw new NotFoundException(`Role with ID ${id} not found`);
     }
+    console.log('role', role);
+    return role;
+  }
+
+  async addPermissionToRole(
+    roleId: number,
+    permissionId: number,
+  ): Promise<Role> {
+    const role = await this.findOne(roleId);
+    console.log('roles', role);
+
+    const permission = await Permission.findOne({
+      where: { id: permissionId },
+    });
+    if (!permission) {
+      throw new Error('Permission not found');
+    }
+    role.permissions.push(permission);
+    await Role.save(role);
+    return role;
+  }
+
+  async removePermissionFromRole(
+    roleId: number,
+    permissionId: number,
+  ): Promise<Role> {
+    // Fetch the role with its permissions
+    const role = await Role.findOne({
+      where: { id: roleId },
+      relations: ['permissions'],
+    });
+
+    if (!role) {
+      throw new Error('Role not found');
+    }
+
+    // Find the permission to remove
+    const permission = await Permission.findOne({
+      where: { id: permissionId },
+    });
+
+    if (!permission) {
+      throw new Error('Permission not found');
+    }
+
+    // Remove the permission from the role
+    role.permissions = role.permissions.filter((p) => p.id !== permissionId);
+
+    // Save the updated role
+    await Role.save(role);
+
     return role;
   }
 
