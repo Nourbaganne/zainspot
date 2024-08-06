@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PaymentHistory } from '../entities/payment-history.entity';
@@ -17,7 +17,6 @@ export class PaymentHistoryService {
   async create(createPaymentHistoryDto: CreatePaymentHistoryDto): Promise<PaymentHistory> {
     const { userId, ...paymentHistoryData } = createPaymentHistoryDto;
 
-    // Find user to ensure user exists
     const user = await this.userRepository.findOneBy({ id: userId });
     if (!user) {
       throw new Error('User not found');
@@ -25,21 +24,32 @@ export class PaymentHistoryService {
 
     const paymentHistory = this.paymentHistoryRepository.create({
       ...paymentHistoryData,
-      user, // Associate the user
+      user, 
     });
 
     return this.paymentHistoryRepository.save(paymentHistory);
   }
 
-  findAll(): Promise<PaymentHistory[]> {
-    return this.paymentHistoryRepository.find();
+  async findAll(userId: number): Promise<PaymentHistory[]> {
+    return this.paymentHistoryRepository.find({
+      where: { user: { id: userId } },
+    });
   }
 
   findOne(id: number): Promise<PaymentHistory> {
     return this.paymentHistoryRepository.findOne({ where: { id } });
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number): Promise<String> {
+    const payment = await this.paymentHistoryRepository.findOne({ where: {id}});
+
+    if (!payment) {
+      throw new NotFoundException(`payment history with ID ${id} not found`);
+    }
+
     await this.paymentHistoryRepository.delete(id);
+
+    return `payment with ID ${id} deleted successfully`;
+    
   }
 }

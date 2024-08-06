@@ -20,6 +20,8 @@ import { City } from './entities/city.entity';
 import { Role } from './entities/role.entity';
 import { Permission } from './entities/permission.entity';
 import { PaymentHistory } from './entities/payment-history.entity';
+import { Invoices } from './entities/invoices.entity';
+import { InvoicesModule } from './invoices/invoices.module';
 
 @Module({
   imports: [
@@ -44,7 +46,7 @@ import { PaymentHistory } from './entities/payment-history.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, City, Role, Permission, PaymentHistory],
+        entities: [User, City, Role, Permission, PaymentHistory, Invoices],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -57,6 +59,7 @@ import { PaymentHistory } from './entities/payment-history.entity';
     RoleModule,
     PermissionModule,
     PaymentHistoryModule,
+    InvoicesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

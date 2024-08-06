@@ -1,29 +1,28 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Post, Body, Delete } from '@nestjs/common';
 import { PaymentHistoryService } from './payment-history.service';
 import { CreatePaymentHistoryDto } from './dto/create-payment-history';
-import { PaymentHistory } from '../entities/payment-history.entity';
 
 @Controller('payment-history')
 export class PaymentHistoryController {
   constructor(private readonly paymentHistoryService: PaymentHistoryService) {}
 
   @Post()
-  create(@Body() createPaymentHistoryDto: CreatePaymentHistoryDto): Promise<PaymentHistory> {
+  create(@Body() createPaymentHistoryDto: CreatePaymentHistoryDto) {
     return this.paymentHistoryService.create(createPaymentHistoryDto);
   }
 
-  @Get()
-  findAll(): Promise<PaymentHistory[]> {
-    return this.paymentHistoryService.findAll();
+  @Get(':userId')
+  findAll(@Param('userId', ParseIntPipe) userId: number) {
+    return this.paymentHistoryService.findAll(userId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<PaymentHistory> {
-    return this.paymentHistoryService.findOne(+id);
+  @Get('detail/:id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.paymentHistoryService.findOne(id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.paymentHistoryService.remove(+id);
+  @Delete('remove/:id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.paymentHistoryService.remove(id);
   }
 }
