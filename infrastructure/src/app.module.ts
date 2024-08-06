@@ -1,21 +1,28 @@
 import { dataSourceOptions } from './db/data-source';
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
+import * as Joi from '@hapi/joi';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { UserService } from './user/user.service';
-import { JwtStrategy } from './auth/jwt.strategy';
 import { CitiesModule } from './cities/cities.module';
 import { EmailModule } from './email/email.module';
-import * as Joi from '@hapi/joi';
-import { ScheduleModule } from '@nestjs/schedule';
 import { EmailConfirmationModule } from './email-confirmation/email-confirmation.module';
 import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
-import { CaslModule } from './casl/casl.module';
+import { PaymentHistoryModule } from './payment-history/payment-history.module';
+
+import { User } from './entities/user.entity';
+import { City } from './entities/city.entity';
+import { Role } from './entities/role.entity';
+import { Permission } from './entities/permission.entity';
+import { PaymentHistory } from './entities/payment-history.entity';
+import { Invoices } from './entities/invoices.entity';
+import { InvoicesModule } from './invoices/invoices.module';
 
 @Module({
   imports: [
@@ -31,7 +38,20 @@ import { CaslModule } from './casl/casl.module';
         EMAIL_PASSWORD: Joi.string().required(),
       }),
     }),
-    TypeOrmModule.forRoot(dataSourceOptions),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get('DB_HOST'),
+        port: +configService.get('DB_PORT'),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_NAME'),
+        entities: [User, City, Role, Permission, PaymentHistory, Invoices],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
+    }),
     AuthModule,
     UserModule,
     CitiesModule,
@@ -39,9 +59,10 @@ import { CaslModule } from './casl/casl.module';
     EmailConfirmationModule,
     RoleModule,
     PermissionModule,
-    CaslModule,
+    PaymentHistoryModule,
+    InvoicesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, UserService, JwtStrategy],
+  providers: [AppService],
 })
 export class AppModule {}

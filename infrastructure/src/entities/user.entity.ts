@@ -5,11 +5,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Role } from './role.entity';
+import { PaymentHistory } from './payment-history.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -84,4 +86,10 @@ export class User extends BaseEntity {
   @ManyToOne(() => Role, { cascade: true })
   @JoinColumn({ name: 'roleId' })
   role: Role;
+
+  @Column()
+  roleId: number;
+
+  @OneToMany(() => PaymentHistory, paymentHistory => paymentHistory.user)
+  paymentHistories: PaymentHistory[];
 }
