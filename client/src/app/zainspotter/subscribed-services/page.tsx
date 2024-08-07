@@ -10,6 +10,8 @@ import Subscription from './component/subscription';
 
 
 export interface SubscriptionProps {
+    id: number,
+    access_token: string | undefined,
     startDate: string,
     endDate: string,
     optionType: string,
@@ -57,11 +59,13 @@ const Page = () => {
                     <h1 className='font-bold'>
                         Subscribed Services
                     </h1>
-                    {data?.data ? (
+                    {data?.data.length > 0 ? (
                         <div className='flex flex-col gap-4'>
                             {data?.data.map((subscription: SubscriptionProps, index: number) => (
                                 <Subscription
                                     key={index}
+                                    id={subscription?.id}
+                                    access_token={user?.access_token}
                                     startDate={subscription?.startDate}
                                     endDate={subscription?.endDate}
                                     optionType={subscription?.optionType}

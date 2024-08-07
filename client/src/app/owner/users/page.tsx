@@ -1,16 +1,20 @@
 "use client"
 import Breadcrumb from '@/app/zainspotter/components/breadcrumb';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import RoleCard from '../components/roleCard';
 import searchIcon from '@/app/assets/owner/users/search-outline.svg'
 import upButton from '@/app/assets/owner/users/Up.svg'
 import downButton from '@/app/assets/owner/users/Down.svg'
 import Image from 'next/image';
 import UserItem from '../components/userItem';
+import { useQuery } from '@tanstack/react-query';
+import axiosInstance from '@/app/lib/axios/axiosInstance';
+import { AuthContext } from '@/app/contexts/authContext';
 
 const Users = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('View All');
 
+  const { user } = useContext(AuthContext);
   const breadcrumbItems = [
     { label: "Owner Dashboard", href: "/owner" },
     { label: "Users" },
@@ -91,7 +95,20 @@ const Users = () => {
       },
       role: "Zainspotter",
     },
-  ]
+  ];
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['users'],
+    queryFn: () => axiosInstance.get('http://localhost:3001/user', {
+      headers: {
+        Authorization: `Barear ${user?.access_token}`
+      }
+    })
+  })
+  if (isLoading) return <h1>Loading ...</h1>
+  if (isError) return <h1>{error.message}</h1>
+
+  console.log("users :", data)
 
   return (
     <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
@@ -172,7 +189,7 @@ const Users = () => {
 
           </div>
           <div className='flex flex-col gap-2'>
-            {USERS_DATA.map((user, index) => (
+            {USERS_DATA.map((user, index: number) => (
               <UserItem
                 key={index}
                 user={user?.user}
