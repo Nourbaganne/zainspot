@@ -48,8 +48,8 @@ const Page = () => {
                     </p>
 
                     <form action="" className=' flex flex-col gap-8 pb-8 border-b' onSubmit={(e) => e.preventDefault()}>
-                        <div className='bg-background-foreground flex text-span-foreground  rounded-md p-1 w-fit gap-2'>
-                            <div className='flex gap-2 font-semibold'>
+                        <div className='bg-background-foreground flex text-span-foreground rounded-md p-1 w-fit gap-2'>
+                            <div className='flex gap-2 md:font-semibold whitespace-nowrap md:whitespace-normal max-w-56 md:max-w-none  overflow-x-auto'>
                                 {SAVED_PAYMENT_METHOD.map((value, index) => (
                                     <div
                                         key={index}
@@ -63,6 +63,7 @@ const Page = () => {
                                 +
                             </button>
                         </div>
+
                         <InputPassword
                             labelKey="Card Holder"
                             value={formik.values.cardHolder}
@@ -79,7 +80,7 @@ const Page = () => {
                             errors={formik.errors.billingAdress}
                             formik={formik}
                         />
-                        <div className='flex gap-4'>
+                        <div className='flex flex-col md:flex-row gap-4'>
                             <InputPassword
                                 labelKey="Expiry Date"
                                 value={formik.values.expiryDate}
@@ -109,7 +110,7 @@ const Page = () => {
                                 <Translation translationKey='payment_details_defaultPayment_subtitle' />
                             </p>
                         </div>
-                        <div className='grid grid-cols-2 gap-4'>
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                             {PREFERED_PAYMENT_METHOD.map((card, index) => (
                                 <PaymentCard title={card.title} logo={card.logo} info={card.info} selected={selectedPayment} setSelected={setSelectedPayment} key={index} />
                             ))}

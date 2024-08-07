@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
+   fill="none"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="locationHover.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="7.375"
+     inkscape:cx="15.932203"
+     inkscape:cy="16"
+     inkscape:window-width="1312"
+     inkscape:window-height="449"
+     inkscape:window-x="0"
+     inkscape:window-y="38"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
+  <path
+     fill-rule="evenodd"
+     clip-rule="evenodd"
+     d="M6 11.5625C6 6.23833 10.5264 2 16 2C21.4736 2 26 6.23833 26 11.5625C26 14.564 24.3771 18.2776 22.5994 21.4874C20.795 24.7453 18.717 27.6804 17.6026 29.1854C17.4187 29.4368 17.1783 29.6414 16.9007 29.7827C16.6217 29.9247 16.313 29.9987 16 29.9987C15.687 29.9987 15.3783 29.9247 15.0993 29.7827C14.8217 29.6414 14.5812 29.4367 14.3973 29.1853C13.283 27.6798 11.205 24.7435 9.40058 21.4852C7.62292 18.2752 6 14.5619 6 11.5625ZM16 4C11.5361 4 8 7.43542 8 11.5625C8 14.0006 9.37708 17.3145 11.1502 20.5163C12.8918 23.6613 14.9091 26.5146 16 27.9889C17.0908 26.5153 19.1082 23.663 20.8498 20.5184C22.6229 17.3171 24 14.0028 24 11.5625C24 7.43542 20.4639 4 16 4Z"
+     fill="#131313"
+     id="path1"
+     style="fill:#00927c;fill-opacity:1" />
+  <path
+     fill-rule="evenodd"
+     clip-rule="evenodd"
+     d="M16 10C14.8954 10 14 10.8954 14 12C14 13.1046 14.8954 14 16 14C17.1046 14 18 13.1046 18 12C18 10.8954 17.1046 10 16 10ZM12 12C12 9.79086 13.7909 8 16 8C18.2091 8 20 9.79086 20 12C20 14.2091 18.2091 16 16 16C13.7909 16 12 14.2091 12 12Z"
+     fill="#131313"
+     id="path2"
+     style="fill:#00927c;fill-opacity:1" />
+</svg>

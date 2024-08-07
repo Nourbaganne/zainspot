@@ -15,8 +15,11 @@ import cancelationHovering from '@/app/assets/profile-details/cancelationHoverin
 import paymentHistory from '@/app/assets/profile-details/paymentHistory.svg'
 import paymentHistoryHover from '@/app/assets/profile-details/paymentHistoryHover.svg'
 import reportsIcon from '@/app/assets/owner/reportsIcon.svg'
+import reportsHover from '@/app/assets/owner/reportsHover.svg'
 import userIcon from '@/app/assets/owner/userIcon.svg'
+import userHover from '@/app/assets/owner/userHover.svg'
 import locationLogo from '@/app/assets/owner/location-outline.svg'
+import locationHover from '@/app/assets/owner/locationHover.svg'
 
 export const ZAINSPOTTER_DASHBOARD = [
     { logo: profileDetails, hoverLogo: profileDetailsHovering, link: "profile-details", title: "editProfile_ProfileDetails", description: "Provide personal details and how we can reach you" },
@@ -30,8 +33,8 @@ export const ZAINSPOTTER_DASHBOARD = [
 ]
 
 export const OWNER_DASHBOARD = [
-    { logo: reportsIcon, hoverLogo: '', link: "reports", title: "Reports", description: "View reports of revenue, visitors, subscribers and Zainspot locations" },
-    { logo: userIcon, hoverLogo: SecurityHovering, link: "users", title: "Users", description: "A detailed list of Zainspot users, admins and managers" },
-    { logo: locationLogo, hoverLogo: paymentHovering, link: "locations", title: "Zainspot Locations", description: "View, edit or add locations, cities and countries where Zainspot is available" },
+    { logo: reportsIcon, hoverLogo: reportsHover, link: "reports", title: "Reports", description: "View reports of revenue, visitors, subscribers and Zainspot locations" },
+    { logo: userIcon, hoverLogo: userHover, link: "users", title: "Users", description: "A detailed list of Zainspot users, admins and managers" },
+    { logo: locationLogo, hoverLogo: locationHover, link: "locations", title: "Zainspot Locations", description: "View, edit or add locations, cities and countries where Zainspot is available" },
 
 ]
