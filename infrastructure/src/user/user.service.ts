@@ -31,7 +31,9 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    const users = await User.find({ relations: ['role'] });
+    const users = await User.find({
+      relations: ['role', 'paymentHistories', 'subscriptions', 'subscriptions.city'],
+    });
     users.forEach((user) => {
       delete user.password;
     });
@@ -39,7 +41,10 @@ export class UserService {
   }
 
   async findById(id: number): Promise<User> {
-    const user = await User.findOne({ where: { id }, relations: ['role'] });
+    const user = await User.findOne({
+      where: { id },
+      relations: ['role', 'paymentHistories', 'subscriptions', 'subscriptions.city'],
+    });
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
@@ -48,7 +53,10 @@ export class UserService {
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await User.findOne({ where: { email }, relations: ['role'] });
+    const user = await User.findOne({
+      where: { email },
+      relations: ['role', 'paymentHistories', 'subscriptions', 'subscriptions.city'],
+    });
     if (!user) {
       throw new NotFoundException(`User with email ${email} not found`);
     }
@@ -56,7 +64,10 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = await User.findOne({ where: { id }, relations: ['role'] });
+    const user = await User.findOne({
+      where: { id },
+      relations: ['role'],
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
@@ -66,7 +77,6 @@ export class UserService {
       updateUserDto.password = await this.hashPassword(updateUserDto.password);
     }
 
-    // Update the user's role if a new role ID is provided
     if (updateUserDto.roleId) {
       const role = await Role.findOne({ where: { id: updateUserDto.roleId } });
       if (!role) {

@@ -12,6 +12,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { Role } from './role.entity';
 import { PaymentHistory } from './payment-history.entity';
+import { Subscription } from './subscription.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -92,4 +93,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => PaymentHistory, paymentHistory => paymentHistory.user)
   paymentHistories: PaymentHistory[];
+
+  @OneToMany(() => Subscription, subscription => subscription.user)
+  subscriptions: Subscription[];
 }
