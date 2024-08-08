@@ -1,7 +1,7 @@
 import { dataSourceOptions } from '../db/data-source';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import * as Joi from '@hapi/joi';
 
