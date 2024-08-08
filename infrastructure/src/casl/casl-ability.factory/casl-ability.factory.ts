@@ -24,7 +24,6 @@ export class CaslAbilityFactory {
     >(createMongoAbility);
 
     user.role.permissions.forEach((permission) => {
-      console.log('permission');
       can(permission.action, permission.resource as Subject);
     });
 

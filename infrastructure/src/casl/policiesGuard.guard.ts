@@ -16,7 +16,6 @@ export class PoliciesGuard implements CanActivate {
     const user = await this.userService.findUserRolesAndPermissionsById(
       request.user.userId,
     );
-    console.log('user', user);
     const ability = this.caslAbilityFactory.createForUser(user);
 
     const permissions = this.reflector.getAllAndOverride('permissions', [

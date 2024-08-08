@@ -28,7 +28,6 @@ export class RoleService {
     if (!role) {
       throw new NotFoundException(`Role with ID ${id} not found`);
     }
-    console.log('role', role);
     return role;
   }
 
@@ -37,7 +36,6 @@ export class RoleService {
     permissionId: number,
   ): Promise<Role> {
     const role = await this.findOne(roleId);
-    console.log('roles', role);
 
     const permission = await Permission.findOne({
       where: { id: permissionId },
