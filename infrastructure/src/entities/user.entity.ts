@@ -91,6 +91,6 @@ export class User extends BaseEntity {
   @OneToMany(() => PaymentHistory, (paymentHistory) => paymentHistory.user)
   paymentHistories: PaymentHistory[];
 
-  @OneToMany(() => Subscription, subscription => subscription.user)
+  @OneToMany(() => Subscription, (subscription) => subscription.user)
   subscriptions: Subscription[];
 }

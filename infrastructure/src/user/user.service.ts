@@ -32,7 +32,12 @@ export class UserService {
 
   async findAll(): Promise<User[]> {
     const users = await User.find({
-      relations: ['role', 'paymentHistories', 'subscriptions', 'subscriptions.city'],
+      relations: [
+        'role',
+        'paymentHistories',
+        'subscriptions',
+        'subscriptions.city',
+      ],
     });
     users.forEach((user) => {
       delete user.password;
@@ -43,7 +48,12 @@ export class UserService {
   async findById(id: number): Promise<User> {
     const user = await User.findOne({
       where: { id },
-      relations: ['role', 'paymentHistories', 'subscriptions', 'subscriptions.city'],
+      relations: [
+        'role',
+        'paymentHistories',
+        'subscriptions',
+        'subscriptions.city',
+      ],
     });
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
@@ -55,7 +65,12 @@ export class UserService {
   async findByEmail(email: string): Promise<User> {
     const user = await User.findOne({
       where: { email },
-      relations: ['role', 'paymentHistories', 'subscriptions', 'subscriptions.city'],
+      relations: [
+        'role',
+        'paymentHistories',
+        'subscriptions',
+        'subscriptions.city',
+      ],
     });
     if (!user) {
       throw new NotFoundException(`User with email ${email} not found`);

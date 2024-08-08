@@ -14,6 +14,5 @@ export const dataSourceOptions: DataSourceOptions = {
   migrations: ['dist/db/migrations/*.js'],
   logging: true,
 };
-
 const dataSource = new DataSource(dataSourceOptions);
 export default dataSource;
