@@ -1,7 +1,7 @@
 import { dataSourceOptions } from '../db/data-source';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import * as Joi from '@hapi/joi';
 
@@ -21,6 +21,12 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { SubscriptionModule } from './subscription/subscription.module';
 import { Subscription } from './entities/subscription.entity';
+import { User } from './entities/user.entity';
+import { City } from './entities/city.entity';
+import { Invoices } from './entities/invoices.entity';
+import { PaymentHistory } from './entities/payment-history.entity';
+import { Permission } from './entities/permission.entity';
+import { Role } from './entities/role.entity';
 
 @Module({
   imports: [
