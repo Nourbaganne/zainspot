@@ -11,17 +11,7 @@ interface RoleCardProps {
   editPermissions: boolean,
   stats: {
     increase: boolean,
-    purcentage: number
-  }
-}
-
-interface RoleCardProps {
-  title: string,
-  value: number,
-  editPermissions: boolean,
-  stats: {
-    increase: boolean,
-    purcentage: number
+    percentage: number
   }
 }
 
@@ -54,7 +44,7 @@ const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
               )}
             </div>
             <p>
-              {stats.purcentage}%
+              {stats.percentage}%
             </p>
           </div>
           <p className='text-span text-xs font-light'>

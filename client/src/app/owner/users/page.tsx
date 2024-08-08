@@ -2,9 +2,9 @@
 import Breadcrumb from '@/app/zainspotter/components/breadcrumb';
 import React, { useContext, useState } from 'react';
 import RoleCard from '../components/roleCard';
-import searchIcon from '@/app/assets/owner/users/search-outline.svg'
-import upButton from '@/app/assets/owner/users/Up.svg'
-import downButton from '@/app/assets/owner/users/Down.svg'
+import searchIcon from '@/app/assets/owner/users/search-outline.svg';
+import upButton from '@/app/assets/owner/users/Up.svg';
+import downButton from '@/app/assets/owner/users/Down.svg';
 import Image from 'next/image';
 import UserItem from '../components/userItem';
 import { useQuery } from '@tanstack/react-query';
@@ -13,102 +13,34 @@ import { AuthContext } from '@/app/contexts/authContext';
 
 const Users = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('View All');
-
   const { user } = useContext(AuthContext);
+
   const breadcrumbItems = [
     { label: "Owner Dashboard", href: "/owner" },
     { label: "Users" },
   ];
 
   const USERS_HEADER_DATA = [
-    { title: 'ZainSpotters', value: 10107, editPermissions: false, stats: { increase: true, purcentage: 2.15 } },
-    { title: 'Admins', value: 3, editPermissions: true, stats: { increase: true, purcentage: 2.15 } },
-    { title: 'Managers', value: 1, editPermissions: true, stats: { increase: false, purcentage: 2.15 } }
-  ]
+    { title: 'ZainSpotters', value: 10107, editPermissions: false, stats: { increase: true, percentage: 2.15 } },
+    { title: 'Admins', value: 3, editPermissions: true, stats: { increase: true, percentage: 2.15 } },
+    { title: 'Managers', value: 1, editPermissions: true, stats: { increase: false, percentage: 2.15 } },
+  ];
 
   const FILTERING_TYPE = ["View All", "Zainspotters", "Admins", "Managers"];
-
-
-  const USERS_DATA = [
-    {
-      user: { name: "John Doe", desc: "Zainspot" },
-      contact: {
-        email: "john.doe@mail.com",
-        phoneNumber: "+55 55 555 555"
-      },
-      subscriptions: ["London", "Mumbai", "+1"],
-      Renewals: {
-        upcoming: true,
-        date: "31 October 2024",
-      },
-      role: "Zainspotter",
-    },
-    {
-      user: { name: "John Doe", desc: "Zainspot" },
-      contact: {
-        email: "john.doe@mail.com",
-        phoneNumber: "+55 55 555 555"
-      },
-      subscriptions: ["Mumbai", "+1"],
-      Renewals: {
-        upcoming: false,
-        date: "31 October 2024",
-      },
-      role: "Admin",
-    },
-    {
-      user: { name: "John Doe", desc: "Zainspot" },
-      contact: {
-        email: "john.doe@mail.com",
-        phoneNumber: "+55 55 555 555"
-      },
-      subscriptions: ["London", "Mumbai", "+1"],
-      Renewals: {
-        upcoming: true,
-        date: "31 October 2024",
-      },
-      role: "Zainspotter",
-    },
-    {
-      user: { name: "John Doe", desc: "Zainspot" },
-      contact: {
-        email: "john.doe@mail.com",
-        phoneNumber: "+55 55 555 555"
-      },
-      subscriptions: null,
-      Renewals: {
-        upcoming: true,
-        date: "31 October 2024",
-      },
-      role: "Zainspotter",
-    },
-    {
-      user: { name: "John Doe", desc: "Zainspot" },
-      contact: {
-        email: "john.doe@mail.com",
-        phoneNumber: "+55 55 555 555"
-      },
-      subscriptions: ["London", "Mumbai", "+1"],
-      Renewals: {
-        upcoming: true,
-        date: "31 October 2024",
-      },
-      role: "Zainspotter",
-    },
-  ];
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['users'],
     queryFn: () => axiosInstance.get('http://localhost:3001/user', {
       headers: {
-        Authorization: `Barear ${user?.access_token}`
+        Authorization: `Bearer ${user?.access_token}`
       }
-    })
-  })
-  if (isLoading) return <h1>Loading ...</h1>
-  if (isError) return <h1>{error.message}</h1>
+    }),
+  });
 
-  console.log("users :", data)
+  if (isLoading) return <h1>Loading ...</h1>;
+  if (isError) return <h1>{error.message}</h1>;
+
+  console.log("users :", data);
 
   return (
     <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
@@ -140,19 +72,17 @@ const Users = () => {
             </button>
           </div>
 
-          <div className='flex gap-5 items-center '>
+          <div className='flex gap-5 items-center'>
             <div className='flex bg-background gap-2 items-center p-2 text-span border border-button rounded-md'>
               <Image src={searchIcon} alt='search-user' />
               <input type="text" name="" id="" placeholder='Search User' className='w-80 outline-none' />
             </div>
             <div className='flex gap-3 text-xs font-semibold'>
-              <button className='py-3 px-4 border-2 border-button  text-button-text rounded-md'>Deselect All</button>
+              <button className='py-3 px-4 border-2 border-button text-button-text rounded-md'>Deselect All</button>
               <button className='py-3 px-4 border-2 border-primary rounded-md text-primary'>Select All</button>
-              <button className='py-3 px-4 bg-button text-background rounded-md'>Desactivate User</button>
+              <button className='py-3 px-4 bg-button text-background rounded-md'>Deactivate User</button>
             </div>
-
           </div>
-
         </div>
         <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
           <div className='grid grid-cols-5 text-sm text-span border-b-2 pb-4 pt-6 pl-4'>
@@ -168,12 +98,8 @@ const Users = () => {
               </div>
               <p>User</p>
             </div>
-            <p>
-              Email & Number
-            </p>
-            <p>
-              Subscriptions
-            </p>
+            <p>Email & Number</p>
+            <p>Subscriptions</p>
             <div className='flex items-center gap-3'>
               <div className='flex flex-col gap-1'>
                 <button>
@@ -186,17 +112,17 @@ const Users = () => {
               <p>Renewals</p>
             </div>
             <p>Role</p>
-
           </div>
           <div className='flex flex-col gap-2'>
-            {USERS_DATA.map((user, index: number) => (
+            {data?.data.map((user, index: number) => (
               <UserItem
                 key={index}
-                user={user?.user}
-                contact={user?.contact}
-                subscriptions={user?.subscriptions}
-                renewals={user?.Renewals}
-                role={user?.role} />
+                user={{ name: user.name, desc: user.businessName }}
+                contact={{ email: user.email, phoneNumber: user.businessNumber }}
+                subscriptions={user.subscriptions.length > 0 ? user.subscriptions.map(sub => sub.city.name) : null}
+                renewals={user.subscriptions.length > 0 ? { upcoming: new Date(user.subscriptions[0].endDate) > new Date(), date: new Date(user.subscriptions[0].endDate).toLocaleDateString() } : { upcoming: false, date: 'N/A' }}
+                role={user.role.role}
+              />
             ))}
           </div>
         </div>
