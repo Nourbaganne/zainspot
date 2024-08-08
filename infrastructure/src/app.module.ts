@@ -20,13 +20,6 @@ import { InvoicesModule } from './invoices/invoices.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { SubscriptionModule } from './subscription/subscription.module';
-import { Subscription } from './entities/subscription.entity';
-import { User } from './entities/user.entity';
-import { City } from './entities/city.entity';
-import { Invoices } from './entities/invoices.entity';
-import { PaymentHistory } from './entities/payment-history.entity';
-import { Permission } from './entities/permission.entity';
-import { Role } from './entities/role.entity';
 
 @Module({
   imports: [
@@ -49,20 +42,6 @@ import { Role } from './entities/role.entity';
       }),
     }),
     TypeOrmModule.forRoot(dataSourceOptions),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'mysql',
-        host: configService.get('DB_HOST'),
-        port: +configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_NAME'),
-        entities: [User, City, Role, Permission, PaymentHistory, Invoices, Subscription],
-        synchronize: true,
-      }),
-      inject: [ConfigService],
-    }),
     AuthModule,
     UserModule,
     CitiesModule,

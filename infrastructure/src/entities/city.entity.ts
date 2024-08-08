@@ -46,6 +46,6 @@ export class City {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Subscription, subscription => subscription.city)
+  @OneToMany(() => Subscription, (subscription) => subscription.city)
   subscriptions: Subscription[];
 }
