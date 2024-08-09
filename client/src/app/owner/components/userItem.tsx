@@ -2,7 +2,7 @@ import React from 'react';
 import detailsButton from '@/app/assets/owner/users/arrow-right.svg'
 import Image from 'next/image';
 
-interface userProps {
+interface UserItemProps {
     user: {
         name: string;
         desc: string;
@@ -17,14 +17,20 @@ interface userProps {
         date: string;
     };
     role: string;
+    setSelectedUsers: (email: string) => void;
+    isSelected: boolean;
 }
 
-const UserItem = ({ user, contact, subscriptions, renewals, role }: userProps) => {
+const UserItem: React.FC<UserItemProps> = ({ user, contact, subscriptions, renewals, role, setSelectedUsers, isSelected }) => {
     return (
         <div className='flex py-2 border-b text-sm px-4 items-center'>
             <div className='w-full grid grid-cols-5 items-center'>
                 <div className='flex gap-4 items-center'>
-                    <input type="checkbox" name="" id="" />
+                    <input 
+                    type="checkbox" 
+                    checked={isSelected} 
+                    onChange={() => setSelectedUsers(contact.email)} 
+                    className='accent-primary'/>
                     <div className='flex flex-col gap-1'>
                         <h1 className='font-semibold'>{user.name}</h1>
                         <p className='text-span font-light'>{user.desc}</p>

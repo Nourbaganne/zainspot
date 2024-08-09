@@ -13,11 +13,13 @@ import { AuthContext } from '@/app/contexts/authContext';
 
 const Users = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('View All');
+  const [searchUser, setSearchUser] = useState<string>('');
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const { user } = useContext(AuthContext);
 
   const breadcrumbItems = [
-    { label: "Owner Dashboard", href: "/owner" },
-    { label: "Users" },
+    { label: "owner_dashboard", href: "/owner" },
+    { label: "users" },
   ];
 
   const USERS_HEADER_DATA = [
@@ -30,7 +32,7 @@ const Users = () => {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['users'],
-    queryFn: () => axiosInstance.get('http://localhost:3001/user', {
+    queryFn: () => axiosInstance.get('/user', {
       headers: {
         Authorization: `Bearer ${user?.access_token}`
       }
@@ -40,7 +42,19 @@ const Users = () => {
   if (isLoading) return <h1>Loading ...</h1>;
   if (isError) return <h1>{error.message}</h1>;
 
-  console.log("users :", data);
+  const filteredUsers = data?.data.filter((user: { name: any; middlename: any; lastName: any; }) =>
+    `${user.name} ${user?.middlename ?? ''} ${user.lastName ?? ''}`.toLowerCase().includes(searchUser.toLowerCase().trim())
+  );
+
+  const handleSelectUser = (userEmail: string) => {
+    setSelectedUsers((prevSelectedUsers) => {
+      if (prevSelectedUsers.includes(userEmail)) {
+        return prevSelectedUsers.filter((email) => email !== userEmail);
+      } else {
+        return [...prevSelectedUsers, userEmail];
+      }
+    });
+  };
 
   return (
     <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
@@ -75,12 +89,30 @@ const Users = () => {
           <div className='flex gap-5 items-center'>
             <div className='flex bg-background gap-2 items-center p-2 text-span border border-button rounded-md'>
               <Image src={searchIcon} alt='search-user' />
-              <input type="text" name="" id="" placeholder='Search User' className='w-80 outline-none' />
+              <input
+                type="text"
+                name=""
+                id=""
+                value={searchUser}
+                onChange={(e) => setSearchUser(e.target.value)}
+                placeholder='Search User'
+                className='w-80 outline-none' />
             </div>
-            <div className='flex gap-3 text-xs font-semibold'>
-              <button className='py-3 px-4 border-2 border-button text-button-text rounded-md'>Deselect All</button>
-              <button className='py-3 px-4 border-2 border-primary rounded-md text-primary'>Select All</button>
-              <button className='py-3 px-4 bg-button text-background rounded-md'>Deactivate User</button>
+            <div>
+              {selectedUsers.length > 0 ? (
+                <div className='flex gap-3 text-xs font-semibold'>
+                  <button className={`py-3 px-4 border-2 rounded-md border-alert-dark text-alert-dark `} onClick={() => setSelectedUsers([])}>Deselect All</button>
+                  <button className='py-3 px-4 border-2 border-primary rounded-md text-primary' onClick={() => setSelectedUsers(filteredUsers.map((user: { email: string; }) => user.email))}>Select All</button>
+                  <button className='py-3 px-4 bg-alert text-background rounded-md'>Deactivate User</button>
+                </div>
+              ) : (
+                <div className='flex gap-3 text-xs font-semibold'>
+                  <button disabled className={`py-3 px-4 border-2 rounded-md border-button text-button-text `}>Deselect All</button>
+                  <button className='py-3 px-4 border-2 border-primary rounded-md text-primary' onClick={() => setSelectedUsers(filteredUsers.map((user: { email: string; }) => user.email))}>Select All</button>
+                  <button disabled className='py-3 px-4 bg-button text-background rounded-md'>Deactivate User</button>
+                </div>
+              )}
+
             </div>
           </div>
         </div>
@@ -114,14 +146,16 @@ const Users = () => {
             <p>Role</p>
           </div>
           <div className='flex flex-col gap-2'>
-            {data?.data.map((user, index: number) => (
+            {filteredUsers.map((user: { name: string; middlename: string | undefined; lastName: string; businessName: string; email: string; businessNumber: any; subscriptions: any[]; role: string; }, index: number) => (
               <UserItem
                 key={index}
-                user={{ name: user.name, desc: user.businessName }}
+                user={{ name: `${user.name} ${user?.middlename ?? ''} ${user.lastName ?? ''}`.trim(), desc: user.businessName }}
                 contact={{ email: user.email, phoneNumber: user.businessNumber }}
                 subscriptions={user.subscriptions.length > 0 ? user.subscriptions.map(sub => sub.city.name) : null}
                 renewals={user.subscriptions.length > 0 ? { upcoming: new Date(user.subscriptions[0].endDate) > new Date(), date: new Date(user.subscriptions[0].endDate).toLocaleDateString() } : { upcoming: false, date: 'N/A' }}
-                role={user.role.role}
+                role={user.role}
+                setSelectedUsers={handleSelectUser}
+                isSelected={selectedUsers.includes(user.email)}
               />
             ))}
           </div>

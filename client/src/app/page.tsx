@@ -19,7 +19,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      {/* Header Section */}
       <div className="relative flex flex-col">
         <Image
           className="absolute z-0 w-full h-full object-cover"

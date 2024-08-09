@@ -127,7 +127,6 @@
     "payment_details_defaultPayment": "Default Payment Method",
     "payment_details_defaultPayment_subtitle": "Select your preferred payment method",
     "payment_details_addingCard": "Add New Card",
-
     "cancelation_overview_title": "Overview of Cancellation Policy",
     "cancelation_overview_description": "At ZainSpotter, we strive to provide exceptional service and support to our subscribers. We understand that circumstances may change, and you may need to cancel your subscription. This policy outlines the terms and conditions for canceling your subscription with us.",
     "cancelation_requiredPeriod_title": "Notice Period Required",
@@ -147,5 +146,7 @@
     "cancelation_step_7": "Receive Confirmation: You will receive an email confirmation acknowledging the cancellation request.",
     "cancelation_note_title": "If you have any questions or require assistance with the cancellation process, please contact our customer support team.",
     "cancelation_note_span": "Note :",
-    "cancelation_note_desc": "This cancellation policy is subject to change, and we will notify subscribers of any updates via email and on our website."
+    "cancelation_note_desc": "This cancellation policy is subject to change, and we will notify subscribers of any updates via email and on our website.",
+    "owner_dashboard": "Owner Dashboard",
+    "users": "Users"
 }
