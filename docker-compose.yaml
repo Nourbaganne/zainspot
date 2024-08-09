@@ -1,19 +1,6 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:8
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypassword
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - app-network
-
   backend:
     build:
       context: ./infrastructure
@@ -23,14 +10,8 @@ services:
       - "3001:3001"
     networks:
       - app-network
-    depends_on:
-      - mysql
-    environment:
-      DATABASE_HOST: mysql
-      DATABASE_PORT: 3306
-      DATABASE_USER: myuser
-      DATABASE_PASSWORD: mypassword
-      DATABASE_NAME: mydatabase
+    env_file:
+      - ./infrastructure/.env
 
   frontend:
     build:
@@ -43,10 +24,9 @@ services:
       - app-network
     depends_on:
       - backend
+    env_file:
+      - ./client/.env
 
 networks:
   app-network:
     driver: bridge
-
-volumes:
-  mysql_data:

@@ -56,8 +56,8 @@ const Page = () => {
                                 {data.header}
                             </p>
                             <div className='flex flex-col gap-2 font-light'>
-                                {data.info.map((info) => (
-                                    <div className='flex gap-2 '>
+                                {data.info.map((info, index) => (
+                                    <div key={index} className='flex gap-2 '>
                                         <div className='flex items-start pt-[5px] '>
                                             <input type="checkbox" name="" id="" className='accent-primary' />
                                         </div>
