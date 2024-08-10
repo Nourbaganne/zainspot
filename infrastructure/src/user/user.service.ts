@@ -4,9 +4,19 @@ import { User } from '../entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from 'src/entities/role.entity';
+import { Pagination } from 'src/decorators/pagination-params.decorator';
+import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
+
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) { }
+
   async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt(8);
     return bcrypt.hash(password, salt);
@@ -30,20 +40,63 @@ export class UserService {
     return user;
   }
 
-  async findAll(): Promise<User[]> {
-    const users = await User.find({
-      relations: [
-        'role',
-        'paymentHistories',
-        'subscriptions',
-        'subscriptions.city',
-      ],
-    });
+  async findAll(
+    { page, limit = 1 }: Pagination,
+      name?: string,
+      filter?: string
+  ): Promise<PaginatedResource<Partial<User>>> {
+    // Adjust pagination parameters
+    const skip = (page - 1) * limit;
+  
+    const queryBuilder = this.userRepository.createQueryBuilder('user')
+      .leftJoinAndSelect('user.role', 'role')
+      .leftJoinAndSelect('user.paymentHistories', 'paymentHistories')
+      .leftJoinAndSelect('user.subscriptions', 'subscriptions')
+      .leftJoinAndSelect('subscriptions.city', 'city')
+      .take(limit)
+      .skip(skip);
+  
+    // Apply filters
+  
+    if (name) {
+      queryBuilder.andWhere(
+        'user.name LIKE :name OR user.middleName LIKE :name OR user.lastName LIKE :name',
+        { name: `%${name}%` },
+      );
+    }
+
+    if (filter) {
+      queryBuilder.andWhere(
+        'role.role LIKE :filter',
+        { filter: `%${filter}%` }
+      );
+    }
+  
+    const [users, total] = await queryBuilder.getManyAndCount();
+  
+    // Remove passwords from user objects
     users.forEach((user) => {
       delete user.password;
     });
-    return users;
+  
+    // Calculate pagination details
+    const totalPages = Math.ceil(total / limit);
+  
+    // Determine if there are next or previous pages
+    const hasNextPage = page < totalPages;
+    const hasPreviousPage = page > 1;
+  
+    return {
+      totalItems: total,
+      items: users,
+      page,
+      size: limit,
+      totalPages,
+      hasNextPage,
+      hasPreviousPage,
+    };
   }
+  
 
   async findById(id: number): Promise<User> {
     const user = await User.findOne({

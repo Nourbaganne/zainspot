@@ -6,6 +6,9 @@ import {
   Param,
   Patch,
   Delete,
+  Logger,
+  Req,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -13,13 +16,18 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/decorators/public.decorator';
 import { EmailConfirmationService } from 'src/email-confirmation/email-confirmation.service';
 import { Permissions } from 'src/decorators/permissions.decorator';
+import { Pagination, PaginationParams } from 'src/decorators/pagination-params.decorator';
+import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
+import { User } from 'src/entities/user.entity';
+
 
 @Controller('user')
 export class UserController {
+  private readonly logger = new Logger(UserController.name);
   constructor(
     private readonly userService: UserService,
     private readonly emailConfirmationService: EmailConfirmationService,
-  ) {}
+  ) { }
 
   @Public()
   @Post('register')
@@ -40,8 +48,12 @@ export class UserController {
   @Public()
   @Permissions({ action: 'manage', subject: 'User' })
   @Get()
-  async findAll() {
-    return this.userService.findAll();
+  async findAll(
+    @PaginationParams() paginationParams: Pagination,
+    @Query('name') name?: string,
+    @Query('filter') filter?: string,
+  ): Promise<PaginatedResource<Partial<User>>> {
+    return await this.userService.findAll(paginationParams, name, filter);
   }
 
   @Public()
