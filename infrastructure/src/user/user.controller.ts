@@ -7,7 +7,6 @@ import {
   Patch,
   Delete,
   Logger,
-  Req,
   Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -16,10 +15,12 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/decorators/public.decorator';
 import { EmailConfirmationService } from 'src/email-confirmation/email-confirmation.service';
 import { Permissions } from 'src/decorators/permissions.decorator';
-import { Pagination, PaginationParams } from 'src/decorators/pagination-params.decorator';
+import {
+  Pagination,
+  PaginationParams,
+} from 'src/decorators/pagination-params.decorator';
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { User } from 'src/entities/user.entity';
-
 
 @Controller('user')
 export class UserController {
@@ -27,7 +28,7 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly emailConfirmationService: EmailConfirmationService,
-  ) { }
+  ) {}
 
   @Public()
   @Post('register')
