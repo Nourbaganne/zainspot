@@ -11,11 +11,10 @@ import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
-
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+  ) {}
 
   async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt(8);
@@ -82,6 +81,7 @@ export class UserService {
     users.forEach((user) => {
       delete user.password;
     });
+
 
     // Calculate pagination details
     const totalPages = Math.ceil(total / limit);
