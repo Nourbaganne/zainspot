@@ -7,7 +7,7 @@ import { Role } from 'src/entities/role.entity';
 import { Pagination } from 'src/decorators/pagination-params.decorator';
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -25,8 +25,6 @@ export class UserService {
   async register(createUserDto: CreateUserDto): Promise<User> {
     const hashedPassword = await this.hashPassword(createUserDto.password);
     const defaultRole = await Role.findOne({ where: { role: 'zainspotter' } });
-    console.log('defaultRole', defaultRole);
-
     const user = User.create({
       ...createUserDto,
       password: hashedPassword,
@@ -42,50 +40,75 @@ export class UserService {
 
   async findAll(
     { page, limit = 1 }: Pagination,
-      name?: string,
-      filter?: string
+    name?: string,
+    filter?: string
   ): Promise<PaginatedResource<Partial<User>>> {
-    // Adjust pagination parameters
-    const skip = (page - 1) * limit;
-  
-    const queryBuilder = this.userRepository.createQueryBuilder('user')
+    let queryBuilder = this.userRepository.createQueryBuilder('user')
       .leftJoinAndSelect('user.role', 'role')
       .leftJoinAndSelect('user.paymentHistories', 'paymentHistories')
       .leftJoinAndSelect('user.subscriptions', 'subscriptions')
-      .leftJoinAndSelect('subscriptions.city', 'city')
-      .take(limit)
-      .skip(skip);
-  
-    // Apply filters
-  
-    if (name) {
-      queryBuilder.andWhere(
-        'user.name LIKE :name OR user.middleName LIKE :name OR user.lastName LIKE :name',
-        { name: `%${name}%` },
-      );
-    }
+      .leftJoinAndSelect('subscriptions.city', 'city');
 
     if (filter) {
-      queryBuilder.andWhere(
+      queryBuilder = queryBuilder.andWhere(
         'role.role LIKE :filter',
         { filter: `%${filter}%` }
       );
     }
-  
-    const [users, total] = await queryBuilder.getManyAndCount();
-  
+
+    // Get the total count of filtered results before applying pagination
+    const total = await queryBuilder.getCount();
+
+    // Apply the name filter globally 
+    if (name) {
+      queryBuilder = queryBuilder.andWhere(
+        `(user.email LIKE :name
+          OR user.name LIKE :name 
+          OR user.middleName LIKE :name 
+          OR user.lastName LIKE :name) 
+          OR CONCAT(user.name, ' ', user.middleName, ' ', user.lastName) LIKE :name 
+          OR CONCAT(user.name, ' ', user.lastName) LIKE :name 
+          `,
+        { name: `%${name}%` }
+      );
+    }
+    
+
+    // Applying pagination
+    queryBuilder = queryBuilder.take(limit).skip((page - 1) * limit);
+    const users = await queryBuilder.getMany();
+
     // Remove passwords from user objects
     users.forEach((user) => {
       delete user.password;
     });
-  
+
     // Calculate pagination details
     const totalPages = Math.ceil(total / limit);
-  
-    // Determine if there are next or previous pages
     const hasNextPage = page < totalPages;
     const hasPreviousPage = page > 1;
-  
+
+    // counts for roles
+    const roleCounts = await this.userRepository
+      .createQueryBuilder('user')
+      .select('role.role AS role')
+      .addSelect('COUNT(user.id) AS count')
+      .leftJoin('user.role', 'role')
+      .groupBy('role.role')
+      .getRawMany();
+
+    const counts = {
+      zainspotter: 0,
+      admin: 0,
+      manager: 0,
+    };
+
+    roleCounts.forEach((roleCount) => {
+      if (roleCount.role === 'zainspotter') counts.zainspotter = +roleCount.count;
+      if (roleCount.role === 'admin') counts.admin = +roleCount.count;
+      if (roleCount.role === 'manager') counts.manager = +roleCount.count;
+    });
+
     return {
       totalItems: total,
       items: users,
@@ -94,9 +117,13 @@ export class UserService {
       totalPages,
       hasNextPage,
       hasPreviousPage,
+      counts,
     };
   }
-  
+
+
+
+
 
   async findById(id: number): Promise<User> {
     const user = await User.findOne({
@@ -187,7 +214,7 @@ export class UserService {
   async findUserRolesAndPermissionsById(userId: number): Promise<User> {
     return User.findOne({
       where: { id: userId },
-      relations: ['role', 'role.permissions'], // Ensure it fetches roles and permissions
+      relations: ['role', 'role.permissions'], 
     });
   }
 }

@@ -3,7 +3,12 @@ export class PaginatedResource<T> {
   items: T[];
   page: number;
   size: number;
-  totalPages: number; // Add totalPages to the DTO
+  totalPages: number; 
   hasNextPage: boolean;
   hasPreviousPage: boolean;
+  counts:{
+    zainspotter: number;
+    admin: number;
+    manager: number;
+  }
 }
