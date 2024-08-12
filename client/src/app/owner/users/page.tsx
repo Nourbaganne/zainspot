@@ -48,7 +48,14 @@ const Users = () => {
     { label: "users" },
   ];
 
-  
+  const USERS_LIST_HEADER = [
+    { title: 'User', hasFiltering: true },
+    { title: 'Email & Number', hasFiltering: false },
+    { title: 'Subscriptions', hasFiltering: false },
+    { title: 'Renewals', hasFiltering: true },
+    { title: 'Role', hasFiltering: false },
+  ]
+
 
   const FILTERING_TYPE = [
     { title: "View All", value: '' },
@@ -66,7 +73,6 @@ const Users = () => {
   });
 
 
-  console.log("data :",data?.data);
   if (isLoading) return <h1>Loading ...</h1>;
   if (isError) return <h1>{error.message}</h1>;
 
@@ -101,10 +107,12 @@ const Users = () => {
     return pageNumbers;
   };
 
+  const checkIncreasment = (value: number) => value >= 0;
+
   const USERS_HEADER_DATA = [
-    { title: 'ZainSpotters', value: zainspottersCount, editPermissions: false, stats: { increase: true, percentage: 2.15 } },
-    { title: 'Admins', value: adminsCount, editPermissions: true, stats: { increase: true, percentage: 2.15 } },
-    { title: 'Managers', value: managersCount, editPermissions: true, stats: { increase: false, percentage: 2.15 } },
+    { title: 'ZainSpotters', value: zainspottersCount, editPermissions: false, stats: { increase: checkIncreasment(data?.data.percentageChange.zainspotter), percentage: Math.abs(data?.data.percentageChange.zainspotter) } },
+    { title: 'Admins', value: adminsCount, editPermissions: true, stats: { increase: checkIncreasment(data?.data.percentageChange.admin), percentage: Math.abs(data?.data.percentageChange.admin) } },
+    { title: 'Managers', value: managersCount, editPermissions: true, stats: { increase: checkIncreasment(data?.data.percentageChange.manager), percentage: Math.abs(data?.data.percentageChange.manager) } },
   ];
 
   return (
@@ -166,31 +174,24 @@ const Users = () => {
           </div>
         </div>
         <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
-          <div className='grid grid-cols-5 text-sm text-span border-b-2 pb-4 pt-6 pl-4'>
-            <div className='flex items-center gap-2'>
-              <input type="checkbox" name="" id="" />
-              <div className='flex flex-col gap-1 pl-3'>
-                <button>
-                  <Image src={upButton} alt='up-users' />
-                </button>
-                <button>
-                  <Image src={downButton} alt='down-users' />
-                </button>
-              </div>
-              <p>User</p>
-            </div>
-            <p>Email & Number</p>
-            <p>Subscriptions</p>
-            <div className='flex items-center gap-3'>
-              <div className='flex flex-col gap-1'>
-                <button>
-                  <Image src={upButton} alt='up-users' />
-                </button>
-                <button>
-                  <Image src={downButton} alt='down-users' />
-                </button>
-              </div>
-              <p>Role</p>
+          <div className='flex items-center  border-b-2 text-span pb-4 pt-6   pl-4'>
+            <input type="checkbox" name="" id="" />
+            <div className='grid grid-cols-5 text-sm  w-full  pl-2'>
+              {USERS_LIST_HEADER.map((item, index) => (
+                <div key={index} className={`${item.hasFiltering && 'flex items-center gap-2'}`}>
+                  {item.hasFiltering && (
+                    <div className='flex flex-col gap-1'>
+                      <button>
+                        <Image src={upButton} alt='up-users' />
+                      </button>
+                      <button>
+                        <Image src={downButton} alt='down-users' />
+                      </button>
+                    </div>
+                  )}
+                  {item.title}
+                </div>
+              ))}
             </div>
           </div>
           {data?.data.items.length > 0 ? (
