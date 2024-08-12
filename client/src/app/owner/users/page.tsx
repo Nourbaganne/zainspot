@@ -1,6 +1,6 @@
 "use client"
 import Breadcrumb from '@/app/zainspotter/components/breadcrumb';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import RoleCard from '../components/roleCard';
 import searchIcon from '@/app/assets/owner/users/search-outline.svg';
 import upButton from '@/app/assets/owner/users/Up.svg';
@@ -10,41 +10,69 @@ import UserItem from '../components/userItem';
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import { AuthContext } from '@/app/contexts/authContext';
+import nextIcon from '@/app/assets/owner/users/chevron-forward.svg'
+import previousIcon from '@/app/assets/owner/users/chevron-back.svg'
+
+
+interface User {
+  name: string;
+  middlename?: string;
+  lastName: string;
+  businessName: string;
+  email: string;
+  businessNumber: string;
+  subscriptions: { city: { name: string }, endDate: string }[];
+  role: { id: number; role: string };
+}
 
 const Users = () => {
-  const [selectedFilter, setSelectedFilter] = useState<string>('View All');
+  const [selectedFilter, setSelectedFilter] = useState<string>('');
   const [searchUser, setSearchUser] = useState<string>('');
+  const [debouncedSearchUser, setDebouncedSearchUser] = useState<string>(searchUser);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchUser(searchUser);
+    }, 800);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchUser]);
 
   const breadcrumbItems = [
     { label: "owner_dashboard", href: "/owner" },
     { label: "users" },
   ];
 
-  const USERS_HEADER_DATA = [
-    { title: 'ZainSpotters', value: 10107, editPermissions: false, stats: { increase: true, percentage: 2.15 } },
-    { title: 'Admins', value: 3, editPermissions: true, stats: { increase: true, percentage: 2.15 } },
-    { title: 'Managers', value: 1, editPermissions: true, stats: { increase: false, percentage: 2.15 } },
-  ];
+  
 
-  const FILTERING_TYPE = ["View All", "Zainspotters", "Admins", "Managers"];
+  const FILTERING_TYPE = [
+    { title: "View All", value: '' },
+    { title: "Zainspotters", value: 'zainspotter' },
+    { title: "Admins", value: 'admin' },
+    { title: "Managers", value: 'manager' }];
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['users'],
-    queryFn: () => axiosInstance.get('/user', {
+    queryKey: ['users', currentPage, debouncedSearchUser, selectedFilter],
+    queryFn: () => axiosInstance.get(`/user?page=${currentPage}&name=${debouncedSearchUser}&filter=${selectedFilter}`, {
       headers: {
-        Authorization: `Bearer ${user?.access_token}`
-      }
+        Authorization: `Bearer ${user?.access_token}`,
+      },
     }),
   });
 
+
+  console.log("data :",data?.data);
   if (isLoading) return <h1>Loading ...</h1>;
   if (isError) return <h1>{error.message}</h1>;
 
-  const filteredUsers = data?.data.filter((user: { name: any; middlename: any; lastName: any; }) =>
-    `${user.name} ${user?.middlename ?? ''} ${user.lastName ?? ''}`.toLowerCase().includes(searchUser.toLowerCase().trim())
-  );
+  const zainspottersCount = data?.data.counts.zainspotter || 0;
+  const adminsCount = data?.data.counts.admin || 0;
+  const managersCount = data?.data.counts.manager || 0;
 
   const handleSelectUser = (userEmail: string) => {
     setSelectedUsers((prevSelectedUsers) => {
@@ -56,6 +84,29 @@ const Users = () => {
     });
   };
 
+  const generatePageNumbers = () => {
+    const totalPages = data?.data.totalPages || 1;
+    const maxButtons = 5;
+    const pageNumbers = [];
+    const startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+    const endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(i);
+    }
+
+    if (startPage > 1) pageNumbers.unshift(1, '...');
+    if (endPage < totalPages) pageNumbers.push('...', totalPages);
+
+    return pageNumbers;
+  };
+
+  const USERS_HEADER_DATA = [
+    { title: 'ZainSpotters', value: zainspottersCount, editPermissions: false, stats: { increase: true, percentage: 2.15 } },
+    { title: 'Admins', value: adminsCount, editPermissions: true, stats: { increase: true, percentage: 2.15 } },
+    { title: 'Managers', value: managersCount, editPermissions: true, stats: { increase: false, percentage: 2.15 } },
+  ];
+
   return (
     <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
       <Breadcrumb items={breadcrumbItems} />
@@ -66,18 +117,18 @@ const Users = () => {
       </div>
       <div className='flex flex-col pt-5 gap-10'>
         <h1 className='flex gap-2 font-semibold text-xl'>
-          All Users <span className='font-normal'>(10,111)</span>
+          All Users <span className='font-normal'>({data?.data.totalItems ?? 0})</span>
         </h1>
         <div className='flex justify-between'>
           <div className='bg-span-background flex text-span-foreground rounded-md p-1 w-fit gap-2'>
             <div className='flex gap-2 md:font-semibold whitespace-nowrap md:whitespace-normal max-w-56 md:max-w-none overflow-x-auto'>
-              {FILTERING_TYPE.map((value, index) => (
+              {FILTERING_TYPE.map((filter, index) => (
                 <div
                   key={index}
-                  className={`px-2 py-1 rounded-md cursor-pointer ${selectedFilter === value ? 'bg-background text-text' : ''}`}
-                  onClick={() => setSelectedFilter(value)}
+                  className={`px-2 py-1 rounded-md cursor-pointer ${selectedFilter === filter.value ? 'bg-background text-text' : ''}`}
+                  onClick={() => setSelectedFilter(filter.value)}
                 >
-                  {value}
+                  {filter.title}
                 </div>
               ))}
             </div>
@@ -90,29 +141,27 @@ const Users = () => {
             <div className='flex bg-background gap-2 items-center p-2 text-span border border-button rounded-md'>
               <Image src={searchIcon} alt='search-user' />
               <input
-                type="text"
-                name=""
-                id=""
+                type="search"
                 value={searchUser}
                 onChange={(e) => setSearchUser(e.target.value)}
-                placeholder='Search User'
-                className='w-80 outline-none' />
+                placeholder="Search User"
+                className="w-80 outline-none"
+              />
             </div>
             <div>
               {selectedUsers.length > 0 ? (
                 <div className='flex gap-3 text-xs font-semibold'>
                   <button className={`py-3 px-4 border-2 rounded-md border-alert-dark text-alert-dark `} onClick={() => setSelectedUsers([])}>Deselect All</button>
-                  <button className='py-3 px-4 border-2 border-primary rounded-md text-primary' onClick={() => setSelectedUsers(filteredUsers.map((user: { email: string; }) => user.email))}>Select All</button>
+                  <button className='py-3 px-4 border-2 border-primary rounded-md text-primary' onClick={() => setSelectedUsers(data?.data.items.map((user: { email: string; }) => user.email))}>Select All</button>
                   <button className='py-3 px-4 bg-alert text-background rounded-md'>Deactivate User</button>
                 </div>
               ) : (
                 <div className='flex gap-3 text-xs font-semibold'>
                   <button disabled className={`py-3 px-4 border-2 rounded-md border-button text-button-text `}>Deselect All</button>
-                  <button className='py-3 px-4 border-2 border-primary rounded-md text-primary' onClick={() => setSelectedUsers(filteredUsers.map((user: { email: string; }) => user.email))}>Select All</button>
+                  <button className='py-3 px-4 border-2 border-primary rounded-md text-primary' onClick={() => setSelectedUsers(data?.data.items.map((user: { email: string; }) => user.email))}>Select All</button>
                   <button disabled className='py-3 px-4 bg-button text-background rounded-md'>Deactivate User</button>
                 </div>
               )}
-
             </div>
           </div>
         </div>
@@ -141,28 +190,67 @@ const Users = () => {
                   <Image src={downButton} alt='down-users' />
                 </button>
               </div>
-              <p>Renewals</p>
+              <p>Role</p>
             </div>
-            <p>Role</p>
           </div>
-          <div className='flex flex-col gap-2'>
-            {filteredUsers.map((user: { name: string; middlename: string | undefined; lastName: string; businessName: string; email: string; businessNumber: any; subscriptions: any[]; role: string; }, index: number) => (
-              <UserItem
-                key={index}
-                user={{ name: `${user.name} ${user?.middlename ?? ''} ${user.lastName ?? ''}`.trim(), desc: user.businessName }}
-                contact={{ email: user.email, phoneNumber: user.businessNumber }}
-                subscriptions={user.subscriptions.length > 0 ? user.subscriptions.map(sub => sub.city.name) : null}
-                renewals={user.subscriptions.length > 0 ? { upcoming: new Date(user.subscriptions[0].endDate) > new Date(), date: new Date(user.subscriptions[0].endDate).toLocaleDateString() } : { upcoming: false, date: 'N/A' }}
-                role={user.role}
-                setSelectedUsers={handleSelectUser}
-                isSelected={selectedUsers.includes(user.email)}
-              />
-            ))}
-          </div>
+          {data?.data.items.length > 0 ? (
+            <>
+              {data?.data.items.map((user: User, index: number) => (
+                <UserItem
+                  key={index}
+                  user={{ name: `${user.name} ${user?.middlename ?? ''} ${user.lastName ?? ''}`.trim(), desc: user.businessName }}
+                  contact={{ email: user.email, phoneNumber: user.businessNumber }}
+                  subscriptions={user.subscriptions.length > 0 ? user.subscriptions.map(sub => sub.city.name) : null}
+                  renewals={user.subscriptions.length > 0 ? { upcoming: new Date(user.subscriptions[0].endDate) > new Date(), date: new Date(user.subscriptions[0].endDate).toLocaleDateString() } : { upcoming: false, date: 'N/A' }}
+                  role={user?.role.role}
+                  setSelectedUsers={handleSelectUser}
+                  isSelected={selectedUsers.includes(user.email)}
+                />
+              ))}
+            </>
+          ) : (
+            <div>No users found</div>
+          )}
         </div>
+
+        {!searchUser && (
+          <div className='flex justify-end gap-4'>
+            <button
+              className={`px-4 py-3 text-sm flex items-center gap-3 rounded-lg text-span`}
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            >
+              <Image src={previousIcon} alt='previous-page' />
+              Previous
+            </button>
+            <div className='flex gap-2'>
+              {generatePageNumbers().map((page, index) =>
+                page === '...' ? (
+                  <span key={index} className='text-primary cursor-not-allowed'>...</span>
+                ) : (
+                  <button
+                    key={index}
+                    className={`px-4 py-2 rounded-lg ${currentPage === page ? 'bg-primary text-background' : 'text-primary'}`}
+                    onClick={() => setCurrentPage(page as number)}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+            </div>
+            <button
+              className={`px-4 py-3 flex text-sm items-center gap-3 rounded-lg text-primary`}
+              disabled={currentPage === data?.data.totalPages}
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, data?.data.totalPages))}
+            >
+              Next
+              <Image src={nextIcon} alt='next-page' />
+            </button>
+          </div>
+        )}
       </div>
     </div>
-  );
-}
+  )
+};
 
 export default Users;

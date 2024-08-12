@@ -19,7 +19,8 @@ const config: Config = {
         },
         background: {
           DEFAULT: '#FFFFFF',
-          foreground: '#F3F3F3'
+          foreground: '#F3F3F3',
+          light:'#BFE5DB'
         },
         text: {
           DEFAULT: '#131313',

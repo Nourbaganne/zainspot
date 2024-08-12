@@ -73,7 +73,7 @@ const UserItem: React.FC<UserItemProps> = ({ user, contact, subscriptions, renew
                     </span>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <select name="" id="" className='p-2 bg-background-foreground w-fit px-4 rounded-md font-medium'>
+                    <select name="" id="" className='p-2 text-md bg-background-foreground w-fit px-4 rounded-md font-medium'>
                         <option value={role}>{role}</option>
                     </select>
                     <button className='flex text-secondary gap-2 text-xs font-semibold hover:underline ml-auto'>

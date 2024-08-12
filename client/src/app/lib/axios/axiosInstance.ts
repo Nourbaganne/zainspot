@@ -7,7 +7,6 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   config => {
-
     const token = localStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -23,11 +22,21 @@ axiosInstance.interceptors.response.use(
   response => {
     return response;
   },
-  error => {
-    // Handle global errors here, e.g., redirect to login on 401
-    if (error.response && error.response.status === 401) {
-      // Redirect to login page or handle token refresh
+  async error => {
+    const { config, response: { status } } = error;
+    const originalRequest = config;
+
+    if (status === 429) {
+      // Handle 429 Too Many Requests
+      const retryAfter = error.response.headers['retry-after'];
+      const delay = retryAfter ? parseInt(retryAfter) * 1000 : 2000;
+
+      await new Promise(resolve => setTimeout(resolve, delay));
+
+      return axiosInstance(originalRequest); // Retry the request
     }
+
+
     return Promise.reject(error);
   }
 );
