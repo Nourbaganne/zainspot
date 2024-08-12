@@ -7,14 +7,28 @@ import { Role } from 'src/entities/role.entity';
 import { Pagination } from 'src/decorators/pagination-params.decorator';
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
+import { getEndOfPreviousMonth, getStartOfPreviousMonth } from 'src/utils/date-utils';
+
+
+type RoleCounts = {
+  zainspotter: number;
+  admin: number;
+  manager: number;
+};
+
+type PercentageChange = {
+  zainspotter: number;
+  admin: number;
+  manager: number;
+};
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt(8);
@@ -71,7 +85,6 @@ export class UserService {
         { name: `%${name}%` }
       );
     }
-    
 
     // Applying pagination
     queryBuilder = queryBuilder.take(limit).skip((page - 1) * limit);
@@ -82,13 +95,29 @@ export class UserService {
       delete user.password;
     });
 
-
     // Calculate pagination details
     const totalPages = Math.ceil(total / limit);
     const hasNextPage = page < totalPages;
     const hasPreviousPage = page > 1;
 
-    // counts for roles
+    // Counts for roles and percentage change
+    const counts = await this.getRoleCounts();
+    const percentageChange = await this.calculateRolePercentageChange();
+
+    return {
+      totalItems: total,
+      items: users,
+      page,
+      size: limit,
+      totalPages,
+      hasNextPage,
+      hasPreviousPage,
+      counts: counts as RoleCounts, // Cast to RoleCounts
+      percentageChange: percentageChange as PercentageChange, // Cast to PercentageChange
+    };
+  }
+
+  async getRoleCounts(): Promise<RoleCounts> {
     const roleCounts = await this.userRepository
       .createQueryBuilder('user')
       .select('role.role AS role')
@@ -97,7 +126,7 @@ export class UserService {
       .groupBy('role.role')
       .getRawMany();
 
-    const counts = {
+    const counts: RoleCounts = {
       zainspotter: 0,
       admin: 0,
       manager: 0,
@@ -109,21 +138,58 @@ export class UserService {
       if (roleCount.role === 'manager') counts.manager = +roleCount.count;
     });
 
-    return {
-      totalItems: total,
-      items: users,
-      page,
-      size: limit,
-      totalPages,
-      hasNextPage,
-      hasPreviousPage,
-      counts,
-    };
+    return counts;
   }
 
+  async getPreviousRoleCounts(): Promise<RoleCounts> {
+    const previousMonthStart = getStartOfPreviousMonth();
+    const previousMonthEnd = getEndOfPreviousMonth();
 
+    const previousRoleCounts = await this.userRepository
+      .createQueryBuilder('user')
+      .select('role.role AS role')
+      .addSelect('COUNT(user.id) AS count')
+      .leftJoin('user.role', 'role')
+      .where('user.createdAt BETWEEN :start AND :end', {
+        start: previousMonthStart,
+        end: previousMonthEnd,
+      })
+      .groupBy('role.role')
+      .getRawMany();
+    const previousCounts: RoleCounts = {
+      zainspotter: 0,
+      admin: 0,
+      manager: 0,
+    };
 
+    previousRoleCounts.forEach((roleCount) => {
+      if (roleCount.role === 'zainspotter') previousCounts.zainspotter = +roleCount.count;
+      if (roleCount.role === 'admin') previousCounts.admin = +roleCount.count;
+      if (roleCount.role === 'manager') previousCounts.manager = +roleCount.count;
+    });
 
+    return previousCounts;
+  }
+
+  private calculatePercentageChange(oldCount: number, newCount: number): number {
+    if (oldCount === 0) return newCount > 0 ? 100 : 0;
+    const percentageChange = ((newCount - oldCount) / oldCount) * 100;
+    return parseFloat(percentageChange.toFixed(2));
+  }
+  
+
+  async calculateRolePercentageChange(): Promise<PercentageChange> {
+    const currentCounts = await this.getRoleCounts();
+    const previousCounts = await this.getPreviousRoleCounts();
+
+    const percentageChange: PercentageChange = {
+      zainspotter: this.calculatePercentageChange(previousCounts.zainspotter, currentCounts.zainspotter),
+      admin: this.calculatePercentageChange(previousCounts.admin, currentCounts.admin),
+      manager: this.calculatePercentageChange(previousCounts.manager, currentCounts.manager),
+    };
+
+    return percentageChange;
+  }
 
   async findById(id: number): Promise<User> {
     const user = await User.findOne({
@@ -214,7 +280,7 @@ export class UserService {
   async findUserRolesAndPermissionsById(userId: number): Promise<User> {
     return User.findOne({
       where: { id: userId },
-      relations: ['role', 'role.permissions'], 
+      relations: ['role', 'role.permissions'],
     });
   }
 }
