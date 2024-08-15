@@ -148,5 +148,16 @@
     "cancelation_note_span": "Note :",
     "cancelation_note_desc": "This cancellation policy is subject to change, and we will notify subscribers of any updates via email and on our website.",
     "owner_dashboard": "Owner Dashboard",
-    "users": "Users"
+    "users": "Users",
+
+    "locations": "Locations",
+    "addCity_Name": "Name",
+    "addCity_description": "Description",
+    "addCity_location_title": "Title",
+    "addCity_location_posx": "PosX",
+    "addCity_location_posy": "PosY",
+    "addCity_zsGold_amount": "Amount",
+    "addCity_zsGold_tax": "Tax Fee"
+
+
 }

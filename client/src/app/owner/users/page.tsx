@@ -54,7 +54,7 @@ const Users = () => {
     { title: 'Subscriptions', hasFiltering: false },
     { title: 'Renewals', hasFiltering: true },
     { title: 'Role', hasFiltering: false },
-  ]
+  ];
 
 
   const FILTERING_TYPE = [

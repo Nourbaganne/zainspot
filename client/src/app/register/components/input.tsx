@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormikProps } from 'formik';
 import Translation from '@/app/components/translation';
+import Image from 'next/image';
 import checked from "@/app/assets/register/checked.svg";
 import alert from "@/app/assets/register/alert.svg";
-import Image from 'next/image';
 
 interface InputProps {
   type: string;
   labelKey: string;
-  value: string;
+  value: string | number;
   name: string;
   touched: boolean | undefined;
   errors: string | undefined;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
   formik: FormikProps<any>;
   placeholderValue?: string;
 }
@@ -26,31 +26,46 @@ export function Input({
   touched,
   errors,
   placeholderValue,
-
-
 }: InputProps) {
   const showIcon = touched && (errors ? alert : checked);
-
 
   return (
     <div className="flex flex-col gap-2 w-full">
       <div className="relative flex flex-col">
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={handleChange}
-          placeholder={placeholderValue}
-          className={`border px-2 py-3 rounded-md focus:outline-none focus:ring-0 autofill:bg-white ${errors && touched ? 'border-alert' : 'border-button focus:border-primary'}`}
-        />
+        {type === "textarea" ? (
+          <textarea
+            name={name}
+            value={value}
+            placeholder={placeholderValue}
+            onChange={handleChange}
+            className={`border px-2 py-3 rounded-md focus:outline-none focus:ring-0 autofill:bg-white resize-none ${
+              errors && touched ? 'border-alert' : 'border-button focus:border-primary'
+            }`}
+            rows={5} 
+          />
+        ) : (
+          <input
+            type={type}
+            name={name}
+            value={value}
+            onChange={handleChange}
+            placeholder={placeholderValue}
+            className={`border px-2 py-3 rounded-md focus:outline-none focus:ring-0 autofill:bg-white ${
+              errors && touched ? 'border-alert' : 'border-button focus:border-primary'
+            }`}
+          />
+        )}
         <label
           htmlFor={name}
-          className={`absolute left-3 bottom-[41px] pointer-events-none px-1 text-xs bg-white z-10   
-            ${value && !errors ?  'text-primary' : errors && touched ? 'text-alert' : 'text-primary'} `}
+          className={`absolute
+            ${type === "textarea" ? 'bottom-[138px]' : ' bottom-[41px]' }
+            left-3 pointer-events-none px-1 text-xs bg-white z-10 ${
+            value && !errors ? 'text-primary' : errors && touched ? 'text-alert' : 'text-primary'
+          }`}
         >
-          <Translation translationKey={labelKey} />
+          {labelKey}
         </label>
-        {showIcon && (name !== "businessWebsite" && name !== "middleName" && name !== "mediaProfile")  && (
+        {showIcon && name !== 'businessWebsite' && name !== 'middleName' && name !== 'mediaProfile' && (
           <Image
             src={showIcon}
             alt={errors ? 'Alert' : 'Checked'}
@@ -58,9 +73,7 @@ export function Input({
           />
         )}
       </div>
-      {touched && errors && (
-        <h1 className="pl-4 text-alert">{errors}</h1>
-      )}
+      {touched && errors && <p className="text-alert text-xs">{errors}</p>}
     </div>
   );
 }
