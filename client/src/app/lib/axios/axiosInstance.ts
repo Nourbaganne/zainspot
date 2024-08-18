@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: "https://zainspot-backend.vercel.app",
+  baseURL: "http://localhost:3001",
   timeout: 5000,
 });
 
