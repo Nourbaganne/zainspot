@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/authContext";
+import axiosInstance from "./axios/axiosInstance";
 
 export interface UserData {
     isEmailConfirmed: boolean;
@@ -82,8 +83,8 @@ export const useUpdateForm = (userData: UserData | null) => {
                         : null,
                 };
 
-                const response = await axios.patch(
-                    `http://localhost:3001/user/${user?.user.userId}`,
+                const response = await axiosInstance.patch(
+                    `/user/${user?.user.userId}`,
                     formattedValues,
                     {
                         headers: {

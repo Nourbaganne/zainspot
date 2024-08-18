@@ -7,6 +7,7 @@ import { AuthContext } from '../contexts/authContext';
 import Link from 'next/link';
 import returnIcon from '@/app/assets/email-confirmation/returnIcon.svg';
 import Image from 'next/image';
+import axiosInstance from '../lib/axios/axiosInstance';
 
 const EmailConfirmation = () => {
     const searchParams = useSearchParams();
@@ -18,7 +19,7 @@ const EmailConfirmation = () => {
         const confirmEmail = async () => {
             if (token) {
                 try {
-                    const response = await axios.get(`http://localhost:3001/email-confirmation?token=${token}`);
+                    const response = await axiosInstance.get(`/email-confirmation?token=${token}`);
                     setMessage('Email confirmed successfully!');
                 } catch (error) {
                     setMessage('Failed to confirm email.');
