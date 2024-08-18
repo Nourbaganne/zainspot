@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/authContext";
 import axiosInstance from "./axios/axiosInstance";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export interface PerMonth {
     duration: number | null;
@@ -11,7 +12,8 @@ export interface PerMonth {
 }
 
 export interface CityData {
-    name: string;
+    city: string;
+    country: string;
     hidden: boolean;
     location: {
         title: string;
@@ -26,14 +28,14 @@ export interface CityData {
     classicPrice: {
         perMonth: PerMonth[];
     };
-    imageUrl: File | null; // Changed to File
+    imageUrl: File | null;
 }
 
 const durations = [
-    { label: '1 Month', value: 1 },
-    { label: '3 Months', value: 3 },
-    { label: '6 Months', value: 6 },
     { label: '1 Year', value: 12 },
+    { label: '6 Months', value: 6 },
+    { label: '3 Months', value: 3 },
+    { label: '1 Month', value: 1 },
 ];
 
 const defaultClassicPrice = {
@@ -42,10 +44,42 @@ const defaultClassicPrice = {
 
 export const useAddCity = () => {
     const { user } = useContext(AuthContext);
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: async (values: CityData) => {
+            const formData = new FormData();
+            formData.append('city', values.city);
+            formData.append('country', values.country);
+            formData.append('hidden', String(values.hidden));
+            formData.append('location', JSON.stringify(values.location));
+            formData.append('description', values.description);
+            formData.append('goldPrice', JSON.stringify(values.goldPrice));
+            formData.append('classicPrice', JSON.stringify(values.classicPrice));
+            if (values.imageUrl) {
+                formData.append('imageUrl', values.imageUrl);
+            }
+
+            const response = await axiosInstance.post("/cities", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${user?.access_token}`,
+                },
+            });
+            return response.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['cities']});
+        },
+        onError: (error: any) => {
+            console.error("Error adding city:", error);
+        },
+    });
 
     const formik = useFormik<CityData>({
         initialValues: {
-            name: "",
+            city: "",
+            country: "",
             hidden: false,
             location: { title: "", posx: null, posy: null },
             description: "",
@@ -54,7 +88,8 @@ export const useAddCity = () => {
             imageUrl: null,
         },
         validationSchema: Yup.object({
-            name: Yup.string().required("Name is required"),
+            city: Yup.string().required("City is required"),
+            country: Yup.string().required("Country is required"),
             location: Yup.object({
                 title: Yup.string().required("Location title is required"),
                 posx: Yup.number().required("PosX is required"),
@@ -65,38 +100,22 @@ export const useAddCity = () => {
                 value: Yup.number().required("Gold price amount is required"),
                 tax: Yup.number().required("Gold price tax is required"),
             }),
-            // Validation for imageUrl as a file is generally handled at UI level
             imageUrl: Yup.mixed().required("Image is required"),
         }),
-        onSubmit: async (values: CityData, { setSubmitting }: FormikHelpers<CityData>) => {
+        onSubmit: async (values: CityData, { resetForm }: FormikHelpers<CityData>) => {
             try {
-                const formData = new FormData();
-                formData.append('name', values.name);
-                formData.append('hidden', String(values.hidden));
-                formData.append('location', JSON.stringify(values.location));
-                formData.append('description', values.description);
-                formData.append('goldPrice', JSON.stringify(values.goldPrice));
-                formData.append('classicPrice', JSON.stringify(values.classicPrice));
-                if (values.imageUrl) {
-                    formData.append('imageUrl', values.imageUrl);
-                }
-
-
-                const response = await axiosInstance.post("/cities", formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${user?.access_token}`,
-                    },
-                });
-                console.log("City added successfully:", response.data);
+                await mutation.mutateAsync(values);
+                resetForm();
             } catch (error) {
                 console.error("Error adding city:", error);
-            } finally {
-                setSubmitting(false);
             }
         },
-
     });
 
-    return formik;
+    return {
+        ...formik,
+        isError: mutation.isError,
+        error: mutation.error,
+        isSuccess: mutation.isSuccess,
+    };
 };

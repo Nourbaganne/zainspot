@@ -17,10 +17,10 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
   const formik = useAddCity();
 
   const durations = [
-    { label: '1 Month', value: 1 },
-    { label: '3 Months', value: 3 },
-    { label: '6 Months', value: 6 },
     { label: '1 Year', value: 12 },
+    { label: '6 Months', value: 6 },
+    { label: '3 Months', value: 3 },
+    { label: '1 Month', value: 1 },
   ];
 
   return (
@@ -37,12 +37,22 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
               <h1 className="font-semibold">Location Info</h1>
               <Input
                 type="text"
-                labelKey="Name"
-                value={formik.values.name}
-                name="name"
+                labelKey="City"
+                value={formik.values.city}
+                name="city"
                 handleChange={formik.handleChange}
-                touched={formik.touched.name}
-                errors={formik.errors.name}
+                touched={formik.touched.city}
+                errors={formik.errors.city}
+                formik={formik}
+              />
+              <Input
+                type="text"
+                labelKey="Country"
+                value={formik.values.country}
+                name="country"
+                handleChange={formik.handleChange}
+                touched={formik.touched.country}
+                errors={formik.errors.country}
                 formik={formik}
               />
               <Input
