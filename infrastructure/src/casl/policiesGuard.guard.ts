@@ -33,6 +33,11 @@ export class PoliciesGuard implements CanActivate {
       context.getClass(),
     ]);
 
+    // Ensure permissions is an array
+    if (!permissions || permissions.length === 0) {
+      return true; // or return true, depending on your security needs
+    }
+
     return permissions.every((permission) =>
       ability.can(permission.action, permission.subject),
     );
