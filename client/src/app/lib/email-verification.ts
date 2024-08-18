@@ -1,9 +1,10 @@
 import axios from "axios";
+import axiosInstance from "./axios/axiosInstance";
 
 
 export const handleEmailVerification = async (email: string | undefined, setIsOpenDialog: (isOpen: boolean) => void) => {
   try {
-    const response = await axios.post('http://localhost:3001/email-confirmation/send-verification', { email });
+    const response = await axiosInstance.post('/email-confirmation/send-verification', { email });
     if (response.status === 200) {
       console.log('Email sent');
       setIsOpenDialog(true);

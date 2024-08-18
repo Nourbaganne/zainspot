@@ -40,7 +40,7 @@ const Page = () => {
 
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ['subscriptions'],
-        queryFn: () => axiosInstance.get(`http://localhost:3001/subscriptions/${user?.user.userId}`, {
+        queryFn: () => axiosInstance.get(`/subscriptions/${user?.user.userId}`, {
             headers: {
                 Authorization: `Bearer ${user?.access_token}`
             }

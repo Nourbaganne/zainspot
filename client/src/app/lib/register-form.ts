@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import axiosInstance from "./axios/axiosInstance";
 
 export const useRegisterForm = ({ setIsOpenDialog }: { setIsOpenDialog: (isOpen: boolean) => void; }) => {
   const router = useRouter();
@@ -70,7 +71,7 @@ export const useRegisterForm = ({ setIsOpenDialog }: { setIsOpenDialog: (isOpen:
           birthday: values.birthday ? new Date(values.birthday).toISOString().split('T')[0] : null,
         };
 
-        const response = await axios.post("http://localhost:3001/user/register", formattedValues);
+        const response = await axiosInstance.post("/user/register", formattedValues);
         if (response.status === 201) {
           resetForm();
           setIsOpenDialog(true)
