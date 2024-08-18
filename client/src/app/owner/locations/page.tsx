@@ -5,12 +5,13 @@ import Image from 'next/image';
 import Breadcrumb from '@/app/zainspotter/components/breadcrumb';
 import Dialog from './components/dialog';
 import worldImage from '@/app/assets/owner/locations/World Map.svg';
+import visibleLogo from '@/app/assets/owner/locations/visibleCitiesLogo.svg';
 import eyeOffIcon from '@/app/assets/owner/locations/eye-off-outline.svg';
 import plusIcon from '@/app/assets/owner/locations/plus.svg';
 import searchIcon from '@/app/assets/owner/users/search-outline.svg';
 import upButton from '@/app/assets/owner/users/Up.svg';
 import downButton from '@/app/assets/owner/users/Down.svg';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import nextIcon from '@/app/assets/owner/users/chevron-forward.svg';
 import previousIcon from '@/app/assets/owner/users/chevron-back.svg';
@@ -39,7 +40,6 @@ const Locations = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchCity, setSearchCity] = useState<string>('');
   const [debouncedSearchCity, setDebouncedSearchCity] = useState<string>(searchCity);
-  const queryClient = useQueryClient();
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -68,7 +68,6 @@ const Locations = () => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['cities', currentPage, debouncedSearchCity],
     queryFn: () => axiosInstance.get(`/cities?page=${currentPage}&name=${debouncedSearchCity}`),
-  
   });
 
   if (isLoading) return <h1>Loading ...</h1>;
@@ -125,11 +124,21 @@ const Locations = () => {
           </div>
           <div className='flex col-span-2 justify-end gap-5'>
             <button
-              className='border-2 border-primary rounded-lg px-3 py-2 flex items-center gap-2'
+
               onClick={() => setIsHidden(!isHidden)}
             >
-              <Image src={eyeOffIcon} alt='eye off icon'></Image>
-              {isHidden ? 'View Visible' : 'View Hidden'}
+              {isHidden ? (
+                <div className='border-2 border-primary text-primary rounded-lg px-3 py-2 flex items-center gap-2'>
+                  <Image src={visibleLogo} alt='visible-cities' />
+                  <h1>View Visible</h1>
+                </div>
+              ) : (
+                <div className='border-2 border-primary text-primary rounded-lg px-3 py-2 flex items-center gap-2'>
+                  <Image src={eyeOffIcon} alt='eye off icon' />
+                  <h1>View Hidden</h1>
+                </div>
+
+              )}
             </button>
             <button
               className='bg-primary rounded-lg text-white px-3 py-2 flex items-center gap-2'
@@ -179,7 +188,7 @@ const Locations = () => {
           )}
         </>
       </div>
-      {!searchCity && (
+      {!searchCity && filteredCities?.length > 0 && (
         <div className='flex justify-end gap-4'>
           <button
             className={`px-4 py-3 text-sm flex items-center gap-3 rounded-lg text-span`}

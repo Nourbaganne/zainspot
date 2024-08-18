@@ -3,10 +3,9 @@ import Translation from "@/app/components/translation";
 import { useCurrency } from "@/app/contexts/CurrencyContext";
 
 interface ClassicPrice {
-  perYear: number;
   perMonth: [
     {
-      duration: string;
+      duration: number;
       amount: number;
     }
   ];
@@ -27,7 +26,7 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
       </p>
 
       <h1 className="text-center font-semibold">
-        <Translation translationKey="citypage_cards_subtitle"/>
+        <Translation translationKey="citypage_cards_subtitle" />
       </h1>
 
       <div className="flex justify-between">
@@ -35,7 +34,7 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
           <Translation translationKey="citypage_single_payment" />
           <span className="text-primary">
             <MoneyValue
-              value={amounts?.perYear}
+              value={amounts?.perMonth[0].amount}
               fromCurrency="USD"
               toCurrency={currency}
               decimals={0}
@@ -59,33 +58,38 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
         <p className="font-light text-sm text-end pr-16">
           <Translation translationKey="citypage_permonth" />
         </p>
-        {amounts?.perMonth.map((pm, index) => (
-          <div key={index} className="flex justify-between">
-            <h1>
-              {pm?.duration} <Translation translationKey="citypage_month" />
-            </h1>
-            <h1 className="text-primary">
-              <MoneyValue
-                value={pm?.amount}
-                fromCurrency="USD"
-                toCurrency={currency}
-                decimals={0}
-              />
-            </h1>
-            <div className="flex items-center gap-2">
-              <input
-                type="radio"
-                id="buy"
-                name="buy"
-                className={`w-5 h-5 accent-primary 
+        {
+          amounts?.perMonth
+            .filter(month => month.duration !== 12)
+            .map((month, index) => (
+              <div key={index} className="flex justify-between">
+                <h1>
+                  {month?.duration} <Translation translationKey="citypage_month" />
+                </h1>
+                <h1 className="text-primary">
+                  <MoneyValue
+                    value={month?.amount}
+                    fromCurrency="USD"
+                    toCurrency={currency}
+                    decimals={0}
+                  />
+                </h1>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    id="buy"
+                    name="buy"
+                    className={`w-5 h-5 accent-primary 
                   `}
-              />
-              <label htmlFor="buy">
-                <Translation translationKey="citypage_raio_label" />
-              </label>
-            </div>
-          </div>
-        ))}
+                  />
+                  <label htmlFor="buy">
+                    <Translation translationKey="citypage_raio_label" />
+                  </label>
+                </div>
+              </div>
+            ))
+        }
+    
       </div>
     </div>
   );

@@ -62,6 +62,14 @@ export class CitiesController {
     return this.cityService.updateCity(+id, updateCityDto, file);
   }
 
+  @Patch(':id/hide')
+  async hideCity(
+    @Param('id') id: number,
+  ) {
+    return this.cityService.hideCity(id);
+  }
+
+
   @Delete(':id')
   removeCity(@Param('id') id: string) {
     return this.cityService.removeCity(+id);

@@ -1,23 +1,26 @@
 import { CityProps } from '../page';
 import hiddenLogo from '@/app/assets/owner/locations/hidden-logo.svg';
+import unhiddenLogo from '@/app/assets/owner/locations/eye-outline.svg';
 import deleteLogo from '@/app/assets/owner/locations/trash-outline.svg';
 import Image from 'next/image';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
 import { useDeleteCity } from '@/app/lib/deleteCity';
+import { useHideCity } from '@/app/lib/useHideCity';
 
 
 const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden }: CityProps) => {
     const { currency } = useCurrency();
     const { mutate: deleteCity } = useDeleteCity();
+    const { mutate: hideCity } = useHideCity();
 
     const handleDeleteCity = () => {
-        deleteCity(id, {
-            onError: (error) => {
-                console.error('Error deleting city:', error);
-            },
-        });
+        deleteCity(id);
     };
+
+    const handleHideCity = () => {
+        hideCity(id);
+    }
 
     return (
         <div className='flex justify-between py-4 px-2 border-b'>
@@ -30,6 +33,7 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
                     <p className='font-light text-span max-w-24'>{country}</p>
                 </div>
                 <div className='flex flex-col justify-between'>
+                    {/* Gold Price Section */}
                     <div className='flex flex-col gap-2'>
                         <h1 className='text-xs font-semibold'>1 year single payment</h1>
                         <div className='flex gap-8'>
@@ -44,6 +48,7 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
                             </span>
                         </div>
                     </div>
+                    {/* Tax Section */}
                     <div className='flex flex-col gap-2'>
                         <h1 className='text-xs font-semibold text-alert-dark'>Manual Payment Tax fee</h1>
                         <div className='flex gap-8'>
@@ -59,6 +64,7 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
                         </div>
                     </div>
                 </div>
+                {/* Classic Price Section */}
                 <div className='flex flex-col gap-4'>
                     <div className='flex flex-col gap-2'>
                         <div className='flex gap-10'>
@@ -92,7 +98,7 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
                         </div>
                         {
                             classicPrice?.perMonth
-                                .filter(month => month.duration !== 12) 
+                                .filter(month => month.duration !== 12)
                                 .map((month, index) => (
                                     <div key={index} className='flex justify-between'>
                                         <p className='text-span font-light'>{`${month.duration} Months:`}</p>
@@ -119,14 +125,28 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
                 </div>
             </div>
             <div className='flex gap-1 text-xs font-semibold items-start'>
-                <button className='flex items-center gap-2 text-span p-3 border-2 rounded-md border-span '>
-                    <Image src={hiddenLogo} alt='hide-city' />
-                    Hide
+                <button
+                    onClick={handleHideCity}
+
+                >
+                    {hidden ? (
+                        <div className={`flex items-center gap-2  text-span p-3 border-2 border-span rounded-md `}>
+                            <Image src={unhiddenLogo} alt='hide-city' className='w-4' />
+                            Unhide
+                        </div>
+                    ) : (
+                        <div className={`flex items-center gap-2  text-span p-3 border-2 border-span rounded-md `}>
+                            <Image src={hiddenLogo} alt='hide-city' />
+                            Hide
+                        </div>
+                    )}
+
                 </button>
 
                 <button
                     onClick={handleDeleteCity}
-                    className='flex items-center gap-2 text-alert-dark p-3 border-2 rounded-md border-alert-dark '>
+                    className='flex items-center gap-2 text-alert-dark p-3 border-2 rounded-md border-alert-dark '
+                >
                     <Image src={deleteLogo} alt='delete-city' />
                     Delete Permanently
                 </button>
