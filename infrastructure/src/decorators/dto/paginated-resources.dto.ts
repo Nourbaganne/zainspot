@@ -6,7 +6,7 @@ export interface PaginatedResource<T> {
   totalPages: number;
   hasNextPage: boolean;
   hasPreviousPage: boolean;
-  counts: {
+  counts?: {
     zainspotter: number;
     admin: number;
     manager: number;

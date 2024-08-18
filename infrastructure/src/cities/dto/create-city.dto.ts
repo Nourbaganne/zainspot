@@ -11,16 +11,20 @@ import { NumericType } from 'typeorm';
 interface PerMonth {
   duration: number;
   amount: number;
+  tax: number;
 }
 
 export class CreateCityDto {
   @IsNotEmpty()
-  name: string;
+  city: string;
+  
+  @IsNotEmpty()
+  country: string;
 
   @IsNotEmpty()
   @IsBoolean()
   @Type(() => Boolean)
-  disponibility: boolean;
+  hidden: boolean;
 
   @IsNotEmpty()
   location: { title: string; posx: NumericType; posy: NumericType };
@@ -30,11 +34,10 @@ export class CreateCityDto {
 
   @IsNotEmpty()
   @IsNumber()
-  goldPrice: number;
+  goldPrice: { value: number; tax: number };
 
   @IsOptional()
   classicPrice: {
-    perYear: number;
     perMonth: PerMonth[];
   };
 

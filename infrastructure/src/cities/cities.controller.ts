@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -15,15 +16,21 @@ import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { CitiesService } from './cities.service';
 import { Public } from 'src/decorators/public.decorator';
+import { Pagination, PaginationParams } from 'src/decorators/pagination-params.decorator';
+import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
+import { City } from 'src/entities/city.entity';
 
 @Controller('cities')
 export class CitiesController {
-  constructor(private readonly cityService: CitiesService) {}
+  constructor(private readonly cityService: CitiesService) { }
 
   @Public()
   @Get()
-  getCities() {
-    return this.cityService.getCities();
+  getCities(
+    @PaginationParams() paginationParams: Pagination,
+    @Query('name') name?: string,
+  ): Promise<PaginatedResource<Partial<City>>> {
+    return this.cityService.getCities(paginationParams, name);
   }
 
   @Public()
@@ -37,7 +44,7 @@ export class CitiesController {
   }
 
   @Post()
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('imageUrl'))
   createCity(
     @Body() createCityDto: CreateCityDto,
     @UploadedFile() file: Express.Multer.File,

@@ -12,6 +12,7 @@ import { Subscription } from './subscription.entity';
 interface PerMonth {
   duration: number;
   amount: number;
+  tax: number
 }
 
 @Entity('cities')
@@ -20,10 +21,13 @@ export class City {
   id: number;
 
   @Column()
-  name: string;
+  city: string;
+  
+  @Column()
+  country: string;
 
   @Column('bool')
-  disponibility: boolean;
+  hidden: boolean;
 
   @Column('json', { nullable: true })
   location: { title: string; posx: NumericType; posy: NumericType };
@@ -31,11 +35,11 @@ export class City {
   @Column('text', { nullable: true })
   description: string;
 
-  @Column({ nullable: true })
-  goldPrice: number;
+  @Column('json', { nullable: true })
+  goldPrice: { value: number; tax: number };
 
   @Column('json', { nullable: true })
-  classicPrice: { perYear: number; perMonth: PerMonth[] };
+  classicPrice: { perMonth: PerMonth[] };
 
   @Column({ nullable: true })
   imageUrl: string;

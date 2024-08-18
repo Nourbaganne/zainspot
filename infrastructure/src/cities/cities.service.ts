@@ -5,16 +5,51 @@ import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { City } from 'src/entities/city.entity';
 import cloudinary from 'src/config/cloudinary.config';
+import { Pagination } from 'src/decorators/pagination-params.decorator';
+import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 @Injectable()
 export class CitiesService {
   constructor(
     @InjectRepository(City)
     private cityRepository: Repository<City>,
-  ) {}
+  ) { }
 
-  async getCities(): Promise<City[]> {
-    return await this.cityRepository.find();
+  async getCities(
+    { page, limit = 1 }: Pagination,
+    name?: string,
+  ): Promise<PaginatedResource<Partial<City>>> {
+    let queryBuilder = this.cityRepository.createQueryBuilder('city');
+
+    // Apply the name filter globally
+    if (name) {
+      queryBuilder = queryBuilder.andWhere(
+        `city.city LIKE :name`,
+        { name: `%${name}%` }
+      );
+    }
+
+    const total = await queryBuilder.getCount();
+
+    
+    queryBuilder = queryBuilder.take(limit).skip((page - 1) * limit);
+
+    const cities = await queryBuilder.getMany();
+
+    const totalPages = Math.ceil(total / limit);
+    const hasNextPage = page < totalPages;
+    const hasPreviousPage = page > 1;
+
+    return {
+      totalItems: total,
+      items: cities,
+      page,
+      size: limit,
+      totalPages,
+      hasNextPage,
+      hasPreviousPage,
+    };
   }
+
 
   async getCity(id: number): Promise<City> {
     const city = await this.cityRepository.findOne({ where: { id } });

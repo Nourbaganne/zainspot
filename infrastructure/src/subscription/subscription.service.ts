@@ -57,7 +57,7 @@ export class SubscriptionService {
       price: subscription.price,
       city: {
         id: subscription.city.id,
-        name: subscription.city.name,
+        name: subscription.city.city,
         imageUrl: subscription.city.imageUrl,
         locationTitle: subscription.city.location.title,
       },
