@@ -103,6 +103,13 @@ export class CitiesService {
     return updatedCity;
   }
 
+  async hideCity(id: number): Promise<City> {
+    const city = await this.getCity(id);
+    city.hidden = !city.hidden;
+    await this.cityRepository.save(city);
+    return city;
+  }
+
   async removeCity(id: number): Promise<City> {
     const city = await this.getCity(id);
     await this.cityRepository.remove(city);
