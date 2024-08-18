@@ -6,10 +6,10 @@ import * as bcrypt from 'bcrypt';
 import { Role } from 'src/entities/role.entity';
 import { Pagination } from 'src/decorators/pagination-params.decorator';
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { getEndOfPreviousMonth, getStartOfPreviousMonth } from 'src/utils/date-utils';
-
+import {
+  getEndOfPreviousMonth,
+  getStartOfPreviousMonth,
+} from 'src/utils/date-utils';
 
 type RoleCounts = {
   zainspotter: number;
@@ -25,10 +25,7 @@ type PercentageChange = {
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-  ) { }
+  constructor() {}
 
   async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt(8);
@@ -54,25 +51,24 @@ export class UserService {
   async findAll(
     { page, limit = 1 }: Pagination,
     name?: string,
-    filter?: string
+    filter?: string,
   ): Promise<PaginatedResource<Partial<User>>> {
-    let queryBuilder = this.userRepository.createQueryBuilder('user')
+    let queryBuilder = User.createQueryBuilder('user')
       .leftJoinAndSelect('user.role', 'role')
       .leftJoinAndSelect('user.paymentHistories', 'paymentHistories')
       .leftJoinAndSelect('user.subscriptions', 'subscriptions')
       .leftJoinAndSelect('subscriptions.city', 'city');
 
     if (filter) {
-      queryBuilder = queryBuilder.andWhere(
-        'role.role LIKE :filter',
-        { filter: `%${filter}%` }
-      );
+      queryBuilder = queryBuilder.andWhere('role.role LIKE :filter', {
+        filter: `%${filter}%`,
+      });
     }
 
     // Get the total count of filtered results before applying pagination
     const total = await queryBuilder.getCount();
 
-    // Apply the name filter globally 
+    // Apply the name filter globally
     if (name) {
       queryBuilder = queryBuilder.andWhere(
         `(user.email LIKE :name
@@ -82,7 +78,7 @@ export class UserService {
           OR CONCAT(user.name, ' ', user.middleName, ' ', user.lastName) LIKE :name 
           OR CONCAT(user.name, ' ', user.lastName) LIKE :name 
           `,
-        { name: `%${name}%` }
+        { name: `%${name}%` },
       );
     }
 
@@ -118,8 +114,7 @@ export class UserService {
   }
 
   async getRoleCounts(): Promise<RoleCounts> {
-    const roleCounts = await this.userRepository
-      .createQueryBuilder('user')
+    const roleCounts = await User.createQueryBuilder('user')
       .select('role.role AS role')
       .addSelect('COUNT(user.id) AS count')
       .leftJoin('user.role', 'role')
@@ -133,7 +128,8 @@ export class UserService {
     };
 
     roleCounts.forEach((roleCount) => {
-      if (roleCount.role === 'zainspotter') counts.zainspotter = +roleCount.count;
+      if (roleCount.role === 'zainspotter')
+        counts.zainspotter = +roleCount.count;
       if (roleCount.role === 'admin') counts.admin = +roleCount.count;
       if (roleCount.role === 'manager') counts.manager = +roleCount.count;
     });
@@ -145,8 +141,7 @@ export class UserService {
     const previousMonthStart = getStartOfPreviousMonth();
     const previousMonthEnd = getEndOfPreviousMonth();
 
-    const previousRoleCounts = await this.userRepository
-      .createQueryBuilder('user')
+    const previousRoleCounts = await User.createQueryBuilder('user')
       .select('role.role AS role')
       .addSelect('COUNT(user.id) AS count')
       .leftJoin('user.role', 'role')
@@ -163,29 +158,44 @@ export class UserService {
     };
 
     previousRoleCounts.forEach((roleCount) => {
-      if (roleCount.role === 'zainspotter') previousCounts.zainspotter = +roleCount.count;
+      if (roleCount.role === 'zainspotter')
+        previousCounts.zainspotter = +roleCount.count;
+
       if (roleCount.role === 'admin') previousCounts.admin = +roleCount.count;
-      if (roleCount.role === 'manager') previousCounts.manager = +roleCount.count;
+
+      if (roleCount.role === 'manager')
+        previousCounts.manager = +roleCount.count;
     });
 
     return previousCounts;
   }
 
-  private calculatePercentageChange(oldCount: number, newCount: number): number {
+  private calculatePercentageChange(
+    oldCount: number,
+    newCount: number,
+  ): number {
     if (oldCount === 0) return newCount > 0 ? 100 : 0;
     const percentageChange = ((newCount - oldCount) / oldCount) * 100;
     return parseFloat(percentageChange.toFixed(2));
   }
-  
 
   async calculateRolePercentageChange(): Promise<PercentageChange> {
     const currentCounts = await this.getRoleCounts();
     const previousCounts = await this.getPreviousRoleCounts();
 
     const percentageChange: PercentageChange = {
-      zainspotter: this.calculatePercentageChange(previousCounts.zainspotter, currentCounts.zainspotter),
-      admin: this.calculatePercentageChange(previousCounts.admin, currentCounts.admin),
-      manager: this.calculatePercentageChange(previousCounts.manager, currentCounts.manager),
+      zainspotter: this.calculatePercentageChange(
+        previousCounts.zainspotter,
+        currentCounts.zainspotter,
+      ),
+      admin: this.calculatePercentageChange(
+        previousCounts.admin,
+        currentCounts.admin,
+      ),
+      manager: this.calculatePercentageChange(
+        previousCounts.manager,
+        currentCounts.manager,
+      ),
     };
 
     return percentageChange;
