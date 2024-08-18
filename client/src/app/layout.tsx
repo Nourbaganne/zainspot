@@ -17,14 +17,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthContextProvider>
-          <QueryProvider>
+        <QueryProvider>
+          <AuthContextProvider>
             <LanguageProvider>
               <CurrencyProvider>
                 <Navbar />
@@ -32,9 +32,11 @@ export default function RootLayout({
                 <Footer />
               </CurrencyProvider>
             </LanguageProvider>
-          </QueryProvider>
-        </AuthContextProvider>
+          </AuthContextProvider>
+        </QueryProvider>
+
       </body>
     </html>
   );
 }
+
