@@ -41,13 +41,12 @@ export class UserController {
     return user;
   }
 
+  @Permissions({ action: 'manage', subject: 'user' })
   @Get(':id')
   async getUserPermissions(@Param('id') id: number) {
     return this.userService.findUserRolesAndPermissionsById(id);
   }
 
-  @Public()
-  @Permissions({ action: 'manage', subject: 'User' })
   @Get()
   async findAll(
     @PaginationParams() paginationParams: Pagination,
