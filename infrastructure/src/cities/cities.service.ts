@@ -109,7 +109,7 @@ export class CitiesService {
     await this.cityRepository.save(city);
     return city;
   }
-
+  
   async removeCity(id: number): Promise<City> {
     const city = await this.getCity(id);
     await this.cityRepository.remove(city);
