@@ -287,7 +287,7 @@ export class UserService {
     await User.save(user);
   }
 
-  async findUserRolesAndPermissionsById(userId: number): Promise<User> {
+  async findUser(userId: number): Promise<User> {
     return User.findOne({
       where: { id: userId },
       relations: ['role', 'role.permissions'],
