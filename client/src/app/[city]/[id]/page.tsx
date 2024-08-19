@@ -23,11 +23,11 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
     []
   );
 
-  const { data, isLoading, isError, error } = useQuery({  
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["city", params.id],
     queryFn: () => axiosInstance.get(`/cities/${params.id}`),
   });
-  
+
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -51,9 +51,9 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
         </Link>
         <div>
           <div className="px-4">
-            <h1 className="text-3xl font-bold">London ZainSpot</h1>
+            <h1 className="text-3xl font-bold">{city?.city} ZainSpot</h1>
             <h1 className="text-2xl font-semibold text-end">
-              Mayfair 14 Berkeley Square
+              {city?.location?.title.split(',')[0]}
             </h1>
           </div>
           <div className="relative w-full h-[360px] md:h-[480px]">
@@ -85,7 +85,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
         </div>
       </div>
       <div className="flex flex-col md:col-span-3 gap-7 md:px-10">
-        <ZsGold amount={city?.goldPrice} />
+        <ZsGold amount={city?.goldPrice.value} />
         <ZsClassic amounts={city?.classicPrice} />
         <div className="flex flex-col justify-center items-center gap-5 py-10">
           <div className="flex flex-col justify-center items-center gap-5 md:flex-row md:justify-between w-full">
