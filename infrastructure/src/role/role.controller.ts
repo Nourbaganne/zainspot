@@ -11,6 +11,7 @@ import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { AddPermissionDto } from './dto/add-permission.dto';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('role')
 export class RoleController {
@@ -21,6 +22,7 @@ export class RoleController {
     return this.roleService.create(createRoleDto);
   }
 
+  @Public()
   @Post('add-permission')
   async addPermissionToRole(@Body() addPermissionDto: AddPermissionDto) {
     const { roleId, permissionId } = addPermissionDto;

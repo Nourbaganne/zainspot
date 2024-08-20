@@ -14,7 +14,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/decorators/public.decorator';
 import { EmailConfirmationService } from 'src/email-confirmation/email-confirmation.service';
-import { Permissions } from 'src/decorators/permissions.decorator';
+// import { Permissions } from 'src/decorators/permissions.decorator';
 import {
   Pagination,
   PaginationParams,
@@ -41,13 +41,12 @@ export class UserController {
     return user;
   }
 
+  // @Permissions({ action: 'manage', subject: 'user' })
   @Get(':id')
   async getUserPermissions(@Param('id') id: number) {
     return this.userService.findUserRolesAndPermissionsById(id);
   }
 
-  @Public()
-  @Permissions({ action: 'manage', subject: 'User' })
   @Get()
   async findAll(
     @PaginationParams() paginationParams: Pagination,

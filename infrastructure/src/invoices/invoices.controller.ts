@@ -1,4 +1,12 @@
-import { Controller, Get, Param, ParseIntPipe, Post, Body, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Body,
+  Delete,
+} from '@nestjs/common';
 import { InvoicesService } from './invoices.service';
 import { CreateInvoicesDto } from './dto/create-invoices';
 

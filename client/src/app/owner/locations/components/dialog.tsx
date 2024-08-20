@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import Image from 'next/image';
 import closeIcon from '@/app/assets/owner/locations/close.svg';
-import { PerMonth, useAddCity } from '@/app/lib/addCity';
+import {  useAddCity } from '@/app/lib/addCity';
 import { Input } from '@/app/register/components/input';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import Translation from '@/app/components/translation';
@@ -12,10 +12,12 @@ interface DialogProps {
 }
 
 const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
-  if (!isOpen) return null;
+  
 
   const [activeDuration, setActiveDuration] = useState<number | null>(null);
   const formik = useAddCity();
+
+  if (!isOpen) return null;
 
   const durations = [
     { label: 'locationDialog_duration_perYear', value: 12 },

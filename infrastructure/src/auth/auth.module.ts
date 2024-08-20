@@ -8,6 +8,8 @@ import { JwtStrategy } from './jwt.strategy';
 import { UserModule } from 'src/user/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { PoliciesGuard } from 'src/casl/policiesGuard.guard';
+import { CaslAbilityFactory } from 'src/casl/casl-ability.factory/casl-ability.factory';
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET'),
-        // signOptions: { expiresIn: '60s' },
+        signOptions: { expiresIn: '14400s' }, //expires in 4 hours
       }),
       inject: [ConfigService],
     }),
@@ -26,9 +28,14 @@ import { JwtAuthGuard } from './jwt-auth.guard';
   providers: [
     AuthService,
     JwtStrategy,
+    CaslAbilityFactory,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: PoliciesGuard,
     },
   ],
   exports: [JwtModule],

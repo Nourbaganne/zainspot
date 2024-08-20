@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
+import { Role } from 'src/entities/role.entity';
 
 export class AuthLoginDto {
   @IsEmail()
@@ -6,4 +7,6 @@ export class AuthLoginDto {
 
   @IsNotEmpty()
   password: string;
+
+  role: Role[];
 }

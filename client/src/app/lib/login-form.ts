@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/useAuth";
+import axiosInstance from "./axios/axiosInstance";
 
 export const useLoginForm = (setIsError: (error: string) => void) => {
     const router = useRouter();
@@ -22,7 +23,7 @@ export const useLoginForm = (setIsError: (error: string) => void) => {
         }),
         onSubmit: async (values, { resetForm }) => {
             try {
-                const response = await axios.post("http://localhost:3001/auth", values);
+                const response = await axiosInstance.post("/auth", values);
                 if (response.status) {
                     dispatch({ type: 'LOGIN', payload: response.data });
                     router.push('/zainspotter');
