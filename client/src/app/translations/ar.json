@@ -90,7 +90,6 @@
     "register_media_profile_label": "ملفات تعريف وسائل التواصل الاجتماعي الخاصة بك",
     "prefered_language": "اللغة ",
     "prefered_currency": "العملة",
-    
     "editProfile_ProfileDetails": "تفاصيل الملف الشخصي",
     "editProfile_Login_Security": "تسجيل الدخول والأمان",
     "editProfile_Payment_details": "تفاصيل الدفع",
@@ -99,10 +98,8 @@
     "editProfile_notifications": "إشعارات زين سبوت",
     "editProfile_services": "الخدمات المشتركة",
     "editProfile_cancellation": "سياسة الإلغاء سيتم تحديدها لاحقاً",
-
     "editProfile_desactivation": "هل تحتاج إلى إلغاء تنشيط حسابك؟",
     "editProfile_desactivation_button": "اعتني بذلك الآن",
-
     "profile_details_email_alert": "لم تقم بالتحقق من بريدك الإلكتروني. للاشتراك وإجراء عمليات الشراء، يرجى",
     "profile_details_email_verification": "التحقق من بريدك الإلكتروني.",
     "profile_details_title": "معلومات الحساب",
@@ -114,7 +111,6 @@
     "profile_details_deletingAccount_question": "هل ترغب في حذف حسابك في زين سبوت:",
     "profile_details_deletingAccount_description": "يحتوي هذا الحساب على 0 اشتراكات وعمليات شراء. حذف حسابك سيؤدي إلى إزالة جميع المحتويات والبيانات المرتبطة به.",
     "profile_details_deletingAccount_button": "أريد حذف حسابي",
-
     "login_security_header": "تسجيل الدخول والأمان",
     "login_security_password": "كلمة المرور",
     "login_security_authentification_title": "المصادقة الثنائية",
@@ -124,16 +120,13 @@
     "login_security_emailAuth_title": "التحقق عبر البريد الإلكتروني",
     "login_security_emailAuth_desc": "ستتلقى رمز المصادقة عبر البريد الإلكتروني على حسابك",
     "login_security_button_title": "تفعيل",
-
     "Breadcrumb_home": "الصفحة الرئيسية",
     "Breadcrumb_zainspotter": "زاينسبوتر الخاص بي",
-
     "payment_details_title": "تفاصيل الدفع",
     "payment_details_subtitle": "تفاصيل الدفع",
     "payment_details_defaultPayment": "طريقة الدفع الافتراضية",
     "payment_details_defaultPayment_subtitle": "اختر طريقة الدفع المفضلة لديك",
     "payment_details_addingCard": "إضافة بطاقة جديدة",
-
     "cancelation_overview_title": "نظرة عامة على سياسة الإلغاء",
     "cancelation_overview_description": "في زين سبوتر، نسعى لتقديم خدمة ودعم استثنائيين لمشتركينا. نفهم أن الظروف قد تتغير، وقد تحتاج إلى إلغاء اشتراكك. تحدد هذه السياسة شروط وأحكام إلغاء اشتراكك معنا.",
     "cancelation_requiredPeriod_title": "فترة الإشعار المطلوبة",
@@ -153,5 +146,32 @@
     "cancelation_step_7": "استلام التأكيد: ستتلقى تأكيدًا بالبريد الإلكتروني يشير إلى استلام طلب الإلغاء.",
     "cancelation_note_title": "إذا كانت لديك أي أسئلة أو تحتاج إلى مساعدة في عملية الإلغاء، يرجى الاتصال بفريق دعم العملاء لدينا.",
     "cancelation_note_span": ": ملحوظة",
-    "cancelation_note_desc": "هذه السياسة قابلة للتغيير، وسنقوم بإخطار المشتركين بأي تحديثات عبر البريد الإلكتروني وعلى موقعنا."
+    "cancelation_note_desc": "هذه السياسة قابلة للتغيير، وسنقوم بإخطار المشتركين بأي تحديثات عبر البريد الإلكتروني وعلى موقعنا.",
+    "ownerPage_header": "صفحة الإدارة",
+    "ownerDashboard_reports": "التقارير",
+    "ownerDashboard_reports_desc": "عرض تقارير الإيرادات والزوار والمشتركين ومواقع Zainspot",
+    "ownerDashboard_users": "المستخدمون",
+    "ownerDashboard_users_desc": "قائمة مفصلة لمستخدمي Zainspot، المدراء والإداريين",
+    "ownerDashboard_location": "مواقع Zainspot",
+    "ownerDashboard_location_desc": "عرض، تحرير أو إضافة مواقع، مدن ودول حيث يتوفر Zainspot",
+    "locationDialog_header": "إنشاء موقع جديد",
+    "locationDialog_info": "معلومات الموقع",
+    "locationDialog_info_city": "المدينة",
+    "locationDialog_info_country": "البلد",
+    "locationDialog_info_description": "الوصف",
+    "locationDialog_emplacement": "موقع المكان",
+    "locationDialog_emplacement_title": "العنوان",
+    "locationDialog_emplacement_posx": "الإحداثي X",
+    "locationDialog_emplacement_posy": "الإحداثي Y",
+    "locationDialog_gold": "ZS جولد",
+    "locationDialog_classic": "ZS كلاسيك",
+    "locationDialog_amount": "المبلغ",
+    "locationDialog_tax": "رسوم الضريبة",
+    "locationDialog_img": "الصورة",
+    "locationDialog_img_btn": "اختر ملفًا",
+    "locationDialog_submit": "إرسال",
+    "locationDialog_duration_perYear": "سنة واحدة",
+    "locationDialog_duration_permonth": "شهر واحد",
+    "locationDialog_duration_per3months": "3 أشهر",
+    "locationDialog_duration_per6months": "6 أشهر"
 }

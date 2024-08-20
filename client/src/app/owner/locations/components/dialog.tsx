@@ -4,6 +4,7 @@ import closeIcon from '@/app/assets/owner/locations/close.svg';
 import { PerMonth, useAddCity } from '@/app/lib/addCity';
 import { Input } from '@/app/register/components/input';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import Translation from '@/app/components/translation';
 
 interface DialogProps {
   onClose: () => void;
@@ -17,10 +18,10 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
   const formik = useAddCity();
 
   const durations = [
-    { label: '1 Year', value: 12 },
-    { label: '6 Months', value: 6 },
-    { label: '3 Months', value: 3 },
-    { label: '1 Month', value: 1 },
+    { label: 'locationDialog_duration_perYear', value: 12 },
+    { label: 'locationDialog_duration_per6months', value: 6 },
+    { label: 'locationDialog_duration_per3months', value: 3 },
+    { label: 'locationDialog_duration_permonth', value: 1 },
   ];
 
   return (
@@ -29,15 +30,19 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
         <button onClick={onClose} className="absolute top-3 right-3">
           <Image src={closeIcon} alt="close" />
         </button>
-        <h2 className="text-2xl font-bold mb-6 text-center">Create New Location</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          <Translation translationKey='locationDialog_header' />
+        </h2>
         <form onSubmit={formik.handleSubmit} className="grid grid-cols-2 gap-6">
           <div className="flex flex-col border-r pr-6 gap-4">
             {/* Location Info */}
             <div className='flex flex-col gap-7'>
-              <h1 className="font-semibold">Location Info</h1>
+              <h1 className="font-semibold">
+                <Translation translationKey='locationDialog_info' />
+              </h1>
               <Input
                 type="text"
-                labelKey="City"
+                labelKey="locationDialog_info_city"
                 value={formik.values.city}
                 name="city"
                 handleChange={formik.handleChange}
@@ -47,7 +52,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
               />
               <Input
                 type="text"
-                labelKey="Country"
+                labelKey="locationDialog_info_country"
                 value={formik.values.country}
                 name="country"
                 handleChange={formik.handleChange}
@@ -57,7 +62,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
               />
               <Input
                 type="textarea"
-                labelKey="Description"
+                labelKey="locationDialog_info_description"
                 value={formik.values.description}
                 name="description"
                 handleChange={formik.handleChange}
@@ -67,10 +72,12 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
               />
             </div>
             {/* Location Emplacement */}
-            <h1 className="font-semibold mb-2">Location Emplacement</h1>
+            <h1 className="font-semibold mb-2">
+              <Translation translationKey='locationDialog_emplacement' />
+            </h1>
             <Input
               type="text"
-              labelKey="Title"
+              labelKey="locationDialog_emplacement_title"
               value={formik.values.location?.title || ''}
               name="location.title"
               handleChange={formik.handleChange}
@@ -81,7 +88,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
             <div className="flex gap-4">
               <Input
                 type="number"
-                labelKey="PosX"
+                labelKey="locationDialog_emplacement_posx"
                 value={formik.values.location?.posx || ''}
                 name="location.posx"
                 handleChange={formik.handleChange}
@@ -91,7 +98,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
               />
               <Input
                 type="number"
-                labelKey="PosY"
+                labelKey="locationDialog_emplacement_posy"
                 value={formik.values.location?.posy || ''}
                 name="location.posy"
                 handleChange={formik.handleChange}
@@ -105,11 +112,13 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
           {/* ZS Gold & Classic */}
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <h1 className="font-semibold mb-2">ZS Gold</h1>
+              <h1 className="font-semibold mb-2">
+                <Translation translationKey='locationDialog_gold' />
+              </h1>
               <div className="flex gap-4">
                 <Input
                   type="number"
-                  labelKey="Amount"
+                  labelKey="locationDialog_amount"
                   value={formik.values.goldPrice?.value || ''}
                   name="goldPrice.value"
                   handleChange={formik.handleChange}
@@ -119,7 +128,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                 />
                 <Input
                   type="number"
-                  labelKey="Tax Fee"
+                  labelKey="locationDialog_tax"
                   value={formik.values.goldPrice?.tax || ''}
                   name="goldPrice.tax"
                   handleChange={formik.handleChange}
@@ -130,7 +139,9 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <h3 className="font-semibold mb-2">ZS Classic</h3>
+              <h3 className="font-semibold mb-2">
+                <Translation translationKey='locationDialog_classic' />
+              </h3>
               <div className="flex flex-col gap-4">
                 {durations.map((duration, index) => (
                   <div key={index} className="border rounded-lg">
@@ -139,7 +150,8 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                       onClick={() => setActiveDuration(prev => (prev === duration.value ? null : duration.value))}
                       className="flex justify-between items-center p-4 w-full bg-gray-100 rounded-lg"
                     >
-                      <span className="font-semibold text-primary">{duration.label}</span>
+                      <span className="font-semibold text-primary">
+                        <Translation translationKey={duration.label} /></span>
                       {activeDuration === duration.value ? (
                         <FaChevronUp className="text-primary" />
                       ) : (
@@ -151,7 +163,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                         <div className="flex gap-4">
                           <Input
                             type="number"
-                            labelKey="Amount"
+                            labelKey="locationDialog_amount"
                             value={formik.values.classicPrice.perMonth[index]?.amount || ''}
                             name={`classicPrice.perMonth.${index}.amount`}
                             handleChange={formik.handleChange}
@@ -165,7 +177,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                           />
                           <Input
                             type="number"
-                            labelKey="Tax Fee"
+                            labelKey="locationDialog_tax"
                             value={formik.values.classicPrice.perMonth[index]?.tax || ''}
                             name={`classicPrice.perMonth.${index}.tax`}
                             handleChange={formik.handleChange}
@@ -193,7 +205,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
             {/* Image Upload */}
             <div>
               <label htmlFor="city-image" className="block font-semibold mb-2">
-                Image
+                <Translation translationKey='locationDialog_img' />
               </label>
               <div className="flex items-center">
                 <input
@@ -212,7 +224,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                   htmlFor="city-image"
                   className="cursor-pointer inline-block py-2 px-4 bg-primary text-white rounded-lg"
                 >
-                  Choose file
+                  <Translation translationKey='locationDialog_img_btn' />
                 </label>
                 {formik.values.imageUrl && formik.values.imageUrl instanceof File && (
                   <span className="ml-4 text-primary">
@@ -224,7 +236,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
 
             <div className="flex justify-end">
               <button type="submit" className="py-2 px-8 bg-primary text-white rounded-lg">
-                Submit
+                <Translation translationKey='locationDialog_submit' />
               </button>
             </div>
 

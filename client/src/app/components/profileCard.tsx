@@ -12,12 +12,14 @@ const ProfileCard = ({ logo, hoverLogo, title, description }: { logo: string | S
             onMouseLeave={() => setIsHovered(false)}
         >
             <div className=' stroke-cyan-500'>
-                <Image src={isHovered ? hoverLogo : logo} alt='logo' className='stroke-cyan-500'/>
+                <Image src={isHovered ? hoverLogo : logo} alt='logo' className='stroke-cyan-500' />
             </div>
             <h1 className='text-xl font-bold'>
                 <Translation translationKey={title} />
             </h1>
-            <p className='text-span'>{description}</p>
+            <p className='text-span'>
+                <Translation translationKey={description} />
+            </p>
         </div>
     );
 };

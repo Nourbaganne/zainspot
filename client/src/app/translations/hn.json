@@ -150,5 +150,35 @@
     "cancelation_step_7": "पुष्टिकरण प्राप्त करें: आपको रद्दीकरण अनुरोध को स्वीकार करते हुए एक ईमेल पुष्टिकरण प्राप्त होगा।",
     "cancelation_note_title": "यदि आपके कोई प्रश्न हैं या रद्दीकरण प्रक्रिया में सहायता की आवश्यकता है, तो कृपया हमारी ग्राहक समर्थन टीम से संपर्क करें।",
     "cancelation_note_span": "नोट :",
-    "cancelation_note_desc": "यह रद्दीकरण नीति परिवर्तन के अधीन है, और हम ईमेल और हमारी वेबसाइट पर किसी भी अपडेट के बारे में ग्राहकों को सूचित करेंगे।"
+    "cancelation_note_desc": "यह रद्दीकरण नीति परिवर्तन के अधीन है, और हम ईमेल और हमारी वेबसाइट पर किसी भी अपडेट के बारे में ग्राहकों को सूचित करेंगे।",
+
+    "ownerPage_header": "एडमिन पेज",
+    "ownerDashboard_reports": "रिपोर्ट्स",
+    "ownerDashboard_reports_desc": "राजस्व, आगंतुकों, ग्राहकों और Zainspot स्थानों की रिपोर्ट देखें",
+    "ownerDashboard_users": "उपयोगकर्ता",
+    "ownerDashboard_users_desc": "Zainspot उपयोगकर्ताओं, एडमिन्स और मैनेजर्स की विस्तृत सूची",
+    "ownerDashboard_location": "Zainspot स्थान",
+    "ownerDashboard_location_desc": "Zainspot उपलब्ध स्थानों, शहरों और देशों को देखें, संपादित करें या जोड़ें",
+    
+    "locationDialog_header": "नई जगह बनाएं",
+    "locationDialog_info": "स्थान जानकारी",
+    "locationDialog_info_city": "शहर",
+    "locationDialog_info_country": "देश",
+    "locationDialog_info_description": "विवरण",
+    "locationDialog_emplacement": "स्थान विवरण",
+    "locationDialog_emplacement_title": "शीर्षक",
+    "locationDialog_emplacement_posx": "PosX",
+    "locationDialog_emplacement_posy": "PosY",
+    "locationDialog_gold": "ZS गोल्ड",
+    "locationDialog_classic": "ZS क्लासिक",
+    "locationDialog_amount": "राशि",
+    "locationDialog_tax": "कर शुल्क",
+    "locationDialog_img": "छवि",
+    "locationDialog_img_btn": "फाइल चुनें",
+    "locationDialog_submit": "जमा करें",
+    "locationDialog_duration_perYear": "1 वर्ष",
+    "locationDialog_duration_permonth": "1 महीना",
+    "locationDialog_duration_per3months": "3 महीने",
+    "locationDialog_duration_per6months": "6 महीने"
+
 }

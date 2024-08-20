@@ -9,8 +9,8 @@ import Breadcrumb from "./components/breadcrumb";
 
 const Page = () => {
   const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "My Zainspotter" },
+    { label: "Breadcrumb_home", href: "/" },
+    { label: "Breadcrumb_zainspotter" },
   ];
 
   return (

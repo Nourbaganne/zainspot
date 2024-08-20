@@ -4,12 +4,15 @@ import React from 'react'
 import { OWNER_DASHBOARD } from '../constants/dashboards'
 import Link from "next/link";
 import ProfileCard from '../components/profileCard'
+import Translation from '../components/translation';
 
 const OwnerDashboard = () => {
   return (
     <div className='bg-background-foreground'>
       <div className='flex flex-col bg-background-foreground gap-8 p-8 p md:px-16 md:py-8 md:pb-44 '>
-      <h1 className='text-xl font-bold'>Admin Dashboard</h1>
+      <h1 className='text-xl font-bold'>
+        <Translation translationKey='ownerPage_header' />
+      </h1>
       <p className='text-span max-w-2xl'>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim

@@ -59,7 +59,7 @@ const InputPassword = ({
 
     useEffect(() => {
         if (isTypingPassword) {
-            setCheckPasswordReq(false);
+            setCheckPasswordReq(true);
         } else if (touched && errors) {
             setCheckPasswordReq(true);
         }
@@ -99,12 +99,12 @@ const InputPassword = ({
                     value={value}
                     onChange={handlePasswordChange}
                     placeholder={placeholderValue}
-                    className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 autofill:bg-white ${errors && touched ? 'border-alert' : 'border-button focus:border-primary'}`}
+                    className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 autofill:bg-white ${errors && value ? 'border-alert' : 'border-button focus:border-primary'}`}
                 />
                 <label
                     htmlFor={name}
                     className={`absolute left-3 bottom-[41px] pointer-events-none px-1 text-xs bg-white z-10   
-                        ${value && !errors ? 'text-primary' : errors && touched ? 'text-alert' : 'text-primary'} `}
+                        ${value && errors ? 'text-alert' : 'text-primary'} `}
                 >
                     <Translation translationKey={labelKey} />
                 </label>
@@ -118,7 +118,7 @@ const InputPassword = ({
                             onClick={togglePasswordVisibility}
                         />
                     ) : (
-                        touched && (
+                        value  && (
                             <Image
                                 src={errors ? alert : checked}
                                 alt={errors ? 'Alert' : 'Checked'}
@@ -127,7 +127,7 @@ const InputPassword = ({
                     )}
                 </div>
             </div>
-            {touched && errors && (
+            {isTypingPassword && errors && (
                 <div className='relative'>
                     <h1 className={`pl-4 text-alert ${name === 'password' && 'cursor-pointer'} `} onClick={() => setCheckPasswordReq(!checkPasswordReq)}>
                         {errors}

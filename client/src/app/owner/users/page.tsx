@@ -70,6 +70,7 @@ const Users = () => {
         Authorization: `Bearer ${user?.access_token}`,
       },
     }),
+    
   });
 
 

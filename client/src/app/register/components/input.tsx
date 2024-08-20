@@ -27,7 +27,7 @@ export function Input({
   errors,
   placeholderValue,
 }: InputProps) {
-  const showIcon = touched && (errors ? alert : checked);
+  const showIcon = value && (errors ? alert : checked);
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -51,7 +51,7 @@ export function Input({
             onChange={handleChange}
             placeholder={placeholderValue}
             className={`border px-2 py-3 rounded-md focus:outline-none focus:ring-0 autofill:bg-white ${
-              errors && touched ? 'border-alert' : 'border-button focus:border-primary'
+              errors && value ? 'border-alert' : 'border-button focus:border-primary'
             }`}
           />
         )}
@@ -60,10 +60,10 @@ export function Input({
           className={`absolute
             ${type === "textarea" ? 'bottom-[138px]' : ' bottom-[41px]' }
             left-3 pointer-events-none px-1 text-xs bg-white z-10 ${
-            value && !errors ? 'text-primary' : errors && touched ? 'text-alert' : 'text-primary'
+            value && errors ? 'text-alert' : 'text-primary'
           }`}
         >
-          {labelKey}
+          <Translation translationKey={labelKey} />
         </label>
         {showIcon && name !== 'businessWebsite' && name !== 'middleName' && name !== 'mediaProfile' && (
           <Image

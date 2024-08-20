@@ -1,5 +1,5 @@
 'use client'
-import { useLanguage } from '../contexts/LanguageContext'; 
+import { useLanguage } from '../contexts/LanguageContext';
 import translate from '../lib/translate';
 
 interface TranslationProps {

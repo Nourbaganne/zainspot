@@ -16,7 +16,7 @@ import tm_translations from '../translations/tm.json';
 import tl_translations from '../translations/tl.json';
 import ur_translations from '../translations/ur.json';
 
-export type Language = "usa" | "br" | "fr" | "sp" | "ar" | "bn" | "gj" | "hn" | "kn" | "ml" | "mn" | "mr" | "pn" | "rj" | "tm" | "tl" | "ur" ;
+export type Language = "USA" | "UK" | "FR" | "ES" | "AR" | "BN" | "GUJ" | "HIN" | "KN" | "MAY" | "MN" | "MAR" | "PA" | "RJ" | "TM" | "TL" | "UR";
 
 interface Translations {
   [key: string]: string | string[];
@@ -24,51 +24,51 @@ interface Translations {
 
 function getTranslations(lang: Language): Translations {
   switch (lang) {
-    case 'fr':
+    case 'FR':
       return fr_translations;
-    case 'sp':
+    case 'ES':
       return sp_translations;
-    case 'usa':
+    case 'USA':
       return usa_translations;
-    case 'ar':
+    case 'AR':
       return ar_translations;
-    case 'bn':
+    case 'BN':
       return bn_translations;
-    case 'br':
+    case 'UK':
       return br_translations;
-    case 'gj':
+    case 'GUJ':
       return gj_translations;
-    case 'hn':
+    case 'HIN':
       return hn_translations;
-    case 'kn':
+    case 'KN':
       return kn_translations;
-    case 'mn':
+    case 'MN':
       return mn_translations
-    case 'ml':
+    case 'MAY':
       return ml_translations;
-    case 'mr':
+    case 'MAR':
       return mr_translations;
-    case 'pn':
+    case 'PA':
       return pn_translations;
-    case 'rj':
+    case 'RJ':
       return rj_translations;
-    case 'tm':
+    case 'TM':
       return tm_translations;
-    case 'tl':
+    case 'TL':
       return tl_translations;
-    case 'ur':
+    case 'UR':
       return ur_translations;
     default:
       return usa_translations;
   }
 }
 
-export default function translate(key: string, lang: Language = 'usa'): string {
+export default function translate(key: string, lang: Language = 'USA'): string {
   try {
     const translations = getTranslations(lang);
 
     const matchArrayAccess = key.match(/(.+)\[(\d+)\]/);
-
+ 
     if (matchArrayAccess) {
       const arrayKey = matchArrayAccess[1];
       const index = parseInt(matchArrayAccess[2], 10);

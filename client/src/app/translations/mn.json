@@ -146,5 +146,35 @@
     "cancelation_step_7": "接收确认: 您将收到一封电子邮件确认取消请求。",
     "cancelation_note_title": "如果您有任何问题或需要取消过程的帮助，请联系客户支持团队。",
     "cancelation_note_span": "注意 :",
-    "cancelation_note_desc": "此取消政策可能会发生变化，我们会通过电子邮件和我们的网站通知订户任何更新。"
+    "cancelation_note_desc": "此取消政策可能会发生变化，我们会通过电子邮件和我们的网站通知订户任何更新。",
+
+    "ownerPage_header": "管理员页面",
+    "ownerDashboard_reports": "报告",
+    "ownerDashboard_reports_desc": "查看收入、访客、订阅者和Zainspot位置的报告",
+    "ownerDashboard_users": "用户",
+    "ownerDashboard_users_desc": "Zainspot用户、管理员和经理的详细列表",
+    "ownerDashboard_location": "Zainspot 位置",
+    "ownerDashboard_location_desc": "查看、编辑或添加Zainspot可用的地点、城市和国家",
+
+    "locationDialog_header": "创建新位置",
+    "locationDialog_info": "位置信息",
+    "locationDialog_info_city": "城市",
+    "locationDialog_info_country": "国家",
+    "locationDialog_info_description": "描述",
+    "locationDialog_emplacement": "位置坐标",
+    "locationDialog_emplacement_title": "标题",
+    "locationDialog_emplacement_posx": "坐标X",
+    "locationDialog_emplacement_posy": "坐标Y",
+    "locationDialog_gold": "ZS 金",
+    "locationDialog_classic": "ZS 经典",
+    "locationDialog_amount": "金额",
+    "locationDialog_tax": "税费",
+    "locationDialog_img": "图片",
+    "locationDialog_img_btn": "选择文件",
+    "locationDialog_submit": "提交",
+    "locationDialog_duration_perYear": "1年",
+    "locationDialog_duration_permonth": "1个月",
+    "locationDialog_duration_per3months": "3个月",
+    "locationDialog_duration_per6months": "6个月"
+
 }

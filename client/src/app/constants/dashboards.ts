@@ -33,8 +33,8 @@ export const ZAINSPOTTER_DASHBOARD = [
 ]
 
 export const OWNER_DASHBOARD = [
-    { logo: reportsIcon, hoverLogo: reportsHover, link: "reports", title: "Reports", description: "View reports of revenue, visitors, subscribers and Zainspot locations" },
-    { logo: userIcon, hoverLogo: userHover, link: "users", title: "Users", description: "A detailed list of Zainspot users, admins and managers" },
-    { logo: locationLogo, hoverLogo: locationHover, link: "locations", title: "Zainspot Locations", description: "View, edit or add locations, cities and countries where Zainspot is available" },
+    { logo: reportsIcon, hoverLogo: reportsHover, link: "reports", title: "ownerDashboard_reports", description: "ownerDashboard_reports_desc" },
+    { logo: userIcon, hoverLogo: userHover, link: "users", title: "ownerDashboard_users", description: "ownerDashboard_users_desc" },
+    { logo: locationLogo, hoverLogo: locationHover, link: "locations", title: "ownerDashboard_location", description: "ownerDashboard_location_desc" },
 
 ]
