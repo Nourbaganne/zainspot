@@ -45,10 +45,12 @@
   .form-control{
     @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-green-600 focus:border-green-600 sm:text-sm;
   }
+  select.form-control{@apply text-gray-500}
+  .form-control-lg{@apply text-lg}
   .btn{
-    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500;
+    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg text-sm text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500;
   }
-  .btn-lg{@apply py-4 px-6}
+  .btn-lg{@apply py-4 px-4 text-lg border-2 rounded-xl}
   .btn-primary{
     @apply bg-green-600 hover:bg-green-700;
   }
@@ -56,5 +58,5 @@
   .card{@apply bg-white border rounded-xl px-6 py-4}
   .card-title{@apply text-lg font-light text-gray-500}
   .card-number{@apply text-3xl font-bold}
-  .circle-xs{@apply w-5 h-5 bg-gray-500 rounded-full}
+  .circle-xs{@apply w-4 h-4 bg-gray-500 rounded-full}
 }
