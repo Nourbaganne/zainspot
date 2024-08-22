@@ -14,7 +14,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/decorators/public.decorator';
 import { EmailConfirmationService } from 'src/email-confirmation/email-confirmation.service';
-// import { Permissions } from 'src/decorators/permissions.decorator';
+import { Permissions } from 'src/decorators/permissions.decorator';
 import {
   Pagination,
   PaginationParams,
@@ -37,14 +37,13 @@ export class UserController {
     await this.emailConfirmationService.sendVerificationLink(
       createUserDto.email,
     );
-    console.log('user', user);
     return user;
   }
 
-  // @Permissions({ action: 'manage', subject: 'user' })
+  @Permissions({ action: 'read', subject: 'user' })
   @Get(':id')
-  async getUserPermissions(@Param('id') id: number) {
-    return this.userService.findUserRolesAndPermissionsById(id);
+  async findUserById(@Param('id') id: number) {
+    return this.userService.findUser(id);
   }
 
   @Get()
@@ -56,12 +55,13 @@ export class UserController {
     return await this.userService.findAll(paginationParams, name, filter);
   }
 
-  @Public()
+  @Permissions({ action: 'update', subject: 'user' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
+  @Permissions({ action: 'delete', subject: 'user' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);

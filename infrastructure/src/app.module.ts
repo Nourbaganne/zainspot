@@ -26,7 +26,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
     ThrottlerModule.forRoot([
       {
         ttl: 60000,
-        limit: 10,
+        limit: 100,
       },
     ]),
     ScheduleModule.forRoot(),
