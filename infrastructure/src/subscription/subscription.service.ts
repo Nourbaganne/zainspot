@@ -57,7 +57,8 @@ export class SubscriptionService {
       price: subscription.price,
       city: {
         id: subscription.city.id,
-        name: subscription.city.city,
+        city: subscription.city.city,
+        country: subscription.city.country,
         imageUrl: subscription.city.imageUrl,
         locationTitle: subscription.city.location.title,
       },
@@ -66,6 +67,10 @@ export class SubscriptionService {
         email: subscription.user.email,
         businessNumber: subscription.user.businessNumber,
       },
+      renewal:{
+        date: subscription?.renewalDate,
+        status: subscription?.renewalStatus  
+      }
     }));
   }
 

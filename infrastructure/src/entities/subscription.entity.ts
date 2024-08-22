@@ -29,8 +29,8 @@ export class Subscription {
   price: number;
 
   @Column({ nullable: true })
-  renewal: {
-    date: Date;
-    status: string;
-  }
+  renewalDate: Date;
+
+  @Column({ nullable: true })
+  renewalStatus: string;
 }

@@ -23,8 +23,8 @@ export class CreateSubscriptionDto {
   price: number;
 
   @IsOptional()
-  renewal: {
-    date: Date;
-    status: string;
-  }
+  renewalDate: Date;
+
+  @IsOptional()
+  renewalStatus: string;
 }
