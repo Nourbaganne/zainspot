@@ -19,7 +19,7 @@ export interface SubscriptionProps {
     price: number,
     city: {
         id: number,
-        name: string,
+        city: string,
         imageUrl: string,
         locationTitle: string
     },
@@ -39,7 +39,7 @@ const Page = () => {
     ];
 
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ['subscriptions'],
+        queryKey: ['subscriptions', user?.user.userId],
         queryFn: () => axiosInstance.get(`/subscriptions/${user?.user.userId}`, {
             headers: {
                 Authorization: `Bearer ${user?.access_token}`

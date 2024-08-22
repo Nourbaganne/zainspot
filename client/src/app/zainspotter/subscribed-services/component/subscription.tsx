@@ -43,7 +43,7 @@ const Subscription = ({
                 <Image src={city?.imageUrl} alt={`img-${city?.id}`} width={200} height={200} className='col-span-1 md:col-span-2' />
                 <div className='md:col-span-5 flex flex-col gap-3'>
                     <div className='flex flex-col md:flex-row gap-1 pl-4 md:pl-0 md:items-center'>
-                        <h1 className='text-sm md:text-md font-bold'>{city.name} ZainSpot</h1>
+                        <h1 className='text-sm md:text-md font-bold'>{city.city} ZainSpot</h1>
                         <span className='font-light text-span text-xs'>
                             {city?.locationTitle?.split(',')[0]}
                         </span>

@@ -5,17 +5,15 @@ import { Input } from '../register/components/input'
 import loginImage from "@/app/assets/register/login-image.svg";
 import { useLoginForm } from '../lib/login-form'
 import Image from "next/image";
-import eyeOutline from "@/app/assets/register/eye-outline.svg";
-import eyeOffOutline from "@/app/assets/register/eye-off-outline.svg"
 import Translation from '../components/translation';
 import Link from 'next/link';
 import { withNoAuth } from '../lib/withNoAuth';
+import InputPassword from '../components/inputPassword';
 
 const Page = () => {
-    const [showPassword, setShowPassword] = useState(false);
     const [isError, setIsError] = useState("");
 
-    const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
 
     const formik = useLoginForm(setIsError);
 
@@ -46,27 +44,14 @@ const Page = () => {
                         formik={formik}
                     />
                     <div className="relative w-full">
-                        <Input
-                            type={showPassword ? "text" : "password"}
+                        <InputPassword
                             labelKey="register_password_label"
                             value={formik.values.password}
                             name="password"
-                            handleChange={formik.handleChange}
                             touched={formik.touched.password}
                             errors={formik.errors.password}
                             formik={formik}
                         />
-                        <div className="absolute inset-y-0 right-3 flex items-center">
-                            {!formik.touched.password && (
-                                <Image
-                                    src={formik.errors.password && formik.touched.password ? '' : (showPassword ? eyeOffOutline : eyeOutline)}
-                                    alt={formik.errors.password && formik.touched.password ? '' : "eye-outline"}
-                                    className="cursor-pointer"
-                                    onClick={togglePasswordVisibility}
-                                />
-                            )}
-
-                        </div>
                     </div>
                     <button className='bg-button text-background w-full rounded-md py-3 text-xl font-semibold'>
                         Login to Zainspot

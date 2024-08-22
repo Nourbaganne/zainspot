@@ -3,18 +3,17 @@ import { AuthContext } from '@/app/contexts/authContext'
 import axiosInstance from '@/app/lib/axios/axiosInstance'
 import Breadcrumb from '@/app/zainspotter/components/breadcrumb'
 import { useQuery } from '@tanstack/react-query'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import genreIcon from '@/app/assets/owner/users/genreIcon.svg'
 import birthdayIcon from '@/app/assets/owner/users/birthdayIcon.svg'
 import pointIc from '@/app/assets/owner/users/pointIc.svg'
 import downloadIcon from '@/app/assets/owner/users/download-outline.svg'
 import revenueIcon from '@/app/assets/owner/users/information-circle-outline.svg'
-import upButton from '@/app/assets/owner/users/Up.svg';
-import downButton from '@/app/assets/owner/users/Down.svg';
 import Image from 'next/image'
 import CustomStackedBarChart from '../../components/barChart'
+import SubscriptionList from '../../components/subscriptionList'
 
-const page = ({ params }: { params: { id: number } }) => {
+const Page = ({ params }: { params: { id: number } }) => {
 
     const { user } = useContext(AuthContext);
     const { data, isLoading, isError, error } = useQuery({
@@ -57,14 +56,7 @@ const page = ({ params }: { params: { id: number } }) => {
     ]
 
 
-    const USER_LIST_HEADER = [
-        { title: 'Location', hasFiltering: true },
-        { title: 'City & Country', hasFiltering: true },
-        { title: 'Payment', hasFiltering: false },
-        { title: 'Subscription Date', hasFiltering: true },
-        { title: 'Renewal Date', hasFiltering: true },
-        { title: 'Renewal Status', hasFiltering: true },
-    ]
+    
 
 
 
@@ -136,38 +128,11 @@ const page = ({ params }: { params: { id: number } }) => {
                         <CustomStackedBarChart />
                     </div>
                 </div>
-                <div className='flex flex-col gap-4'>
-                    <h1 className='text-lg font-semibold'>Subscriptions & Payments</h1>
-                    <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
-                        <div className=' grid grid-cols-6 text-sm  w-full border-b-2 text-span pb-4 pt-6   pl-4'>
-                            {USER_LIST_HEADER.map((item, index) => (
-                                <div key={index} className={`${item.hasFiltering && 'flex items-center gap-2'}`}>
-                                    {item.hasFiltering && (
-                                        <div className='flex flex-col gap-1'>
-                                            <button>
-                                                <Image src={upButton} alt='up-users' />
-                                            </button>
-                                            <button>
-                                                <Image src={downButton} alt='down-users' />
-                                            </button>
-                                        </div>
-                                    )}
-                                    {item.title}
-                                </div>
-                            ))}
-                        </div>
-                        {data?.data ? (
-                            <>
-                                tt
-                            </>
-                        ) : (
-                            <div>No Subscription yet</div>
-                        )}
-                    </div>
-                </div>
+                <SubscriptionList userId={params?.id} access_token={user?.access_token} />
+                
             </div>
         </div>
     )
 }
 
-export default page
+export default Page

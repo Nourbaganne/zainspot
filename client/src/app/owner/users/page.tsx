@@ -22,7 +22,7 @@ interface User {
   businessName: string;
   email: string;
   businessNumber: string;
-  subscriptions: { city: { name: string }, endDate: string }[];
+  subscriptions: { city: { city: string }, endDate: string }[];
   role: { id: number; role: string };
 }
 
@@ -204,7 +204,7 @@ const Users = () => {
                   id={user?.id}
                   user={{ name: `${user.name} ${user?.middlename ?? ''} ${user.lastName ?? ''}`.trim(), desc: user.businessName }}
                   contact={{ email: user.email, phoneNumber: user.businessNumber }}
-                  subscriptions={user.subscriptions.length > 0 ? user.subscriptions.map(sub => sub.city.name) : null}
+                  subscriptions={user.subscriptions.length > 0 ? user.subscriptions.map(sub => sub.city.city) : null}
                   renewals={user.subscriptions.length > 0 ? { upcoming: new Date(user.subscriptions[0].endDate) > new Date(), date: new Date(user.subscriptions[0].endDate).toLocaleDateString() } : { upcoming: false, date: 'N/A' }}
                   role={user?.role.role}
                   setSelectedUsers={handleSelectUser}
