@@ -27,4 +27,10 @@ export class Subscription {
 
   @Column()
   price: number;
+
+  @Column({ nullable: true })
+  renewal: {
+    date: Date;
+    status: string;
+  }
 }

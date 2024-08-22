@@ -1,5 +1,5 @@
 
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateSubscriptionDto {
   @IsNotEmpty()
@@ -21,4 +21,10 @@ export class CreateSubscriptionDto {
   @IsNotEmpty()
   @IsNumber()
   price: number;
+
+  @IsOptional()
+  renewal: {
+    date: Date;
+    status: string;
+  }
 }
