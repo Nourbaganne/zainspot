@@ -15,6 +15,7 @@ import previousIcon from '@/app/assets/owner/users/chevron-back.svg'
 
 
 interface User {
+  id: number;
   name: string;
   middlename?: string;
   lastName: string;
@@ -128,7 +129,7 @@ const Users = () => {
         <h1 className='flex gap-2 font-semibold text-xl'>
           All Users <span className='font-normal'>({data?.data.totalItems ?? 0})</span>
         </h1>
-        <div className='flex justify-between'>
+        <div className='flex justify-between items-center'>
           <div className='bg-span-background flex text-span-foreground rounded-md p-1 w-fit gap-2'>
             <div className='flex gap-2 md:font-semibold whitespace-nowrap md:whitespace-normal max-w-56 md:max-w-none overflow-x-auto'>
               {FILTERING_TYPE.map((filter, index) => (
@@ -147,14 +148,14 @@ const Users = () => {
           </div>
 
           <div className='flex gap-5 items-center'>
-            <div className='flex bg-background gap-2 items-center p-2 text-span border border-button rounded-md'>
+            <div className='flex bg-background gap-2 items-center p-1 text-span border border-button rounded-md'>
               <Image src={searchIcon} alt='search-user' />
               <input
                 type="search"
                 value={searchUser}
                 onChange={(e) => setSearchUser(e.target.value)}
                 placeholder="Search User"
-                className="w-80 outline-none"
+                className="w-80 outline-none border-none"
               />
             </div>
             <div>
@@ -200,6 +201,7 @@ const Users = () => {
               {data?.data.items.map((user: User, index: number) => (
                 <UserItem
                   key={index}
+                  id={user?.id}
                   user={{ name: `${user.name} ${user?.middlename ?? ''} ${user.lastName ?? ''}`.trim(), desc: user.businessName }}
                   contact={{ email: user.email, phoneNumber: user.businessNumber }}
                   subscriptions={user.subscriptions.length > 0 ? user.subscriptions.map(sub => sub.city.name) : null}

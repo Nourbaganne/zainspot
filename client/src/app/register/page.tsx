@@ -16,7 +16,7 @@ import Dialog from "../components/dialog";
 const Register = () => {
 
   const [isOpenDialog, setIsOpenDialog] = useState(false);
-    const formik = useRegisterForm({setIsOpenDialog});
+  const formik = useRegisterForm({ setIsOpenDialog });
 
   return (
     <div className="md:grid md:grid-cols-2 pb-20 md:pb-56 pt-10 px-4 md:px-0">
@@ -266,8 +266,8 @@ const Register = () => {
               <div className={`relative flex border px-2 py-4 rounded-md peer focus:outline-none focus:ring-0 autofill:bg-white ${formik.errors.gender && formik.touched.gender ? 'border-alert' : 'border-button focus:border-primary'}`}
               >
                 <label htmlFor="gender"
-                className={`absolute left-3 bottom-11 pointer-events-none px-1 text-xs bg-white z-10   
-                  ${formik.values.gender && !formik.errors.gender ?  'text-primary' : formik.errors.gender && formik.touched.gender ? 'text-alert' : 'text-primary'} `}
+                  className={`absolute left-3 bottom-11 pointer-events-none px-1 text-xs bg-white z-10   
+                  ${formik.values.gender && !formik.errors.gender ? 'text-primary' : formik.errors.gender && formik.touched.gender ? 'text-alert' : 'text-primary'} `}
                 >
                   <Translation translationKey="register_gender_label" />
                 </label>
@@ -352,9 +352,10 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full bg-button py-4 rounded-md text-xl font-bold text-background hover:bg-span translation-all duration-300"
+            disabled={!(formik.isValid && formik.dirty)}
+            className={`w-full py-3 px-6 rounded-md text-white font-semibold ${formik.isValid && formik.dirty ? 'bg-primary hover:bg-primary-dark' : 'bg-button cursor-not-allowed'}`}
           >
-            <Translation translationKey="registerpage_submit_button" />
+            <Translation translationKey="register_submit_button" />
           </button>
         </form>
         <p className="text-center">

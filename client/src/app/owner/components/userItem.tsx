@@ -1,8 +1,10 @@
 import React from 'react';
 import detailsButton from '@/app/assets/owner/users/arrow-right.svg'
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface UserItemProps {
+    id: number,
     user: {
         name: string;
         desc: string;
@@ -21,16 +23,16 @@ interface UserItemProps {
     isSelected: boolean;
 }
 
-const UserItem: React.FC<UserItemProps> = ({ user, contact, subscriptions, renewals, role, setSelectedUsers, isSelected }) => {
+const UserItem: React.FC<UserItemProps> = ({ id, user, contact, subscriptions, renewals, role, setSelectedUsers, isSelected }) => {
     return (
         <div className='flex py-2 border-b text-sm px-4 items-center'>
             <div className='w-full grid grid-cols-5 items-center'>
                 <div className='flex gap-4 items-center'>
-                    <input 
-                    type="checkbox" 
-                    checked={isSelected} 
-                    onChange={() => setSelectedUsers(contact.email)} 
-                    className='accent-primary'/>
+                    <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => setSelectedUsers(contact.email)}
+                        className='accent-primary' />
                     <div className='flex flex-col gap-1'>
                         <h1 className='font-semibold'>{user.name}</h1>
                         <p className='text-span font-light'>{user.desc}</p>
@@ -73,13 +75,13 @@ const UserItem: React.FC<UserItemProps> = ({ user, contact, subscriptions, renew
                     </span>
                 </div>
                 <div className='flex items-center justify-between'>
-                    <select name="" id="" className='p-2 text-md bg-background-foreground w-fit px-4 rounded-md font-medium'>
+                    <select name="" id="" className=' bg-background-foreground border-none rounded-md'>
                         <option value={role}>{role}</option>
                     </select>
-                    <button className='flex text-secondary gap-2 text-xs font-semibold hover:underline ml-auto'>
+                    <Link href={`/owner/users/${id}`} className='flex text-secondary gap-2 text-xs font-semibold hover:underline ml-auto'>
                         Details
                         <Image src={detailsButton} alt='details-button' />
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>

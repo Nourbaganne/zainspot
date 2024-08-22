@@ -22,7 +22,7 @@ const config: Config = {
         background: {
           DEFAULT: '#FFFFFF',
           foreground: '#F3F3F3',
-          light:'#BFE5DB'
+          light: '#BFE5DB'
         },
         text: {
           DEFAULT: '#131313',
@@ -49,6 +49,9 @@ const config: Config = {
           DEFAULT: '#666666',
           foreground: '#868686',
           background: '#E8E8E8'
+        },
+        border: {
+          DEFAULT: '#DDDDDD'
         },
         // light mode
         tremor: {
@@ -124,24 +127,24 @@ const config: Config = {
           '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
         'dark-tremor-dropdown':
           '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        },
-        borderRadius: {
-          'tremor-small': '0.375rem',
-          'tremor-default': '0.5rem',
-          'tremor-full': '9999px',
-        },
-        fontSize: {
-          'tremor-label': ['0.75rem', { lineHeight: '1rem' }],
-          'tremor-default': ['0.875rem', { lineHeight: '1.25rem' }],
-          'tremor-title': ['1.125rem', { lineHeight: '1.75rem' }],
-          'tremor-metric': ['1.875rem', { lineHeight: '2.25rem' }],
-        },
       },
+      borderRadius: {
+        'tremor-small': '0.375rem',
+        'tremor-default': '0.5rem',
+        'tremor-full': '9999px',
+      },
+      fontSize: {
+        'tremor-label': ['0.75rem', { lineHeight: '1rem' }],
+        'tremor-default': ['0.875rem', { lineHeight: '1.25rem' }],
+        'tremor-title': ['1.125rem', { lineHeight: '1.75rem' }],
+        'tremor-metric': ['1.875rem', { lineHeight: '2.25rem' }],
+      },
+    },
 
-      fontFamily: {
-        sans: ['"Work Sans"', 'sans-serif'],
-        'regular': ['"Open Sans"', 'sans-serif'],
-      },
+    fontFamily: {
+      sans: ['"Work Sans"', 'sans-serif'],
+      'regular': ['"Open Sans"', 'sans-serif'],
+    },
   },
   safelist: [
     {
