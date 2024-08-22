@@ -14,10 +14,8 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
   const { currency } = useCurrency();
 
   return (
-    <div className="flex flex-col gap-4 border-2 rounded-md border-secondary p-2 text-xl">
-      <div className="flex text-text font-bold">
-        <h1>ZS Classic</h1>
-      </div>
+    <div className="flex flex-col gap-4 border-2 rounded-md border-secondary px-2 py-4 ">
+      <h1 className="text-2xl font-bold">ZS Classic</h1>
       <p className="text-primary font-bold">
         <Translation translationKey="citypage_zg_classic_title" />
       </p>
@@ -89,7 +87,7 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
               </div>
             ))
         }
-    
+
       </div>
     </div>
   );

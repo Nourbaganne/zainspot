@@ -40,17 +40,17 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const city = data?.data;
 
   return (
-    <div className="flex flex-col md:grid md:grid-cols-5 font-sans md:pt-5 ">
+    <div className="flex flex-col md:grid md:grid-cols-5 font-sans md:pt-5 text-text-foreground ">
       <div className="flex flex-col md:col-span-2 py-2 md:py-0 gap-8">
         <Link
           href={"/"}
-          className="px-4 flex gap-1 text-text-foreground hover:underline"
+          className="px-4 text-sm flex gap-1  hover:underline"
         >
           <Image src={returnIcon} alt="return-back-icon" />
           <Translation translationKey="citypage_return_button" />
         </Link>
         <div>
-          <div className="px-4">
+          <div className="px-4 text-text-foreground">
             <h1 className="text-3xl font-bold">{city?.city} ZainSpot</h1>
             <h1 className="text-2xl font-semibold text-end">
               {city?.location?.title.split(',')[0]}

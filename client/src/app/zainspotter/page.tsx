@@ -30,7 +30,7 @@ const Page = () => {
           </Link>
         ))}
       </div>
-      <div className="flex flex-col gap-4 text-span justify-center items-center text-sm">
+      <div className="flex flex-col gap-4 text-span justify-center items-center text-sm md:py-8">
         <p>
           <Translation translationKey="editProfile_desactivation" />
         </p>

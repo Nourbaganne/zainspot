@@ -6,10 +6,10 @@ import { CURRENCIES_DATA } from "@/app/constants/navbar";
 const ZsGold = ({ amount }: { amount: number }) => {
   const { currency } = useCurrency();
   return (
-    <div className="flex flex-col gap-4 border-2 rounded-md border-secondary p-2 text-xl">
-      <div className="flex justify-between text-text font-bold">
-        <h1>ZS Gold</h1>
-        <h1 className="text-alert">
+    <div className="flex flex-col gap-4 border-2 rounded-md border-secondary  px-2 py-4">
+      <div className="flex justify-between font-bold">
+        <h1 className="text-2xl">ZS Gold</h1>
+        <h1 className="text-alert italic">
           <Translation translationKey="citypage_zg_gold_alert" />
         </h1>
       </div>
