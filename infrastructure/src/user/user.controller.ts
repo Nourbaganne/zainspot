@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Delete,
-  Logger,
   Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -24,7 +23,6 @@ import { User } from 'src/entities/user.entity';
 
 @Controller('user')
 export class UserController {
-  private readonly logger = new Logger(UserController.name);
   constructor(
     private readonly userService: UserService,
     private readonly emailConfirmationService: EmailConfirmationService,

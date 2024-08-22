@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString, IsDate, IsObject } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsDate } from 'class-validator';
 
 export class CreateInvoicesDto {
   @IsNotEmpty()
