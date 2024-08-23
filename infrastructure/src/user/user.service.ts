@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '../entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -25,7 +25,7 @@ type PercentageChange = {
 
 @Injectable()
 export class UserService {
-  constructor() {}
+  constructor() { }
 
   async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt(8);
@@ -35,18 +35,25 @@ export class UserService {
   async register(createUserDto: CreateUserDto): Promise<User> {
     const hashedPassword = await this.hashPassword(createUserDto.password);
     const defaultRole = await Role.findOne({ where: { role: 'zainspotter' } });
+
+    const existEmail = await User.findOne({ where: { email: createUserDto.email } });
+    if (existEmail) {
+        throw new HttpException('existingEmail', HttpStatus.FORBIDDEN);
+    }
+
     const user = User.create({
-      ...createUserDto,
-      password: hashedPassword,
-      isEmailConfirmed: false,
-      role: defaultRole,
+        ...createUserDto,
+        password: hashedPassword,
+        isEmailConfirmed: false,
+        role: defaultRole,
     });
 
     await User.save(user);
 
     delete user.password;
     return user;
-  }
+}
+
 
   async findAll(
     { page, limit = 1 }: Pagination,

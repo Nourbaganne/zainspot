@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class AddRenewals1724308204172 implements MigrationInterface {
-    name = 'AddRenewals1724308204172'
+export class AddRenewal1724367144320 implements MigrationInterface {
+    name = 'AddRenewal1724367144320'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE \`subscription\` ADD \`renewalDate\` datetime NULL`);
