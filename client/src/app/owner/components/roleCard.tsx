@@ -17,7 +17,7 @@ interface RoleCardProps {
 
 const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
   return (
-    <div className='bg-background flex flex-col px-3 py-6 rounded-2xl'>
+    <div className='card flex flex-col '>
       <div className='flex flex-row mb-8 justify-between items-center'>
         <p className='text-span'>
           {title}

@@ -117,12 +117,12 @@ const Locations = () => {
             <input
               type="search"
               placeholder="Search Location"
-              className="outline-none w-full"
+              className="outline-none border-none w-full"
               value={searchCity}
               onChange={(e) => setSearchCity(e.target.value)}
             />
           </div>
-          <div className='flex col-span-2 justify-end gap-5'>
+          <div className='flex col-span-2 justify-end gap-5 items-center'>
             <button
 
               onClick={() => setIsHidden(!isHidden)}
@@ -141,7 +141,7 @@ const Locations = () => {
               )}
             </button>
             <button
-              className='bg-primary rounded-lg text-white px-3 py-2 flex items-center gap-2'
+              className='bg-primary rounded-lg text-white px-3 py-[9px] flex items-center gap-2'
               onClick={handleDialogOpen}
             >
               <Image src={plusIcon} alt='plus icon'></Image>

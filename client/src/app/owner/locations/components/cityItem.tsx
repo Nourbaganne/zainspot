@@ -2,6 +2,7 @@ import { CityProps } from '../page';
 import hiddenLogo from '@/app/assets/owner/locations/hidden-logo.svg';
 import unhiddenLogo from '@/app/assets/owner/locations/eye-outline.svg';
 import deleteLogo from '@/app/assets/owner/locations/trash-outline.svg';
+import editLogo from '@/app/assets/owner/locations/edit-outline.svg';
 import Image from 'next/image';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
@@ -124,28 +125,36 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
                     </div>
                 </div>
             </div>
-            <div className='flex gap-1 text-xs font-semibold items-start'>
-                <button
-                    onClick={handleHideCity}
+            <div className='flex flex-col gap-3 text-xs font-semibold items-start'>
 
-                >
-                    {hidden ? (
-                        <div className={`flex items-center gap-2  text-span p-3 border-2 border-span rounded-md `}>
-                            <Image src={unhiddenLogo} alt='hide-city' className='w-4' />
-                            Unhide
-                        </div>
-                    ) : (
-                        <div className={`flex items-center gap-2  text-span p-3 border-2 border-span rounded-md `}>
-                            <Image src={hiddenLogo} alt='hide-city' />
-                            Hide
-                        </div>
-                    )}
+                <div className='flex gap-1'>
+                    <button className='flex items-center gap-2  text-span py-3 px-5 border-2 border-span rounded-md'>
+                       <Image src={editLogo} alt='edit-city' />
+                        Edit
+                    </button>
+                    <button
+                        onClick={handleHideCity}
+                    >
+                        {hidden ? (
+                            <div className={`flex items-center gap-2  text-span py-3 px-5 border-2 border-span rounded-md `}>
+                                <Image src={unhiddenLogo} alt='hide-city' className='w-4' />
+                                Unhide
+                            </div>
+                        ) : (
+                            <div className={`flex items-center gap-2  text-span py-3 px-5 border-2 border-span rounded-md `}>
+                                <Image src={hiddenLogo} alt='hide-city' />
+                                Hide
+                            </div>
+                        )}
 
-                </button>
+                    </button>
+
+                </div>
+
 
                 <button
                     onClick={handleDeleteCity}
-                    className='flex items-center gap-2 text-alert-dark p-3 border-2 rounded-md border-alert-dark '
+                    className='flex self-end  items-center gap-2 text-alert-dark '
                 >
                     <Image src={deleteLogo} alt='delete-city' />
                     Delete Permanently

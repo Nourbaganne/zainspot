@@ -173,5 +173,7 @@
     "locationDialog_duration_perYear": "سنة واحدة",
     "locationDialog_duration_permonth": "شهر واحد",
     "locationDialog_duration_per3months": "3 أشهر",
-    "locationDialog_duration_per6months": "6 أشهر"
+    "locationDialog_duration_per6months": "6 أشهر",
+    "register_submit_button": "انضم إلى Zainspot"
+
 }

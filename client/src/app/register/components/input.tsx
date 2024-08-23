@@ -38,10 +38,10 @@ export function Input({
             value={value}
             placeholder={placeholderValue}
             onChange={handleChange}
-            className={`border px-2 py-3 rounded-md focus:outline-none focus:ring-0 autofill:bg-white resize-none ${
+            className={`border p-3 rounded-md font-light focus:outline-none focus:ring-0 autofill:bg-white resize-none ${
               errors && touched ? 'border-alert' : 'border-button focus:border-primary'
             }`}
-            rows={5} 
+            rows={7} 
           />
         ) : (
           <input
@@ -50,7 +50,7 @@ export function Input({
             value={value}
             onChange={handleChange}
             placeholder={placeholderValue}
-            className={`border px-2 py-3 rounded-md focus:outline-none focus:ring-0 autofill:bg-white ${
+            className={`border p-3 rounded-md font-light focus:outline-none focus:ring-0 autofill:bg-white ${
               errors && value ? 'border-alert' : 'border-button focus:border-primary'
             }`}
           />
@@ -58,7 +58,7 @@ export function Input({
         <label
           htmlFor={name}
           className={`absolute
-            ${type === "textarea" ? 'bottom-[138px]' : ' bottom-[41px]' }
+            ${type === "textarea" ? 'bottom-[185px]' : ' bottom-[41px]' }
             left-3 pointer-events-none px-1 text-xs bg-white z-10 ${
             value && errors ? 'text-alert' : 'text-primary'
           }`}

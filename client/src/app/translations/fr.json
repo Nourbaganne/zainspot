@@ -175,5 +175,7 @@
   "locationDialog_duration_perYear": "1 An",
   "locationDialog_duration_permonth": "1 Mois",
   "locationDialog_duration_per3months": "3 Mois",
-  "locationDialog_duration_per6months": "6 Mois"
+  "locationDialog_duration_per6months": "6 Mois",
+
+  "register_submit_button": "Rejoindre Zainspot"
 }

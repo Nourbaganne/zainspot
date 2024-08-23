@@ -180,5 +180,7 @@
     "locationDialog_duration_perYear": "1 Tahun",
     "locationDialog_duration_permonth": "1 Bulan",
     "locationDialog_duration_per3months": "3 Bulan",
-    "locationDialog_duration_per6months": "6 Bulan"
+    "locationDialog_duration_per6months": "6 Bulan",
+
+    "register_submit_button": "Sertai Zainspot"
 }

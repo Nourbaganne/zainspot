@@ -46,6 +46,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                 type="text"
                 labelKey="locationDialog_info_city"
                 value={formik.values.city}
+                placeholderValue='Enter country name... '
                 name="city"
                 handleChange={formik.handleChange}
                 touched={formik.touched.city}
@@ -55,6 +56,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
               <Input
                 type="text"
                 labelKey="locationDialog_info_country"
+                placeholderValue='Enter city name... '
                 value={formik.values.country}
                 name="country"
                 handleChange={formik.handleChange}
@@ -64,6 +66,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
               />
               <Input
                 type="textarea"
+                placeholderValue='Write down the city description'
                 labelKey="locationDialog_info_description"
                 value={formik.values.description}
                 name="description"

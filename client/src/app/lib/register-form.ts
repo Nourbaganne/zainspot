@@ -1,12 +1,10 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import axiosInstance from "./axios/axiosInstance";
 
 export const useRegisterForm = ({ setIsOpenDialog }: { setIsOpenDialog: (isOpen: boolean) => void; }) => {
   const router = useRouter();
-
 
   return useFormik({
     initialValues: {
@@ -37,12 +35,12 @@ export const useRegisterForm = ({ setIsOpenDialog }: { setIsOpenDialog: (isOpen:
         .email("Invalid email address")
         .required("Email is required"),
       password: Yup.string()
-        .required("Helping text is here")
-        .min(8, 'Helping text is here')
-        .matches(/[A-Z]/, 'Helping text is here')
-        .matches(/[a-z]/, 'Helping text is here')
-        .matches(/[0-9]/, 'Helping text is here')
-        .matches(/[^\w]/, 'Helping text is here'),
+        .required("Password is required")
+        .min(8, 'Password must be at least 8 characters')
+        .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+        .matches(/[0-9]/, 'Password must contain at least one digit')
+        .matches(/[^\w]/, 'Password must contain at least one special character'),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password")], "Passwords must match")
         .required("Confirm password is required"),
@@ -53,9 +51,7 @@ export const useRegisterForm = ({ setIsOpenDialog }: { setIsOpenDialog: (isOpen:
       country: Yup.string().required("Business country is required"),
       businessWebsite: Yup.string(),
       city: Yup.string().required("City is required"),
-      state: Yup.string().required(
-        "State or Province or Department is required"
-      ),
+      state: Yup.string().required("State or Province or Department is required"),
       interestRegion: Yup.string().required("Regions of interest are required"),
       name: Yup.string().required("Name is required"),
       middleName: Yup.string(),
@@ -64,20 +60,20 @@ export const useRegisterForm = ({ setIsOpenDialog }: { setIsOpenDialog: (isOpen:
       birthday: Yup.date().required("Your Birthday is required"),
       mediaProfile: Yup.string(),
     }),
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, { setErrors, resetForm }) => {
       try {
         const formattedValues = {
           ...values,
           birthday: values.birthday ? new Date(values.birthday).toISOString().split('T')[0] : null,
         };
 
-        const response = await axiosInstance.post("/user/register", formattedValues);
-        if (response.status === 201) {
+        const response = await axiosInstance.post("/user/register", formattedValues).then((response) => {
           resetForm();
-          setIsOpenDialog(true)
-          // router.push('/login');
+          setIsOpenDialog(true);
+        }).catch((error) => {
+          console.log("error", error.message)
+        })
 
-        }
 
       } catch (error) {
         console.error("Error submitting form:", error);

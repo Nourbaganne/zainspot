@@ -181,5 +181,7 @@
     "locationDialog_duration_perYear": "1 વર્ષ",
     "locationDialog_duration_permonth": "1 મહિનો",
     "locationDialog_duration_per3months": "3 મહિના",
-    "locationDialog_duration_per6months": "6 મહિના"
+    "locationDialog_duration_per6months": "6 મહિના",
+
+    "register_submit_button": "Zainspot સાથે જોડાઓ"
 }

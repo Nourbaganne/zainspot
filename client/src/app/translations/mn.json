@@ -175,6 +175,7 @@
     "locationDialog_duration_perYear": "1年",
     "locationDialog_duration_permonth": "1个月",
     "locationDialog_duration_per3months": "3个月",
-    "locationDialog_duration_per6months": "6个月"
+    "locationDialog_duration_per6months": "6个月",
+    "register_submit_button": "加入 Zainspot"
 
 }

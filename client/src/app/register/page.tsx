@@ -314,7 +314,7 @@ const Register = () => {
             </div>
 
             <div className="flex flex-col w-full gap-2 place-self-start">
-              <div className="flex gap-0 md:gap-4 items-center ">
+              <div className="flex gap-2 md:gap-4 items-center ">
                 <h1 className="text-xs text-text-foreground">
                   <Translation translationKey="register_birthday_label" />
                 </h1>
@@ -358,6 +358,7 @@ const Register = () => {
             <Translation translationKey="register_submit_button" />
           </button>
         </form>
+
         <p className="text-center">
           <Translation translationKey="registerpage_privacy_policy" />
           <span className="text-primary underline cursor-pointer hover:no-underline">

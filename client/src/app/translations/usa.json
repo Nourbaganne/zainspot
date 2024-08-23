@@ -88,6 +88,8 @@
     "register_gender_female_label": "Female",
     "register_birthday_label": "Your Birthday",
     "register_media_profile_label": "Your Social Media Profiles",
+    "register_submit_button": "Join Zainspot",
+
     "prefered_language": "Language",
     "prefered_currency": "Currency",
     "editProfile_ProfileDetails": "Profile Details",
