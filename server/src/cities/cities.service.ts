@@ -64,6 +64,8 @@ export class CitiesService {
       const uploadStream = cloudinary.uploader.upload_stream(
         { folder: 'cities' },
         (error, result) => {
+          console.log(result);
+          
           if (error) {
             reject(new Error('Image upload failed'));
           }

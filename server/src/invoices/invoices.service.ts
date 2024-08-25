@@ -1,4 +1,4 @@
-import { Invoices } from './../entities/invoices.entity';
+import { Invoices } from '../entities/invoices.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateInvoicesDto } from './dto/create-invoices';
 import { User } from 'src/entities/user.entity';

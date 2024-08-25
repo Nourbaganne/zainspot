@@ -1,4 +1,4 @@
-import { UserService } from './../user/user.service';
+import { UserService } from '../user/user.service';
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { CaslAbilityFactory } from './casl-ability.factory/casl-ability.factory';
