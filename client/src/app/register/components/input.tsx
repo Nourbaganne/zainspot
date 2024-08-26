@@ -15,6 +15,7 @@ interface InputProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
   formik: FormikProps<any>;
   placeholderValue?: string;
+  rows?: number;
 }
 
 export function Input({
@@ -26,22 +27,23 @@ export function Input({
   touched,
   errors,
   placeholderValue,
+  rows,
 }: InputProps) {
   const showIcon = value && (errors ? alert : checked);
 
   return (
-    <div className="flex flex-col gap-2 w-full">
-      <div className="relative flex flex-col">
+    <div className="relative flex flex-col gap-2 w-full">
+      <div className=" flex flex-col">
         {type === "textarea" ? (
           <textarea
             name={name}
             value={value}
             placeholder={placeholderValue}
             onChange={handleChange}
-            className={`border p-3 rounded-md font-light focus:outline-none focus:ring-0 autofill:bg-white resize-none ${
+            className={`text-sm border p-3 rounded-md font-light focus:outline-none focus:ring-0 autofill:bg-white resize-none ${
               errors && touched ? 'border-alert' : 'border-button focus:border-primary'
             }`}
-            rows={7} 
+            rows={rows} 
           />
         ) : (
           <input
@@ -50,16 +52,14 @@ export function Input({
             value={value}
             onChange={handleChange}
             placeholder={placeholderValue}
-            className={`border p-3 rounded-md font-light focus:outline-none focus:ring-0 autofill:bg-white ${
+            className={`text-sm border p-3 rounded-md font-light focus:outline-none focus:ring-0 autofill:bg-white ${
               errors && value ? 'border-alert' : 'border-button focus:border-primary'
             }`}
           />
         )}
         <label
           htmlFor={name}
-          className={`absolute
-            ${type === "textarea" ? 'bottom-[185px]' : ' bottom-[41px]' }
-            left-3 pointer-events-none px-1 text-xs bg-white z-10 ${
+          className={`absolute top-[-7px] left-3 pointer-events-none px-1 text-xs bg-white z-10 ${
             value && errors ? 'text-alert' : 'text-primary'
           }`}
         >
