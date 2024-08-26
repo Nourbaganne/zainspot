@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import {  HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '../entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -10,6 +10,7 @@ import {
   getEndOfPreviousMonth,
   getStartOfPreviousMonth,
 } from 'src/utils/date-utils';
+
 
 type RoleCounts = {
   zainspotter: number;
@@ -38,21 +39,21 @@ export class UserService {
 
     const existEmail = await User.findOne({ where: { email: createUserDto.email } });
     if (existEmail) {
-        throw new HttpException('existingEmail', HttpStatus.FORBIDDEN);
+      throw new HttpException('Email already exists!', HttpStatus.BAD_REQUEST);
     }
 
     const user = User.create({
-        ...createUserDto,
-        password: hashedPassword,
-        isEmailConfirmed: false,
-        role: defaultRole,
+      ...createUserDto,
+      password: hashedPassword,
+      isEmailConfirmed: false,
+      role: defaultRole,
     });
 
     await User.save(user);
 
     delete user.password;
     return user;
-}
+  }
 
 
   async findAll(
@@ -301,3 +302,4 @@ export class UserService {
     });
   }
 }
+

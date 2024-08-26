@@ -31,6 +31,9 @@ export class CreateCityDto {
   @IsOptional()
   description: string;
 
+  @IsOptional()
+  catchphrase: string;
+
   @IsNotEmpty()
   @IsNumber()
   goldPrice: { value: number; tax: number };

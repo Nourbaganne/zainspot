@@ -4,11 +4,13 @@ import { SubscriptionService } from './subscription.service';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { SubscriptionResponseDto } from './dto/subscription-response.dto';
 import { Subscription } from '../entities/subscription.entity';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('subscriptions')
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) { }
 
+  @Public()
   @Post()
   async createSubscription(
     @Body() createSubscriptionDto: CreateSubscriptionDto
