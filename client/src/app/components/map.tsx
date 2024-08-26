@@ -1,14 +1,16 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import { LatLngExpression } from "leaflet";
+import axios from "axios";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
 
 interface MapProps {
-  posix: LatLngExpression;
+  address: string;
   zoom?: number;
 }
 
@@ -16,10 +18,35 @@ const defaults = {
   zoom: 14,
 };
 
-const Map = ({ posix, zoom = defaults.zoom }: MapProps) => {
+const Map = ({ address, zoom = defaults.zoom }: MapProps) => {
+  const [position, setPosition] = useState<LatLngExpression | null>(null);
+
+  useEffect(() => {
+    const fetchCoordinates = async () => {
+      const apiKey = "7e1eb3a8b14c466390153512ac9952e1";
+      try {
+        const response = await axios.get(
+          `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}`
+        );
+    
+        if (response.data.results.length > 0) {
+          const { lat, lng } = response.data.results[0].geometry;
+          // setPosition([52.779260, 1.615068])
+          setPosition([lat, lng]);
+        }
+      } catch (error) {
+        console.error("Error fetching coordinates:", error);
+      }
+    };
+    
+    fetchCoordinates();
+  }, [address]);
+
+  if (!position) return <div>Loading map...</div>;
+
   return (
     <MapContainer
-      center={posix}
+      center={position}
       zoom={zoom}
       scrollWheelZoom={false}
       style={{ height: "100%", width: "100%" }}
@@ -29,8 +56,7 @@ const Map = ({ posix, zoom = defaults.zoom }: MapProps) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-
-      <Marker position={posix} draggable={false} />
+      <Marker position={position} draggable={false} />
     </MapContainer>
   );
 };

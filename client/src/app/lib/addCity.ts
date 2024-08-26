@@ -17,8 +17,7 @@ export interface CityData {
     hidden: boolean;
     location: {
         title: string;
-        posx: number | null;
-        posy: number | null;
+        locationLink: string;
     };
     description: string;
     catchphrase: string;
@@ -83,7 +82,7 @@ export const useAddCity = () => {
             city: "",
             country: "",
             hidden: false,
-            location: { title: "", posx: null, posy: null },
+            location: { title: "", locationLink: "" },
             description: "",
             catchphrase: "",
             goldPrice: { value: null, tax: null },
@@ -95,8 +94,7 @@ export const useAddCity = () => {
             country: Yup.string().required("Country is required"),
             location: Yup.object({
                 title: Yup.string().required("Location title is required"),
-                posx: Yup.number().required("PosX is required"),
-                posy: Yup.number().required("PosY is required"),
+                locationLink: Yup.string().required("Map location link is required")
             }),
             description: Yup.string().required("Description is required"),
             catchphrase: Yup.string().required("Catch phrase is required"),

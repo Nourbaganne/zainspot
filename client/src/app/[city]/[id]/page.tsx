@@ -13,7 +13,6 @@ import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/app/lib/axios/axiosInstance";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
-
   const Map = useMemo(
     () =>
       dynamic(() => import("@/app/components/map"), {
@@ -27,7 +26,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
     queryKey: ["city", params.id],
     queryFn: () => axiosInstance.get(`/cities/${params.id}`),
   });
-
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -79,7 +77,8 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
                 <Image src={locationLogo} alt="location-logo" />
                 <h1>{city?.location?.title}</h1>
               </div>
-              <Map posix={[city?.location?.posx, city?.location?.posy]} />
+              {/* <Map address={city?.location?.title} /> */}
+
             </div>
           </div>
         </div>

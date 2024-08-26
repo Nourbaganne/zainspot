@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.8",
     "@headlessui/react": "^2.1.2",
     "@headlessui/tailwindcss": "^0.2.1",
     "@next/font": "^14.2.4",
@@ -17,6 +18,7 @@
     "@tanstack/react-query": "^5.50.1",
     "@tanstack/react-query-devtools": "^5.50.1",
     "@tremor/react": "^3.17.4",
+    "@types/google.maps": "^3.55.12",
     "axios": "^1.7.2",
     "formik": "^2.4.6",
     "leaflet": "^1.9.4",

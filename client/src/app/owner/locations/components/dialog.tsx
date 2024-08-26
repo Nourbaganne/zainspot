@@ -29,8 +29,8 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg py-6 px-9 w-full max-w-[120vh] relative shadow-lg">
         <div className="max-h-[80vh] overflow-y-auto">
-          <button onClick={onClose} className="absolute top-3 right-3">
-            <Image src={closeIcon} alt="close" />
+          <button onClick={onClose} className="absolute top-3 right-3 p-2 border rounded-full">
+            <Image src={closeIcon} alt="close" className='h-4 w-4' />
           </button>
           <div className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold text-center">
@@ -96,43 +96,37 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                       />
                     </div>
                     {/* Location Emplacement */}
-                    <h1 className="font-semibold text-sm mb-2">
+                    <h1 className="font-semibold text-sm mb-4">
                       <Translation translationKey="locationDialog_emplacement" />
                     </h1>
-                    <Input
-                      type="textarea"
-                      labelKey="locationDialog_emplacement_title"
-                      value={formik.values.location?.title || ''}
-                      placeholderValue="write down the location address..."
-                      name="location.title"
-                      handleChange={formik.handleChange}
-                      touched={formik.touched.location?.title}
-                      errors={formik.errors.location?.title}
-                      formik={formik}
-                      rows={2}
-                    />
-                    <div className="flex gap-4">
+                    <div className='flex flex-col gap-6'>
                       <Input
-                        type="number"
-                        labelKey="locationDialog_emplacement_posx"
-                        value={formik.values.location?.posx || ''}
-                        name="location.posx"
+                        type="textarea"
+                        labelKey="locationDialog_emplacement_title"
+                        value={formik.values.location?.title || ''}
+                        placeholderValue="write down the location address..."
+                        name="location.title"
                         handleChange={formik.handleChange}
-                        touched={formik.touched.location?.posx}
-                        errors={formik.errors.location?.posx}
+                        touched={formik.touched.location?.title}
+                        errors={formik.errors.location?.title}
                         formik={formik}
+                        rows={2}
                       />
+
                       <Input
-                        type="number"
-                        labelKey="locationDialog_emplacement_posy"
-                        value={formik.values.location?.posy || ''}
-                        name="location.posy"
+                        type='text'
+                        labelKey='locationDialog_emplacement_link'
+                        placeholderValue='Location Link'
+                        value={formik.values.location.locationLink}
+                        name='location.locationLink'
                         handleChange={formik.handleChange}
-                        touched={formik.touched.location?.posy}
-                        errors={formik.errors.location?.posy}
+                        touched={formik.touched.location?.locationLink}
+                        errors={formik.errors.location?.locationLink}
                         formik={formik}
                       />
                     </div>
+
+
                   </div>
 
                   {/* ZS Gold & Classic */}
