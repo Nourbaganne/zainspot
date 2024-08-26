@@ -16,7 +16,7 @@ interface PerMonth {
   tax: number
 }
 
-@Entity('cities')
+@Entity()
 export class City extends BaseEntity{
   @PrimaryGeneratedColumn()
   id: number;

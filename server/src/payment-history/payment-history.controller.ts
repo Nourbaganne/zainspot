@@ -12,8 +12,8 @@ export class PaymentHistoryController {
   }
 
   @Get(':userId')
-  findAll(@Param('userId', ParseIntPipe) userId: number) {
-    return this.paymentHistoryService.findAll(userId);
+  findByUserId(@Param('userId', ParseIntPipe) userId: number) {
+    return this.paymentHistoryService.findOneByUserId(userId);
   }
 
   @Get('detail/:id')

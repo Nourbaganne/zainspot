@@ -9,14 +9,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { CitiesModule } from './cities/cities.module';
+import { CityModule } from './city/city.module';
 import { EmailModule } from './email/email.module';
 import { EmailConfirmationModule } from './email-confirmation/email-confirmation.module';
 import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
 import { PaymentHistoryModule } from './payment-history/payment-history.module';
 
-import { InvoicesModule } from './invoices/invoices.module';
+import { InvoiceModule } from './invoice/invoice.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { SubscriptionModule } from './subscription/subscription.module';
@@ -44,13 +44,13 @@ import { SubscriptionModule } from './subscription/subscription.module';
     TypeOrmModule.forRoot(dataSourceOptions),
     AuthModule,
     UserModule,
-    CitiesModule,
+    CityModule ,
     EmailModule,
     EmailConfirmationModule,
     RoleModule,
     PermissionModule,
     PaymentHistoryModule,
-    InvoicesModule,
+    InvoiceModule,
     SubscriptionModule,
   ],
   controllers: [AppController],

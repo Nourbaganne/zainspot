@@ -34,13 +34,14 @@ export class UserController {
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     try {
-      this.logger.log('Registering user');
       const user = await this.userService.register(createUserDto);
-      this.logger.log('User registered successfully');
       await this.emailConfirmationService.sendVerificationLink(
         createUserDto.email,
       );
-      return { message: 'Registration successful' };
+      return {
+        body: user,
+        message: 'Registration successful' 
+      };
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
@@ -49,9 +50,6 @@ export class UserController {
       }
     }
   }
-
-
-
 
   @Permissions({ action: 'read', subject: 'user' })
   @Get(':id')

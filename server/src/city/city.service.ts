@@ -8,7 +8,7 @@ import cloudinary from 'src/config/cloudinary.config';
 import { Pagination } from 'src/decorators/pagination-params.decorator';
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 @Injectable()
-export class CitiesService {
+export class CityService {
   constructor(
     @InjectRepository(City)
     private cityRepository: Repository<City>,

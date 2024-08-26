@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, BaseEntity } from 't
 import { User } from './user.entity';
 
 @Entity()
-export class Invoices extends BaseEntity{
+export class Invoice extends BaseEntity{
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -7,32 +7,32 @@ import {
   Body,
   Delete,
 } from '@nestjs/common';
-import { InvoicesService } from './invoices.service';
+import { InvoiceService } from './invoice.service';
 import { CreateInvoicesDto } from './dto/create-invoices';
 import { Public } from 'src/decorators/public.decorator';
 
 @Controller('invoices')
 export class InvoicesController {
-  constructor(private readonly invoicesService: InvoicesService) {}
+  constructor(private readonly invoiceService: InvoiceService) {}
 
   @Public()
   @Post()
   create(@Body() createPaymentHistoryDto: CreateInvoicesDto) {
-    return this.invoicesService.create(createPaymentHistoryDto);
+    return this.invoiceService.create(createPaymentHistoryDto);
   }
 
   @Get(':userId')
   findAll(@Param('userId', ParseIntPipe) userId: number) {
-    return this.invoicesService.findAll(userId);
+    return this.invoiceService.findAll(userId);
   }
 
   @Get('detail/:id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.invoicesService.findOne(id);
+    return this.invoiceService.findOne(id);
   }
 
   @Delete('remove/:id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.invoicesService.remove(id);
+    return this.invoiceService.remove(id);
   }
 }
