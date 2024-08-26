@@ -23,7 +23,7 @@ export class PaymentHistoryService {
     return PaymentHistory.save(paymentHistory);
   }
 
-  async findAll(userId: number): Promise<PaymentHistory[]> {
+  async findOneByUserId(userId: number): Promise<PaymentHistory[]> {
     return PaymentHistory.find({
       where: { user: { id: userId } },
     });
