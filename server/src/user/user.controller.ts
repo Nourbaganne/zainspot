@@ -7,6 +7,8 @@ import {
   Patch,
   Delete,
   Query,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -26,17 +28,30 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly emailConfirmationService: EmailConfirmationService,
-  ) {}
+  ) { }
 
   @Public()
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
-    const user = this.userService.register(createUserDto);
-    await this.emailConfirmationService.sendVerificationLink(
-      createUserDto.email,
-    );
-    return user;
+    try {
+      this.logger.log('Registering user');
+      const user = await this.userService.register(createUserDto);
+      this.logger.log('User registered successfully');
+      await this.emailConfirmationService.sendVerificationLink(
+        createUserDto.email,
+      );
+      return { message: 'Registration successful' };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      } else {
+        throw new HttpException('Registration failed', HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
   }
+
+
+
 
   @Permissions({ action: 'read', subject: 'user' })
   @Get(':id')
