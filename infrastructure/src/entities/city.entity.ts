@@ -30,7 +30,7 @@ export class City {
   hidden: boolean;
 
   @Column('json', { nullable: true })
-  location: { title: string; posx: NumericType; posy: NumericType };
+  location: { title: string; locationLink: string };
 
   @Column('text', { nullable: true })
   description: string;

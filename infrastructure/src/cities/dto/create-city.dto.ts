@@ -6,7 +6,6 @@ import {
   IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { NumericType } from 'typeorm';
 
 interface PerMonth {
   duration: number;
@@ -27,7 +26,7 @@ export class CreateCityDto {
   hidden: boolean;
 
   @IsNotEmpty()
-  location: { title: string; posx: NumericType; posy: NumericType };
+  location: { title: string; locationLink: string };
 
   @IsOptional()
   description: string;
