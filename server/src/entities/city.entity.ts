@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  NumericType,
   OneToMany,
   BaseEntity,
 } from 'typeorm';
