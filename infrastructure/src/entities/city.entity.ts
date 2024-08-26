@@ -35,6 +35,9 @@ export class City {
   @Column('text', { nullable: true })
   description: string;
 
+  @Column('text', { nullable: true })
+  catchphrase: string;
+
   @Column('json', { nullable: true })
   goldPrice: { value: number; tax: number };
 
