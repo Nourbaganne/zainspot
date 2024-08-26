@@ -21,6 +21,7 @@ export interface CityData {
         posy: number | null;
     };
     description: string;
+    catchphrase: string;
     goldPrice: {
         value: number | null;
         tax: number | null;
@@ -54,6 +55,7 @@ export const useAddCity = () => {
             formData.append('hidden', String(values.hidden));
             formData.append('location', JSON.stringify(values.location));
             formData.append('description', values.description);
+            formData.append('catchphrase', values.catchphrase);
             formData.append('goldPrice', JSON.stringify(values.goldPrice));
             formData.append('classicPrice', JSON.stringify(values.classicPrice));
             if (values.imageUrl) {
@@ -69,7 +71,7 @@ export const useAddCity = () => {
             return response.data;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['cities']});
+            queryClient.invalidateQueries({ queryKey: ['cities'] });
         },
         onError: (error: any) => {
             console.error("Error adding city:", error);
@@ -83,6 +85,7 @@ export const useAddCity = () => {
             hidden: false,
             location: { title: "", posx: null, posy: null },
             description: "",
+            catchphrase: "",
             goldPrice: { value: null, tax: null },
             classicPrice: defaultClassicPrice,
             imageUrl: null,
@@ -96,6 +99,7 @@ export const useAddCity = () => {
                 posy: Yup.number().required("PosY is required"),
             }),
             description: Yup.string().required("Description is required"),
+            catchphrase: Yup.string().required("Catch phrase is required"),
             goldPrice: Yup.object({
                 value: Yup.number().required("Gold price amount is required"),
                 tax: Yup.number().required("Gold price tax is required"),
@@ -106,6 +110,8 @@ export const useAddCity = () => {
             try {
                 await mutation.mutateAsync(values);
                 resetForm();
+
+
             } catch (error) {
                 console.error("Error adding city:", error);
             }

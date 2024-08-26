@@ -16,7 +16,8 @@ import Dialog from "../components/dialog";
 const Register = () => {
 
   const [isOpenDialog, setIsOpenDialog] = useState(false);
-  const formik = useRegisterForm({ setIsOpenDialog });
+  const [error, setError] = useState<string | null>();
+  const formik = useRegisterForm({ setIsOpenDialog, setError });
 
   return (
     <div className="md:grid md:grid-cols-2 pb-20 md:pb-56 pt-10 px-4 md:px-0">
@@ -358,7 +359,11 @@ const Register = () => {
             <Translation translationKey="register_submit_button" />
           </button>
         </form>
-
+          {
+            error && (
+              <h1 className="text-alert">{error}</h1>
+            )
+          }
         <p className="text-center">
           <Translation translationKey="registerpage_privacy_policy" />
           <span className="text-primary underline cursor-pointer hover:no-underline">

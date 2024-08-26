@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import axiosInstance from "./axios/axiosInstance";
 
-export const useRegisterForm = ({ setIsOpenDialog }: { setIsOpenDialog: (isOpen: boolean) => void; }) => {
+export const useRegisterForm = ({ setIsOpenDialog, setError }: { setIsOpenDialog: (isOpen: boolean) => void; setError: (error: string | null) => void; }) => {
   const router = useRouter();
 
   return useFormik({
@@ -71,12 +71,17 @@ export const useRegisterForm = ({ setIsOpenDialog }: { setIsOpenDialog: (isOpen:
           resetForm();
           setIsOpenDialog(true);
         }).catch((error) => {
-          console.log("error", error.message)
-        })
-
+          if (error.response && error.response.status === 409) {
+            setError('Email already exists');
+          } else if (error.response && error.response.data.message) {
+            setError(error.response.data.message);
+          } else {
+            setError('An unexpected error occurred during registration');
+          }
+        });
 
       } catch (error) {
-        console.error("Error submitting form:", error);
+        setError("Error submitting form:");
       }
     },
   });

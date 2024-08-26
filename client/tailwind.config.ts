@@ -26,7 +26,8 @@ const config: Config = {
         },
         text: {
           DEFAULT: '#131313',
-          foreground: '#535353'
+          foreground: '#535353',
+          base: '#1C1C1C'
         },
         secondary: {
           DEFAULT: '#23599D',
@@ -44,6 +45,7 @@ const config: Config = {
         button: {
           DEFAULT: '#C6C6C6',
           text: '#B0B0B0',
+          foreground:'#A8A8A8',
         },
         span: {
           DEFAULT: '#666666',
