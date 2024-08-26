@@ -1,0 +1,15 @@
+import { RoleService } from './role.service';
+import { CreateRoleDto } from './dto/create-role.dto';
+import { UpdateRoleDto } from './dto/update-role.dto';
+import { AddPermissionDto } from './dto/add-permission.dto';
+export declare class RoleController {
+    private readonly roleService;
+    constructor(roleService: RoleService);
+    create(createRoleDto: CreateRoleDto): Promise<import("../entities/role.entity").Role>;
+    addPermissionToRole(addPermissionDto: AddPermissionDto): Promise<import("../entities/role.entity").Role>;
+    findAll(): Promise<import("../entities/role.entity").Role[]>;
+    findOne(id: string): Promise<import("../entities/role.entity").Role>;
+    update(id: string, updateRoleDto: UpdateRoleDto): Promise<import("../entities/role.entity").Role>;
+    remove(id: string): Promise<void>;
+    removePermissionFromRole(roleId: number, permissionId: number): Promise<import("../entities/role.entity").Role>;
+}

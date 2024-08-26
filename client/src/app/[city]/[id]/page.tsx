@@ -71,7 +71,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
-            </p>
+          git   </p>
             <div className="flex flex-col gap-3 bg-white-700 mx-auto my-5 w-full h-[480px] rounded-lg overflow-hidden">
               <div className="flex gap-1 items-center">
                 <Image src={locationLogo} alt="location-logo" />
