@@ -22,7 +22,7 @@ const Register = () => {
   return (
     <div className="md:grid md:grid-cols-2 pb-20 md:pb-56 pt-10 px-4 md:px-0">
       <div className="hidden z-0 md:block">
-        <h1 className="text-3xl pb-4 font-bold text-text-foreground leading-snug">
+        <h1 className="text-3xl mb-4 mx-2 font-extrabold text-text-foreground leading-snug">
           <Translation translationKey="registerpage_title" />
         </h1>
         <Image
@@ -33,7 +33,7 @@ const Register = () => {
       </div>
 
       <div className="flex flex-col items-center gap-10 w-full md:pr-12 bg-background z-10">
-        <h1 className="text-2xl md:text-4xl font-bold text-primary leading-snug">
+        <h1 className="text-2xl md:text-4xl font-extrabold text-primary leading-snug mr-auto">
           <Translation translationKey="registerpage_header" />
         </h1>
         <form onSubmit={formik.handleSubmit} className="flex flex-col gap-10 w-full">
@@ -143,7 +143,7 @@ const Register = () => {
                 </select>
                 <label
                   htmlFor="businessType"
-                  className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
+                  className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white   
                     ${formik.values.businessType && !formik.errors.businessType ? 'text-primary' : formik.errors.businessType && formik.touched.businessType ? 'text-alert' : 'text-primary'} `}
                 >
                   <Translation translationKey="register_typeof_business_label" />

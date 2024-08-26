@@ -59,7 +59,7 @@ export function Input({
         )}
         <label
           htmlFor={name}
-          className={`absolute top-[-7px] left-3 pointer-events-none px-1 text-xs bg-white z-10 ${
+          className={`absolute top-[-7px] left-3 pointer-events-none px-1 text-xs bg-white z-0 ${
             value && errors ? 'text-alert' : 'text-primary'
           }`}
         >
