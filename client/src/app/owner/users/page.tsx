@@ -1,30 +1,32 @@
-"use client"
+"use client";
+
 import Breadcrumb from '@/app/zainspotter/components/breadcrumb';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import RoleCard from '../components/roleCard';
 import searchIcon from '@/app/assets/owner/users/search-outline.svg';
-import upButton from '@/app/assets/owner/users/Up.svg';
-import downButton from '@/app/assets/owner/users/Down.svg';
 import Image from 'next/image';
-import UserItem from '../components/userItem';
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import { AuthContext } from '@/app/contexts/authContext';
 import nextIcon from '@/app/assets/owner/users/chevron-forward.svg'
 import previousIcon from '@/app/assets/owner/users/chevron-back.svg'
+import Modal from '@/app/components/Modal';
+import UsersTable from '../components/UsersTable';
 
-
-interface User {
+interface Permission {
   id: number;
-  name: string;
-  middlename?: string;
-  lastName: string;
-  businessName: string;
-  email: string;
-  businessNumber: string;
-  subscriptions: { city: { city: string }, endDate: string }[];
-  role: { id: number; role: string };
+  resource: string;
+  action: string;
 }
+
+// Generate 10 Fake Permissions like "View Users", "Edit Users", etc.
+// Action is random: View, Edit, Delete, etc.
+const fakePermissions: Permission[] = Array.from({ length: 10 }, (_, i) => ({
+  id: i+1,
+  resource: ['Users', 'Subscriptions', 'Roles', 'Permissions', 'Cities', 'Countries', 'States', 'Businesses', 'Owners', 'Managers'][i],
+  action: ['View', 'Edit', 'Delete', 'Create'][Math.floor(Math.random() * 4)],
+}));
+
 
 const Users = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('');
@@ -33,6 +35,10 @@ const Users = () => {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { user } = useContext(AuthContext);
+
+  const [permissions, setPermissions] = useState<Permission[]>(fakePermissions);
+
+  const rolesModalRef = useRef<any>(null);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -49,13 +55,7 @@ const Users = () => {
     { label: "users" },
   ];
 
-  const USERS_LIST_HEADER = [
-    { title: 'User', hasFiltering: true },
-    { title: 'Email & Number', hasFiltering: false },
-    { title: 'Subscriptions', hasFiltering: false },
-    { title: 'Renewals', hasFiltering: true },
-    { title: 'Role', hasFiltering: false },
-  ];
+  
 
 
   const FILTERING_TYPE = [
@@ -109,6 +109,10 @@ const Users = () => {
     return pageNumbers;
   };
 
+  function createRole() {
+    alert('submit role');
+  }
+
   const checkIncreasment = (value: number) => value >= 0;
 
   const USERS_HEADER_DATA = [
@@ -117,47 +121,81 @@ const Users = () => {
     { title: 'Managers', value: managersCount, editPermissions: true, stats: { increase: checkIncreasment(data?.data.percentageChange.manager), percentage: Math.abs(data?.data.percentageChange.manager) } },
   ];
 
+  console.log('permissions', permissions);
+
   return (
     <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
       <Breadcrumb items={breadcrumbItems} />
+
+      <Modal ref={rolesModalRef} title="Create New Role"
+        subtitle='Create a new role, give it a name, and check its permissions.'
+        onButtonClick={createRole}
+        buttonText='Create Role'
+      >
+        <>
+            <div className='form-group'>
+              <label htmlFor="roleName" className='text-sm font-medium !text-gray-400'>Role Name</label>
+              <input type="text" name="roleName" id="roleName" className='form-control' />
+            </div>
+          <div className='mt-6'>
+            <h1 className='text-gray-400 font-medium'>Permissions</h1>
+            <div className='mt-2 grid gap-3 grid-cols-1 md:grid-cols-2'>
+              {permissions.map((p) =>
+                <div key={p.id} className='flex items-center gap-2'>
+                  <input type="checkbox" name={'selectPermission'+p.id} id={'selectPermission'+p.id} className='form-control' />
+                  <label htmlFor={'selectPermission'+p.id}>{p.action} {p.resource}</label>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      </Modal>
+
       <div className='grid gap-x-8 gap-y-4 grid-cols-1 md:grid-cols-3'>
         {USERS_HEADER_DATA.map((data, index) => (
           <RoleCard key={index} title={data?.title} value={data?.value} editPermissions={data?.editPermissions} stats={data?.stats} />
         ))}
       </div>
-      <div className='flex flex-col pt-5 gap-10'>
-        <h1 className='flex gap-2 font-semibold text-xl'>
-          All Users <span className='font-normal'>({data?.data.totalItems ?? 0})</span>
+      <div className='w-full'>
+        <h1 className='text-2xl'>
+          <span className='font-bold'>All Users</span> <span className='font-light'>({data?.data.totalItems ?? 0})</span>
         </h1>
-        <div className='flex justify-between items-center'>
+        {/* Filters */}
+        <div className='mt-4 flex justify-between items-center'>
           <div className='bg-span-background flex text-span-foreground rounded-md p-1 w-fit gap-2'>
             <div className='flex gap-2 md:font-semibold whitespace-nowrap md:whitespace-normal max-w-56 md:max-w-none overflow-x-auto'>
               {FILTERING_TYPE.map((filter, index) => (
                 <div
                   key={index}
-                  className={`px-2 py-1 rounded-md cursor-pointer ${selectedFilter === filter.value ? 'bg-background text-text' : ''}`}
+                  className={`px-2 py-2 rounded-md cursor-pointer ${selectedFilter === filter.value ? 'bg-background text-text' : ''}`}
                   onClick={() => setSelectedFilter(filter.value)}
                 >
                   {filter.title}
                 </div>
               ))}
             </div>
-            <button className='border-l border-l-button text-xl px-2' type="button">
+            <button
+              className='border-l border-gray-300 text-xl px-4' 
+              type="button"
+              onClick={()=>{rolesModalRef.current.open(true)}}
+            >
               +
             </button>
           </div>
 
           <div className='flex gap-5 items-center'>
+            {/* Search Input */}
             <div className='flex bg-background gap-2 items-center p-1 text-span border border-button rounded-md'>
-              <Image src={searchIcon} alt='search-user' />
+              <Image src={searchIcon} alt='Search icon' className='ml-2 opacity-50' />
               <input
                 type="search"
                 value={searchUser}
                 onChange={(e) => setSearchUser(e.target.value)}
                 placeholder="Search User"
-                className="w-80 outline-none border-none"
+                className="w-80 outline-none border-none px-0 focus:border-none focus:outline-none focus:ring-0"
               />
             </div>
+            {/* Action Buttons */}
             <div>
               {selectedUsers.length > 0 ? (
                 <div className='flex gap-3 text-xs font-semibold'>
@@ -175,50 +213,13 @@ const Users = () => {
             </div>
           </div>
         </div>
-        <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
-          <div className='flex items-center  border-b-2 text-span pb-4 pt-6   pl-4'>
-            <input type="checkbox" name="" id="" />
-            <div className='grid grid-cols-5 text-sm  w-full  pl-2'>
-              {USERS_LIST_HEADER.map((item, index) => (
-                <div key={index} className={`${item.hasFiltering && 'flex items-center gap-2'}`}>
-                  {item.hasFiltering && (
-                    <div className='flex flex-col gap-1'>
-                      <button>
-                        <Image src={upButton} alt='up-users' />
-                      </button>
-                      <button>
-                        <Image src={downButton} alt='down-users' />
-                      </button>
-                    </div>
-                  )}
-                  {item.title}
-                </div>
-              ))}
-            </div>
-          </div>
-          {data?.data.items.length > 0 ? (
-            <>
-              {data?.data.items.map((user: User, index: number) => (
-                <UserItem
-                  key={index}
-                  id={user?.id}
-                  user={{ name: `${user.name} ${user?.middlename ?? ''} ${user.lastName ?? ''}`.trim(), desc: user.businessName }}
-                  contact={{ email: user.email, phoneNumber: user.businessNumber }}
-                  subscriptions={user.subscriptions.length > 0 ? user.subscriptions.map(sub => sub.city.city) : null}
-                  renewals={user.subscriptions.length > 0 ? { upcoming: new Date(user.subscriptions[0].endDate) > new Date(), date: new Date(user.subscriptions[0].endDate).toLocaleDateString() } : { upcoming: false, date: 'N/A' }}
-                  role={user?.role.role}
-                  setSelectedUsers={handleSelectUser}
-                  isSelected={selectedUsers.includes(user.email)}
-                />
-              ))}
-            </>
-          ) : (
-            <div>No users found</div>
-          )}
-        </div>
 
+        {/* Table */}
+        <UsersTable users={data?.data.items} />
+
+        {/* Pagination */}
         {!searchUser && (
-          <div className='flex justify-end gap-4'>
+          <div className='mt-6 flex justify-end gap-4'>
             <button
               className={`px-4 py-3 text-sm flex items-center gap-3 rounded-lg text-span`}
               disabled={currentPage === 1}
