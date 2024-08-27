@@ -10,7 +10,7 @@ export class RoleService {
 
   async create(createRoleDto: CreateRoleDto): Promise<Role> {
     const newRole = Role.create({
-      role: createRoleDto.role,
+      name: createRoleDto.name,
       permissions: createRoleDto.permissions,
     });
     return Role.save(newRole);

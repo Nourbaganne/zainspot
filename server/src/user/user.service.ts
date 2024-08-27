@@ -1,4 +1,9 @@
-import {  HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '../entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -10,7 +15,6 @@ import {
   getEndOfPreviousMonth,
   getStartOfPreviousMonth,
 } from 'src/utils/date-utils';
-
 
 type RoleCounts = {
   zainspotter: number;
@@ -26,7 +30,7 @@ type PercentageChange = {
 
 @Injectable()
 export class UserService {
-  constructor() { }
+  constructor() {}
 
   async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt(8);
@@ -35,9 +39,11 @@ export class UserService {
 
   async register(createUserDto: CreateUserDto): Promise<User> {
     const hashedPassword = await this.hashPassword(createUserDto.password);
-    const defaultRole = await Role.findOne({ where: { role: 'zainspotter' } });
+    const defaultRole = await Role.findOne({ where: { name: 'zainspotter' } });
 
-    const existEmail = await User.findOne({ where: { email: createUserDto.email } });
+    const existEmail = await User.findOne({
+      where: { email: createUserDto.email },
+    });
     if (existEmail) {
       throw new HttpException('Email already exists!', HttpStatus.BAD_REQUEST);
     }
@@ -55,7 +61,6 @@ export class UserService {
     return user;
   }
 
-
   async findAll(
     { page, limit = 1 }: Pagination,
     name?: string,
@@ -68,7 +73,7 @@ export class UserService {
       .leftJoinAndSelect('subscriptions.city', 'city');
 
     if (filter) {
-      queryBuilder = queryBuilder.andWhere('role.role LIKE :filter', {
+      queryBuilder = queryBuilder.andWhere('role.name LIKE :filter', {
         filter: `%${filter}%`,
       });
     }
@@ -123,10 +128,10 @@ export class UserService {
 
   async getRoleCounts(): Promise<RoleCounts> {
     const roleCounts = await User.createQueryBuilder('user')
-      .select('role.role AS role')
+      .select('role.name AS role')
       .addSelect('COUNT(user.id) AS count')
       .leftJoin('user.role', 'role')
-      .groupBy('role.role')
+      .groupBy('role.name')
       .getRawMany();
 
     const counts: RoleCounts = {
@@ -150,14 +155,14 @@ export class UserService {
     const previousMonthEnd = getEndOfPreviousMonth();
 
     const previousRoleCounts = await User.createQueryBuilder('user')
-      .select('role.role AS role')
+      .select('role.name AS role')
       .addSelect('COUNT(user.id) AS count')
       .leftJoin('user.role', 'role')
       .where('user.createdAt BETWEEN :start AND :end', {
         start: previousMonthStart,
         end: previousMonthEnd,
       })
-      .groupBy('role.role')
+      .groupBy('role.name')
       .getRawMany();
     const previousCounts: RoleCounts = {
       zainspotter: 0,
@@ -302,4 +307,3 @@ export class UserService {
     });
   }
 }
-

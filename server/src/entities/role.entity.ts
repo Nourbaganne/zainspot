@@ -14,7 +14,7 @@ export class Role extends BaseEntity {
   id: number;
 
   @Column()
-  role: string;
+  name: string;
 
   @ManyToMany(() => Permission, { cascade: true })
   @JoinTable({

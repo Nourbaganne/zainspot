@@ -12,17 +12,17 @@ import { Subscription } from './subscription.entity';
 interface PerMonth {
   duration: number;
   amount: number;
-  tax: number
+  tax: number;
 }
 
 @Entity()
-export class City extends BaseEntity{
+export class City extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   city: string;
-  
+
   @Column()
   country: string;
 
