@@ -4,6 +4,7 @@ import arrowRight from '@/app/assets/owner/arrow-right.svg'
 import Image from 'next/image'
 import increase from '@/app/assets/owner/users/increase.svg'
 import decrease from '@/app/assets/owner/users/decrease.svg'
+import { FiArrowUp } from 'react-icons/fi'
 
 interface RoleCardProps {
   title: string;
@@ -34,17 +35,15 @@ const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
           {value.toLocaleString()}
         </p>
         <div className='flex flex-col gap-1'>
-          <div className={`flex items-center p-1 gap-1 rounded-md text-sm ${stats.increase ? 'bg-secondary-foreground text-primary-dark' : 'bg-opacity-25 bg-alert text-alert-dark'}`}>
-            <div>
-              <Image src={stats.increase ? increase : decrease} alt={stats.increase ? 'increase' : 'decrease'} />
-            </div>
-            <p>
+          <div className={`badge flex items-center justify-center ${stats.increase ? 'badge-success' : 'badge-danger'}`}>
+            <FiArrowUp className='mr-1' />
+            <span>
               {stats.percentage}%
-            </p>
+            </span>
           </div>
-          <p className='text-span text-xs font-light'>
+          <div className='text-span text-xs font-light'>
             vs. last month
-          </p>
+          </div>
         </div>
       </div>
     </div>

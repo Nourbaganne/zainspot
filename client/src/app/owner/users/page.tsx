@@ -12,6 +12,8 @@ import axiosInstance from '@/app/lib/axios/axiosInstance';
 import { AuthContext } from '@/app/contexts/authContext';
 import nextIcon from '@/app/assets/owner/users/chevron-forward.svg'
 import previousIcon from '@/app/assets/owner/users/chevron-back.svg'
+import detailsButton from '@/app/assets/owner/users/arrow-right.svg'
+import Link from 'next/link';
 
 
 interface User {
@@ -125,39 +127,42 @@ const Users = () => {
           <RoleCard key={index} title={data?.title} value={data?.value} editPermissions={data?.editPermissions} stats={data?.stats} />
         ))}
       </div>
-      <div className='flex flex-col pt-5 gap-10'>
-        <h1 className='flex gap-2 font-semibold text-xl'>
-          All Users <span className='font-normal'>({data?.data.totalItems ?? 0})</span>
+      <div className='w-full'>
+        <h1 className='text-2xl'>
+          <span className='font-bold'>All Users</span> <span className='font-light'>({data?.data.totalItems ?? 0})</span>
         </h1>
-        <div className='flex justify-between items-center'>
+        {/* Filters */}
+        <div className='mt-4 flex justify-between items-center'>
           <div className='bg-span-background flex text-span-foreground rounded-md p-1 w-fit gap-2'>
             <div className='flex gap-2 md:font-semibold whitespace-nowrap md:whitespace-normal max-w-56 md:max-w-none overflow-x-auto'>
               {FILTERING_TYPE.map((filter, index) => (
                 <div
                   key={index}
-                  className={`px-2 py-1 rounded-md cursor-pointer ${selectedFilter === filter.value ? 'bg-background text-text' : ''}`}
+                  className={`px-2 py-2 rounded-md cursor-pointer ${selectedFilter === filter.value ? 'bg-background text-text' : ''}`}
                   onClick={() => setSelectedFilter(filter.value)}
                 >
                   {filter.title}
                 </div>
               ))}
             </div>
-            <button className='border-l border-l-button text-xl px-2' type="button">
+            <button className='border-l border-gray-300 text-xl px-4' type="button">
               +
             </button>
           </div>
 
           <div className='flex gap-5 items-center'>
+            {/* Search Input */}
             <div className='flex bg-background gap-2 items-center p-1 text-span border border-button rounded-md'>
-              <Image src={searchIcon} alt='search-user' />
+              <Image src={searchIcon} alt='Search icon' className='ml-2 opacity-50' />
               <input
                 type="search"
                 value={searchUser}
                 onChange={(e) => setSearchUser(e.target.value)}
                 placeholder="Search User"
-                className="w-80 outline-none border-none"
+                className="w-80 outline-none border-none px-0 focus:border-none focus:outline-none focus:ring-0"
               />
             </div>
+            {/* Action Buttons */}
             <div>
               {selectedUsers.length > 0 ? (
                 <div className='flex gap-3 text-xs font-semibold'>
@@ -175,50 +180,95 @@ const Users = () => {
             </div>
           </div>
         </div>
-        <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
-          <div className='flex items-center  border-b-2 text-span pb-4 pt-6   pl-4'>
-            <input type="checkbox" name="" id="" />
-            <div className='grid grid-cols-5 text-sm  w-full  pl-2'>
-              {USERS_LIST_HEADER.map((item, index) => (
-                <div key={index} className={`${item.hasFiltering && 'flex items-center gap-2'}`}>
-                  {item.hasFiltering && (
-                    <div className='flex flex-col gap-1'>
-                      <button>
-                        <Image src={upButton} alt='up-users' />
-                      </button>
-                      <button>
-                        <Image src={downButton} alt='down-users' />
-                      </button>
-                    </div>
-                  )}
-                  {item.title}
-                </div>
-              ))}
-            </div>
-          </div>
-          {data?.data.items.length > 0 ? (
-            <>
-              {data?.data.items.map((user: User, index: number) => (
-                <UserItem
-                  key={index}
-                  id={user?.id}
-                  user={{ name: `${user.name} ${user?.middlename ?? ''} ${user.lastName ?? ''}`.trim(), desc: user.businessName }}
-                  contact={{ email: user.email, phoneNumber: user.businessNumber }}
-                  subscriptions={user.subscriptions.length > 0 ? user.subscriptions.map(sub => sub.city.city) : null}
-                  renewals={user.subscriptions.length > 0 ? { upcoming: new Date(user.subscriptions[0].endDate) > new Date(), date: new Date(user.subscriptions[0].endDate).toLocaleDateString() } : { upcoming: false, date: 'N/A' }}
-                  role={user?.role.role}
-                  setSelectedUsers={handleSelectUser}
-                  isSelected={selectedUsers.includes(user.email)}
-                />
-              ))}
-            </>
-          ) : (
-            <div>No users found</div>
-          )}
-        </div>
 
+        {/* Table */}
+        <table className='mt-6 bg-background border rounded-lg w-full overflow-hidden'>
+          {/* Table Header */}
+          <tr className='text-span border-b'>
+            <th>
+              <div className="flex-center">
+                <input type="checkbox" name="selectAllUsers" id="selectAllUsers" className='m-0 p-0 rounded-sm' />
+              </div>
+            </th>
+            {USERS_LIST_HEADER.map((item, index) => (
+              <td key={index} className={`${item.hasFiltering && 'flex items-center gap-2'} text-left p-4`}>
+                {item.hasFiltering && (
+                  <div className='flex flex-col gap-1'>
+                    <button>
+                      <Image src={upButton} alt='up-users' />
+                    </button>
+                    <button>
+                      <Image src={downButton} alt='down-users' />
+                    </button>
+                  </div>
+                )}
+                <span>{item.title}</span>
+              </td>
+            ))}
+          </tr>
+          {/* Table Data */}
+          {data?.data.items.length > 0 && data?.data.items.map((user: User, index: number) => (
+            <tr className='border-t' key={index}>
+              <td className='p-4'>
+                <div className='flex-center'>
+                  <input
+                    type="checkbox"
+                    checked={true}
+                    onChange={() => {}}
+                    className='accent-primary rounded-sm'
+                  />
+                </div>
+              </td>
+              <td className='p-4'>
+                <span>{user.name}</span>
+              </td>
+              <td className='p-4'>
+                <div><span>{user.email}</span></div>
+                <div><span>{user.businessNumber}</span></div>
+              </td>
+              <td className='p-4'>
+                {user.subscriptions ? (
+                  <div className='flex gap-1'>
+                    {user.subscriptions.map((sub, index) => (
+                      <h1 key={index} className='bg-background-foreground rounded-md text-text font-light py-1 px-2 text-md'>
+                        {sub.endDate}
+                      </h1>))}
+                  </div>):(
+                  <p className='text-md text-text font-light'>
+                    N/A
+                  </p>
+                )}
+                {user.subscriptions.length==0 && <span>N/A</span>}
+              </td>
+              <td className={`p-4 flex gap-1 ${false ? 'text-primary' : 'text-alert-dark'}`}>
+                <h1 className='font-semibold'>
+                  Failed
+                </h1>
+                <span className='font-light'>
+                  (N/A)
+                </span>
+              </td>
+              <td className='p-4'>
+                <select name="selectRole" id="selectRole" className=' bg-background-foreground border-none rounded-md'>
+                  <option value="owner">Owner</option>
+                  <option value="admin">Admin</option>
+                  <option value="zainspotter">Zainspotter</option>
+                </select>
+              </td>
+              <td className='p-4'>
+                <Link href={`/owner/users/${user.id}`} className='flex text-secondary gap-2 text-xs font-semibold hover:underline ml-auto'>
+                  <span>Details</span>
+                  <Image src={detailsButton} alt='details-button' />
+                </Link>
+              </td>
+            </tr>
+          ))}
+          {data?.data.items.length == 0 && <div>No users found</div>}
+        </table>
+
+        {/* Pagination */}
         {!searchUser && (
-          <div className='flex justify-end gap-4'>
+          <div className='mt-6 flex justify-end gap-4'>
             <button
               className={`px-4 py-3 text-sm flex items-center gap-3 rounded-lg text-span`}
               disabled={currentPage === 1}
