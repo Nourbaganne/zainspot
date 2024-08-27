@@ -67,7 +67,7 @@ const Locations = () => {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['cities', currentPage, debouncedSearchCity],
-    queryFn: () => axiosInstance.get(`/cities?page=${currentPage}&name=${debouncedSearchCity}`),
+    queryFn: () => axiosInstance.get(`/city?page=${currentPage}&name=${debouncedSearchCity}`),
   });
 
   if (isLoading) return <h1>Loading ...</h1>;

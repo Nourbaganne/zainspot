@@ -9,7 +9,7 @@ export const useHideCity = () => {
   
     return useMutation({
       mutationFn: (id: number) => {
-        return axiosInstance.patch(`/cities/${id}/hide`, null, {
+        return axiosInstance.patch(`/city/${id}/hide`, null, {
           headers: {
             Authorization: `Bearer ${user?.access_token}`,
           },

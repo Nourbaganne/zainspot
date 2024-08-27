@@ -61,7 +61,7 @@ export const useAddCity = () => {
                 formData.append('imageUrl', values.imageUrl);
             }
 
-            const response = await axiosInstance.post("/cities", formData, {
+            const response = await axiosInstance.post("/city", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${user?.access_token}`,
