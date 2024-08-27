@@ -79,16 +79,6 @@ const Users = () => {
 	const adminsCount = data?.data.counts.admin || 0;
 	const managersCount = data?.data.counts.manager || 0;
 
-	const handleSelectUser = (userEmail: string) => {
-		setSelectedUsers((prevSelectedUsers) => {
-			if (prevSelectedUsers.includes(userEmail)) {
-				return prevSelectedUsers.filter((email) => email !== userEmail);
-			} else {
-				return [...prevSelectedUsers, userEmail];
-			}
-		});
-	};
-
 	const generatePageNumbers = () => {
 		const totalPages = data?.data.totalPages || 1;
 		const maxButtons = 5;
@@ -105,10 +95,6 @@ const Users = () => {
 
 		return pageNumbers;
 	};
-
-	function createRole() {
-		alert('submit role');
-	}
 
 	const checkIncreasment = (value: number) => value >= 0;
 
@@ -268,7 +254,12 @@ const Users = () => {
 				</div>
 
 				{/* Table */}
-				<UsersTable users={data?.data.items} roles={roles} />
+				<UsersTable
+					users={data?.data.items}
+					roles={roles}
+					selectedUsers={selectedUsers}
+					setSelectedUsers={setSelectedUsers}
+				/>
 
 				{/* Pagination */}
 				{!searchUser && (

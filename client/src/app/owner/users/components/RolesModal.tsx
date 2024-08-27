@@ -74,6 +74,7 @@ const RolesModal = ({ rolesModalRef, roles }: Props) => {
 						name='roleName'
 						id='roleName'
 						className='form-control'
+						placeholder='e.g Admin'
 						value={newRoleName}
 						onChange={(e) => setNewRoleName(e.target.value)}
 					/>

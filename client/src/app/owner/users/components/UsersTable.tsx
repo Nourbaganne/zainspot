@@ -20,8 +20,27 @@ const USERS_LIST_HEADER = [
 interface Props {
 	users: User[];
 	roles: Role[];
+	selectedUsers: string[];
+	setSelectedUsers: (
+		selectedUsers: string[] | ((prevSelectedUsers: string[]) => string[]),
+	) => void;
 }
-const UsersTable = ({ users, roles }: Props) => {
+const UsersTable = ({
+	users,
+	roles,
+	selectedUsers,
+	setSelectedUsers,
+}: Props) => {
+	const handleSelectUser = (userEmail: string) => {
+		setSelectedUsers((prevSelectedUsers: string[]) => {
+			if (prevSelectedUsers.includes(userEmail)) {
+				return prevSelectedUsers.filter((email: string) => email !== userEmail);
+			} else {
+				return [...prevSelectedUsers, userEmail];
+			}
+		});
+	};
+
 	return (
 		<table className='mt-6 bg-background border rounded-lg w-full overflow-hidden'>
 			{/* Table Header */}
@@ -65,8 +84,8 @@ const UsersTable = ({ users, roles }: Props) => {
 							<div className='flex-center'>
 								<input
 									type='checkbox'
-									checked={true}
-									onChange={() => {}}
+									checked={selectedUsers.includes(user.email)}
+									onChange={() => handleSelectUser(user.email)}
 									className='accent-primary rounded-sm'
 								/>
 							</div>
@@ -111,7 +130,8 @@ const UsersTable = ({ users, roles }: Props) => {
 								{roles.map((role) => {
 									return (
 										<option key={role.id} value={role.id}>
-											{role.name}
+											{/* Capitalize role name */}
+											{role.name.charAt(0).toUpperCase() + role.name.slice(1)}
 										</option>
 									);
 								})}

@@ -34,7 +34,7 @@ const Modal = forwardRef(
 		}: Props,
 		ref: any,
 	) => {
-		const [open, setOpen] = useState(true);
+		const [open, setOpen] = useState(false);
 
 		useImperativeHandle(ref, () => ({
 			open() {
