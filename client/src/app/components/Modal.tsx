@@ -36,12 +36,12 @@ const Modal = forwardRef(({children, title, subtitle, buttonText, buttonColor, o
             className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-2xl data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
           >
             {/* Modal Header */}
-						<div className="flex items-start justify-between px-4 sm:px-6 py-4">
+						<div className="flex items-start justify-between px-4 sm:px-6 py-4 border-b border-gray-100">
 							{title && <div>
 								<DialogTitle className="text-lg font-medium text-gray-900">
-									Create New Role
+									{title}
 								</DialogTitle>
-								{subtitle && <p className='text-sm text-gray-400 mt-2'>Create a new role, give it a name, and check its permissions.</p>}
+								{subtitle && <p className='text-sm text-gray-400 mt-1'>{subtitle}</p>}
 							</div>}
 							
 							<button
@@ -52,11 +52,18 @@ const Modal = forwardRef(({children, title, subtitle, buttonText, buttonColor, o
 							</button>
 						</div>
 						{/* Modal Content */}
-						<div className='px-4 sm:px-6 py-3'>
+						<div className='px-4 sm:px-6 py-4'>
 							{children}
 						</div>
 						{/* Action Buttons */}
-            {onButtonClick && <div className="bg-gray-50 px-4 sm:px-6 py-3 flex justify-end gap-2">
+            {onButtonClick && <div className="bg-gray-50 px-4 sm:px-6 py-3 flex flex-row-reverse gap-2">
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="btn btn-primary"
+              >
+                {buttonText || 'Submit'}
+              </button>
               <button
                 type="button"
                 data-autofocus
@@ -64,13 +71,6 @@ const Modal = forwardRef(({children, title, subtitle, buttonText, buttonColor, o
                 className="btn btn-outline-gray"
               >
                 Dismiss
-              </button>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="btn btn-primary"
-              >
-                Create Role
               </button>
             </div>}
           </DialogPanel>

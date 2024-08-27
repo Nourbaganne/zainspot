@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import Breadcrumb from '@/app/zainspotter/components/breadcrumb';
 import React, { createRef, useContext, useEffect, useRef, useState } from 'react';
 import RoleCard from '../components/roleCard';
@@ -15,6 +16,7 @@ import detailsButton from '@/app/assets/owner/users/arrow-right.svg'
 import Link from 'next/link';
 import { FaPlus } from 'react-icons/fa';
 import Modal from '@/app/components/Modal';
+import { permission } from 'process';
 
 
 interface User {
@@ -29,6 +31,21 @@ interface User {
   role: { id: number; role: string };
 }
 
+interface Permission {
+  id: number;
+  resource: string;
+  action: string;
+}
+
+// Generate 10 Fake Permissions like "View Users", "Edit Users", etc.
+// Action is random: View, Edit, Delete, etc.
+const fakePermissions: Permission[] = Array.from({ length: 10 }, (_, i) => ({
+  id: i+1,
+  resource: ['Users', 'Subscriptions', 'Roles', 'Permissions', 'Cities', 'Countries', 'States', 'Businesses', 'Owners', 'Managers'][i],
+  action: ['View', 'Edit', 'Delete', 'Create'][Math.floor(Math.random() * 4)],
+}));
+
+
 const Users = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('');
   const [searchUser, setSearchUser] = useState<string>('');
@@ -36,6 +53,8 @@ const Users = () => {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { user } = useContext(AuthContext);
+
+  const [permissions, setPermissions] = useState<Permission[]>(fakePermissions);
 
   const rolesModalRef = useRef(null);
 
@@ -114,6 +133,10 @@ const Users = () => {
     return pageNumbers;
   };
 
+  function createRole() {
+    alert('submit role');
+  }
+
   const checkIncreasment = (value: number) => value >= 0;
 
   const USERS_HEADER_DATA = [
@@ -122,11 +145,35 @@ const Users = () => {
     { title: 'Managers', value: managersCount, editPermissions: true, stats: { increase: checkIncreasment(data?.data.percentageChange.manager), percentage: Math.abs(data?.data.percentageChange.manager) } },
   ];
 
+  console.log('permissions', permissions);
+
   return (
     <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
       <Breadcrumb items={breadcrumbItems} />
 
-      <Modal ref={rolesModalRef} />
+      <Modal ref={rolesModalRef} title="Create New Role"
+        subtitle='Create a new role, give it a name, and check its permissions.'
+        onButtonClick={createRole}
+        buttonText='Create Role'
+      >
+        <>
+            <div className='form-group'>
+              <label htmlFor="roleName" className='text-sm font-medium !text-gray-400'>Role Name</label>
+              <input type="text" name="roleName" id="roleName" className='form-control' />
+            </div>
+          <div className='mt-6'>
+            <h1 className='text-gray-400 font-medium'>Permissions</h1>
+            <div className='mt-2 grid gap-3 grid-cols-1 md:grid-cols-2'>
+              {permissions.map((p) =>
+                <div key={p.id} className='flex items-center gap-2'>
+                  <input type="checkbox" name={'selectPermission'+p.id} id={'selectPermission'+p.id} className='form-control' />
+                  <label htmlFor={'selectPermission'+p.id}>{p.action} {p.resource}</label>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
+      </Modal>
 
       <div className='grid gap-x-8 gap-y-4 grid-cols-1 md:grid-cols-3'>
         {USERS_HEADER_DATA.map((data, index) => (
