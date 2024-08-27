@@ -6,6 +6,7 @@ import upButton from '@/app/assets/owner/users/Up.svg';
 import downButton from '@/app/assets/owner/users/Down.svg';
 import Link from 'next/link';
 import User from '@/app/interfaces/User';
+import Role from '@/app/interfaces/Role';
 
 
 const USERS_LIST_HEADER = [
@@ -18,9 +19,10 @@ const USERS_LIST_HEADER = [
 ];
 
 interface Props {
-	users: Array<any>;
+	users: User[];
+	roles: Role[];
 }
-const UsersTable = ({users}: Props)=>{
+const UsersTable = ({users, roles}: Props)=>{
 	return <table className='mt-6 bg-background border rounded-lg w-full overflow-hidden'>
 	{/* Table Header */}
 	<tr className='text-span border-b'>
@@ -85,6 +87,7 @@ const UsersTable = ({users}: Props)=>{
 			</td>
 			<td className='p-4'>
 				<select name="selectRole" id="selectRole" className=' bg-background-foreground border-none rounded-md'>
+					{/* TODO: get roles from the server */}
 					<option value="owner">Owner</option>
 					<option value="admin">Admin</option>
 					<option value="zainspotter">Zainspotter</option>

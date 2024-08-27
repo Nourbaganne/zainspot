@@ -28,16 +28,17 @@ export class AuthService {
   async validateUser(authLoginDto: AuthLoginDto) {
     const { email, password } = authLoginDto;
 
-    const visitor = await this.userService.findByEmail(email);
-    if (!visitor) {
+    const user = await this.userService.findByEmail(email);
+    if (!user) {
       throw new UnauthorizedException();
     }
-    if (!(await visitor?.validatePassword(password))) {
+    if (!(await user?.validatePassword(password))) {
       throw new UnauthorizedException();
     }
 
-    delete visitor.password;
+    delete user.password;
 
-    return visitor;
+    console.log('user', user);
+    return user;
   }
 }
