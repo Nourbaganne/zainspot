@@ -24,7 +24,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["city", params.id],
-    queryFn: () => axiosInstance.get(`/cities/${params.id}`),
+    queryFn: () => axiosInstance.get(`/city/${params.id}`),
   });
 
   if (isLoading) {
@@ -77,7 +77,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
                 <Image src={locationLogo} alt="location-logo" />
                 <h1>{city?.location?.title}</h1>
               </div>
-              {/* <Map address={city?.location?.title} /> */}
+              <Map address={city?.location?.locationLink} />
 
             </div>
           </div>

@@ -8,7 +8,7 @@ export const useDeleteCity = () => {
   const { user } = useContext(AuthContext);
 
   return useMutation({
-    mutationFn: (id: number) => axiosInstance.delete(`/cities/${id}`, {
+    mutationFn: (id: number) => axiosInstance.delete(`/city/${id}`, {
         headers: {
             Authorization: `Bearer ${user?.access_token}`,
         }
