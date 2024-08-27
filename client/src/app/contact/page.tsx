@@ -11,6 +11,7 @@ export default function ContactPage() {
 		initialValues: {
 			firstName: '',
 			lastName: '',
+			email: '',
 			subject: '',
 			message: '',
 		},
@@ -75,6 +76,20 @@ export default function ContactPage() {
 								placeholderValue='John'
 							/>
 						</div>
+						{/* Email Address */}
+						<div className='col-span-2'>
+							<Input
+								type='email'
+								labelKey='register_email_label'
+								value={formik.values.email}
+								name='email'
+								handleChange={formik.handleChange}
+								touched={formik.touched.email}
+								errors={formik.errors.email}
+								formik={formik}
+								placeholderValue='johndoe@example.com'
+							/>
+						</div>
 						{/* Subjct */}
 						<div className='col-span-2'>
 							<Input
@@ -124,7 +139,7 @@ export default function ContactPage() {
 							<h3 className='text-lg font-semibold'>Our Email</h3>
 							<div className='mt-1 flex items-center gap-2 text-gray-700'>
 								<FiMail className='h-5 w-5' />
-								<span className='underline'>example@mail.com</span>
+								<span className='underline font-medium'>example@mail.com</span>
 							</div>
 						</div>
 						<div className='mt-6'>
@@ -134,7 +149,7 @@ export default function ContactPage() {
 							</p>
 							<div className='mt-2 flex items-center gap-2 text-gray-700'>
 								<FiPhone className='h-5 w-5' />
-								<span className='underline'>+1 555 555 5555</span>
+								<span className='underline font-medium'>+1 555 555 5555</span>
 							</div>
 						</div>
 						{/* Vist Us section */}
@@ -145,7 +160,7 @@ export default function ContactPage() {
 							</p>
 							<div className='mt-2 flex items-center gap-2 text-gray-700'>
 								<FiMapPin className='h-5 w-5' />
-								<span className='underline'>
+								<span className='underline font-medium'>
 									6th street, somewhere, Country 65434
 								</span>
 							</div>
