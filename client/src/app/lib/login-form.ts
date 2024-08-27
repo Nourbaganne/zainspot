@@ -1,42 +1,44 @@
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import axios, { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
-import { useAuth } from "../contexts/useAuth";
-import axiosInstance from "./axios/axiosInstance";
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import axios, { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../contexts/useAuth';
+import axiosInstance from './axios/axiosInstance';
 
 export const useLoginForm = (setIsError: (error: string) => void) => {
-    const router = useRouter();
-    const { dispatch } = useAuth();
+	const router = useRouter();
+	const { dispatch } = useAuth();
 
-    return useFormik({
-        initialValues: {
-            email: "",
-            password: "",
-        },
-        validationSchema: Yup.object({
-            email: Yup.string()
-                .email("Invalid email address")
-                .required("Email is required"),
-            password: Yup.string()
-                .required("Password is required"),
-        }),
-        onSubmit: async (values, { resetForm }) => {
-            try {
-                const response = await axiosInstance.post("/auth", values);
-                if (response.status) {
-                    dispatch({ type: 'LOGIN', payload: response.data });
-                    router.push('/zainspotter');
-                }
-            } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    const errorMessage = error.response?.data?.message || "An error occurred";
-                    setIsError(errorMessage);
-                } else {
-                    
-                    setIsError("An unknown error occurred");
-                }
-            }
-        },
-    });
+	return useFormik({
+		initialValues: {
+			email: '',
+			password: '',
+		},
+		validationSchema: Yup.object({
+			email: Yup.string()
+				.email('Invalid email address')
+				.required('Email is required'),
+			password: Yup.string().required('Password is required'),
+		}),
+		onSubmit: async (values, { resetForm }) => {
+			try {
+				const response = await axiosInstance.post('/auth', values);
+
+				// ! Why aren't we checking for a 200 status code?
+				if (response.status) {
+					dispatch({ type: 'LOGIN', payload: response.data });
+					localStorage.setItem('token', response.data.access_token);
+					router.push('/zainspotter');
+				}
+			} catch (error) {
+				if (axios.isAxiosError(error)) {
+					const errorMessage =
+						error.response?.data?.message || 'An error occurred';
+					setIsError(errorMessage);
+				} else {
+					setIsError('An unknown error occurred');
+				}
+			}
+		},
+	});
 };
