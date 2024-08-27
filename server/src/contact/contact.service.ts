@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateContactDto } from './dto/create-contact.dto';
-import { UpdateContactDto } from './dto/update-contact.dto';
 import { Contact } from '../entities/contact.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
+function notFound() {
+	return { message: 'Contact not found', statusCode: 404 };
+}
 
 @Injectable()
 export class ContactService {
@@ -17,19 +20,19 @@ export class ContactService {
 	}
 
 	async findAll() {
-		const contacts = await this.contactRepository.find();
-		return contacts;
+		return await this.contactRepository.find();
 	}
 
-	findOne(id: number) {
-		return `This action returns a #${id} contact`;
+	async findOne(id: number) {
+		const c = await this.contactRepository.findOne({ where: { id } });
+		return c;
 	}
 
-	update(id: number, updateContactDto: UpdateContactDto) {
-		return `This action updates a #${id} contact`;
-	}
-
-	remove(id: number) {
-		return `This action removes a #${id} contact`;
+	async remove(id: number) {
+		const c = await this.findOne(id);
+		if (!c) {
+			return notFound();
+		}
+		return this.contactRepository.remove(c);
 	}
 }
