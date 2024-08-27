@@ -1,12 +1,11 @@
 "use client"
 import Breadcrumb from '@/app/zainspotter/components/breadcrumb';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { createRef, useContext, useEffect, useRef, useState } from 'react';
 import RoleCard from '../components/roleCard';
 import searchIcon from '@/app/assets/owner/users/search-outline.svg';
 import upButton from '@/app/assets/owner/users/Up.svg';
 import downButton from '@/app/assets/owner/users/Down.svg';
 import Image from 'next/image';
-import UserItem from '../components/userItem';
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import { AuthContext } from '@/app/contexts/authContext';
@@ -14,6 +13,8 @@ import nextIcon from '@/app/assets/owner/users/chevron-forward.svg'
 import previousIcon from '@/app/assets/owner/users/chevron-back.svg'
 import detailsButton from '@/app/assets/owner/users/arrow-right.svg'
 import Link from 'next/link';
+import { FaPlus } from 'react-icons/fa';
+import Modal from '@/app/components/Modal';
 
 
 interface User {
@@ -35,6 +36,8 @@ const Users = () => {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { user } = useContext(AuthContext);
+
+  const rolesModalRef = useRef(null);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -122,6 +125,9 @@ const Users = () => {
   return (
     <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
       <Breadcrumb items={breadcrumbItems} />
+
+      <Modal ref={rolesModalRef} />
+
       <div className='grid gap-x-8 gap-y-4 grid-cols-1 md:grid-cols-3'>
         {USERS_HEADER_DATA.map((data, index) => (
           <RoleCard key={index} title={data?.title} value={data?.value} editPermissions={data?.editPermissions} stats={data?.stats} />
@@ -145,7 +151,11 @@ const Users = () => {
                 </div>
               ))}
             </div>
-            <button className='border-l border-gray-300 text-xl px-4' type="button">
+            <button
+              className='border-l border-gray-300 text-xl px-4' 
+              type="button"
+              onClick={()=>{rolesModalRef.current.open(true)}}
+            >
               +
             </button>
           </div>
@@ -227,24 +237,20 @@ const Users = () => {
                 <div><span>{user.businessNumber}</span></div>
               </td>
               <td className='p-4'>
-                {user.subscriptions ? (
+                {user.subscriptions.length > 0 ? (
                   <div className='flex gap-1'>
                     {user.subscriptions.map((sub, index) => (
                       <h1 key={index} className='bg-background-foreground rounded-md text-text font-light py-1 px-2 text-md'>
-                        {sub.endDate}
+                        {sub.city.city}
                       </h1>))}
                   </div>):(
-                  <p className='text-md text-text font-light'>
-                    N/A
-                  </p>
-                )}
-                {user.subscriptions.length==0 && <span>N/A</span>}
+                  <span>N/A</span>
+                  )}
               </td>
-              <td className={`p-4 flex gap-1 ${false ? 'text-primary' : 'text-alert-dark'}`}>
-                <h1 className='font-semibold'>
+              <td className={`p-4 ${false ? 'text-primary' : 'text-alert-dark'}`}>
+                <span className='font-semibold'>
                   Failed
-                </h1>
-                <span className='font-light'>
+                </span> <span className='font-light'>
                   (N/A)
                 </span>
               </td>

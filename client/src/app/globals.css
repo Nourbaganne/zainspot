@@ -50,11 +50,12 @@
   .btn{
     @apply inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg text-sm text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500;
   }
-  .btn-lg{@apply py-4 px-4 text-lg border-2 rounded-xl}
+  .btn-lg{@apply py-4 px-5 text-lg border-2 rounded-xl}
   .btn-primary{
     @apply bg-green-600 hover:bg-green-700;
   }
   .btn-outline-primary{@apply text-green-600 bg-white border-green-600 hover:bg-green-600 hover:text-white}
+  .btn-outline-gray{@apply bg-white text-gray-900 shadow-sm border-gray-300 ring-inset hover:bg-gray-50}
   .card{@apply bg-white border rounded-xl px-6 py-4}
   .card-title{@apply text-lg font-light text-gray-500}
   .card-number{@apply text-3xl font-bold}
