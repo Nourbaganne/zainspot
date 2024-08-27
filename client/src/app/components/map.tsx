@@ -25,7 +25,7 @@ const Map = ({ address, zoom = defaults.zoom }: MapProps) => {
     const fetchCoordinates = async () => {
       const apiKey = "7e1eb3a8b14c466390153512ac9952e1";
       try {
-        const response = await axios.get(` https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}`);
+        const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${address}&key=${apiKey}`);
         const { lat, lng } = response.data.results[0].geometry;
         setPosition([lat, lng]);
       } catch (error) {

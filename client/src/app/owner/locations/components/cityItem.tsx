@@ -1,4 +1,4 @@
-import { CityProps } from '../page';
+import { CityProps } from '@/app/constants/owner-location'
 import hiddenLogo from '@/app/assets/owner/locations/hidden-logo.svg';
 import unhiddenLogo from '@/app/assets/owner/locations/eye-outline.svg';
 import deleteLogo from '@/app/assets/owner/locations/trash-outline.svg';
@@ -24,16 +24,16 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
     }
 
     return (
-        <div className='flex justify-between py-4 px-2 border-b'>
-            <div className='flex text-sm text-text gap-28'>
-                <h1 className='font-light max-w-40'>
+        <div className='grid grid-cols-6 py-4 px-2 border-b'>
+            <div className='col-span-5 grid grid-cols-9 text-sm text-text'>
+                <h1 className='col-span-2 font-light'>
                     {location.title}
                 </h1>
-                <div className='flex flex-col'>
+                <div className='col-span-2 flex flex-col'>
                     <h1 className='font-semibold'>{city}</h1>
                     <p className='font-light text-span max-w-24'>{country}</p>
                 </div>
-                <div className='flex flex-col justify-between'>
+                <div className='col-span-2 flex flex-col justify-between'>
                     {/* Gold Price Section */}
                     <div className='flex flex-col gap-2'>
                         <h1 className='text-xs font-semibold'>1 year single payment</h1>
@@ -66,9 +66,9 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
                     </div>
                 </div>
                 {/* Classic Price Section */}
-                <div className='flex flex-col gap-4'>
+                <div className='col-span-3 flex flex-col gap-4 max-w-72'>
                     <div className='flex flex-col gap-2'>
-                        <div className='flex gap-10'>
+                        <div className='flex justify-between'>
                             <h1 className='text-xs font-semibold'>1 year single payment</h1>
                             <h1 className='text-xs font-semibold text-alert-dark'>Tax fee</h1>
                         </div>
@@ -125,11 +125,11 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
                     </div>
                 </div>
             </div>
-            <div className='flex flex-col gap-3 text-xs font-semibold items-start'>
+            <div className='col-span-1 flex flex-col gap-3 text-xs font-semibold items-end'>
 
                 <div className='flex gap-1'>
                     <button className='flex items-center gap-2  text-span py-3 px-5 border-2 border-span rounded-md'>
-                       <Image src={editLogo} alt='edit-city' />
+                        <Image src={editLogo} alt='edit-city' />
                         Edit
                     </button>
                     <button
