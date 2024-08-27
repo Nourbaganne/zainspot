@@ -5,102 +5,102 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 
 interface Props {
-  rolesModalRef: any;
-  roles: Role[];
+	rolesModalRef: any;
+	roles: Role[];
 }
 
 const RolesModal = ({ rolesModalRef, roles }: Props) => {
-  const [permissions, setPermissions] = useState<Permission[]>([]);
-  function getPermissions() {
-    axiosInstance.get('/permission').then((res) => {
-      console.log('permissions', res.data);
-      setPermissions(res.data);
-    });
-  }
+	const [permissions, setPermissions] = useState<Permission[]>([]);
+	function getPermissions() {
+		axiosInstance.get('/permission').then((res) => {
+			console.log('permissions', res.data);
+			setPermissions(res.data);
+		});
+	}
 
-  useEffect(() => {
-    getPermissions();
-  }, []);
+	useEffect(() => {
+		getPermissions();
+	}, []);
 
-  const [newRoleName, setNewRoleName] = useState<string>('');
-  const [newRolePermissions, setNewRolePermissions] = useState<Permission[]>(
-    [],
-  );
+	const [newRoleName, setNewRoleName] = useState<string>('');
+	const [newRolePermissions, setNewRolePermissions] = useState<Permission[]>(
+		[],
+	);
 
-  const handleCheckboxChange = (currPermission: Permission) => {
-    setNewRolePermissions((prevPermissions) => {
-      if (prevPermissions.includes(currPermission)) {
-        // Remove permission if already checked
-        return prevPermissions.filter((id) => id !== currPermission);
-      } else {
-        // Add permission if not checked
-        return [...prevPermissions, currPermission];
-      }
-    });
-    console.log('newRolePermissions', newRolePermissions);
-  };
+	const handleCheckboxChange = (currPermission: Permission) => {
+		setNewRolePermissions((prevPermissions) => {
+			if (prevPermissions.includes(currPermission)) {
+				// Remove permission if already checked
+				return prevPermissions.filter((id) => id !== currPermission);
+			} else {
+				// Add permission if not checked
+				return [...prevPermissions, currPermission];
+			}
+		});
+	};
 
-  function createRole() {
-    let newRole = {
-      name: newRoleName,
-      permissions: newRolePermissions,
-    };
+	function createRole() {
+		let newRole = {
+			name: newRoleName,
+			permissions: newRolePermissions,
+		};
 
-    axiosInstance.post('/role', newRole).then((res) => {
-      alert('role added successully');
-      console.log('response data', res.data);
-      console.log('response status', res.status);
-    });
-  }
+		axiosInstance.post('/role', newRole).then((res) => {
+			if (res.status == 201) {
+				alert('Role created successfully');
+				rolesModalRef.current.close();
+			}
+		});
+	}
 
-  return (
-    <Modal
-      ref={rolesModalRef}
-      title='Create New Role'
-      subtitle='Create a new role, give it a name, and check its permissions.'
-      onButtonClick={createRole}
-      buttonText='Create Role'
-    >
-      <>
-        <div className='form-group'>
-          <label
-            htmlFor='roleName'
-            className='text-sm font-medium !text-gray-400'
-          >
-            Role Name
-          </label>
-          <input
-            type='text'
-            name='roleName'
-            id='roleName'
-            className='form-control'
-            value={newRoleName}
-            onChange={(e) => setNewRoleName(e.target.value)}
-          />
-        </div>
-        <div className='mt-6'>
-          <h1 className='text-gray-400 font-medium'>Permissions</h1>
-          <div className='mt-2 grid grid-cols-1 md:grid-cols-2'>
-            {permissions.map((p) => (
-              <div key={p.id} className='p-2 text-sm flex items-center gap-2'>
-                <input
-                  type='checkbox'
-                  name={'selectPermission' + p.id}
-                  id={'selectPermission' + p.id}
-                  className='form-control'
-                  checked={newRolePermissions.includes(p)}
-                  onChange={() => handleCheckboxChange(p)}
-                />
-                <label htmlFor={'selectPermission' + p.id}>
-                  {p.action} {p.resource}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-      </>
-    </Modal>
-  );
+	return (
+		<Modal
+			ref={rolesModalRef}
+			title='Create New Role'
+			subtitle='Create a new role, give it a name, and check its permissions.'
+			onButtonClick={createRole}
+			buttonText='Create Role'
+		>
+			<>
+				<div className='form-group'>
+					<label
+						htmlFor='roleName'
+						className='text-sm font-medium !text-gray-400'
+					>
+						Role Name
+					</label>
+					<input
+						type='text'
+						name='roleName'
+						id='roleName'
+						className='form-control'
+						value={newRoleName}
+						onChange={(e) => setNewRoleName(e.target.value)}
+					/>
+				</div>
+				<div className='mt-6'>
+					<h1 className='text-gray-400 font-medium'>Permissions</h1>
+					<div className='mt-2 grid grid-cols-1 md:grid-cols-2'>
+						{permissions.map((p) => (
+							<div key={p.id} className='p-2 text-sm flex items-center gap-2'>
+								<input
+									type='checkbox'
+									name={'selectPermission' + p.id}
+									id={'selectPermission' + p.id}
+									className='form-control'
+									checked={newRolePermissions.includes(p)}
+									onChange={() => handleCheckboxChange(p)}
+								/>
+								<label htmlFor={'selectPermission' + p.id}>
+									{p.action} {p.resource}
+								</label>
+							</div>
+						))}
+					</div>
+				</div>
+			</>
+		</Modal>
+	);
 };
 
 export default RolesModal;
