@@ -5,40 +5,39 @@ import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private userService: UserService,
-    private jwtService: JwtService,
-  ) {}
+	constructor(
+		private userService: UserService,
+		private jwtService: JwtService,
+	) {}
 
-  async signIn(authLoginDto: AuthLoginDto) {
-    const user = await this.validateUser(authLoginDto);
+	async signIn(authLoginDto: AuthLoginDto) {
+		const user = await this.validateUser(authLoginDto);
 
-    const payload = {
-      userId: user.id,
-      email: user.email,
-      role: user.role,
-    };
+		const payload = {
+			userId: user.id,
+			email: user.email,
+			role: user.role,
+		};
 
-    return {
-      user: payload,
-      access_token: this.jwtService.sign(payload),
-    };
-  }
+		return {
+			user: payload,
+			access_token: this.jwtService.sign(payload),
+		};
+	}
 
-  async validateUser(authLoginDto: AuthLoginDto) {
-    const { email, password } = authLoginDto;
+	async validateUser(authLoginDto: AuthLoginDto) {
+		const { email, password } = authLoginDto;
 
-    const user = await this.userService.findByEmail(email);
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-    if (!(await user?.validatePassword(password))) {
-      throw new UnauthorizedException();
-    }
+		const user = await this.userService.findByEmail(email);
+		if (!user) {
+			throw new UnauthorizedException();
+		}
+		if (!(await user?.validatePassword(password))) {
+			throw new UnauthorizedException();
+		}
 
-    delete user.password;
+		delete user.password;
 
-    console.log('user', user);
-    return user;
-  }
+		return user;
+	}
 }
