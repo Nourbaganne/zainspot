@@ -20,6 +20,7 @@ import { InvoiceModule } from './invoice/invoice.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { SubscriptionModule } from './subscription/subscription.module';
+import { ContactModule } from './contact/contact.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
     PaymentHistoryModule,
     InvoiceModule,
     SubscriptionModule,
+    ContactModule,
   ],
   controllers: [AppController],
   providers: [
