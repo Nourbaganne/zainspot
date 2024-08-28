@@ -19,7 +19,7 @@ const originalFaqs: Faq[] = [
 	{
 		question: 'How can I change my account email?',
 		answer:
-			'AnswerYou can log in to your account and change it by following these steps: Go to My ZainSpot > Profile Details and in the Business section, change your business email',
+			'You can log in to your account and change it by following these steps: Go to My ZainSpot > Profile Details and in the Business section, change your business email',
 	},
 	{
 		question: 'Do you provide tutorials?',
@@ -50,7 +50,7 @@ const originalFaqs: Faq[] = [
 	{
 		question: 'How can I change my account email?',
 		answer:
-			'AnswerYou can log in to your account and change it by following these steps: Go to My ZainSpot > Profile Details and in the Business section, change your business email',
+			'You can log in to your account and change it by following these steps: Go to My ZainSpot > Profile Details and in the Business section, change your business email',
 	},
 	{
 		question: 'Do you provide tutorials?',

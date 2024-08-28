@@ -47,20 +47,20 @@ export default function ContactPage() {
 			<div className='max-w-7xl mx-auto'>
 				<Breadcrumb
 					items={[
-						{ label: 'Breadcrumb_home', href: '/' },
-						{ label: 'Breadcrumb_contact' },
+						{ label: 'breadcrumb_home', href: '/' },
+						{ label: 'breadcrumb_contact' },
 					]}
 				/>
 			</div>
 			{/* Header */}
-			<div className='mt-8 text-center'>
+			<div className='mt-10 text-center'>
 				<h1 className='text-3xl font-extrabold'>Contact Our Team</h1>
 				<p className='mt-3 text-md text-gray-400 max-w-3xl mx-auto'>
 					Got any questions about the services or cities on our platform? We’re
 					here to help.Chat with our friendly team and get onboard in no time.
 				</p>
 			</div>
-			<div className='lg:flex items-center justify-center mt-12 gap-10'>
+			<div className='lg:flex items-center justify-center mt-12 gap-10 pb-8'>
 				{/* Contact Form */}
 				<div className='card p-8 lg:max-w-2xl w-full'>
 					<form

@@ -116,9 +116,11 @@
 	"login_security_emailAuth_title": "Email Verification",
 	"login_security_emailAuth_desc": "You will receive your authentication code by Email to your account",
 	"login_security_button_title": "ENABLE",
-	"Breadcrumb_home": "Home",
-	"Breadcrumb_contact": "Contact",
-	"Breadcrumb_zainspotter": "My Zainspotter",
+	"breadcrumb_home": "Home",
+	"breadcrumb_contact": "Contact",
+	"breadcrumb_zainspotter": "My Zainspotter",
+	"breadcrumb_cart": "Cart",
+	"breadcrumb_checkout": "Checkout",
 	"payment_details_title": "PAYMENT DETAILS",
 	"payment_details_subtitle": "Saved Payment Methods",
 	"payment_details_defaultPayment": "Default Payment Method",
@@ -179,5 +181,14 @@
 
 	"contact_email_label": "Your Email",
 	"contact_subject_label": "Subject",
-	"contact_message_label": "Your Message"
+	"contact_message_label": "Your Message",
+
+	"checkout_credit_card_label": "Credit Card",
+	"checkout_card_holder_label": "Card Holder",
+	"checkout_billing_address_label": "Billing Address",
+	"checkout_exp_date_label": "Expiration Date",
+	"checkout_cvv_label": "CVV",
+	"checkout_submit_button": "Checkout & Pay",
+	"checkout_direct_card_label": "Direct Card",
+	"checkout_paypal_label": "Paypal"
 }

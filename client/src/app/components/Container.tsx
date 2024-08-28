@@ -5,15 +5,21 @@ interface Props {
 	children: React.ReactNode;
 	breadcrumbItems?: BreadcrumbItem[];
 	className?: string | '';
+	withPaddingBottom?: boolean;
 }
 
 export default function Container({
 	children,
 	breadcrumbItems,
 	className,
+	withPaddingBottom = true, // default with padding bottom
 }: Props) {
 	return (
-		<div className={'bg-gray-100 ' + className}>
+		<div
+			className={
+				'bg-gray-100 ' + (withPaddingBottom ? 'pb-12 ' : '') + className
+			}
+		>
 			{breadcrumbItems && (
 				<Breadcrumb items={breadcrumbItems} className='p-6' />
 			)}

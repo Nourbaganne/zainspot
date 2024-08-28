@@ -64,8 +64,12 @@ input[type='number']::-webkit-outer-spin-button {
 	.form-control {
 		@apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-primary focus:border-primary ring-primary sm:text-sm focus:placeholder-transparent;
 	}
-	.form-control[type='checkbox'] {
-		@apply h-5 w-5 p-0 rounded-md;
+	.form-control[type='checkbox'],
+	.form-control[type='radio'] {
+		@apply h-5 w-5 p-0 rounded-md inline-block;
+	}
+	.form-control[type='radio'] {
+		@apply rounded-full;
 	}
 	select.form-control {
 		@apply text-gray-500;
@@ -73,11 +77,20 @@ input[type='number']::-webkit-outer-spin-button {
 	.form-control-lg {
 		@apply text-lg;
 	}
+	.radio-container {
+		@apply flex items-center gap-3;
+	}
+	.radio-container label {
+		@apply text-gray-500;
+	}
 	.btn {
-		@apply inline-flex items-center justify-center px-4 py-3 border border-transparent rounded-lg text-sm text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
+		@apply inline-flex items-center justify-center gap-2 px-4 py-3 border border-transparent rounded-lg text-sm text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
 	}
 	.btn-lg {
 		@apply py-4 px-5 text-lg border-2 rounded-xl;
+	}
+	.btn-uppercase {
+		@apply font-semibold uppercase gap-4;
 	}
 	.btn-primary {
 		@apply bg-primary hover:bg-primary-foreground;
@@ -87,6 +100,9 @@ input[type='number']::-webkit-outer-spin-button {
 	}
 	.btn-outline-gray {
 		@apply bg-white text-gray-900 shadow-sm border-gray-300 ring-inset hover:bg-gray-50;
+	}
+	.btn-gray {
+		@apply bg-gray-400 hover:bg-gray-600;
 	}
 	.card {
 		@apply bg-white border rounded-xl px-6 py-4;
@@ -99,5 +115,28 @@ input[type='number']::-webkit-outer-spin-button {
 	}
 	.circle-xs {
 		@apply w-4 h-4 bg-gray-500 rounded-full;
+	}
+
+	.h1 {
+		@apply text-4xl font-bold;
+	}
+	.h2 {
+		@apply text-3xl font-semibold;
+	}
+
+	/* table styles */
+	table {
+		@apply w-full;
+	}
+	table tr {
+		@apply border-t border-gray-200;
+	}
+	table th {
+		@apply text-gray-500 font-normal;
+	}
+	table thead th,
+	table tr td,
+	table tr th {
+		@apply p-4;
 	}
 }
