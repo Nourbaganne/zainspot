@@ -8,13 +8,11 @@ import worldImage from '@/app/assets/owner/locations/World Map.svg';
 
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
-import nextIcon from '@/app/assets/owner/users/chevron-forward.svg';
-import previousIcon from '@/app/assets/owner/users/chevron-back.svg';
 import CityItem from './components/cityItem';
-import { BREADCRUMB_ITEMS, CityProps, LOCATION_LIST_HEADER } from '@/app/constants/owner-location';
-import { generatePageNumbers } from '@/app/lib/owner-locations';
+import { BREADCRUMB_ITEMS, CityProps } from '@/app/constants/owner-location';
 import LocationsHeader from './components/locationsHeader';
 import TableHeader from './components/tableHeader';
+import Pagination from './components/pagination';
 
 
 const Locations = () => {
@@ -82,39 +80,10 @@ const Locations = () => {
         </>
       </div>
       {!searchCity && filteredCities?.length > 0 && (
-        <div className='flex justify-end gap-4'>
-          <button
-            className={`px-4 py-3 text-sm flex items-center gap-3 rounded-lg text-span`}
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          >
-            <Image src={previousIcon} alt='previous-page' />
-            Previous
-          </button>
-          <div className='flex gap-2'>
-            {generatePageNumbers({ totalPage: data?.data.totalPages, currentPage }).map((page, index) =>
-              page === '...' ? (
-                <span key={index} className='text-primary cursor-not-allowed'>...</span>
-              ) : (
-                <button
-                  key={index}
-                  className={`px-4 py-2 rounded-lg ${currentPage === page ? 'bg-primary text-background' : 'text-primary'}`}
-                  onClick={() => setCurrentPage(page as number)}
-                >
-                  {page}
-                </button>
-              )
-            )}
-          </div>
-          <button
-            className={`px-4 py-3 flex text-sm items-center gap-3 rounded-lg text-primary`}
-            disabled={currentPage === data?.data.totalPages}
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, data?.data.totalPages))}
-          >
-            Next
-            <Image src={nextIcon} alt='next-page' />
-          </button>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={data?.data.totalPages} />
       )}
       <Dialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
     </div>
