@@ -8,25 +8,30 @@ import Link from 'next/link';
 const Footer = () => {
 	return (
 		<div className='flex flex-col gap-10 bg-primary text-background md:py-5 md:pt-10 md:px-20 justify-center p-6'>
-			<div className='flex justify-between w-full  items-center'>
-				<Image src={logo} alt='zainspot-logo' />
-				<div className='hidden md:grid grid-cols-4 gap-5 w-2/3'>
-					{FOOTER_DATA.map((data, index) => (
-						<Link
-							href={data.link}
-							key={index}
-							className={`${
-								index < 4
-									? 'font-semibold font-sans text-2xl'
-									: 'text-secondary-foreground cursor-pointer hover:underline'
-							}`}
-						>
-							<Translation translationKey={data.translationKey} />
-						</Link>
-					))}
+			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-10'>
+				<div className='md:col-span-2 lg:col-span-4 xl:col-span-2'>
+					<Image src={logo} alt='ZainSpot Logo' className='max-w-sm w-full' />
 				</div>
+				{FOOTER_DATA.map((titleData, index) => (
+					<div key={index} className=''>
+						<div className='font-semibold font-sans text-2xl'>
+							<Translation translationKey={titleData.translationKey} />
+						</div>
+						<div className='mt-4'>
+							{titleData.sections.map((section, index) => (
+								<Link
+									key={index}
+									href={section.link}
+									className='block mt-3 text-secondary-foreground cursor-pointer hover:underline'
+								>
+									<Translation translationKey={section.translationKey} />
+								</Link>
+							))}
+						</div>
+					</div>
+				))}
 			</div>
-			<div className='flex flex-col text-sm md:flex-row gap-8 text-secondary-foreground items-center font-regular'>
+			<div className='flex flex-col text-sm md:flex-row gap-4 text-secondary-foreground font-regular'>
 				<p>© 2024 ZainSpot</p>
 				<p>
 					<Translation translationKey='footer_privacy_policy' />
