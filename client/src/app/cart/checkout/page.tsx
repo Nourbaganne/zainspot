@@ -27,10 +27,6 @@ export default function CheckoutPage() {
 		},
 	});
 
-	function handleSubmit() {
-		console.log('submit form');
-	}
-
 	return (
 		<Container
 			breadcrumbItems={[
@@ -59,7 +55,7 @@ export default function CheckoutPage() {
 						</div>
 					</div>
 					<div className='mt-8'>
-						<form onSubmit={handleSubmit}>
+						<form onSubmit={formik.handleSubmit}>
 							<div className='radio-container'>
 								<input
 									type='radio'
@@ -159,7 +155,7 @@ export default function CheckoutPage() {
 							</div>
 							<button
 								type='submit'
-								className='mt-8 btn btn-gray w-full text-lg py-2 font-medium'
+								className='mt-8 btn btn-gray w-full text-lg font-medium'
 							>
 								<Translation translationKey='checkout_submit_button' />
 							</button>

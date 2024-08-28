@@ -183,6 +183,8 @@
 	"contact_subject_label": "Subject",
 	"contact_message_label": "Your Message",
 
+	"cart_my_cart_heading": "My Cart",
+
 	"checkout_credit_card_label": "Credit Card",
 	"checkout_card_holder_label": "Card Holder",
 	"checkout_billing_address_label": "Billing Address",
@@ -190,5 +192,12 @@
 	"checkout_cvv_label": "CVV",
 	"checkout_submit_button": "Checkout & Pay",
 	"checkout_direct_card_label": "Direct Card",
-	"checkout_paypal_label": "Paypal"
+	"checkout_paypal_label": "Paypal",
+
+	"checkout": "Checkout",
+	"total": "Total",
+	"subtotal": "Subtotal",
+	"discount": "Discount",
+	"tax": "Tax",
+	"continue_shopping": "Continue Shopping"
 }

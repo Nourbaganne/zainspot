@@ -4,10 +4,18 @@ import Image from 'next/image';
 import Container from '../components/Container';
 import RowImage from '@/app/assets/cart/row-image.png';
 import { FiArrowLeft, FiArrowRight, FiChevronRight, FiX } from 'react-icons/fi';
+import Translation from '../components/translation';
+import { useRouter } from 'next/navigation';
 
 export default function CartPage() {
+	const router = useRouter();
+
 	function applyDiscountCode() {
 		console.log('appy discount code');
+	}
+
+	function handleCheckout() {
+		router.push('/cart/checkout');
 	}
 
 	return (
@@ -19,7 +27,9 @@ export default function CartPage() {
 			withPaddingBottom={false}
 		>
 			<div className='bg-white w-full pt-6 px-12 pb-16'>
-				<h1 className='h1'>My Cart</h1>
+				<h1 className='h1'>
+					<Translation translationKey='cart_my_cart_heading' />
+				</h1>
 				<div className='mt-6 mx-auto grid grid-cols-12 gap-12'>
 					<div className='col-span-8'>
 						<table className='text-center w-full'>
@@ -74,7 +84,9 @@ export default function CartPage() {
 						<div className='mt-8'>
 							<button className='btn btn-outline-gray btn-lg btn-uppercase'>
 								<FiArrowLeft className='h-6 w-6' />
-								<span>Continue Shopping</span>
+								<span>
+									<Translation translationKey='continue_shopping' />
+								</span>
 							</button>
 						</div>
 					</div>
@@ -86,15 +98,21 @@ export default function CartPage() {
 							<div className='py-6 border-b'>
 								<div className='text-lg'>
 									<div className='flex-between'>
-										<td>Subtotal</td>
+										<td>
+											<Translation translationKey='subtotal' />
+										</td>
 										<td className='font-bold'>$417.00</td>
 									</div>
 									<div className='flex-between mt-3'>
-										<td>Discount (15%)</td>
+										<td>
+											<Translation translationKey='discount' /> (15%)
+										</td>
 										<td className='font-bold'>-$62.55</td>
 									</div>
 									<div className='flex-between mt-3'>
-										<td>Tax (7%)</td>
+										<td>
+											<Translation translationKey='tax' /> (7%)
+										</td>
 										<td className='font-bold'>$29.19</td>
 									</div>
 								</div>
@@ -112,14 +130,22 @@ export default function CartPage() {
 							<div className='pt-6'>
 								<div className='flex-between text-xl font-semibold'>
 									<div>
-										<span>Total</span>
+										<span>
+											<Translation translationKey='total' />
+										</span>
 									</div>
 									<div>
 										<span>$383.64</span>
 									</div>
 								</div>
-								<button className='mt-6 btn btn-primary w-full btn-lg btn-uppercase'>
-									<span>CHECKOUT</span>
+								{/* Checkout Button */}
+								<button
+									className='mt-6 btn btn-primary w-full btn-lg btn-uppercase'
+									onClick={handleCheckout}
+								>
+									<span>
+										<Translation translationKey='checkout' />
+									</span>
 									<FiArrowRight className='h-6 w-6' />
 								</button>
 							</div>
