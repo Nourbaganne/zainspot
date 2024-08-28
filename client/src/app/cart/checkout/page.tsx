@@ -1,12 +1,10 @@
 'use client';
-
-import Image from 'next/image';
 import Container from '../../components/Container';
-import LoginImage from '@/app/assets/register/login-image.svg';
 import { Input } from '@/app/register/components/input';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Translation from '@/app/components/translation';
+import WelcomeToBusinessSection from '@/app/components/WelcomeToBusiness';
 
 export default function CheckoutPage() {
 	// Fields are: Card Holder, Billing Address, Expire Date, CVV
@@ -46,15 +44,12 @@ export default function CheckoutPage() {
 			{/* Sections Container */}
 			<div className='flex items-start'>
 				{/* Left Section */}
-				<div className='hidden lg:block w-1/2'>
-					<h2 className='h1 text-gray-600 mb-4 px-2'>
-						Welcome To Business Without Borders
-					</h2>
-					<Image src={LoginImage} alt='Checkout' className='w-full' />
-				</div>
+				<WelcomeToBusinessSection />
 				{/* Right Section */}
 				<div className='flex-grow p-8'>
-					<h1 className='h1 text-primary'>Secure Checkout</h1>
+					<h1 className='h1 text-primary'>
+						<Translation translationKey='secure_checkout' />
+					</h1>
 					<div className='mt-6 flex-between text-2xl font-semibold'>
 						<div>
 							<span>Total</span>

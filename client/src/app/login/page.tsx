@@ -9,6 +9,7 @@ import Translation from '../components/translation';
 import Link from 'next/link';
 import { withNoAuth } from '../lib/withNoAuth';
 import InputPassword from '../components/inputPassword';
+import WelcomeToBusinessSection from '../components/WelcomeToBusiness';
 
 const Page = () => {
 	const [isError, setIsError] = useState('');
@@ -16,14 +17,11 @@ const Page = () => {
 	const formik = useLoginForm(setIsError);
 
 	return (
-		<div className='md:grid md:grid-cols-2 pt-6 pb-32'>
-			<div className='hidden md:flex flex-col gap-6'>
-				<h1 className='text-3xl font-bold text-text-foreground px-8'>
-					<Translation translationKey='registerpage_title' />
-				</h1>
-				<Image src={loginImage} alt='login image' />
-			</div>
-			<div className='flex flex-col gap-10 px-12 '>
+		<div className='flex py-12'>
+			{/* Left Section */}
+			<WelcomeToBusinessSection />
+			{/* Right Section */}
+			<div className='flex-grow flex flex-col gap-10 px-4 md:px-6 lg:px-8 xl:px-12 '>
 				<h1 className='font-bold text-2xl md:text-3xl  text-primary'>
 					Login to Your Secure ZainSpot Account
 				</h1>
