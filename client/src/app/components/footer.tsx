@@ -15,7 +15,9 @@ const Footer = () => {
 				{FOOTER_DATA.map((titleData, index) => (
 					<div key={index} className=''>
 						<div className='font-semibold font-sans text-2xl'>
-							<Translation translationKey={titleData.translationKey} />
+							<span>
+								<Translation translationKey={titleData.translationKey} />
+							</span>
 						</div>
 						<div className='mt-4'>
 							{titleData.sections.map((section, index) => (

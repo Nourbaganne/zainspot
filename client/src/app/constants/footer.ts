@@ -23,7 +23,7 @@ export const FOOTER_DATA: FooterDataInterface[] = [
 		translationKey: 'footer_title_connect',
 		sections: [
 			{ translationKey: 'footer_title_contact', link: '/contact' },
-			{ translationKey: 'footer_title_faq', link: '/' },
+			{ translationKey: 'footer_title_faq', link: '/faq' },
 		],
 	},
 	{
