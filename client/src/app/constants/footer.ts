@@ -9,7 +9,7 @@ export const FOOTER_DATA: FooterDataInterface[] = [
 		sections: [
 			{ translationKey: 'footer_title_join', link: '/register' },
 			{ translationKey: 'footer_title_login', link: '/login' },
-			{ translationKey: 'footer_title_gotomyzainspot', link: '/' },
+			{ translationKey: 'footer_title_gotomyzainspot', link: '/zainspotter' },
 		],
 	},
 	{

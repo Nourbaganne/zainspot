@@ -84,7 +84,7 @@ input[type='number']::-webkit-outer-spin-button {
 		@apply text-gray-500;
 	}
 	.btn {
-		@apply inline-flex items-center justify-center gap-2 px-4 py-3 border border-transparent rounded-lg text-sm text-white bg-gray-400 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
+		@apply inline-flex items-center justify-center gap-2 px-4 py-3 border border-transparent rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
 	}
 	.btn-lg {
 		@apply py-4 px-5 text-lg border-2 rounded-xl;
@@ -96,7 +96,7 @@ input[type='number']::-webkit-outer-spin-button {
 		@apply bg-primary hover:bg-primary-foreground;
 	}
 	.btn-outline-primary {
-		@apply text-primary bg-white border-primary hover:bg-primary hover:text-white;
+		@apply text-primary border-primary hover:bg-primary hover:text-white;
 	}
 	.btn-outline-gray {
 		@apply bg-white text-gray-900 shadow-sm border-gray-300 ring-inset hover:bg-gray-50;
@@ -122,6 +122,12 @@ input[type='number']::-webkit-outer-spin-button {
 	}
 	.h2 {
 		@apply text-3xl font-semibold;
+	}
+	.h3 {
+		@apply text-xl font-semibold;
+	}
+	.h4 {
+		@apply text-xl font-semibold;
 	}
 
 	/* table styles */
