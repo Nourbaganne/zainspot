@@ -17,7 +17,7 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
     <div className="flex flex-col gap-4 border-2 rounded-md border-secondary px-2 py-4 ">
 
       <div className="flex flex-col">
-        <h1 className="font-sans font-semibold text-[36px]">ZS Classic</h1>
+        <h1 className="font-sans font-semibold  text-[36px]">ZS Classic</h1>
         <p className="font-sans font-extrabold leading-[26.1px] uppercase text-primary">
           <Translation translationKey="citypage_zg_classic_title" />
         </p>
@@ -30,7 +30,7 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
         <Translation translationKey="citypage_cards_subtitle" />
       </h1>
 
-      <div className="flex justify-between font-semibold">
+      <div className="flex justify-between font-semibold px-4">
         <h1 className="flex gap-20">
           <Translation translationKey="citypage_single_payment" />
           <span className="text-primary text-lg">
@@ -42,12 +42,12 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
             />
           </span>
         </h1>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 pr-1">
           <input
             type="radio"
             id="buy"
             name="buy"
-            className={`w-5 h-5 accent-primary `}
+            className="w-6 h-6 border-[3px] border-text-foreground text-[#00927C]  focus:ring-[#00927C]"
           />
           <label htmlFor="buy">
             <Translation translationKey="citypage_raio_label" />
@@ -55,7 +55,7 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
         </div>
       </div>
       <div className="flex flex-col gap-4 px-4">
-        <p className="font-light text-sm text-end pr-16">
+        <p className="font-light font-regular text-sm text-center pr-16">
           <Translation translationKey="citypage_permonth" />
         </p>
         {
@@ -79,9 +79,7 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
                     type="radio"
                     id="buy"
                     name="buy"
-                    className={`w-5 h-5 accent-primary 
-                  `}
-                  />
+                   className="w-6 h-6 border-[3px] border-text-foreground text-[#00927C]  focus:ring-[#00927C]"  />
                   <label htmlFor="buy">
                     <Translation translationKey="citypage_raio_label" />
                   </label>

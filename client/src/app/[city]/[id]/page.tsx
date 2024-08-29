@@ -48,8 +48,8 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           <Translation translationKey="citypage_return_button" />
         </Link>
         <div>
-          <div className="px-4 md:px-0 text-text-foreground flex flex-col md:gap-4 gap-2">
-            <h1 className="text-5xl font-sans font-bold pl-0 md:pl-4">{city?.city} ZainSpot</h1>
+          <div className="px-4 md:px-0 text-text-foreground flex flex-col gap-2">
+            <h1 className="font-bold text-bold-56 font-sans pl-0 md:pl-4">{city?.city} ZainSpot</h1>
             <h1 className="text-3xl font-semibold text-end">
               {city?.location?.title.split(',')[0]}
             </h1>

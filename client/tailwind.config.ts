@@ -139,13 +139,33 @@ const config: Config = {
 				'tremor-default': ['0.875rem', { lineHeight: '1.25rem' }],
 				'tremor-title': ['1.125rem', { lineHeight: '1.75rem' }],
 				'tremor-metric': ['1.875rem', { lineHeight: '2.25rem' }],
+				'bold-14': ['14px', { lineHeight: '14px' }],
+				'bold-16': ['16px', { lineHeight: '145%' }],
+				'bold-18': ['18px', { lineHeight: '145%' }],
+				'bold-20': ['20px', { lineHeight: '150%' }],
+				'bold-56': ['56px', { lineHeight: 'auto' }],
+				'bold-italic-22': ['22px', { lineHeight: '145%' }],
+				'italic-20': ['20px', { lineHeight: '22px' }],
+				'italic-40': ['20px', { lineHeight: 'auto' }],
+				'semibold-14': ['14px', { lineHeight: '22px' }],
+				'semibold-18': ['18px', { lineHeight: '150%' }],
+				'semibold-15': ['15px', { lineHeight: '22px' }],
+				'semibold-36': ['36px', { lineHeight: '160%' }],
+				'semibold-50': ['50px', { lineHeight: '160%' }],
+				'semibold-40': ['40px', { lineHeight: 'auto' }],
+				'semibold-22': ['22px', { lineHeight: 'auto' }],
+				'semibold-24': ['24px', { lineHeight: 'auto' }],
+			},
+			letterSpacing: {
+				'-2%': '-0.02em',
+			},
+			fontFamily: {
+				sans: ['"Work Sans"', 'sans-serif'],
+				regular: ['"Open Sans"', 'sans-serif'],
 			},
 		},
 
-		fontFamily: {
-			sans: ['"Work Sans"', 'sans-serif'],
-			regular: ['"Open Sans"', 'sans-serif'],
-		},
+
 	},
 	safelist: [
 		{

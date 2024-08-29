@@ -13,7 +13,7 @@ const ZsGold = ({ amount }: { amount: number }) => {
             ZS Gold
           </h1>
           <h1
-            className="font-sans font-bold italic text-[22px] text-alert uppercase"
+            className="font-sans font-extrabold text-bold-italic-22 italic  text-alert uppercase"
             style={{ letterSpacing: '-0.01em' }}
           >
             <Translation translationKey="citypage_zg_gold_alert" />
@@ -52,8 +52,7 @@ const ZsGold = ({ amount }: { amount: number }) => {
             type="radio"
             id="buy"
             name="buy"
-            className={`w-5 h-5 accent-primary 
-                  `}
+            className="w-6 h-6 border-[3px] border-text-foreground text-[#00927C]  focus:ring-[#00927C]"
           />
           <label htmlFor="buy">
             <Translation translationKey="citypage_raio_label" />
