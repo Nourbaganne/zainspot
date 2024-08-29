@@ -15,22 +15,25 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
 
   return (
     <div className="flex flex-col gap-4 border-2 rounded-md border-secondary px-2 py-4 ">
-      <h1 className="text-2xl font-bold">ZS Classic</h1>
-      <p className="text-primary font-bold">
-        <Translation translationKey="citypage_zg_classic_title" />
-      </p>
-      <p className="font-semibold">
+
+      <div className="flex flex-col">
+        <h1 className="font-sans font-semibold text-[36px]">ZS Classic</h1>
+        <p className="font-sans font-extrabold leading-[26.1px] uppercase text-primary">
+          <Translation translationKey="citypage_zg_classic_title" />
+        </p>
+      </div>
+      <p className="font-sans font-semibold text-lg leading-[27px]  tracking-wide">
         <Translation translationKey="citypage_zg_classic_description" />
       </p>
 
-      <h1 className="text-center font-semibold">
+      <h1 className="text-center font-bold text-xl">
         <Translation translationKey="citypage_cards_subtitle" />
       </h1>
 
-      <div className="flex justify-between">
-        <h1 className="flex gap-4">
+      <div className="flex justify-between font-semibold">
+        <h1 className="flex gap-20">
           <Translation translationKey="citypage_single_payment" />
-          <span className="text-primary">
+          <span className="text-primary text-lg">
             <MoneyValue
               value={amounts?.perMonth[0].amount}
               fromCurrency="USD"
@@ -39,13 +42,12 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
             />
           </span>
         </h1>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           <input
             type="radio"
             id="buy"
             name="buy"
-            className={`w-5 h-5 accent-primary 
-                  `}
+            className={`w-5 h-5 accent-primary `}
           />
           <label htmlFor="buy">
             <Translation translationKey="citypage_raio_label" />
@@ -60,7 +62,7 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
           amounts?.perMonth
             .filter(month => month.duration !== 12)
             .map((month, index) => (
-              <div key={index} className="flex justify-between">
+              <div key={index} className="flex justify-between font-semibold">
                 <h1>
                   {month?.duration} <Translation translationKey="citypage_month" />
                 </h1>
@@ -72,7 +74,7 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
                     decimals={0}
                   />
                 </h1>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4">
                   <input
                     type="radio"
                     id="buy"

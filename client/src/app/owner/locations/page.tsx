@@ -72,7 +72,7 @@ const Locations = () => {
                 classicPrice={city.classicPrice}
                 hidden={city.hidden}
 
-              />
+              /> 
             ))
           ) : (
             <h1>No cities found</h1>

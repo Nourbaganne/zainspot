@@ -69,8 +69,8 @@ export const useAddCity = () => {
             });
             return response.data;
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['cities'] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['cities'] });
         },
         onError: (error: any) => {
             console.error("Error adding city:", error);
@@ -108,8 +108,6 @@ export const useAddCity = () => {
             try {
                 await mutation.mutateAsync(values);
                 resetForm();
-
-
             } catch (error) {
                 console.error("Error adding city:", error);
             }

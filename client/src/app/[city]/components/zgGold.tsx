@@ -1,33 +1,44 @@
 import { MoneyValue } from "@/app/components/MoneyValue";
 import Translation from "@/app/components/translation";
 import { useCurrency } from "@/app/contexts/CurrencyContext";
-import { CURRENCIES_DATA } from "@/app/constants/navbar";
 
 const ZsGold = ({ amount }: { amount: number }) => {
   const { currency } = useCurrency();
   return (
-    <div className="flex flex-col gap-4 border-2 rounded-md border-secondary  px-2 py-4">
-      <div className="flex justify-between font-bold">
-        <h1 className="text-2xl">ZS Gold</h1>
-        <h1 className="text-alert italic">
-          <Translation translationKey="citypage_zg_gold_alert" />
-        </h1>
+    <div className="flex flex-col gap-4 border-2 font-sans rounded-md border-secondary  px-2 py-4">
+      <div className="flex flex-col">
+        <div className="flex justify-between items-center">
+          <h1
+            className="font-sans font-semibold text-[36px]">
+            ZS Gold
+          </h1>
+          <h1
+            className="font-sans font-bold italic text-[22px] text-alert uppercase"
+            style={{ letterSpacing: '-0.01em' }}
+          >
+            <Translation translationKey="citypage_zg_gold_alert" />
+          </h1>
+
+        </div>
+        <p className="font-sans font-extrabold leading-[26.1px] uppercase text-primary">
+          <Translation translationKey="citypage_zg_gold_title" />
+        </p>
+
       </div>
-      <p className="text-primary font-bold">
-        <Translation translationKey="citypage_zg_gold_title" />
-      </p>
-      <p className="font-semibold">
+
+      <p className="font-sans font-semibold text-lg leading-[27px]  tracking-wide"
+        style={{ wordSpacing: '0.2em', textAlign: 'justify' }}>
         <Translation translationKey="citypage_zg_gold_description" />
       </p>
 
-      <h1 className="text-center font-semibold">
+      <h1 className="text-center font-bold text-xl">
         <Translation translationKey="citypage_cards_subtitle" />
       </h1>
 
-      <div className="flex justify-between">
-        <h1 className="flex gap-4">
+      <div className="flex justify-between font-semibold">
+        <h1 className="flex gap-20">
           <Translation translationKey="citypage_single_payment" />
-          <span className="text-primary">
+          <span className="text-primary text-lg">
             <MoneyValue
               value={amount}
               fromCurrency="USD"
@@ -36,7 +47,7 @@ const ZsGold = ({ amount }: { amount: number }) => {
             />
           </span>
         </h1>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           <input
             type="radio"
             id="buy"

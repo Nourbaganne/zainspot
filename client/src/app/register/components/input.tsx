@@ -47,7 +47,7 @@ export function Input({
 						placeholder={placeholderValue}
 						onChange={handleChange}
 						className={`text-sm border p-3 rounded-md font-light focus:outline-none focus:ring-0 autofill:bg-white resize-none ${
-							errors && touched
+							errors && value || errors && touched 
 								? 'border-alert'
 								: 'border-button focus:border-primary'
 						}`}
@@ -61,7 +61,7 @@ export function Input({
 						onChange={handleChange}
 						placeholder={placeholderValue}
 						className={`text-sm border p-3 rounded-md font-light outline-none focus:outline-none focus:ring-0 autofill:bg-white ${
-							errors && value
+							errors && value || errors && touched 
 								? 'border-alert'
 								: 'border-button focus:border-primary'
 						}`}
@@ -70,7 +70,7 @@ export function Input({
 				<label
 					htmlFor={name}
 					className={`absolute top-[-7px] left-3 pointer-events-none px-1 text-xs bg-white z-0 ${
-						value && errors ? 'text-alert' : 'text-primary'
+						errors && value || errors && touched ? 'text-alert' : 'text-primary'
 					}`}
 				>
 					<Translation translationKey={labelKey} />

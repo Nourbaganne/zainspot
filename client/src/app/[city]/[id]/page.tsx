@@ -38,44 +38,47 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const city = data?.data;
 
   return (
-    <div className="flex flex-col md:grid md:grid-cols-5 font-sans md:pt-5 text-text-foreground ">
-      <div className="flex flex-col md:col-span-2 py-2 md:py-0 gap-8">
+    <div className="flex flex-col md:grid md:grid-cols-2 font-sans md:pt-5 text-text-foreground ">
+      <div className="flex flex-col py-2 md:py-0 gap-8 md:gap-4">
         <Link
           href={"/"}
-          className="px-4 text-sm flex gap-1  hover:underline"
+          className="px-4 text-sm flex gap-1 hover:underline"
         >
           <Image src={returnIcon} alt="return-back-icon" />
           <Translation translationKey="citypage_return_button" />
         </Link>
         <div>
-          <div className="px-4 text-text-foreground">
-            <h1 className="text-3xl font-bold">{city?.city} ZainSpot</h1>
-            <h1 className="text-2xl font-semibold text-end">
+          <div className="px-4 md:px-0 text-text-foreground flex flex-col md:gap-4 gap-2">
+            <h1 className="text-5xl font-sans font-bold pl-0 md:pl-4">{city?.city} ZainSpot</h1>
+            <h1 className="text-3xl font-semibold text-end">
               {city?.location?.title.split(',')[0]}
             </h1>
           </div>
-          <div className="relative w-full h-[360px] md:h-[480px]">
-            <Image src={city?.imageUrl} alt="image" layout="fill" />
+          <div className="flex overflow-hidden">
+            <Image src={city?.imageUrl} alt="image" width={800} height={300} />
           </div>
-          <div className="flex flex-col px-4 gap-7 pt-7">
-            <p className="text-description font-semibold">
+          <div className="flex flex-col px-4 md:px-2 gap-7 pt-4 text-text-foreground">
+            <p
+              className="font-sans font-semibold text-[18px] leading-[27px]  tracking-wide"
+              style={{ wordSpacing: '0.2em', textAlign: 'justify' }}
+            >
               {city?.description}
             </p>
-            <h1 className="text-center font-extrabold text-text text-xl">
+            <h1 className="text-center font-sans font-extrabold text-2xl">
               Get the global edge from this rich heritage with your{" "}
               <span className="text-primary"> ZainSpot </span>
               <Translation translationKey="citypage_subtitle" />
             </h1>
-            <p>
+            <p className="font-light px-6 leading-[27px] font-sans">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
-          git   </p>
-            <div className="flex flex-col gap-3 bg-white-700 mx-auto my-5 w-full h-[480px] rounded-lg overflow-hidden">
+              git   </p>
+            <div className="flex flex-col gap-3 bg-white-700 mx-auto mb-5 w-full h-[480px] overflow-hidden px-0 md:px-8">
               <div className="flex gap-1 items-center">
                 <Image src={locationLogo} alt="location-logo" />
-                <h1>{city?.location?.title}</h1>
+                <h1 className="font-semibold font-sans">{city?.location?.title}</h1>
               </div>
               <Map address={city?.location?.locationLink} />
 
@@ -83,7 +86,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col md:col-span-3 gap-7 md:px-10">
+      <div className="flex flex-col gap-7 px-0 md:px-10 ">
         <ZsGold amount={city?.goldPrice.value} />
         <ZsClassic amounts={city?.classicPrice} />
         <div className="flex flex-col justify-center items-center gap-5 py-10">
