@@ -36,15 +36,15 @@ const missions: Mission[] = [
 
 export default function MissionPage() {
 
-    return (
+    return ( 
         <Container
             breadcrumbItems={[
                 { label: 'Home', href: '/' },
                 { label: 'Zainspot Mission' },
             ]}
-            className='pb-0'
+            withPaddingBottom={false}
         >
-            <div className='flex flex-col gap-14'>
+            <div className='flex flex-col gap-12'>
                 <div className='flex flex-col justify-center items-center gap-5'>
                     <h1 className='font-bold text-3xl'>Zainspot Mission</h1>
                     <p className='text-span font-light md:max-w-[716px] font-regular md:text-lg text-center'>

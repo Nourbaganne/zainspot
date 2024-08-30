@@ -48,9 +48,9 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           <Translation translationKey="citypage_return_button" />
         </Link>
         <div>
-          <div className="px-4 md:px-0 text-text-foreground flex flex-col gap-2">
-            <h1 className="font-bold text-bold-56 font-sans pl-0 md:pl-4">{city?.city} ZainSpot</h1>
-            <h1 className="text-3xl font-semibold text-end">
+          <div className="px-4 md:px-0 text-text-foreground flex flex-col gap-2 ">
+            <h1 className="font-bold text-4xl md:text-bold-56 font-sans pl-0 md:pl-4">{city?.city} ZainSpot</h1>
+            <h1 className="md:text-3xl text-semibold-18 font-semibold text-end">
               {city?.location?.title.split(',')[0]}
             </h1>
           </div>
@@ -59,22 +59,19 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
           </div>
           <div className="flex flex-col px-4 md:px-2 gap-7 pt-4 text-text-foreground">
             <p
-              className="font-sans font-semibold text-[18px] leading-[27px]  tracking-wide"
+              className="font-sans font-semibold text-lg md:text-[18px] leading-[27px]  tracking-wide"
               style={{ wordSpacing: '0.2em', textAlign: 'justify' }}
             >
               {city?.description}
             </p>
-            <h1 className="text-center font-sans font-extrabold text-2xl">
+            <h1 className="text-center font-sans font-extrabold text-xl md:text-2xl">
               Get the global edge from this rich heritage with your{" "}
               <span className="text-primary"> ZainSpot </span>
               <Translation translationKey="citypage_subtitle" />
             </h1>
-            <p className="font-light px-6 leading-[27px] font-sans">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-              git   </p>
+            <p className="font-light px-0 md:px-6 leading-[23px] md:leading-[27px] font-sans">
+              {city?.catchphrase}  
+            </p>
             <div className="flex flex-col gap-3 bg-white-700 mx-auto mb-5 w-full h-[480px] overflow-hidden px-0 md:px-8">
               <div className="flex gap-1 items-center">
                 <Image src={locationLogo} alt="location-logo" />

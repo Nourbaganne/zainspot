@@ -9,34 +9,33 @@ const ZsGold = ({ amount }: { amount: number }) => {
       <div className="flex flex-col">
         <div className="flex justify-between items-center">
           <h1
-            className="font-sans font-semibold text-[36px]">
+            className="font-sans font-semibold text-semibold-24 md:text-[36px]">
             ZS Gold
           </h1>
           <h1
-            className="font-sans font-extrabold text-bold-italic-22 italic  text-alert uppercase"
+            className="font-sans font-extrabold text-[18px] md:text-bold-italic-22 italic  text-alert uppercase"
             style={{ letterSpacing: '-0.01em' }}
           >
             <Translation translationKey="citypage_zg_gold_alert" />
           </h1>
 
         </div>
-        <p className="font-sans font-extrabold leading-[26.1px] uppercase text-primary">
+        <p className="font-sans font-extrabold leading-normal md:leading-[26.1px] uppercase text-primary">
           <Translation translationKey="citypage_zg_gold_title" />
         </p>
-
       </div>
 
-      <p className="font-sans font-semibold text-lg leading-[27px]  tracking-wide"
+      <p className="font-sans font-semibold text-semibold-15 md:text-lg leading-[27px] tracking-wide"
         style={{ wordSpacing: '0.2em', textAlign: 'justify' }}>
         <Translation translationKey="citypage_zg_gold_description" />
       </p>
 
-      <h1 className="text-center font-bold text-xl">
+      <h1 className="text-center font-bold text-bold-16 md:text-xl">
         <Translation translationKey="citypage_cards_subtitle" />
       </h1>
 
-      <div className="flex justify-between font-semibold">
-        <h1 className="flex gap-20">
+      <div className="flex justify-between font-semibold text-semibold-14 md:text-semibold-18">
+        <h1 className="flex  gap-5 md:gap-20 items-center">
           <Translation translationKey="citypage_single_payment" />
           <span className="text-primary text-lg">
             <MoneyValue
