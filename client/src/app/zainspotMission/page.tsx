@@ -46,8 +46,8 @@ export default function MissionPage() {
         >
             <div className='flex flex-col gap-14'>
                 <div className='flex flex-col justify-center items-center gap-5'>
-                    <h1 className='font-bold text-2xl'>Zainspot Mission</h1>
-                    <p className='text-span  md:max-w-[716px] font-regular md:text-lg text-center'>
+                    <h1 className='font-bold text-3xl'>Zainspot Mission</h1>
+                    <p className='text-span font-light md:max-w-[716px] font-regular md:text-lg text-center'>
                         Get to know ZainSpot's values and goals, how we connect with our customers on a deeper level by emphasizing the company’s dedication to empowerment, inclusivity, and innovation.
                     </p>
                 </div>
@@ -57,8 +57,10 @@ export default function MissionPage() {
                         missions.map((mission, index) => (
                             <div key={index} className='flex flex-col gap-3'>
                                 <h1 className='text-semibold-24 font-semibold'>{mission.title}</h1>
-                                <p className='font-regular text-span font-light'>{mission.description}</p>
-                            </div>  
+                                <p className='font-regular text-span font-light leading-[27px] '
+                                    style={{ wordSpacing: '0.2em', textAlign: 'justify' }}
+                                >{mission.description}</p>
+                            </div>
                         ))
                     }
 
