@@ -12,7 +12,7 @@ export class CityService {
 	constructor(
 		@InjectRepository(City)
 		private cityRepository: Repository<City>,
-	) {}
+	) { }
 
 	async getCities(
 		{ page, limit = 1 }: Pagination,
@@ -66,7 +66,7 @@ export class CityService {
 					if (error) {
 						reject(new Error('Image upload failed'));
 					}
-					resolve(result.secure_url);
+						resolve(result.secure_url);
 				},
 			);
 			uploadStream.end(file.buffer);
