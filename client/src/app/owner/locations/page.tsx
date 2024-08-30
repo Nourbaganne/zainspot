@@ -46,7 +46,7 @@ const Locations = () => {
 
 
   return (
-    <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
+    <div className='flex flex-col gap-6 bg-background-foreground px-4 md:px-24 py-8 md:pb-20'>
       <Breadcrumb items={BREADCRUMB_ITEMS} />
       <Image src={worldImage} alt='world-map' />
 
@@ -57,28 +57,30 @@ const Locations = () => {
         setIsHidden={setIsHidden}
         setIsDialogOpen={setIsDialogOpen}
       />
-      <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
-        <TableHeader />
-        <>
-          {filteredCities?.length > 0 ? (
-            filteredCities.map((city: CityProps, index: number) => (
-              <CityItem
-                key={index}
-                id={city.id}
-                city={city.city}
-                country={city.country}
-                location={city.location}
-                goldPrice={city.goldPrice}
-                classicPrice={city.classicPrice}
-                hidden={city.hidden}
-
-              /> 
-            ))
-          ) : (
-            <h1>No cities found</h1>
-          )}
-        </>
+      <div className='flex flex-col py-6 bg-background pl-6 border rounded-md overflow-x-auto'>
+        <div className=''>
+          <TableHeader />
+          <>
+            {filteredCities?.length > 0 ? (
+              filteredCities.map((city: CityProps, index: number) => (
+                <CityItem
+                  key={index}
+                  id={city.id}
+                  city={city.city}
+                  country={city.country}
+                  location={city.location}
+                  goldPrice={city.goldPrice}
+                  classicPrice={city.classicPrice}
+                  hidden={city.hidden}
+                />
+              ))
+            ) : (
+              <h1>No cities found</h1>
+            )}
+          </>
+        </div>
       </div>
+
       {!searchCity && filteredCities?.length > 0 && (
         <Pagination
           currentPage={currentPage}

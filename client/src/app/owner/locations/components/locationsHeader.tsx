@@ -22,8 +22,8 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
     setIsDialogOpen
 }) => {
     return (
-        <div className='grid grid-cols-4 text-span'>
-            <div className='flex items-center gap-4 text-sm'>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-4 text-span'>
+            <div className='flex items-center gap-2 text-sm flex-wrap'>
                 <h1 className='flex items-center gap-1'>
                     <span className='font-bold text-2xl'>6</span> Countries
                 </h1>
@@ -34,17 +34,17 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                     <span className='font-bold text-2xl'>17</span> Locations
                 </h1>
             </div>
-            <div className='grid grid-cols-5 col-span-3'>
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-5 col-span-3'>
                 <div className='flex col-span-3 bg-background gap-2 items-center p-2 text-span border border-button rounded-md'>
                     <Image src={searchIcon} alt='search-user' />
                     <input
                         placeholder="Search Location"
-                        className="outline-none border-none w-full focus:ring-0 "
+                        className="outline-none border-none w-full focus:ring-0"
                         value={searchCity}
                         onChange={(e) => setSearchCity(e.target.value)}
                     />
                 </div>
-                <div className='flex col-span-2 justify-end gap-5 items-center'>
+                <div className='flex col-span-2 justify-between md:justify-end gap-5 items-center'>
                     <button onClick={() => setIsHidden(!isHidden)}>
                         {isHidden ? (
                             <div className='border-2 border-primary text-primary rounded-lg px-3 py-2 flex items-center gap-2'>
@@ -68,6 +68,7 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                 </div>
             </div>
         </div>
+
     );
 };
 

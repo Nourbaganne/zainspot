@@ -41,8 +41,8 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
             </p>
             <form onSubmit={formik.handleSubmit} >
               <div className='flex flex-col gap-4'>
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="flex flex-col border-r pr-6 gap-4">
+                <div className="grid  grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex flex-col md:border-r md:pr-6 gap-4">
                     {/* Location Info */}
                     <div className="flex flex-col gap-7">
                       <h1 className="font-semibold text-sm">
@@ -125,13 +125,10 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                         formik={formik}
                       />
                     </div>
-
-
                   </div>
 
                   {/* ZS Gold & Classic */}
                   <div className="flex flex-col gap-6">
-
                     <ImageInput
                       value={formik.values.imageUrl}
                       onFileSelect={(file) => formik.setFieldValue('imageUrl', file)}
@@ -144,7 +141,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                       <h1 className="font-semibold text-sm mb-2">
                         <Translation translationKey="locationDialog_gold" />
                       </h1>
-                      <div className="flex gap-4 font-light">
+                      <div className="flex flex-col md:flex-row gap-4 font-light">
                         <Input
                           type="number"
                           labelKey="locationDialog_amount"
@@ -190,7 +187,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                             </button>
                             {activeDuration === duration.value && (
                               <div className="p-4 border-t">
-                                <div className="flex gap-4 font-light ">
+                                <div className="flex flex-col md:flex-row gap-4 font-light ">
                                   <Input
                                     type="number"
                                     labelKey="locationDialog_amount"
@@ -251,9 +248,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                     CREATE LOCATION
                   </button>
                 </div>
-
               </div>
-
             </form>
           </div>
         </div>
