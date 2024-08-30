@@ -16,7 +16,7 @@ export const FOOTER_DATA: FooterDataInterface[] = [
 		translationKey: 'footer_title_about',
 		sections: [
 			{ translationKey: 'footer_title_howitworks', link: '/' },
-			{ translationKey: 'footer_title_zainspotmission', link: '/' },
+			{ translationKey: 'footer_title_zainspotmission', link: '/zainspotMission' },
 		],
 	},
 	{

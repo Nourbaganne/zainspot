@@ -38,9 +38,8 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                 <div className='flex col-span-3 bg-background gap-2 items-center p-2 text-span border border-button rounded-md'>
                     <Image src={searchIcon} alt='search-user' />
                     <input
-                        type="search"
                         placeholder="Search Location"
-                        className="outline-none border-none w-full"
+                        className="outline-none border-none w-full focus:ring-0 "
                         value={searchCity}
                         onChange={(e) => setSearchCity(e.target.value)}
                     />
