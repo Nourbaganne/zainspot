@@ -1,4 +1,4 @@
-import { CityProps } from '@/app/constants/owner-location'
+import { CityProps } from '@/app/constants/owner-location';
 import hiddenLogo from '@/app/assets/owner/locations/hidden-logo.svg';
 import unhiddenLogo from '@/app/assets/owner/locations/eye-outline.svg';
 import deleteLogo from '@/app/assets/owner/locations/trash-outline.svg';
@@ -6,22 +6,18 @@ import editLogo from '@/app/assets/owner/locations/edit-outline.svg';
 import Image from 'next/image';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
-import { useDeleteCity } from '@/app/lib/deleteCity';
 import { useHideCity } from '@/app/lib/useHideCity';
-
+import { useState } from 'react';
+import DeleteDialog from './deleteDialog';
 
 const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden }: CityProps) => {
     const { currency } = useCurrency();
-    const { mutate: deleteCity } = useDeleteCity();
     const { mutate: hideCity } = useHideCity();
-
-    const handleDeleteCity = () => {
-        deleteCity(id);
-    };
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const handleHideCity = () => {
         hideCity(id);
-    }
+    };
 
     return (
         <div className='grid grid-cols-6 py-4 px-2 border-b'>
@@ -153,13 +149,18 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
 
 
                 <button
-                    onClick={handleDeleteCity}
+                    onClick={() => setIsDialogOpen(true)}
                     className='flex self-end  items-center gap-2 text-alert-dark '
                 >
                     <Image src={deleteLogo} alt='delete-city' />
                     Delete Permanently
                 </button>
             </div>
+            {
+                isDialogOpen && (
+                    <DeleteDialog id={id} setIsDialogOpen={setIsDialogOpen} />
+                )
+            }
         </div>
     );
 };
