@@ -13,6 +13,7 @@ import previousIcon from '@/app/assets/owner/users/chevron-back.svg';
 import Modal from '@/app/components/Modal';
 import UsersTable from './components/UsersTable';
 import RolesModal from './components/RolesModal';
+import Loader from '@/app/components/loader';
 
 const Users = () => {
 	const [selectedFilter, setSelectedFilter] = useState<string>('');
@@ -72,7 +73,7 @@ const Users = () => {
 			),
 	});
 
-	if (isLoading) return <h1>Loading ...</h1>;
+	if (isLoading) return <Loader />;
 	if (isError) return <h1>{error.message}</h1>;
 
 	const zainspottersCount = data?.data.counts.zainspotter || 0;

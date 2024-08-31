@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../contexts/authContext";
+import Loader from "../components/loader";
 
 export function WithAuth<P extends object>(WrappedComponent: React.ComponentType<P>) {
   return function WithAuthComponent(props: P) {
@@ -14,7 +15,7 @@ export function WithAuth<P extends object>(WrappedComponent: React.ComponentType
     }, [user, loading, router]);
 
     if (loading) {
-      return <div>Loading...</div>;
+      return <Loader />;
     }
 
     if (!user) {

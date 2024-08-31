@@ -12,6 +12,7 @@ import revenueIcon from '@/app/assets/owner/users/information-circle-outline.svg
 import Image from 'next/image';
 import CustomStackedBarChart from '../../components/barChart';
 import SubscriptionList from '../../components/subscriptionList';
+import Loader from '@/app/components/loader';
 
 const Page = ({ params }: { params: { id: number } }) => {
   const { user } = useContext(AuthContext);
@@ -26,7 +27,7 @@ const Page = ({ params }: { params: { id: number } }) => {
   });
 
   if (isLoading) {
-    return <h1>Loading ...</h1>;
+    return <Loader />;
   }
 
   if (isError) {

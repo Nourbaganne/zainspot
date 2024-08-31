@@ -13,6 +13,7 @@ import { BREADCRUMB_ITEMS, CityProps } from '@/app/constants/owner-location';
 import LocationsHeader from './components/locationsHeader';
 import TableHeader from './components/tableHeader';
 import Pagination from './components/pagination';
+import Loader from '@/app/components/loader';
 
 
 const Locations = () => {
@@ -38,7 +39,7 @@ const Locations = () => {
     queryFn: () => axiosInstance.get(`/city?page=${currentPage}&name=${debouncedSearchCity}`),
   });
 
-  if (isLoading) return <h1>Loading ...</h1>;
+  if (isLoading) return <Loader />;
   if (isError) return <h1>{error.message}</h1>;
 
 

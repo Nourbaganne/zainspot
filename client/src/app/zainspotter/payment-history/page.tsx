@@ -20,6 +20,7 @@ import axiosInstance from '@/app/lib/axios/axiosInstance';
 import { AuthContext } from '@/app/contexts/authContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
+import Loader from '@/app/components/loader';
 
 interface Subscription {
 	country: string;
@@ -98,7 +99,7 @@ const Page = () => {
 	});
 
 	if (isLoading) {
-		return <div>Loading ....</div>;
+		return <Loader />;
 	}
 	if (isError) {
 		return <div>{error.message}</div>;

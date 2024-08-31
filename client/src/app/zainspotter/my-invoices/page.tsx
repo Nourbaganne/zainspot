@@ -12,6 +12,7 @@ import { useContext } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
+import Loader from '@/app/components/loader';
 
 interface Invoice {
 	id: number;
@@ -42,7 +43,7 @@ const Page = () => {
 	});
 
 	if (isLoading) {
-		return <div>Loading ...</div>;
+		return <Loader />;
 	}
 	if (isError) {
 		return <div>{error.message}</div>;

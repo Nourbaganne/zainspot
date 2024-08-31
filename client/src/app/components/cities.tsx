@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import AvailableCity from './availableCity';
 import UnavailableCity from './unavailableCity';
 import { getCities } from '../lib/getCitites';
+import Loader from './loader';
 
 interface City {
     id: number;
@@ -20,7 +21,7 @@ const Cities = () => {
 
 
     if (isLoading) {
-        return <div>Loading ...</div>;
+        return <Loader />;
     }
 
     if (isError) {

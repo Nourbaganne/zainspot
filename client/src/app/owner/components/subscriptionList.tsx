@@ -3,6 +3,7 @@ import downButton from '@/app/assets/owner/users/Down.svg';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
+import Loader from '@/app/components/loader';
 
 interface SubscriptionItemProps {
     city: {
@@ -102,7 +103,7 @@ const SubscriptionList = ({ userId, access_token }: { userId: number, access_tok
         })
     });
 
-    if (isLoading) return <h1>Loading ...</h1>
+    if (isLoading) return <Loader />
     if (isError) return <h1>{error.message}</h1>
 
 

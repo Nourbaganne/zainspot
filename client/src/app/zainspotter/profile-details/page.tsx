@@ -16,6 +16,7 @@ import Dialog from '@/app/components/dialog';
 import { handleEmailVerification } from '@/app/lib/email-verification';
 import getUserData from '@/app/lib/getUserData';
 import { useQuery } from '@tanstack/react-query';
+import Loader from '@/app/components/loader';
 
 const Page = () => {
 	const { user } = useContext(AuthContext);
@@ -31,7 +32,7 @@ const Page = () => {
 	const formik = useUpdateForm(data);
 
 	if (isLoading) {
-		return <div>Loading ...</div>;
+		return <Loader />;
 	}
 	if (isError) {
 		return <div>{(error as Error).message}</div>;

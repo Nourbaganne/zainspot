@@ -7,6 +7,7 @@ import axiosInstance from '@/app/lib/axios/axiosInstance';
 import { useContext } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
 import Subscription from './component/subscription';
+import Loader from '@/app/components/loader';
 
 export interface SubscriptionProps {
 	id: number;
@@ -47,7 +48,7 @@ const Page = () => {
 			}),
 	});
 
-	if (isLoading) return <h1>Loading ...</h1>;
+	if (isLoading) return <Loader />;
 	if (isError) return <h1>{error.message}</h1>;
 
 	return (

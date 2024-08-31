@@ -17,6 +17,7 @@ import { AuthContext } from '@/app/contexts/authContext';
 import SaveChangesButton from '@/app/components/saveChangesButton';
 import { useQuery } from '@tanstack/react-query';
 import getUserData from '@/app/lib/getUserData';
+import Loader from '@/app/components/loader';
 
 const Page = () => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +34,7 @@ const Page = () => {
 	const formik = useUpdateForm(data);
 
 	if (isLoading) {
-		return <div>Loading ...</div>;
+		return <Loader />;
 	}
 	if (isError) {
 		return <div>{(error as Error).message}</div>;

@@ -11,6 +11,7 @@ import ZsGold from "../components/zgGold";
 import ZsClassic from "../components/zsClassic";
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/app/lib/axios/axiosInstance";
+import Loader from "@/app/components/loader";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   const Map = useMemo(
@@ -28,7 +29,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   });
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <Loader />;
   }
 
   if (isError) {

@@ -48,7 +48,7 @@ export default function MissionPage() {
                 <div className='flex flex-col justify-center items-center gap-5'>
                     <h1 className='font-bold text-3xl'>Zainspot Mission</h1>
                     <p className='text-span font-light md:max-w-[716px] font-regular md:text-lg text-center'>
-                        Get to know ZainSpot's values and goals, how we connect with our customers on a deeper level by emphasizing the company’s dedication to empowerment, inclusivity, and innovation.
+                        Get to know ZainSpot&apos;s values and goals, how we connect with our customers on a deeper level by emphasizing the company&apos;s dedication to empowerment, inclusivity, and innovation.
                     </p>
                 </div>
 
