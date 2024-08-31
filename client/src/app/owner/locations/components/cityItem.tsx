@@ -9,11 +9,13 @@ import { MoneyValue } from '@/app/components/MoneyValue';
 import { useHideCity } from '@/app/lib/useHideCity';
 import { useState } from 'react';
 import DeleteDialog from './deleteDialog';
+import Dialog from './dialog';
 
 const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden }: CityProps) => {
     const { currency } = useCurrency();
     const { mutate: hideCity } = useHideCity();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
 
     const handleHideCity = () => {
         hideCity(id);
@@ -124,7 +126,7 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
             <div className='col-span-1 pt-4 md:pt-0 md:col-span-1 flex flex-col gap-3 text-xs font-semibold items-end'>
 
                 <div className='flex gap-1'>
-                    <button className='flex items-center gap-2 text-span py-3 px-5 border-2 border-span rounded-md'>
+                    <button onClick={() => setIsEditDialogOpen(true)} className='flex items-center gap-2 text-span py-3 px-5 border-2 border-span rounded-md'>
                         <Image src={editLogo} alt='edit-city' />
                         Edit
                     </button>
@@ -153,6 +155,10 @@ const CityItem = ({ id, city, country, location, goldPrice, classicPrice, hidden
                     Delete Permanently
                 </button>
             </div>
+
+            {isEditDialogOpen && (
+                <Dialog isOpen={isEditDialogOpen} onClose={() => setIsEditDialogOpen(false)} isEdit={true} id={id} />
+            )}
             {
                 isDialogOpen && (
                     <DeleteDialog id={id} setIsDialogOpen={setIsDialogOpen} />

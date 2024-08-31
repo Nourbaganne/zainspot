@@ -88,6 +88,8 @@ const Locations = () => {
           setCurrentPage={setCurrentPage}
           totalPages={data?.data.totalPages} />
       )}
+
+      
       <Dialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
     </div>
   );

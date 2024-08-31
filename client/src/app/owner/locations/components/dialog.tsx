@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 import closeIcon from '@/app/assets/owner/locations/close.svg';
 import { useAddCity } from '@/app/lib/addCity';
@@ -6,17 +6,44 @@ import { Input } from '@/app/register/components/input';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import Translation from '@/app/components/translation';
 import ImageInput from './imageInput';
+import { useEditCity } from '@/app/lib/editCity';
 
 interface DialogProps {
   onClose: () => void;
   isOpen: boolean;
+  isEdit?: boolean;
+  id?: number;
 }
 
-const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
+const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
   const [activeDuration, setActiveDuration] = useState<number | null>(null);
-  const formik = useAddCity();
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
-  if (!isOpen) return null;
+  const formik = isEdit && id !== undefined ? useEditCity({ id }) : useAddCity();
+
+  useEffect(() => {
+    if (isEdit && id !== undefined) {
+      if (formik.values.imageUrl instanceof File) {
+        const url = URL.createObjectURL(formik.values.imageUrl);
+        setImageUrl(url);
+        return () => URL.revokeObjectURL(url); 
+      } else if (typeof formik.values.imageUrl === 'string') {
+        setImageUrl(formik.values.imageUrl);
+      } else {
+        setImageUrl(undefined);
+      }
+    } else {
+      if (formik.values.imageUrl instanceof File) {
+        const url = URL.createObjectURL(formik.values.imageUrl);
+        setImageUrl(url);
+        return () => URL.revokeObjectURL(url); 
+      } else if (typeof formik.values.imageUrl === 'string') {
+        setImageUrl(formik.values.imageUrl);
+      } else {
+        setImageUrl(undefined);
+      }
+    }
+  }, [formik.values.imageUrl, isEdit, id]);
 
   const durations = [
     { label: 'locationDialog_duration_perYear', value: 12 },
@@ -24,6 +51,8 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
     { label: 'locationDialog_duration_per3months', value: 3 },
     { label: 'locationDialog_duration_permonth', value: 1 },
   ];
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -132,8 +161,9 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                     <ImageInput
                       value={formik.values.imageUrl}
                       onFileSelect={(file) => formik.setFieldValue('imageUrl', file)}
-                      selectedFile={formik.values.imageUrl ? URL.createObjectURL(formik.values.imageUrl) : undefined}
+                      selectedFile={imageUrl}
                     />
+
                     {formik.errors.imageUrl && formik.touched.imageUrl && (
                       <div className="text-red-500 text-sm">{formik.errors.imageUrl}</div>
                     )}
@@ -245,7 +275,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen }) => {
                     type="submit"
                     className="py-3 px-4 bg-primary text-white rounded-lg"
                   >
-                    CREATE LOCATION
+                    {isEdit ? 'UPDATE LOCATION' : 'CREATE LOCATION'}
                   </button>
                 </div>
               </div>

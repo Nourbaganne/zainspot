@@ -5,16 +5,18 @@ import { useState, useRef, useEffect } from 'react';
 interface ImageInputProps {
     onFileSelect: (file: File | null) => void;
     selectedFile?: string;
-    value: File | null;
+    value: File | string | null; 
 }
 
 const ImageInput: React.FC<ImageInputProps> = ({ onFileSelect, selectedFile, value }) => {
-    const [file, setFile] = useState<string | undefined>(selectedFile);
+    const [file, setFile] = useState<string | undefined>();
     const [fileEnter, setFileEnter] = useState(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
-        if (value) {
+        if (value && typeof value === 'string') {
+            setFile(value);
+        } else if (value instanceof File) {
             const blobUrl = URL.createObjectURL(value);
             setFile(blobUrl);
             return () => URL.revokeObjectURL(blobUrl); 
@@ -84,10 +86,10 @@ const ImageInput: React.FC<ImageInputProps> = ({ onFileSelect, selectedFile, val
                 </div>
             ) : (
                 <div className="relative flex flex-col items-center">
-                    <object
+                    <img
                         className="rounded-2xl w-full max-h-60"
-                        data={file}
-                        type="image/png"
+                        src={file}
+                        alt="Selected file preview"
                     />
                     <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
                         <label htmlFor="file"
