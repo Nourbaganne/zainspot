@@ -7,6 +7,7 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { CurrencyProvider } from "./contexts/CurrencyContext";
 import { QueryProvider } from "./queryProvider";
 import { AuthContextProvider } from "./contexts/authContext";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
             <LanguageProvider>
               <CurrencyProvider>
                 <Navbar />
+                <Toaster position="top-right" />
                 {children}
                 <Footer />
               </CurrencyProvider>

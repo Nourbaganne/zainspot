@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/authContext";
 import axiosInstance from "./axios/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 
 export interface PerMonth {
     duration: number | null;
@@ -42,7 +43,7 @@ const defaultClassicPrice = {
     perMonth: durations.map((duration) => ({ duration: duration.value, amount: null, tax: null })),
 };
 
-export const useAddCity = () => {
+export const useAddCity = ({onClose} : {onClose: () => void}) => {
     const { user } = useContext(AuthContext);
     const queryClient = useQueryClient();
 
@@ -71,6 +72,8 @@ export const useAddCity = () => {
         },
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ['cities'] });
+            toast.success('City created successfully!');
+            onClose();
         },
         onError: (error: any) => {
             console.error("Error adding city:", error);

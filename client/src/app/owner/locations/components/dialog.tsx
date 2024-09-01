@@ -12,38 +12,29 @@ interface DialogProps {
   onClose: () => void;
   isOpen: boolean;
   isEdit?: boolean;
-  id?: number;
+  id: number;
 }
 
 const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
   const [activeDuration, setActiveDuration] = useState<number | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
-  const formik = isEdit && id !== undefined ? useEditCity({ id }) : useAddCity();
+  const formik = useEditCity({ id, onClose });
+  const formikAddCity = useAddCity({onClose});
 
   useEffect(() => {
-    if (isEdit && id !== undefined) {
-      if (formik.values.imageUrl instanceof File) {
-        const url = URL.createObjectURL(formik.values.imageUrl);
-        setImageUrl(url);
-        return () => URL.revokeObjectURL(url); 
-      } else if (typeof formik.values.imageUrl === 'string') {
-        setImageUrl(formik.values.imageUrl);
-      } else {
-        setImageUrl(undefined);
-      }
+    const formikInstance = isEdit && id !== undefined ? formik : formikAddCity;
+
+    if (formikInstance.values.imageUrl instanceof File) {
+      const url = URL.createObjectURL(formikInstance.values.imageUrl);
+      setImageUrl(url);
+      return () => URL.revokeObjectURL(url);
+    } else if (typeof formikInstance.values.imageUrl === 'string') {
+      setImageUrl(formikInstance.values.imageUrl);
     } else {
-      if (formik.values.imageUrl instanceof File) {
-        const url = URL.createObjectURL(formik.values.imageUrl);
-        setImageUrl(url);
-        return () => URL.revokeObjectURL(url); 
-      } else if (typeof formik.values.imageUrl === 'string') {
-        setImageUrl(formik.values.imageUrl);
-      } else {
-        setImageUrl(undefined);
-      }
+      setImageUrl(undefined);
     }
-  }, [formik.values.imageUrl, isEdit, id]);
+  }, [formik.values.imageUrl, formikAddCity.values.imageUrl, isEdit, id]);
 
   const durations = [
     { label: 'locationDialog_duration_perYear', value: 12 },
@@ -53,6 +44,9 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
   ];
 
   if (!isOpen) return null;
+
+  const formikInstance = isEdit && id !== undefined ? formik : formikAddCity;
+
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -68,7 +62,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
             <p className="text-span font-light text-center">
               To create a new location, fill in the information below
             </p>
-            <form onSubmit={formik.handleSubmit} >
+            <form onSubmit={formikInstance.handleSubmit} >
               <div className='flex flex-col gap-4'>
                 <div className="grid  grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="flex flex-col md:border-r md:pr-6 gap-4">
@@ -80,47 +74,47 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
                       <Input
                         type="text"
                         labelKey="locationDialog_info_city"
-                        value={formik.values.city}
+                        value={formikInstance.values.city}
                         placeholderValue="Enter country name... "
                         name="city"
-                        handleChange={formik.handleChange}
-                        touched={formik.touched.city}
-                        errors={formik.errors.city}
-                        formik={formik}
+                        handleChange={formikInstance.handleChange}
+                        touched={formikInstance.touched.city}
+                        errors={formikInstance.errors.city}
+                        formik={formikInstance}
                       />
                       <Input
                         type="text"
                         labelKey="locationDialog_info_country"
                         placeholderValue="Enter city name... "
-                        value={formik.values.country}
+                        value={formikInstance.values.country}
                         name="country"
-                        handleChange={formik.handleChange}
-                        touched={formik.touched.country}
-                        errors={formik.errors.country}
-                        formik={formik}
+                        handleChange={formikInstance.handleChange}
+                        touched={formikInstance.touched.country}
+                        errors={formikInstance.errors.country}
+                        formik={formikInstance}
                       />
                       <Input
                         type="textarea"
                         placeholderValue="Write down the city description"
                         labelKey="locationDialog_info_description"
-                        value={formik.values.description}
+                        value={formikInstance.values.description}
                         name="description"
-                        handleChange={formik.handleChange}
-                        touched={formik.touched.description}
-                        errors={formik.errors.description}
-                        formik={formik}
+                        handleChange={formikInstance.handleChange}
+                        touched={formikInstance.touched.description}
+                        errors={formikInstance.errors.description}
+                        formik={formikInstance}
                         rows={7}
                       />
                       <Input
                         type="textarea"
                         placeholderValue="Get the global edge from this rich heritage with your ZainSpot Business Address!"
                         labelKey="locationDialog_info_catchphrase"
-                        value={formik.values.catchphrase}
+                        value={formikInstance.values.catchphrase}
                         name="catchphrase"
-                        handleChange={formik.handleChange}
-                        touched={formik.touched.catchphrase}
-                        errors={formik.errors.catchphrase}
-                        formik={formik}
+                        handleChange={formikInstance.handleChange}
+                        touched={formikInstance.touched.catchphrase}
+                        errors={formikInstance.errors.catchphrase}
+                        formik={formikInstance}
                         rows={2}
                       />
                     </div>
@@ -132,13 +126,13 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
                       <Input
                         type="textarea"
                         labelKey="locationDialog_emplacement_title"
-                        value={formik.values.location?.title || ''}
+                        value={formikInstance.values.location?.title || ''}
                         placeholderValue="write down the location address..."
                         name="location.title"
-                        handleChange={formik.handleChange}
-                        touched={formik.touched.location?.title}
-                        errors={formik.errors.location?.title}
-                        formik={formik}
+                        handleChange={formikInstance.handleChange}
+                        touched={formikInstance.touched.location?.title}
+                        errors={formikInstance.errors.location?.title}
+                        formik={formikInstance}
                         rows={2}
                       />
 
@@ -146,12 +140,12 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
                         type='text'
                         labelKey='locationDialog_emplacement_link'
                         placeholderValue='Location Link'
-                        value={formik.values.location.locationLink}
+                        value={formikInstance.values.location.locationLink}
                         name='location.locationLink'
-                        handleChange={formik.handleChange}
-                        touched={formik.touched.location?.locationLink}
-                        errors={formik.errors.location?.locationLink}
-                        formik={formik}
+                        handleChange={formikInstance.handleChange}
+                        touched={formikInstance.touched.location?.locationLink}
+                        errors={formikInstance.errors.location?.locationLink}
+                        formik={formikInstance}
                       />
                     </div>
                   </div>
@@ -159,13 +153,13 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
                   {/* ZS Gold & Classic */}
                   <div className="flex flex-col gap-6">
                     <ImageInput
-                      value={formik.values.imageUrl}
-                      onFileSelect={(file) => formik.setFieldValue('imageUrl', file)}
+                      value={formikInstance.values.imageUrl}
+                      onFileSelect={(file) => formikInstance.setFieldValue('imageUrl', file)}
                       selectedFile={imageUrl}
                     />
 
-                    {formik.errors.imageUrl && formik.touched.imageUrl && (
-                      <div className="text-red-500 text-sm">{formik.errors.imageUrl}</div>
+                    {formikInstance.errors.imageUrl && formikInstance.touched.imageUrl && (
+                      <div className="text-red-500 text-sm">{formikInstance.errors.imageUrl}</div>
                     )}
                     <div className="flex flex-col gap-2">
                       <h1 className="font-semibold text-sm mb-2">
@@ -175,22 +169,22 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
                         <Input
                           type="number"
                           labelKey="locationDialog_amount"
-                          value={formik.values.goldPrice?.value || ''}
+                          value={formikInstance.values.goldPrice?.value || ''}
                           name="goldPrice.value"
-                          handleChange={formik.handleChange}
-                          touched={formik.touched.goldPrice?.value}
-                          errors={formik.errors.goldPrice?.value}
-                          formik={formik}
+                          handleChange={formikInstance.handleChange}
+                          touched={formikInstance.touched.goldPrice?.value}
+                          errors={formikInstance.errors.goldPrice?.value}
+                          formik={formikInstance}
                         />
                         <Input
                           type="number"
                           labelKey="locationDialog_tax"
-                          value={formik.values.goldPrice?.tax || ''}
+                          value={formikInstance.values.goldPrice?.tax || ''}
                           name="goldPrice.tax"
-                          handleChange={formik.handleChange}
-                          touched={formik.touched.goldPrice?.tax}
-                          errors={formik.errors.goldPrice?.tax}
-                          formik={formik}
+                          handleChange={formikInstance.handleChange}
+                          touched={formikInstance.touched.goldPrice?.tax}
+                          errors={formikInstance.errors.goldPrice?.tax}
+                          formik={formikInstance}
                         />
                       </div>
                     </div>
@@ -221,30 +215,30 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
                                   <Input
                                     type="number"
                                     labelKey="locationDialog_amount"
-                                    value={formik.values.classicPrice.perMonth[index]?.amount || ''}
+                                    value={formikInstance.values.classicPrice.perMonth[index]?.amount || ''}
                                     name={`classicPrice.perMonth.${index}.amount`}
-                                    handleChange={formik.handleChange}
-                                    touched={formik.touched.classicPrice?.perMonth?.[index]?.amount}
+                                    handleChange={formikInstance.handleChange}
+                                    touched={formikInstance.touched.classicPrice?.perMonth?.[index]?.amount}
                                     errors={
-                                      typeof formik.errors.classicPrice?.perMonth?.[index] === 'object'
-                                        ? formik.errors.classicPrice?.perMonth?.[index]?.amount
+                                      typeof formikInstance.errors.classicPrice?.perMonth?.[index] === 'object'
+                                        ? formikInstance.errors.classicPrice?.perMonth?.[index]?.amount
                                         : undefined
                                     }
-                                    formik={formik}
+                                    formik={formikInstance}
                                   />
                                   <Input
                                     type="number"
                                     labelKey="locationDialog_tax"
-                                    value={formik.values.classicPrice.perMonth[index]?.tax || ''}
+                                    value={formikInstance.values.classicPrice.perMonth[index]?.tax || ''}
                                     name={`classicPrice.perMonth.${index}.tax`}
-                                    handleChange={formik.handleChange}
-                                    touched={formik.touched.classicPrice?.perMonth?.[index]?.tax}
+                                    handleChange={formikInstance.handleChange}
+                                    touched={formikInstance.touched.classicPrice?.perMonth?.[index]?.tax}
                                     errors={
-                                      typeof formik.errors.classicPrice?.perMonth?.[index] === 'object'
-                                        ? formik.errors.classicPrice?.perMonth?.[index]?.tax
+                                      typeof formikInstance.errors.classicPrice?.perMonth?.[index] === 'object'
+                                        ? formikInstance.errors.classicPrice?.perMonth?.[index]?.tax
                                         : undefined
                                     }
-                                    formik={formik}
+                                    formik={formikInstance}
                                   />
                                   {/* Ensure duration is sent */}
                                   <input
