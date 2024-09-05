@@ -30,7 +30,7 @@ export const FOOTER_DATA: FooterDataInterface[] = [
 		translationKey: 'footer_title_termsofuse',
 		sections: [
 			{ translationKey: 'footer_title_termsofuse', link: '/terms' },
-			{ translationKey: 'footer_title_privacypolicy', link: '/' },
+			{ translationKey: 'footer_title_privacypolicy', link: '/privacypolicy' },
 		],
 	},
 ];
