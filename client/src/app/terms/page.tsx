@@ -90,22 +90,22 @@ export default function TermsOfUse() {
                     </p>
                 </div>
 
-                <div className='bg-background pt-8 px-5 md:px-64 pb-20 flex flex-col gap-10 text-sm'>
-                    {
-                        missions.map((mission, index) => (
-                            <ol key={index} className='flex flex-col gap-3 list-decimal list-inside'>
-                                <h1 className='text-semibold-24 font-semibold'>{mission.title}</h1>
+                <div className='bg-background pt-8 px-5 md:px-[300px] pb-20 flex flex-col gap-10 text-sm '>
+                    <ol className='list-decimal pl-6 flex flex-col gap-7'>
+                        {missions.map((mission, index) => (
+                            <li key={index} className='text-semibold-24 '>
+                                <h1 className='font-semibold pb-3'>{mission.title}</h1>
                                 {typeof mission.description === 'string' ? (
-                                    <p className='font-regular text-span font-light leading-[27px]'
+                                    <p className='font-regular text-sm text-span font-light leading-[27px]'
                                         style={{ wordSpacing: '0.1em', textAlign: 'justify' }}
                                     >
                                         {mission.description}
                                     </p>
                                 ) : (
-                                    <ul className='list-disc list-inside flex flex-col gap-2'>
-                                        {mission.description.map((item, index) => (
-                                            <li key={index} className='text-text '>
-                                                {item.item}
+                                    <ul className='list-disc list-inside flex flex-col gap-2 text-sm'>
+                                        {mission.description.map((item, itemIndex) => (
+                                            <li key={itemIndex} className='text-text'>
+                                                <strong>{item.item}</strong>
                                                 <span className='font-light text-span leading-[27px]' style={{ wordSpacing: '0.1em', textAlign: 'justify' }}>
                                                     {item.desc}
                                                 </span>
@@ -123,11 +123,13 @@ export default function TermsOfUse() {
                                         ))}
                                     </ul>
                                 )}
-                            </ol>
-                        ))
-                    }
+                            </li>
+                        ))}
+                    </ol>
                 </div>
             </div>
         </Container>
     )
 }
+
+
