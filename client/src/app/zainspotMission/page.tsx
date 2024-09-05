@@ -52,13 +52,13 @@ export default function MissionPage() {
                     </p>
                 </div>
 
-                <div className='bg-background pt-8 px-5 md:px-20 pb-20 grid grid-cols-1 md:grid-cols-2 gap-10'>
+                <div className='bg-background pt-8 px-5 md:px-64 pb-20 flex flex-col gap-10'>
                     {
                         missions.map((mission, index) => (
                             <div key={index} className='flex flex-col gap-3'>
                                 <h1 className='text-semibold-24 font-semibold'>{mission.title}</h1>
                                 <p className='font-regular text-span font-light leading-[27px] '
-                                    style={{ wordSpacing: '0.2em', textAlign: 'justify' }}
+                                    style={{ wordSpacing: '0.1em', textAlign: 'justify' }}
                                 >{mission.description}</p>
                             </div>
                         ))
