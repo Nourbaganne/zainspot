@@ -102,7 +102,7 @@ export default function PrivacyPolicy() {
                     <ol className='list-decimal pl-6 flex flex-col gap-7'>
                         {missions.map((mission, index) => (
                             <li key={index} className='text-semibold-24 '>
-                                <h1 className='font-semibold pb-3'>{mission.title}</h1>
+                                <h1 className='font-semibold pb-3 leading-[27px]'>{mission.title}</h1>
                                 {typeof mission.description === 'string' ? (
                                     <p className='font-regular text-sm text-span font-light leading-[27px]'
                                         style={{ wordSpacing: '0.1em', textAlign: 'justify' }}

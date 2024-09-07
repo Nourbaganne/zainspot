@@ -12,6 +12,7 @@ import InputPassword from '../components/inputPassword';
 import { useState } from 'react';
 import Dialog from '../components/dialog';
 import WelcomeToBusinessSection from '../components/WelcomeToBusiness';
+import Link from 'next/link';
 
 const Register = () => {
 	const [isOpenDialog, setIsOpenDialog] = useState(false);
@@ -401,15 +402,15 @@ const Register = () => {
 				{error && <h1 className='text-alert'>{error}</h1>}
 				<p className='text-center'>
 					<Translation translationKey='registerpage_privacy_policy' />
-					<span className='text-primary underline cursor-pointer hover:no-underline'>
+					<Link href='/terms' className='text-primary underline cursor-pointer hover:no-underline'>
 						{' '}
 						<Translation translationKey='registerpage_termsofuse_span' />{' '}
-					</span>{' '}
+					</Link>{' '}
 					<Translation translationKey='registerpage_relating_privacy_policy' />{' '}
-					<span className='text-primary underline cursor-pointer hover:no-underline'>
+					<Link href='/privacypolicy' className='text-primary underline cursor-pointer hover:no-underline'>
 						{' '}
 						<Translation translationKey='registerpage_privacy_policy_span' />
-					</span>
+					</Link >
 				</p>
 			</div>
 

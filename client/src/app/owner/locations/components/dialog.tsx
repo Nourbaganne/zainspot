@@ -16,6 +16,10 @@ interface DialogProps {
 }
 
 const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
+
+  if (!isOpen) return null;
+
+  
   const [activeDuration, setActiveDuration] = useState<number | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
@@ -43,7 +47,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
     { label: 'locationDialog_duration_permonth', value: 1 },
   ];
 
-  if (!isOpen) return null;
+  
 
   const formikInstance = isEdit && id !== undefined ? formik : formikAddCity;
 
