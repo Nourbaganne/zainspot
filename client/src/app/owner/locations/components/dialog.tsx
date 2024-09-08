@@ -12,23 +12,19 @@ interface DialogProps {
   onClose: () => void;
   isOpen: boolean;
   isEdit?: boolean;
-  id: number;
+  id?: number;
 }
 
 const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
-
-  if (!isOpen) return null;
-
-  
   const [activeDuration, setActiveDuration] = useState<number | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
   const formik = useEditCity({ id, onClose });
-  const formikAddCity = useAddCity({onClose});
+  const formikAddCity = useAddCity({ onClose });
+
+  const formikInstance = isEdit && id !== undefined ? formik : formikAddCity;
 
   useEffect(() => {
-    const formikInstance = isEdit && id !== undefined ? formik : formikAddCity;
-
     if (formikInstance.values.imageUrl instanceof File) {
       const url = URL.createObjectURL(formikInstance.values.imageUrl);
       setImageUrl(url);
@@ -38,8 +34,12 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
     } else {
       setImageUrl(undefined);
     }
-  }, [formik.values.imageUrl, formikAddCity.values.imageUrl, isEdit, id]);
+  }, [isOpen, formikInstance.values.imageUrl]);
 
+  if (!isOpen) return null;
+
+
+  
   const durations = [
     { label: 'locationDialog_duration_perYear', value: 12 },
     { label: 'locationDialog_duration_per6months', value: 6 },
@@ -48,8 +48,6 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
   ];
 
   
-
-  const formikInstance = isEdit && id !== undefined ? formik : formikAddCity;
 
 
   return (

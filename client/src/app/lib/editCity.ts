@@ -43,7 +43,7 @@ const defaultClassicPrice = {
     perMonth: durations.map((duration) => ({ duration: duration.value, amount: null, tax: null })),
 };
 
-export const useEditCity = ({ id, onClose }: { id: number, onClose: () => void; }) => {
+export const useEditCity = ({ id, onClose }: { id: number | undefined, onClose: () => void; }) => {
 
     const { user } = useContext(AuthContext);
     const queryClient = useQueryClient();
@@ -54,8 +54,7 @@ export const useEditCity = ({ id, onClose }: { id: number, onClose: () => void; 
             const response = await axiosInstance.get(`city/${id}`);
             return response.data;
         },
-
-
+        enabled: id !== undefined, 
     });
 
     const mutation = useMutation({
