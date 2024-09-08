@@ -56,6 +56,7 @@ import { TelnyxModule } from './telnyx/telnyx.module';
 		SubscriptionModule,
 		ContactModule,
 		TelnyxModule,
+	
 	],
 	controllers: [AppController],
 	providers: [
