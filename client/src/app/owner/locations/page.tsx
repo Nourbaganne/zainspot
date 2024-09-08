@@ -39,7 +39,6 @@ const Locations = () => {
     queryFn: () => axiosInstance.get(`/city?page=${currentPage}&name=${debouncedSearchCity}`),
   });
 
-  if (isLoading) return <Loader />;
   if (isError) return <h1>{error.message}</h1>;
 
 
@@ -62,22 +61,29 @@ const Locations = () => {
         <div className=''>
           <TableHeader />
           <>
-            {filteredCities?.length > 0 ? (
-              filteredCities.map((city: CityProps, index: number) => (
-                <CityItem
-                  key={index}
-                  id={city.id}
-                  city={city.city}
-                  country={city.country}
-                  location={city.location}
-                  goldPrice={city.goldPrice}
-                  classicPrice={city.classicPrice}
-                  hidden={city.hidden}
-                />
-              ))
+            {isLoading ? (
+              <Loader />
             ) : (
-              <h1>No cities found</h1>
-            )}
+              <>
+                {filteredCities?.length > 0 ? (
+                  filteredCities.map((city: CityProps, index: number) => (
+                    <CityItem
+                      key={index}
+                      id={city.id}
+                      city={city.city}
+                      country={city.country}
+                      location={city.location}
+                      goldPrice={city.goldPrice}
+                      classicPrice={city.classicPrice}
+                      hidden={city.hidden}
+                    />
+                  ))
+                ) : (
+                  <h1 className='py-8'>No cities found</h1>
+                )}
+              </>)
+            }
+
           </>
         </div>
       </div>
@@ -89,7 +95,7 @@ const Locations = () => {
           totalPages={data?.data.totalPages} />
       )}
 
-      
+
       <Dialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
     </div>
   );

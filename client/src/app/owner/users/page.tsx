@@ -73,7 +73,7 @@ const Users = () => {
 			),
 	});
 
-	if (isLoading) return <Loader />;
+
 	if (isError) return <h1>{error.message}</h1>;
 
 	const zainspottersCount = data?.data.counts.zainspotter || 0;
@@ -158,11 +158,10 @@ const Users = () => {
 							{FILTERING_TYPE.map((filter, index) => (
 								<div
 									key={index}
-									className={`px-2 py-2 rounded-md cursor-pointer ${
-										selectedFilter === filter.value
-											? 'bg-background text-text'
-											: ''
-									}`}
+									className={`px-2 py-2 rounded-md cursor-pointer ${selectedFilter === filter.value
+										? 'bg-background text-text'
+										: ''
+										}`}
 									onClick={() => setSelectedFilter(filter.value)}
 								>
 									{filter.title}
@@ -253,61 +252,70 @@ const Users = () => {
 						</div>
 					</div>
 				</div>
+				<>
+					{
+						isLoading ? (
+							<Loader />
+						) : (
+							<>
+								<UsersTable
+									users={data?.data.items}
+									roles={roles}
+									selectedUsers={selectedUsers}
+									setSelectedUsers={setSelectedUsers}
+								/>
 
-				{/* Table */}
-				<UsersTable
-					users={data?.data.items}
-					roles={roles}
-					selectedUsers={selectedUsers}
-					setSelectedUsers={setSelectedUsers}
-				/>
+								{/* Pagination */}
+								{!searchUser && (
+									<div className='mt-6 flex justify-end gap-4'>
+										<button
+											className={`px-4 py-3 text-sm flex items-center gap-3 rounded-lg text-span`}
+											disabled={currentPage === 1}
+											onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+										>
+											<Image src={previousIcon} alt='previous-page' />
+											Previous
+										</button>
+										<div className='flex gap-2'>
+											{generatePageNumbers().map((page, index) =>
+												page === '...' ? (
+													<span key={index} className='text-primary cursor-not-allowed'>
+														...
+													</span>
+												) : (
+													<button
+														key={index}
+														className={`px-4 py-2 rounded-lg ${currentPage === page
+															? 'bg-primary text-background'
+															: 'text-primary'
+															}`}
+														onClick={() => setCurrentPage(page as number)}
+													>
+														{page}
+													</button>
+												),
+											)}
+										</div>
+										<button
+											className={`px-4 py-3 flex text-sm items-center gap-3 rounded-lg text-primary`}
+											disabled={currentPage === data?.data.totalPages}
+											onClick={() =>
+												setCurrentPage((prev) =>
+													Math.min(prev + 1, data?.data.totalPages),
+												)
+											}
+										>
+											Next
+											<Image src={nextIcon} alt='next-page' />
+										</button>
+									</div>
+								)}
+							</>
+						)
+					}
 
-				{/* Pagination */}
-				{!searchUser && (
-					<div className='mt-6 flex justify-end gap-4'>
-						<button
-							className={`px-4 py-3 text-sm flex items-center gap-3 rounded-lg text-span`}
-							disabled={currentPage === 1}
-							onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-						>
-							<Image src={previousIcon} alt='previous-page' />
-							Previous
-						</button>
-						<div className='flex gap-2'>
-							{generatePageNumbers().map((page, index) =>
-								page === '...' ? (
-									<span key={index} className='text-primary cursor-not-allowed'>
-										...
-									</span>
-								) : (
-									<button
-										key={index}
-										className={`px-4 py-2 rounded-lg ${
-											currentPage === page
-												? 'bg-primary text-background'
-												: 'text-primary'
-										}`}
-										onClick={() => setCurrentPage(page as number)}
-									>
-										{page}
-									</button>
-								),
-							)}
-						</div>
-						<button
-							className={`px-4 py-3 flex text-sm items-center gap-3 rounded-lg text-primary`}
-							disabled={currentPage === data?.data.totalPages}
-							onClick={() =>
-								setCurrentPage((prev) =>
-									Math.min(prev + 1, data?.data.totalPages),
-								)
-							}
-						>
-							Next
-							<Image src={nextIcon} alt='next-page' />
-						</button>
-					</div>
-				)}
+
+				</>
 			</div>
 		</div>
 	);
