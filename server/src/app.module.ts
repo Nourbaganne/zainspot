@@ -21,6 +21,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { SubscriptionModule } from './subscription/subscription.module';
 import { ContactModule } from './contact/contact.module';
+import { TelnyxModule } from './telnyx/telnyx.module';
 
 @Module({
 	imports: [
@@ -54,6 +55,7 @@ import { ContactModule } from './contact/contact.module';
 		InvoiceModule,
 		SubscriptionModule,
 		ContactModule,
+		TelnyxModule,
 	],
 	controllers: [AppController],
 	providers: [
