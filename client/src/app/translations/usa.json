@@ -116,6 +116,7 @@
 	"login_security_emailAuth_title": "Email Verification",
 	"login_security_emailAuth_desc": "You will receive your authentication code by Email to your account",
 	"login_security_button_title": "ENABLE",
+	"login_security_disablebutton_title": "DISABLE",
 	"breadcrumb_home": "Home",
 	"breadcrumb_contact": "Contact",
 	"breadcrumb_zainspotter": "My Zainspotter",

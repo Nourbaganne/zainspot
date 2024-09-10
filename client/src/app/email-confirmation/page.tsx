@@ -2,7 +2,6 @@
 
 import { Suspense, useContext, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import axios from 'axios';
 import { AuthContext } from '../contexts/authContext';
 import Link from 'next/link';
 import returnIcon from '@/app/assets/email-confirmation/returnIcon.svg';

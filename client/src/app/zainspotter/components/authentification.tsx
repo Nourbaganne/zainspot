@@ -60,7 +60,7 @@ const Authentification = ({isEmailConfirmed, userId, access_token, refetch, emai
                                 handleDisableEmailVerification(userId, access_token, refetch)
                             }
                             className='px-4 py-2 border-2 rounded-md border-button text-button-text'>
-                            DISABLE
+                            <Translation translationKey='login_security_disablebutton_title' />
                         </button>
                     ) : (
                         <button

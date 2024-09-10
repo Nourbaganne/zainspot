@@ -2,17 +2,16 @@
 
 import React, { useState } from 'react';
 import { Input } from '../register/components/input';
-import loginImage from '@/app/assets/register/login-image.svg';
 import { useLoginForm } from '../lib/login-form';
-import Image from 'next/image';
-import Translation from '../components/translation';
 import Link from 'next/link';
 import { withNoAuth } from '../lib/withNoAuth';
 import InputPassword from '../components/inputPassword';
 import WelcomeToBusinessSection from '../components/WelcomeToBusiness';
+import ResetPasswordDialog from '../components/resetPasswordDialog';
 
 const Page = () => {
 	const [isError, setIsError] = useState('');
+	const [isOpenDialog, setIsOpenDialog] = useState(false);
 
 	const formik = useLoginForm(setIsError);
 
@@ -26,26 +25,40 @@ const Page = () => {
 					Login to Your Secure ZainSpot Account
 				</h1>
 				<form onSubmit={formik.handleSubmit} className='flex flex-col gap-8'>
-					<Input
-						type='text'
-						labelKey='register_email_label'
-						value={formik.values.email}
-						name='email'
-						handleChange={formik.handleChange}
-						touched={formik.touched.email}
-						errors={formik.errors.email}
-						formik={formik}
-					/>
-					<div className='relative w-full'>
-						<InputPassword
-							labelKey='register_password_label'
-							value={formik.values.password}
-							name='password'
-							touched={formik.touched.password}
-							errors={formik.errors.password}
+					<div className='flex flex-col gap-1'>
+						<Input
+							type='text'
+							labelKey='register_email_label'
+							value={formik.values.email}
+							name='email'
+							handleChange={formik.handleChange}
+							touched={formik.touched.email}
+							errors={formik.errors.email}
 							formik={formik}
 						/>
+						<p className='text-xs font-medium text-[#9B9B9B] underline pl-3 underline-offset-1 cursor-pointer '>
+							Forgot your username?
+						</p>
 					</div>
+					<div className='flex flex-col gap-1'>
+						<div className='relative w-full'>
+							<InputPassword
+								labelKey='register_password_label'
+								value={formik.values.password}
+								name='password'
+								touched={formik.touched.password}
+								errors={formik.errors.password}
+								formik={formik}
+							/>
+						</div>
+						<p
+						onClick={() => setIsOpenDialog(true)}
+						className='text-xs font-medium text-[#9B9B9B] underline pl-3 underline-offset-1 cursor-pointer '>
+							Forgot your password?
+						</p>
+					</div>
+
+
 					<button className='bg-button text-background w-full rounded-md py-3 text-xl font-semibold'>
 						Login to Zainspot
 					</button>
@@ -62,6 +75,11 @@ const Page = () => {
 					</Link>
 				</div>
 			</div>
+			{
+				isOpenDialog && (
+					<ResetPasswordDialog isOpenDialog={isOpenDialog} setIsOpenDialog={setIsOpenDialog} />
+				)
+			}
 		</div>
 	);
 };

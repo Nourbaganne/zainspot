@@ -29,7 +29,6 @@ const LoginSecurityForm = ({ formik }: { formik: any }) => {
                     errors={formik.errors.confirmPassword}
                     formik={formik}
                 />
-
             </div>
             <SaveChangesButton />
         </div>
