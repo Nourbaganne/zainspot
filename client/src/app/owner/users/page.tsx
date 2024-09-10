@@ -265,8 +265,7 @@ const Users = () => {
 									setSelectedUsers={setSelectedUsers}
 								/>
 
-								{/* Pagination */}
-								{!searchUser && (
+								
 									<div className='mt-6 flex justify-end gap-4'>
 										<button
 											className={`px-4 py-3 text-sm flex items-center gap-3 rounded-lg text-span`}
@@ -309,7 +308,7 @@ const Users = () => {
 											<Image src={nextIcon} alt='next-page' />
 										</button>
 									</div>
-								)}
+								
 							</>
 						)
 					}

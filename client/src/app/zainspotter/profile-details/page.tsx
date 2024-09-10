@@ -10,7 +10,7 @@ import Image from 'next/image';
 import Layout from '../Layout';
 import { useUpdateForm } from '@/app/lib/update-form';
 import Breadcrumb from '../components/breadcrumb';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
 import Dialog from '@/app/components/dialog';
 import { handleEmailVerification } from '@/app/lib/email-verification';
@@ -53,7 +53,7 @@ const Page = () => {
 							<Translation translationKey='profile_details_title' />
 						</h1>
 						{!data?.isEmailConfirmed && (
-							<p className='flex gap-1 p-2 bg-alert-foreground border border-text-foreground text-span text-sm py-4'>
+							<p className='flex flex-col md:flex-row gap-1 p-2 bg-alert-foreground border border-text-foreground text-span text-sm py-4'>
 								<Translation translationKey='profile_details_email_alert' />
 								<span
 									onClick={() =>
