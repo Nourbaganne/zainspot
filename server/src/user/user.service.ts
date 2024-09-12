@@ -30,7 +30,7 @@ type PercentageChange = {
 
 @Injectable()
 export class UserService {
-  constructor() {}
+  constructor() { }
 
   async hashPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt(8);
@@ -245,13 +245,14 @@ export class UserService {
       throw new NotFoundException(`User with email ${email} not found`);
     }
     return user;
-  }
+}
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await User.findOne({
       where: { id },
       relations: ['role'],
     });
+
 
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
@@ -278,6 +279,15 @@ export class UserService {
     delete user.password;
     return user;
   }
+
+  async findOne(userId: number): Promise<User> {
+    const user = await User.findOneBy({ id: userId });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
+
 
   async remove(id: number): Promise<string> {
     const user = await User.findOne({ where: { id } });

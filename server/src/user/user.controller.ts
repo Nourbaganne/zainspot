@@ -57,6 +57,7 @@ export class UserController {
     return this.userService.findUser(id);
   }
 
+
   @Get()
   async findAll(
     @PaginationParams() paginationParams: Pagination,

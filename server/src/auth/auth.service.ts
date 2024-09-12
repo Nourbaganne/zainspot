@@ -8,10 +8,11 @@ export class AuthService {
 	constructor(
 		private userService: UserService,
 		private jwtService: JwtService,
-	) {}
+	) { }
 
 	async signIn(authLoginDto: AuthLoginDto) {
 		const user = await this.validateUser(authLoginDto);
+
 
 		const payload = {
 			userId: user.id,
@@ -32,6 +33,7 @@ export class AuthService {
 		if (!user) {
 			throw new UnauthorizedException();
 		}
+
 		if (!(await user?.validatePassword(password))) {
 			throw new UnauthorizedException();
 		}
@@ -39,5 +41,6 @@ export class AuthService {
 		delete user.password;
 
 		return user;
+
 	}
 }

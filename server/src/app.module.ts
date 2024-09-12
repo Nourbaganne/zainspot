@@ -22,6 +22,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { SubscriptionModule } from './subscription/subscription.module';
 import { ContactModule } from './contact/contact.module';
 import { TelnyxModule } from './telnyx/telnyx.module';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
 
 @Module({
 	imports: [
@@ -56,6 +57,7 @@ import { TelnyxModule } from './telnyx/telnyx.module';
 		SubscriptionModule,
 		ContactModule,
 		TelnyxModule,
+		ResetPasswordModule,
 	
 	],
 	controllers: [AppController],
