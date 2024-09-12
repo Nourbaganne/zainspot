@@ -4,24 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import returnIcon from "@/app/assets/city-details/return-icon.svg";
 import locationLogo from "@/app/assets/city-details/location-logo.svg";
-import dynamic from "next/dynamic";
-import { useMemo } from "react";
 import Translation from "@/app/components/translation";
 import ZsGold from "../components/zgGold";
 import ZsClassic from "../components/zsClassic";
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/app/lib/axios/axiosInstance";
 import Loader from "@/app/components/loader";
+import Map from "@/app/components/map";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
-  const Map = useMemo(
-    () =>
-      dynamic(() => import("@/app/components/map"), {
-        loading: () => <p>A map is loading.</p>,
-        ssr: false,
-      }),
-    []
-  );
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["city", params.id],
