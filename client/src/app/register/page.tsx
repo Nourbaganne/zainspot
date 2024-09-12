@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import loginImage from '@/app/assets/register/login-image.svg';

@@ -10,18 +10,16 @@ interface InputProps {
 	labelKey: string;
 	value: string | number;
 	name: string;
-	touched: boolean | undefined;
-	errors: string | undefined;
+	touched?: boolean | undefined;
+	errors?: string | undefined;
 	handleChange: (
-		e:
-			| React.ChangeEvent<HTMLInputElement>
-			| React.ChangeEvent<HTMLTextAreaElement>,
-	) => void;
-	formik: FormikProps<any>;
+		e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
+	  ) => void;
+	formik?: FormikProps<any>;
 	placeholderValue?: string;
 	rows?: number;
 	className?: string;
-}
+} 
 
 export function Input({
 	type,

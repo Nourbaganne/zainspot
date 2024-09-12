@@ -24,7 +24,6 @@ export const useLoginForm = (setIsError: (error: string) => void) => {
 			try {
 				const response = await axiosInstance.post('/auth', values);
 
-				// why aren't we checking for status code 200?
 				if (response.status) {
 					dispatch({ type: 'LOGIN', payload: response.data });
 					localStorage.setItem('token', response.data.access_token);
