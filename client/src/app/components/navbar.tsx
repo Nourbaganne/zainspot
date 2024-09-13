@@ -75,9 +75,9 @@ const Navbar = () => {
 
 			<div className='hidden md:flex gap-10 font-sans font-bold items-center'>
 				<div className='flex gap-4 text-text-foreground h-full items-end text-sm pb-3'>
-					<button className='min-w-[150px]'>
+					<Link href={'/how-it-works'} className='min-w-[150px]'>
 						<Translation translationKey={`navbar_titles[0]`} />
-					</button>
+					</Link>
 					<div className='relative min-w-[150px]' ref={currencyMenuRef}>
 						<button
 							className='flex gap-1 items-center justify-between'
@@ -144,7 +144,7 @@ const Navbar = () => {
 					)}
 
 					<Link
-						href='/cart/checkout'
+						href='/cart'
 						className='text-secondary text-sm uppercase'
 					>
 						<Translation translationKey='secure_checkout' />{' '}

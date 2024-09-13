@@ -3,15 +3,15 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./infrastructure
+      context: ./server
       dockerfile: Dockerfile
-    container_name: infrastructure
+    container_name: server
     ports:
       - "3001:3001"
     networks:
       - app-network
     env_file:
-      - ./infrastructure/.env
+      - ./server/.env
 
   frontend:
     build:
