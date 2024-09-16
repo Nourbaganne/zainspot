@@ -5,10 +5,30 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Translation from '@/app/components/translation';
 import WelcomeToBusinessSection from '@/app/components/WelcomeToBusiness';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { MoneyValue } from '@/app/components/MoneyValue';
+import { useCurrency } from '@/app/contexts/CurrencyContext';
 
+
+interface SelectedPaymentProps {
+	amount: number;
+	tax: number;
+}
 export default function CheckoutPage() {
-	// Fields are: Card Holder, Billing Address, Expire Date, CVV
-	// We also have 2 radios for card type: Paypal or Direct Debit
+	const searchParams = useSearchParams();
+	const [selectedPayment, setSelectedPayment] = useState<SelectedPaymentProps | null>();
+	const { currency } = useCurrency();
+
+	// Get the selectedPayment from the query string
+	useEffect(() => {
+		const payment = searchParams.get('selectedPayment');
+		if (payment) {
+			setSelectedPayment(JSON.parse(payment));
+		}
+	}, [searchParams]);
+
+
 	const formik = useFormik({
 		initialValues: {
 			cardHolder: '',
@@ -37,6 +57,7 @@ export default function CheckoutPage() {
 			className='bg-white'
 			withPaddingBottom={true}
 		>
+
 			{/* Sections Container */}
 			<div className='flex items-start'>
 				{/* Left Section */}
@@ -46,16 +67,56 @@ export default function CheckoutPage() {
 					<h1 className='h1 text-primary'>
 						<Translation translationKey='secure_checkout' />
 					</h1>
-					<div className='mt-6 flex-between text-2xl font-semibold'>
-						<div>
-							<span>Total</span>
+					{selectedPayment && (
+						<div className='flex flex-col gap-2 mt-3'>
+							<div className='flex flex-col gap-2 border-b pb-3'>
+								<div className=' flex-between font-semibold'>
+									<div>
+										<span>London ZainSpot Subscription</span>
+									</div>
+									<div>
+										<MoneyValue
+											value={selectedPayment?.amount}
+											fromCurrency="USD"
+											toCurrency={currency}
+											decimals={0}
+										/>
+									</div>
+								</div>
+								<div className=' flex-between font-semibold'>
+									<div>
+										<span>Manual Payment Fee</span>
+									</div>
+									<div>
+										<MoneyValue
+											value={selectedPayment?.tax}
+											fromCurrency="USD"
+											toCurrency={currency}
+											decimals={0}
+										/>
+									</div>
+								</div>
+							</div>
+							<div className=' flex-between text-2xl font-semibold'>
+								<div>
+									<span>Total</span>
+								</div>
+								<div>
+									<MoneyValue
+										value={selectedPayment?.tax + selectedPayment?.amount}
+										fromCurrency="USD"
+										toCurrency={currency}
+										decimals={0}
+									/>
+								</div>
+							</div>
 						</div>
-						<div>
-							<span>$383.62</span>
-						</div>
-					</div>
+					)}
+
+
 					<div className='mt-8'>
 						<form onSubmit={formik.handleSubmit}>
+							{/* Payment method options */}
 							<div className='radio-container'>
 								<input
 									type='radio'
@@ -69,6 +130,7 @@ export default function CheckoutPage() {
 									<Translation translationKey='checkout_credit_card_label' />
 								</label>
 							</div>
+
 							<div className='mt-8 grid grid-cols-2 gap-10'>
 								<Input
 									type='text'
@@ -119,40 +181,7 @@ export default function CheckoutPage() {
 									className='col-span-2 md:col-span-1'
 								/>
 							</div>
-							<div className='col-span-2 flex flex-col gap-6 mt-8'>
-								<div className='radio-container'>
-									<input
-										type='radio'
-										id='paypal'
-										name='cardType'
-										value='credit'
-										className='form-control'
-									/>
-									<label
-										htmlFor='paypal'
-										className='text-gray-500'
-										defaultChecked={true}
-									>
-										<Translation translationKey='checkout_paypal_label' />
-									</label>
-								</div>
-								<div className='radio-container'>
-									<input
-										type='radio'
-										id='directCard'
-										name='cardType'
-										value='credit'
-										className='form-control'
-									/>
-									<label
-										htmlFor='directCard'
-										className='text-gray-500'
-										defaultChecked={true}
-									>
-										<Translation translationKey='checkout_direct_card_label' />
-									</label>
-								</div>
-							</div>
+
 							<button
 								type='submit'
 								className='mt-8 btn btn-gray w-full text-lg font-medium'

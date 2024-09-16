@@ -130,8 +130,8 @@ const Users = () => {
 	];
 
 	return (
-		<div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
-			<Breadcrumb items={breadcrumbItems} />
+		<div className='flex flex-col gap-6 bg-background-foreground md:px-24 py-4 md:py-8 md:pb-20'>
+			<Breadcrumb items={breadcrumbItems} className='pl-2' />
 
 			<RolesModal rolesModalRef={rolesModalRef} roles={roles} />
 
@@ -146,19 +146,19 @@ const Users = () => {
 					/>
 				))}
 			</div>
-			<div className='w-full'>
+			<div className='w-full pl-2 md:pl-0'>
 				<h1 className='text-2xl'>
 					<span className='font-bold'>All Users</span>{' '}
 					<span className='font-light'>({data?.data.totalItems ?? 0})</span>
 				</h1>
 				{/* Filters */}
-				<div className='mt-4 flex justify-between items-center'>
+				<div className='mt-4 flex flex-col gap-2 md:gap-0 md:flex-row justify-between md:items-center'>
 					<div className='bg-span-background flex text-span-foreground rounded-md p-1 w-fit gap-2'>
 						<div className='flex gap-2 md:font-semibold whitespace-nowrap md:whitespace-normal max-w-56 md:max-w-none overflow-x-auto'>
 							{FILTERING_TYPE.map((filter, index) => (
 								<div
 									key={index}
-									className={`px-2 py-2 rounded-md cursor-pointer ${selectedFilter === filter.value
+									className={`px-2 py-2 rounded-md cursor-pointer text-xs md:text-base ${selectedFilter === filter.value
 										? 'bg-background text-text'
 										: ''
 										}`}
@@ -179,7 +179,7 @@ const Users = () => {
 						</button>
 					</div>
 
-					<div className='flex gap-5 items-center'>
+					<div className='flex flex-col md:flex-row gap-5 items-center'>
 						{/* Search Input */}
 						<div className='flex bg-background gap-2 items-center p-1 text-span border border-button rounded-md'>
 							<Image
@@ -258,57 +258,58 @@ const Users = () => {
 							<Loader />
 						) : (
 							<>
-								<UsersTable
-									users={data?.data.items}
-									roles={roles}
-									selectedUsers={selectedUsers}
-									setSelectedUsers={setSelectedUsers}
-								/>
+								<div className='overflow-x-auto'>
+									<UsersTable
+										users={data?.data.items}
+										roles={roles}
+										selectedUsers={selectedUsers}
+										setSelectedUsers={setSelectedUsers}
+									/>
+								</div>
 
-								
-									<div className='mt-6 flex justify-end gap-4'>
-										<button
-											className={`px-4 py-3 text-sm flex items-center gap-3 rounded-lg text-span`}
-											disabled={currentPage === 1}
-											onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-										>
-											<Image src={previousIcon} alt='previous-page' />
-											Previous
-										</button>
-										<div className='flex gap-2'>
-											{generatePageNumbers().map((page, index) =>
-												page === '...' ? (
-													<span key={index} className='text-primary cursor-not-allowed'>
-														...
-													</span>
-												) : (
-													<button
-														key={index}
-														className={`px-4 py-2 rounded-lg ${currentPage === page
-															? 'bg-primary text-background'
-															: 'text-primary'
-															}`}
-														onClick={() => setCurrentPage(page as number)}
-													>
-														{page}
-													</button>
-												),
-											)}
-										</div>
-										<button
-											className={`px-4 py-3 flex text-sm items-center gap-3 rounded-lg text-primary`}
-											disabled={currentPage === data?.data.totalPages}
-											onClick={() =>
-												setCurrentPage((prev) =>
-													Math.min(prev + 1, data?.data.totalPages),
-												)
-											}
-										>
-											Next
-											<Image src={nextIcon} alt='next-page' />
-										</button>
+								<div className='mt-6 flex justify-end gap-4'>
+									<button
+										className={`px-4 py-3 text-sm flex items-center gap-3 rounded-lg text-span`}
+										disabled={currentPage === 1}
+										onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+									>
+										<Image src={previousIcon} alt='previous-page' />
+										Previous
+									</button>
+									<div className='flex gap-2'>
+										{generatePageNumbers().map((page, index) =>
+											page === '...' ? (
+												<span key={index} className='text-primary cursor-not-allowed'>
+													...
+												</span>
+											) : (
+												<button
+													key={index}
+													className={`px-4 py-2 rounded-lg ${currentPage === page
+														? 'bg-primary text-background'
+														: 'text-primary'
+														}`}
+													onClick={() => setCurrentPage(page as number)}
+												>
+													{page}
+												</button>
+											),
+										)}
 									</div>
-								
+									<button
+										className={`px-4 py-3 flex text-sm items-center gap-3 rounded-lg text-primary`}
+										disabled={currentPage === data?.data.totalPages}
+										onClick={() =>
+											setCurrentPage((prev) =>
+												Math.min(prev + 1, data?.data.totalPages),
+											)
+										}
+									>
+										Next
+										<Image src={nextIcon} alt='next-page' />
+									</button>
+								</div>
+
 							</>
 						)
 					}

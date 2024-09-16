@@ -11,8 +11,11 @@ import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/app/lib/axios/axiosInstance";
 import Loader from "@/app/components/loader";
 import Map from "@/app/components/map";
+import { useState } from "react";
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
+
+  const [selectedPayment, setSelectedPayment] = useState<Object | null>(false);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["city", params.id],
@@ -26,6 +29,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
   if (isError) {
     return <div>{error.message}</div>;
   }
+
 
   const city = data?.data;
 
@@ -62,7 +66,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
               <Translation translationKey="citypage_subtitle" />
             </h1>
             <p className="font-light px-0 md:px-6 leading-[23px] md:leading-[27px] font-sans">
-              {city?.catchphrase}  
+              {city?.catchphrase}
             </p>
             <div className="flex flex-col gap-3 bg-white-700 mx-auto mb-5 w-full h-[480px] overflow-hidden px-0 md:px-8">
               <div className="flex gap-1 items-center">
@@ -76,17 +80,39 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
         </div>
       </div>
       <div className="flex flex-col gap-7 px-0 md:px-10 ">
-        <ZsGold amount={city?.goldPrice.value} />
-        <ZsClassic amounts={city?.classicPrice} />
+        <ZsGold goldPrice={city?.goldPrice} setSelectedPayment={setSelectedPayment} />
+
+        <ZsClassic amounts={city?.classicPrice} setSelectedPayment={setSelectedPayment} />
         <div className="flex flex-col justify-center items-center gap-5 py-10">
           <div className="flex flex-col justify-center items-center gap-5 md:flex-row md:justify-between w-full">
             <div className="flex gap-7 text-xl font-bold text-primary">
               <button className="hover:underline">JOIN</button>
               <button className="hover:underline">LOGIN</button>
             </div>
-            <button className="flex flex-col items-center font-semibold text-secondary border-2 border-secondary rounded-md px-12">
-              Go to <span className="text-xl">Secure Checkout</span>
-            </button>
+
+            {selectedPayment ? (
+              <Link
+                href={{
+                  pathname: '/cart/checkout',
+                  query: { selectedPayment: JSON.stringify(selectedPayment) },
+                }}
+              >
+                <button
+                  className={`flex flex-col items-center font-semibold text-secondary border-2 border-secondary rounded-md px-12 ${selectedPayment ? 'cursor-pointer' : 'cursor-not-allowed'
+                    }`}
+                >
+                  Go to <span className="text-xl">Secure Checkout</span>
+                </button>
+              </Link>
+            ) : (
+              <button
+                className="flex flex-col items-center font-semibold text-secondary border-2 border-secondary rounded-md px-12 cursor-not-allowed"
+              >
+                Go to <span className="text-xl">Secure Checkout</span>
+              </button>
+            )}
+
+
           </div>
 
           <button className="text-lg font-bold text-primary hover:underline">

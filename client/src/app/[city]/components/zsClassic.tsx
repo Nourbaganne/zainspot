@@ -10,7 +10,12 @@ interface ClassicPrice {
     }
   ];
 }
-const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
+
+interface ZsClassicProps {
+  amounts: ClassicPrice;
+  setSelectedPayment: (value: Object | null) => void;
+}
+const ZsClassic = ({ amounts, setSelectedPayment }: ZsClassicProps) => {
   const { currency } = useCurrency();
 
   return (
@@ -23,7 +28,7 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
         </p>
       </div>
       <p className="font-sans font-semibold text-semibold-15 md:text-lg leading-[27px] tracking-wide"
-       style={{ wordSpacing: '0.2em', textAlign: 'justify' }}>
+        style={{ wordSpacing: '0.2em', textAlign: 'justify' }}>
         <Translation translationKey="citypage_zg_classic_description" />
       </p>
 
@@ -45,6 +50,7 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
         </h1>
         <div className="flex items-center gap-4 pr-1">
           <input
+            onChange={ () => setSelectedPayment(amounts?.perMonth[0])}
             type="radio"
             id="buy"
             name="buy"
@@ -77,10 +83,11 @@ const ZsClassic = ({ amounts }: { amounts: ClassicPrice }) => {
                 </h1>
                 <div className="flex items-center gap-4">
                   <input
+                    onChange={() => setSelectedPayment(month)}
                     type="radio"
                     id="buy"
                     name="buy"
-                   className="w-6 h-6 border-[3px] border-text-foreground text-[#00927C]  focus:ring-[#00927C]"  />
+                    className="w-6 h-6 border-[3px] border-text-foreground text-[#00927C]  focus:ring-[#00927C]" />
                   <label htmlFor="buy">
                     <Translation translationKey="citypage_raio_label" />
                   </label>

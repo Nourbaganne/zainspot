@@ -2,8 +2,20 @@ import { MoneyValue } from "@/app/components/MoneyValue";
 import Translation from "@/app/components/translation";
 import { useCurrency } from "@/app/contexts/CurrencyContext";
 
-const ZsGold = ({ amount }: { amount: number }) => {
+
+interface ZsGoldProps {
+  goldPrice: {
+    value: number;
+    tax: number;
+  };
+  setSelectedPayment: (value: Object | null) => void;
+
+}
+
+const ZsGold = ({ goldPrice, setSelectedPayment }: ZsGoldProps) => {
   const { currency } = useCurrency();
+
+
   return (
     <div className="flex flex-col gap-4 border-2 font-sans rounded-md border-secondary  px-2 py-4">
       <div className="flex flex-col">
@@ -39,7 +51,7 @@ const ZsGold = ({ amount }: { amount: number }) => {
           <Translation translationKey="citypage_single_payment" />
           <span className="text-primary text-lg">
             <MoneyValue
-              value={amount}
+              value={goldPrice?.value}
               fromCurrency="USD"
               toCurrency={currency}
               decimals={0}
@@ -49,6 +61,7 @@ const ZsGold = ({ amount }: { amount: number }) => {
         <div className="flex items-center gap-4">
           <input
             type="radio"
+            onChange={() => setSelectedPayment(goldPrice)}
             id="buy"
             name="buy"
             className="w-6 h-6 border-[3px] border-text-foreground text-[#00927C]  focus:ring-[#00927C]"
