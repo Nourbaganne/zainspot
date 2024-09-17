@@ -200,5 +200,9 @@
 	"subtotal": "Subtotal",
 	"discount": "Discount",
 	"tax": "Tax",
-	"continue_shopping": "Continue Shopping"
+	"continue_shopping": "Continue Shopping",
+
+	"reset_password_title": "Reset",
+	"reset_password_title_span": "Your Password",
+	"reset_password_description": "Enter your email to receive a password reset link"
 }
