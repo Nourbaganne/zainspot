@@ -4,9 +4,12 @@ import React, { createContext, useReducer, useEffect, ReactNode, useState } from
 
 interface User {
   access_token: string;
-  user :{
+  user: {
     email: string,
-    role: string,
+    role: {
+      id: number,
+      name: string
+    },
     userId: number
   }
 }

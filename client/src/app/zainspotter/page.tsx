@@ -48,7 +48,7 @@ const Page = () => {
 				{/* Left (Some text) */}
 				<div className='col-span-12 lg:col-span-7 xl:col-span-8'>
 					<h1 className='h1'>My Zainspot</h1>
-					<p className='mt-4 text-lg text-gray-400'>
+					<p className='mt-4 text-base max-w-3xl text-gray-400'>
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
 						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
 						ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut

@@ -5,6 +5,7 @@ import { OWNER_DASHBOARD } from '../constants/dashboards'
 import Link from "next/link";
 import ProfileCard from '../components/profileCard'
 import Translation from '../components/translation';
+import { WithOwner } from '../lib/withOwner';
 
 const OwnerDashboard = () => {
   return (
@@ -32,4 +33,4 @@ const OwnerDashboard = () => {
   )
 }
 
-export default OwnerDashboard
+export default WithOwner(OwnerDashboard);

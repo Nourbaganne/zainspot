@@ -17,7 +17,7 @@ const ProfileCard = ({
 
 	return (
 		<div
-			className='flex flex-col p-7 bg-background border gap-4 hover:shadow-md group cursor-pointer w-full rounded-xl'
+			className='flex flex-col px-6 py-8 gap-6 bg-background border hover:shadow-md group cursor-pointer w-full rounded-xl'
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 		>
@@ -31,7 +31,7 @@ const ProfileCard = ({
 			<h1 className='text-xl font-bold'>
 				<Translation translationKey={title} />
 			</h1>
-			<p className='text-span'>
+			<p className='text-span max-w-xs'>
 				<Translation translationKey={description} />
 			</p>
 		</div>

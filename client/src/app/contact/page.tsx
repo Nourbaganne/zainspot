@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { FiMail, FiMapPin, FiPhone } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import axiosInstance from '../lib/axios/axiosInstance';
+import Translation from '../components/translation';
 
 export default function ContactPage() {
 	const router = useRouter();
@@ -54,10 +55,11 @@ export default function ContactPage() {
 			</div>
 			{/* Header */}
 			<div className='mt-10 text-center'>
-				<h1 className='text-3xl font-extrabold'>Contact Our Team</h1>
+				<h1 className='text-3xl font-extrabold'>
+					<Translation translationKey='contact_header' />
+				</h1>
 				<p className='mt-3 text-md text-gray-400 max-w-3xl mx-auto'>
-					Got any questions about the services or cities on our platform? We’re
-					here to help.Chat with our friendly team and get onboard in no time.
+					<Translation translationKey='contact_desc' />
 				</p>
 			</div>
 			<div className='lg:flex items-center justify-center mt-12 gap-10 pb-8'>
@@ -143,7 +145,7 @@ export default function ContactPage() {
 								className='btn w-full btn-primary font-medium'
 								type='submit'
 							>
-								SEND MESSAGE
+								<Translation translationKey='contact_button' />
 							</button>
 						</div>
 					</form>
@@ -152,22 +154,28 @@ export default function ContactPage() {
 				<div className='lg:px-8 py-8 lg:flex lg:items-center flex-shrink-0'>
 					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1'>
 						<div className='col-span-1 md:col-span-2 lg:col-span-1'>
-							<h2 className='text-2xl font-bold'>Contact With Us</h2>
+							<h2 className='text-2xl font-bold'>
+								<Translation translationKey='contact_title' />
+							</h2>
 							<p className='mt-2 text-gray-400'>
-								Speak to our friendly team via:
+								<Translation translationKey='contact_title_span' />
 							</p>
 						</div>
 						<div className='mt-6'>
-							<h3 className='text-lg font-semibold'>Our Email</h3>
+							<h3 className='text-lg font-semibold'>
+								<Translation translationKey='contact_email' />
+							</h3>
 							<div className='mt-1 flex items-center gap-2 text-gray-700'>
 								<FiMail className='h-5 w-5' />
 								<span className='underline font-medium'>example@mail.com</span>
 							</div>
 						</div>
 						<div className='mt-6'>
-							<h3 className='text-lg font-semibold'>Call us</h3>
+							<h3 className='text-lg font-semibold'>
+								<Translation translationKey='contact_call' />
+							</h3>
 							<p className='mt-2 text-gray-400'>
-								Available Mon-Fri from 8:00 AM to 5:00 PM
+								<Translation translationKey='contact_call_availability' />
 							</p>
 							<div className='mt-2 flex items-center gap-2 text-gray-700'>
 								<FiPhone className='h-5 w-5' />
@@ -176,9 +184,11 @@ export default function ContactPage() {
 						</div>
 						{/* Vist Us section */}
 						<div className='mt-6'>
-							<h3 className='text-lg font-semibold'>Visit us</h3>
+							<h3 className='text-lg font-semibold'>
+								<Translation translationKey='contact_visit' />
+							</h3>
 							<p className='mt-2 text-gray-400'>
-								Chat with us in person at our ZainSpot HQ
+								<Translation translationKey='contact_visit_desc' />
 							</p>
 							<div className='mt-2 flex items-center gap-2 text-gray-700'>
 								<FiMapPin className='h-5 w-5' />

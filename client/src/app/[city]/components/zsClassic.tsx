@@ -37,7 +37,7 @@ const ZsClassic = ({ amounts, setSelectedPayment }: ZsClassicProps) => {
       </h1>
 
       <div className="flex justify-between font-semibold text-semibold-14 md:text-semibold-18">
-        <h1 className="flex  gap-5 md:gap-20 items-center">
+        <h1 className="flex  gap-5 md:gap-24 items-center">
           <Translation translationKey="citypage_single_payment" />
           <span className="text-primary text-lg">
             <MoneyValue
@@ -48,7 +48,7 @@ const ZsClassic = ({ amounts, setSelectedPayment }: ZsClassicProps) => {
             />
           </span>
         </h1>
-        <div className="flex items-center gap-4 pr-1">
+        <div className="flex items-center gap-5 pr-1">
           <input
             onChange={ () => setSelectedPayment(amounts?.perMonth[0])}
             type="radio"
@@ -62,7 +62,7 @@ const ZsClassic = ({ amounts, setSelectedPayment }: ZsClassicProps) => {
         </div>
       </div>
       <div className="flex flex-col gap-4 px-4">
-        <p className="font-light font-regular text-sm text-center pr-16">
+        <p className="font-light font-regular text-sm text-center pr-10">
           <Translation translationKey="citypage_permonth" />
         </p>
         {
