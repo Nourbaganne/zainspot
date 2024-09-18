@@ -1,3 +1,5 @@
+// ! This page is NOT NEEDED since Stripe will handle the payment process
+
 'use client';
 import Container from '../../components/Container';
 import { Input } from '@/app/register/components/input';
