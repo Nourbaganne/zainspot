@@ -62,7 +62,9 @@ export function Input({
 							errors && value || errors && touched 
 								? 'border-alert'
 								: 'border-button focus:border-primary'
-						}`}
+						}	
+						
+						`}
 					/>
 				)}
 				<label

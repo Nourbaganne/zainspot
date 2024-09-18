@@ -42,7 +42,7 @@ const Page = () => {
 	];
 
 	return (
-		<div className='flex flex-col bg-background-foreground gap-8 px-4 md:px-6 xl:px-8 py-6 md:py-8 '>
+		<div className='flex flex-col bg-background-foreground gap-8 px-4 md:px-6 xl:px-16 py-6 md:py-8 '>
 			<Breadcrumb items={breadcrumbItems} />
 			<div className='grid grid-cols-12 gap-8'>
 				{/* Left (Some text) */}
