@@ -203,5 +203,7 @@
 	"tax": "Tax",
 	"continue_shopping": "Continue Shopping",
 
-	"select_more_cities": "Select More Cities"
+	"reset_password_title": "Reset",
+	"reset_password_title_span": "Your Password",
+	"reset_password_description": "Enter your email to receive a password reset link"
 }

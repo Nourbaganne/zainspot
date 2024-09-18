@@ -90,7 +90,7 @@ export default function TermsOfUse() {
                     </p>
                 </div>
 
-                <div className='bg-background pt-8 px-5 md:px-[300px] pb-20 flex flex-col gap-10 text-sm '>
+                <div className='bg-background pt-8 px-5 md:px-[300px]  pb-20 flex flex-col gap-10 text-sm '>
                     <ol className='list-decimal pl-6 flex flex-col gap-7'>
                         {missions.map((mission, index) => (
                             <li key={index} className='text-semibold-24 '>
