@@ -25,7 +25,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 	const formikInstance = isEdit && id !== undefined ? formik : formikAddCity;
 
 	useEffect(() => {
-		if (formikInstance.values.imageUrl instanceof File) {
+		if (formikInstance.values.imageUrl && formikInstance.values.imageUrl instanceof File) {
 			const url = URL.createObjectURL(formikInstance.values.imageUrl);
 			setImageUrl(url);
 			return () => URL.revokeObjectURL(url);
