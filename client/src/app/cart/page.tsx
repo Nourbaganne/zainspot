@@ -15,25 +15,25 @@ import City from '../interfaces/City';
 import Loader from '../components/loader';
 import Link from 'next/link';
 
-const fakeItems = [
-	{
-		name: 'London ZainSpot',
-		description: 'Mayfair 14 Berkeley Square',
-		image: RowImage,
-		subscription: 'ZS Classic',
-		subscriptionDuration: '6 Months',
-		price: '$25.00',
-		paymentTypeName: 'Per month',
-	},
-	{
-		name: 'New York ZainSpot',
-		description: 'Rockefeller Center',
-		image: RowImage,
-		subscription: 'ZS Gold',
-		price: '$392.00',
-		paymentTypeName: 'Single payment',
-	},
-];
+// const fakeItems = [
+// 	{
+// 		name: 'London ZainSpot',
+// 		description: 'Mayfair 14 Berkeley Square',
+// 		image: RowImage,
+// 		subscription: 'ZS Classic',
+// 		subscriptionDuration: '6 Months',
+// 		price: '$25.00',
+// 		paymentTypeName: 'Per month',
+// 	},
+// 	{
+// 		name: 'New York ZainSpot',
+// 		description: 'Rockefeller Center',
+// 		image: RowImage,
+// 		subscription: 'ZS Gold',
+// 		price: '$392.00',
+// 		paymentTypeName: 'Single payment',
+// 	},
+// ];
 
 export default function CartPage() {
 	const { data, isLoading, isError, error } = useQuery({
@@ -48,10 +48,11 @@ export default function CartPage() {
 		return <Loader />;
 	}
 
-	const totalPrice = items.reduce((acc, item) => acc + item.price, 0);
+	const totalPrice = items[0] ? items[0].price : 0;
 
 	const citiesById: any = {};
 	cities.forEach((city: City) => {
+		if (!city.id) return; // city id is sure to be present, but new city doesn't have id and interface returning error
 		citiesById[city.id] = city;
 	});
 
@@ -63,8 +64,32 @@ export default function CartPage() {
 	}
 
 	function handleCheckout() {
-		// TODO
-		axiosInstance.post('/');
+		if (!items[0]) {
+			alert('Cart is empty!');
+			return;
+		}
+
+		// TODO: change to handle multiple cart items
+		let priceId = null;
+		if (items[0].optionType == 'gold') {
+			priceId = citiesById[items[0].cityId].goldPrice.stripePriceId;
+		} else {
+			priceId =
+				citiesById[items[0].cityId].classicPrice.perMonth[0].stripePriceId;
+		}
+
+		console.log('Stripe Price ID:', priceId);
+
+		axiosInstance
+			.post('/stripe/create-checkout-session', { priceId })
+			.then(function (response) {
+				console.log(response);
+				console.log(response.data);
+				window.location = response.data.url;
+			})
+			.catch(function (error) {
+				console.error(error);
+			});
 	}
 
 	return (
@@ -203,24 +228,18 @@ export default function CartPage() {
 										{/* Total price from items */}$<span>{totalPrice}</span>
 									</div>
 								</div>
-								{/* Checkout Form Button */}
-								<form action='/create-checkout-session' method='POST'>
-									<input
-										type='hidden'
-										name='lookup_key'
-										value='London_ZainSpot-271fbd4'
-									/>
-									<button
-										id='checkout-and-portal-button'
-										className='mt-6 btn btn-primary w-full btn-lg btn-uppercase'
-										type='submit'
-									>
-										<span>
-											<Translation translationKey='checkout' />
-										</span>
-										<FiArrowRight className='h-6 w-6' />
-									</button>
-								</form>
+								{/* Checkout Button */}
+								<button
+									id='checkout-and-portal-button'
+									className='mt-6 btn btn-primary w-full btn-lg btn-uppercase'
+									type='button'
+									onClick={handleCheckout}
+								>
+									<span>
+										<Translation translationKey='checkout' />
+									</span>
+									<FiArrowRight className='h-6 w-6' />
+								</button>
 							</div>
 						</div>
 					</div>

@@ -1,10 +1,9 @@
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import PerMonth from './PerMonth';
 
 export default interface City {
 	id?: number;
 	city: string;
-	imageUrl: string | StaticImport ;
+	imageUrl: string | File | null;
 	country: string;
 	hidden: boolean;
 	location: { title: string; locationLink: string };
@@ -14,6 +13,6 @@ export default interface City {
 	classicPrice: {
 		perMonth: Array<PerMonth>;
 	};
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt?: Date;
+	updatedAt?: Date;
 }

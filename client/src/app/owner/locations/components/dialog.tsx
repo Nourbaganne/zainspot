@@ -180,6 +180,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 													touched={formikInstance.touched.goldPrice?.amount}
 													errors={formikInstance.errors.goldPrice?.amount}
 													formik={formikInstance}
+													placeholderValue='0'
 												/>
 												<Input
 													type='number'
@@ -190,11 +191,14 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 													touched={formikInstance.touched.goldPrice?.tax}
 													errors={formikInstance.errors.goldPrice?.tax}
 													formik={formikInstance}
+													placeholderValue='0'
 												/>
 												<Input
 													type='text'
 													labelKey='locationDialog_stripePriceId'
-													value={formikInstance.values.stripePriceId || ''}
+													value={
+														formikInstance.values.goldPrice?.stripePriceId || ''
+													}
 													name='goldPrice.stripePriceId'
 													handleChange={formikInstance.handleChange}
 													touched={
@@ -204,6 +208,8 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 														formikInstance.errors.goldPrice?.stripePriceId
 													}
 													formik={formikInstance}
+													className='col-span-2'
+													placeholderValue='price_1Pvfw3JnZJIbV5q2A8Q1cBnP'
 												/>
 											</div>
 										</div>
@@ -239,7 +245,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 														</button>
 														{activeDuration === duration.value && (
 															<div className='p-4 border-t'>
-																<div className='flex flex-col md:flex-row gap-4 font-light '>
+																<div className='grid grid-cols-2 gap-4'>
 																	<Input
 																		type='number'
 																		labelKey='locationDialog_amount'
@@ -261,6 +267,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 																				: undefined
 																		}
 																		formik={formikInstance}
+																		placeholderValue='0'
 																	/>
 																	<Input
 																		type='number'
@@ -283,6 +290,31 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 																				: undefined
 																		}
 																		formik={formikInstance}
+																		placeholderValue='0'
+																	/>
+																	<Input
+																		type='text'
+																		labelKey='locationDialog_stripePriceId'
+																		value={
+																			formikInstance.values.classicPrice
+																				.perMonth[index]?.stripePriceId || ''
+																		}
+																		name={`classicPrice.perMonth.${index}.stripePriceId`}
+																		handleChange={formikInstance.handleChange}
+																		touched={
+																			formikInstance.touched.classicPrice
+																				?.perMonth?.[index]?.stripePriceId
+																		}
+																		errors={
+																			typeof formikInstance.errors.classicPrice
+																				?.perMonth?.[index] === 'object'
+																				? formikInstance.errors.classicPrice
+																						?.perMonth?.[index]?.stripePriceId
+																				: undefined
+																		}
+																		formik={formikInstance}
+																		className='col-span-2'
+																		placeholderValue='price_1Pvfw3JnZJIbV5q2A8Q1cBnP'
 																	/>
 																	{/* Ensure duration is sent */}
 																	<input

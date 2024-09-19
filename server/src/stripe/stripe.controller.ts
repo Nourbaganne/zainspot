@@ -1,14 +1,24 @@
-import { Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { StripeService } from './stripe.service';
+import { UserService } from 'src/user/user.service';
 import { Response } from 'express';
 
 @Controller('stripe')
 export class StripeController {
-	constructor(private readonly stripeService: StripeService) {}
+	constructor(
+		private readonly stripeService: StripeService,
+		private readonly userService: UserService,
+	) {}
 
 	@Post('create-checkout-session')
-	async createCheckoutSession(@Res() res: Response) {
-		const session = await this.stripeService.createCheckoutSession();
-		res.json({ id: session.id });
+	async createCheckoutSession(
+		@Res() res: Response,
+		@Body() body: { priceId: string },
+	) {
+		const session = await this.stripeService.createCheckoutSession(
+			body.priceId,
+		);
+
+		res.json({ id: session.id, url: session.url });
 	}
 }

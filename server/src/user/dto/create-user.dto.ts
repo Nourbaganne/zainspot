@@ -1,66 +1,69 @@
 import {
-  IsBoolean,
-  IsEmail,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
+	IsBoolean,
+	IsEmail,
+	IsNotEmpty,
+	IsNumber,
+	IsOptional,
 } from 'class-validator';
 
 export class CreateUserDto {
-  @IsEmail()
-  email: string;
+	@IsEmail()
+	email: string;
 
-  @IsBoolean()
-  @IsOptional()
-  isEmailConfirmed?: boolean;
+	@IsBoolean()
+	@IsOptional()
+	isEmailConfirmed?: boolean;
 
-  @IsNotEmpty()
-  password: string;
+	@IsNotEmpty()
+	password: string;
 
-  @IsNumber()
-  @IsOptional()
-  businessNumber: string;
+	@IsNumber()
+	@IsOptional()
+	businessNumber: string;
 
-  @IsNotEmpty()
-  businessName: string;
+	@IsNotEmpty()
+	businessName: string;
 
-  @IsNotEmpty()
-  tradeName: string;
+	@IsNotEmpty()
+	tradeName: string;
 
-  @IsNotEmpty()
-  businessType: string;
+	@IsNotEmpty()
+	businessType: string;
 
-  @IsNotEmpty()
-  country: string;
+	@IsNotEmpty()
+	country: string;
 
-  @IsNotEmpty()
-  city: string;
+	@IsNotEmpty()
+	city: string;
 
-  businessWebsite: string;
+	businessWebsite: string;
 
-  @IsNotEmpty()
-  state: string;
+	@IsNotEmpty()
+	state: string;
 
-  @IsNotEmpty()
-  interestRegion: string;
+	@IsNotEmpty()
+	interestRegion: string;
 
-  @IsNotEmpty()
-  name: string;
+	@IsNotEmpty()
+	name: string;
 
-  @IsOptional()
-  middleName: string;
+	@IsOptional()
+	middleName: string;
 
-  @IsNotEmpty()
-  lastName: string;
+	@IsNotEmpty()
+	lastName: string;
 
-  @IsNotEmpty()
-  gender: string;
+	@IsNotEmpty()
+	gender: string;
 
-  @IsOptional()
-  birthday: Date;
+	@IsOptional()
+	birthday: Date;
 
-  @IsOptional()
-  mediaProfile: string;
+	@IsOptional()
+	mediaProfile: string;
 
-  roleId: number;
+	roleId: number;
+
+	@IsOptional()
+	lastStripeSessionId: string;
 }
