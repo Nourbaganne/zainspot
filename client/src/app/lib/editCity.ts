@@ -5,7 +5,7 @@ import { AuthContext } from '../contexts/authContext';
 import axiosInstance from './axios/axiosInstance';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import City from '../interfaces/City';
+import { CityData } from './addCity';
 
 const durations = [
 	{ label: '1 Year', value: 12 },
@@ -43,7 +43,7 @@ export const useEditCity = ({
 	});
 
 	const mutation = useMutation({
-		mutationFn: async (values: City) => {
+		mutationFn: async (values: CityData) => {
 			const formData = new FormData();
 			formData.append('city', values.city);
 			formData.append('country', values.country);
@@ -75,7 +75,7 @@ export const useEditCity = ({
 		},
 	});
 
-	const formik = useFormik<City>({
+	const formik = useFormik<CityData>({
 		initialValues: {
 			city: data?.city || '',
 			country: data?.country || '',
@@ -90,7 +90,6 @@ export const useEditCity = ({
 				amount: data?.goldPrice?.amount || null,
 				duration: data?.goldPrice?.duration || null,
 				tax: data?.goldPrice?.tax || null,
-				stripePriceId: data?.goldPrice?.stripePriceId || null,
 			},
 			classicPrice: data?.classicPrice || defaultClassicPrice,
 			imageUrl: data?.imageUrl || null,
@@ -112,7 +111,7 @@ export const useEditCity = ({
 			}),
 			imageUrl: Yup.mixed().required('Image is required'),
 		}),
-		onSubmit: async (values: City, { resetForm }: FormikHelpers<City>) => {
+		onSubmit: async (values: CityData, { resetForm }: FormikHelpers<CityData>) => {
 			try {
 				await mutation.mutateAsync(values);
 				resetForm();

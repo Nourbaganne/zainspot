@@ -5,12 +5,28 @@ import { AuthContext } from '../contexts/authContext';
 import axiosInstance from './axios/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import City from '../interfaces/City';
 
 export interface PerMonth {
 	duration: number | null;
 	amount: number | null;
 	tax: number | null;
+}
+
+export interface CityData {
+	city: string;
+	country: string;
+	hidden: boolean;
+	location: {
+		title: string;
+		locationLink: string;
+	};
+	description: string;
+	catchphrase: string;
+	goldPrice: PerMonth;
+	classicPrice: {
+		perMonth: PerMonth[];
+	};
+	imageUrl: string | null;
 }
 
 const durations = [
@@ -23,9 +39,9 @@ const durations = [
 const defaultClassicPrice = {
 	perMonth: durations.map((duration) => ({
 		duration: duration.value,
-		amount: 0,
+		amount: null,
 		tax: null,
-		stripePirceId: '',
+		stripePirceId: null,
 	})),
 };
 
@@ -34,7 +50,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 	const queryClient = useQueryClient();
 
 	const mutation = useMutation({
-		mutationFn: async (values: City) => {
+		mutationFn: async (values: CityData) => {
 			const formData = new FormData();
 			formData.append('city', values.city);
 			formData.append('country', values.country);
@@ -45,7 +61,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			formData.append('goldPrice', JSON.stringify(values.goldPrice));
 			formData.append('classicPrice', JSON.stringify(values.classicPrice));
 			if (values.imageUrl) {
-				formData.append('imageUrl', values?.imageUrl);
+				formData.append('imageUrl', values.imageUrl);
 			}
 
 			const response = await axiosInstance.post('/city', formData, {
@@ -66,7 +82,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 		},
 	});
 
-	const formik = useFormik<City>({
+	const formik = useFormik<CityData>({
 		initialValues: {
 			city: '',
 			country: '',
@@ -74,34 +90,30 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			location: { title: '', locationLink: '' },
 			description: '',
 			catchphrase: '',
-			goldPrice: {
-				amount: 0,
-				tax: undefined,
-				duration: 12,
-				stripePriceId: '',
-			},
+			goldPrice: { amount: null, tax: null, duration: 12 },
 			classicPrice: defaultClassicPrice,
-			imageUrl: '',
+			imageUrl: null,
 		},
 		validationSchema: Yup.object({
 			city: Yup.string().required('City is required'),
 			country: Yup.string().required('Country is required'),
 			location: Yup.object({
-				title: Yup.string().required('Location Title is required'),
-				locationLink: Yup.string().required('Map Location Link is required'),
+				title: Yup.string().required('Location title is required'),
+				locationLink: Yup.string().required('Map location link is required'),
 			}),
 			description: Yup.string().required('Description is required'),
-			catchphrase: Yup.string().required('Catch Phrase is required'),
+			catchphrase: Yup.string().required('Catch phrase is required'),
 			goldPrice: Yup.object({
-				amount: Yup.number().required('Gold Price amount is required'),
-				tax: Yup.number().required('Gold Price Tax is required'),
-				srtipePriceId: Yup.string().required(
-					'Gold Stripe Price ID is required',
-				),
+				amount: Yup.number().required('Gold price amount is required'),
+				tax: Yup.number().required('Gold price tax is required'),
+				srtipePriceId: Yup.string().required('Stripe price id is required'),
 			}),
 			imageUrl: Yup.mixed().required('Image is required'),
 		}),
-		onSubmit: async (values: City, { resetForm }: FormikHelpers<City>) => {
+		onSubmit: async (
+			values: CityData,
+			{ resetForm }: FormikHelpers<CityData>,
+		) => {
 			try {
 				await mutation.mutateAsync(values);
 				resetForm();
