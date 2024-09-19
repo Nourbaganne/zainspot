@@ -143,10 +143,7 @@ const Navbar = () => {
 						</div>
 					)}
 
-					<Link
-						href='/cart'
-						className='text-secondary text-sm uppercase'
-					>
+					<Link href='/cart' className='text-secondary text-sm uppercase'>
 						<Translation translationKey='secure_checkout' />{' '}
 						<span className='bg-secondary rounded-full text-background px-1'>
 							3

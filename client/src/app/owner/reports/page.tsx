@@ -7,6 +7,7 @@ import { FiArrowDown, FiArrowUp } from "react-icons/fi";
 import { AreaChart, DonutChart } from '@tremor/react';
 
 import MapImage from '../../assets/owner/reports/map.png';
+import Container from '@/app/components/Container';
 
 const CardVisitors = () => {
   return (
@@ -293,8 +294,12 @@ const CardLocations = ()=>{
 }
 
 const Reports = () => {
+  const breadcrumbItems = [
+		{ label: 'owner_dashboard', href: '/owner' },
+		{ label: 'Reports' },
+	];
   return (
-    <>
+    <Container breadcrumbItems={breadcrumbItems}>
       <style>{'.card { height: 100%; }'}</style>
       <div className='bg-gray-100 grid grid-cols-12 gap-4 p-4'>
         <div className="col-span-12 md:col-span-6 xl:col-span-4">
@@ -313,7 +318,7 @@ const Reports = () => {
           <CardLocations/>
         </div>
       </div>
-    </>
+    </Container>
   )
 }
 

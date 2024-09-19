@@ -6,16 +6,65 @@ import RowImage from '@/app/assets/cart/row-image.png';
 import { FiArrowLeft, FiArrowRight, FiChevronRight, FiX } from 'react-icons/fi';
 import Translation from '../components/translation';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import axiosInstance from '../lib/axios/axiosInstance';
+import { getCities } from '../lib/getCitites';
+import { useQuery } from '@tanstack/react-query';
+import { useCart } from '../contexts/CartContext';
+import City from '../interfaces/City';
+import Loader from '../components/loader';
+import Link from 'next/link';
+
+const fakeItems = [
+	{
+		name: 'London ZainSpot',
+		description: 'Mayfair 14 Berkeley Square',
+		image: RowImage,
+		subscription: 'ZS Classic',
+		subscriptionDuration: '6 Months',
+		price: '$25.00',
+		paymentTypeName: 'Per month',
+	},
+	{
+		name: 'New York ZainSpot',
+		description: 'Rockefeller Center',
+		image: RowImage,
+		subscription: 'ZS Gold',
+		price: '$392.00',
+		paymentTypeName: 'Single payment',
+	},
+];
 
 export default function CartPage() {
-	const router = useRouter();
+	const { data, isLoading, isError, error } = useQuery({
+		queryKey: ['cities'],
+		queryFn: getCities,
+	});
+	const cities = data?.data.items || [];
+	const { state, removeFromCart } = useCart();
+	const { items } = state;
+
+	if (isLoading) {
+		return <Loader />;
+	}
+
+	const totalPrice = items.reduce((acc, item) => acc + item.price, 0);
+
+	const citiesById: any = {};
+	cities.forEach((city: City) => {
+		citiesById[city.id] = city;
+	});
 
 	function applyDiscountCode() {
-		console.log('appy discount code');
+		alert('Apply Discount Code is under development');
+		// Probably will show a modal where the user can enter discount code
+		// Discount code will be sent to the server to validate
+		// Discount will be applied to the total in the server
 	}
 
 	function handleCheckout() {
-		router.push('/cart/checkout');
+		// TODO
+		axiosInstance.post('/');
 	}
 
 	return (
@@ -32,62 +81,78 @@ export default function CartPage() {
 				</h1>
 				<div className='mt-6 mx-auto grid grid-cols-12 gap-12'>
 					<div className='col-span-8'>
-						<table className='text-center w-full'>
-							<thead>
-								<th className='text-left'>City</th>
-								<th>Subscription</th>
-								<th>Subtotal</th>
-							</thead>
-							{Array.from({ length: 2 }).map((_, index) => (
-								<tr key={index}>
-									<td className='text-left'>
-										<div className='flex items-center gap-6'>
-											<div className='max-w-48'>
-												<Image
-													src={RowImage}
-													alt='Row Image'
-													className='rounded-lg'
-												/>
+						{items.length == 0 && (
+							<div className='text-red-400 font-medium'>
+								No items added to cart.
+							</div>
+						)}
+						{items.length > 0 && (
+							<table className='text-center w-full'>
+								<thead>
+									<th className='text-left'>City</th>
+									<th>Subscription</th>
+									<th className='text-right'>Subtotal</th>
+								</thead>
+								{items.map((item, index) => (
+									<tr key={index}>
+										<td className='text-left'>
+											<div className='flex items-center gap-6'>
+												<div className='max-w-48'>
+													<Image
+														src={citiesById[item.cityId].imageUrl}
+														width={350}
+														height={200}
+														alt='Row Image'
+														className='rounded-lg'
+													/>
+												</div>
+												<div>
+													<h2 className='text-xl font-semibold'>
+														{citiesById[item.cityId].city}
+													</h2>
+													<span className='text-gray-400 mt-2 block'>
+														{citiesById[item.cityId].description}
+													</span>
+												</div>
 											</div>
-											<div>
-												<h2 className='text-xl font-semibold'>
-													London ZainSpot
-												</h2>
-												<span className='text-gray-400 mt-2 block'>
-													Mayfair 14 Berkeley Square
-												</span>
+										</td>
+										<td>
+											<div className='font-bold text-2xl'>
+												<span className='capitalize'>ZS {item.optionType}</span>
 											</div>
-										</div>
-									</td>
-									<td>
-										<div className='font-bold text-2xl'>
-											<span>ZS Classic</span>
-										</div>
-										<div className='text-primary block mt-1'>
-											<span>6 Months</span>
-										</div>
-									</td>
-									<td>
-										<div className='font-bold text-2xl'>
-											<span>$24.00</span>
-										</div>
-										<div className='text-gray-400 block mt-1'>Per month</div>
-									</td>
-									<td>
-										<button>
-											<FiX className='text-gray-400 hover:text-gray-700' />
-										</button>
-									</td>
-								</tr>
-							))}
-						</table>
+											{item.duration && item.duration != 12 && (
+												<div className='text-primary block mt-1'>
+													<span>{item.duration} Months</span>
+												</div>
+											)}
+										</td>
+										<td className='text-right'>
+											<div className='font-bold text-2xl'>
+												<span>${item.price}</span>
+											</div>
+											<div className='text-gray-500 block mt-1'>
+												{item.duration == 12 ? 'Single Payment' : 'Per month'}
+											</div>
+										</td>
+										<td className='text-right'>
+											<button onClick={() => removeFromCart(item)}>
+												<FiX className='text-gray-400 hover:text-gray-700 h-6 w-6' />
+											</button>
+										</td>
+									</tr>
+								))}
+							</table>
+						)}
 						<div className='mt-8'>
-							<button className='btn btn-outline-gray btn-lg btn-uppercase'>
+							<Link
+								href='/'
+								className='btn btn-outline-gray btn-lg btn-uppercase'
+							>
 								<FiArrowLeft className='h-6 w-6' />
 								<span>
 									<Translation translationKey='continue_shopping' />
 								</span>
-							</button>
+							</Link>
 						</div>
 					</div>
 					<div className='col-span-4'>
@@ -120,11 +185,11 @@ export default function CartPage() {
 							{/* Apply Discount Code */}
 							<div className='py-3 border-b'>
 								<button
-									className='flex-between text-lg text-gray-400 py-3 hover:bg-gray-100 hover:text-gray-900 rounded-lg w-full px-4'
+									className='flex-between text-lg text-gray-700 font-medium py-2 hover:text-gray-400 w-full'
 									onClick={applyDiscountCode}
 								>
 									<span>Apply Discount Code</span>
-									<FiChevronRight />
+									<FiChevronRight className='h-6 w-6' />
 								</button>
 							</div>
 							<div className='pt-6'>
@@ -135,19 +200,27 @@ export default function CartPage() {
 										</span>
 									</div>
 									<div>
-										<span>$383.64</span>
+										{/* Total price from items */}$<span>{totalPrice}</span>
 									</div>
 								</div>
-								{/* Checkout Button */}
-								<button
-									className='mt-6 btn btn-primary w-full btn-lg btn-uppercase'
-									onClick={handleCheckout}
-								>
-									<span>
-										<Translation translationKey='checkout' />
-									</span>
-									<FiArrowRight className='h-6 w-6' />
-								</button>
+								{/* Checkout Form Button */}
+								<form action='/create-checkout-session' method='POST'>
+									<input
+										type='hidden'
+										name='lookup_key'
+										value='London_ZainSpot-271fbd4'
+									/>
+									<button
+										id='checkout-and-portal-button'
+										className='mt-6 btn btn-primary w-full btn-lg btn-uppercase'
+										type='submit'
+									>
+										<span>
+											<Translation translationKey='checkout' />
+										</span>
+										<FiArrowRight className='h-6 w-6' />
+									</button>
+								</form>
 							</div>
 						</div>
 					</div>

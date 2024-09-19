@@ -23,6 +23,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
 import { ContactModule } from './contact/contact.module';
 import { TelnyxModule } from './telnyx/telnyx.module';
 import { ResetPasswordModule } from './reset-password/reset-password.module';
+import { StripeModule } from './stripe/stripe.module';
 
 @Module({
 	imports: [
@@ -58,6 +59,7 @@ import { ResetPasswordModule } from './reset-password/reset-password.module';
 		ContactModule,
 		TelnyxModule,
 		ResetPasswordModule,
+		StripeModule,
 	
 	],
 	controllers: [AppController],

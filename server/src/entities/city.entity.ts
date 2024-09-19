@@ -8,12 +8,7 @@ import {
 	BaseEntity,
 } from 'typeorm';
 import { Subscription } from './subscription.entity';
-
-interface PerMonth {
-	duration: number;
-	amount: number;
-	tax: number;
-}
+import PerMonth from 'src/interfaces/PerMonth';
 
 @Entity()
 export class City extends BaseEntity {
@@ -39,10 +34,12 @@ export class City extends BaseEntity {
 	catchphrase: string;
 
 	@Column('json', { nullable: true })
-	goldPrice: { value: number; tax: number };
+	goldPrice: PerMonth;
 
 	@Column('json', { nullable: true })
-	classicPrice: { perMonth: PerMonth[] };
+	classicPrice: {
+		perMonth: PerMonth[];
+	};
 
 	@Column({ nullable: true })
 	imageUrl: string;

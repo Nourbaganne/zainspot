@@ -3,6 +3,7 @@ import { Input } from '../register/components/input';
 import Image from 'next/image';
 import closeIcon from '@/app/assets/owner/locations/close-dialog.svg';
 import axiosInstance from '../lib/axios/axiosInstance';
+import Translation from './translation';
 
 interface ResetPasswordDialogProps {
   isOpenDialog: boolean;
@@ -65,17 +66,20 @@ const ResetPasswordDialog: React.FC<ResetPasswordDialogProps> = ({ isOpenDialog,
 
         {/* Dialog Header */}
         <h2 className='text-2xl font-bold text-center mb-4'>
-          <span className='text-primary'>Reset</span> Your Password
+          <span className='text-primary'>
+            <Translation translationKey='reset_password_title' />
+          </span>
+          <Translation translationKey='reset_password_title_span' />
         </h2>
         <p className='text-center text-sm text-gray-500 mb-6'>
-          Enter your email to receive a password reset link
+          <Translation translationKey='reset_password_description' />
         </p>
 
         {/* Dialog Form */}
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <Input
             type='email'
-            labelKey='email'
+            labelKey='register_email_label'
             value={email}
             name='email'
             handleChange={handleEmailChange}
@@ -83,9 +87,8 @@ const ResetPasswordDialog: React.FC<ResetPasswordDialogProps> = ({ isOpenDialog,
           />
           <button
             type='submit'
-            className={`w-full bg-primary text-white py-3 rounded-lg font-semibold text-lg hover:bg-primary-dark transition-all duration-200 ease-in-out ${
-              isLoading ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
+            className={`w-full bg-primary text-white py-3 rounded-lg font-semibold text-lg hover:bg-primary-dark transition-all duration-200 ease-in-out ${isLoading ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             disabled={isLoading}
           >
             {isLoading ? 'Sending...' : 'Send Reset Link'}
