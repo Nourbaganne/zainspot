@@ -1,12 +1,11 @@
 import uploadLogo from '@/app/assets/owner/locations/image-upload.svg';
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 
 interface ImageInputProps {
     onFileSelect: (file: File | null) => void;
     selectedFile?: string;
-    value: string | StaticImport; 
+    value: File | string | null; 
 }
 
 const ImageInput: React.FC<ImageInputProps> = ({ onFileSelect, selectedFile, value }) => {
@@ -87,12 +86,10 @@ const ImageInput: React.FC<ImageInputProps> = ({ onFileSelect, selectedFile, val
                 </div>
             ) : (
                 <div className="relative flex flex-col items-center">
-                    <Image
+                    <img
                         className="rounded-2xl w-full max-h-60"
                         src={file}
                         alt="Selected file preview"
-                        width={100}
-                        height={100}
                     />
                     <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
                         <label htmlFor="file"
