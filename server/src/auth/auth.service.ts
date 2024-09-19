@@ -35,7 +35,7 @@ export class AuthService {
 		}
 
 		if (!(await user?.validatePassword(password))) {
-			throw new UnauthorizedException();
+			throw new UnauthorizedException('Incorrect Password! Please Try Again');
 		}
 
 		delete user.password;
