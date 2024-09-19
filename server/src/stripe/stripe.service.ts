@@ -9,12 +9,12 @@ export class StripeService {
 		this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 	}
 
-	async createCheckoutSession() {
+	async createCheckoutSession(priceId: string) {
 		const session = await this.stripe.checkout.sessions.create({
 			payment_method_types: ['card'],
 			line_items: [
 				{
-					price: 'price_1Hh1YZ2eZvKYlo2C0g9XzG7e', // Replace with your price ID
+					price: priceId, // Replace with your price ID
 					quantity: 1,
 				},
 			],
