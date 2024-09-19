@@ -33,12 +33,12 @@ export function WithOwner<P extends object>(WrappedComponent: React.ComponentTyp
         const prevUrl = typeof window !== 'undefined' ? sessionStorage.getItem('prevUrl') : null;
 
         // If the user is not an owner, redirect to the previous URL
-        if (user?.user.role.name !== 'owner') {
-            if (prevUrl) {
-                router.replace(prevUrl);
-            }
-            return null;
-        }
+        // if (user?.user.role.name !== 'owner') {
+        //     if (prevUrl) {
+        //         router.replace(prevUrl);
+        //     }
+        //     return null;
+        // }
 
         return <WrappedComponent {...props} />;
     };

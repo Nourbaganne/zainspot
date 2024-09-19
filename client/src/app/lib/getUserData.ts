@@ -3,7 +3,7 @@ import axiosInstance from './axios/axiosInstance';
 import { AuthContext } from '../contexts/authContext';
 import { useRouter } from 'next/navigation';
 
-const getUserData = async (userId: number | undefined, accessToken: string | undefined) => {
+const UseUserData = async (userId: number | undefined, accessToken: string | undefined) => {
     const {  dispatch } = useContext(AuthContext);
     const router = useRouter();
     const response = await axiosInstance.get(`/user/${userId}`, {
@@ -18,4 +18,4 @@ const getUserData = async (userId: number | undefined, accessToken: string | und
     return response.data;
 };
 
-export default getUserData;
+export default UseUserData;

@@ -10,7 +10,7 @@ import Dialog from '@/app/components/dialog';
 import Breadcrumb from '../components/breadcrumb';
 import { AuthContext } from '@/app/contexts/authContext';
 import { useQuery } from '@tanstack/react-query';
-import getUserData from '@/app/lib/getUserData';
+import UseUserData from '@/app/lib/getUserData';
 import Loader from '@/app/components/loader';
 import Authentification from '../components/authentification';
 import LoginSecurityForm from '../components/loginSecurityForm';
@@ -21,7 +21,7 @@ const Page = () => {
 
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['users', user?.user.userId],
-    queryFn: () => getUserData(user?.user.userId, user?.access_token),
+    queryFn: () => UseUserData(user?.user.userId, user?.access_token),
     enabled: !!user?.user.userId && !!user?.access_token,
   });
 
