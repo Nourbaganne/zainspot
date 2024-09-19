@@ -23,9 +23,9 @@ const durations = [
 const defaultClassicPrice = {
 	perMonth: durations.map((duration) => ({
 		duration: duration.value,
-		amount: null,
+		amount: 0,
 		tax: null,
-		stripePirceId: null,
+		stripePirceId: '',
 	})),
 };
 
@@ -45,7 +45,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			formData.append('goldPrice', JSON.stringify(values.goldPrice));
 			formData.append('classicPrice', JSON.stringify(values.classicPrice));
 			if (values.imageUrl) {
-				formData.append('imageUrl', values.imageUrl);
+				formData.append('imageUrl', values?.imageUrl);
 			}
 
 			const response = await axiosInstance.post('/city', formData, {
@@ -75,13 +75,13 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			description: '',
 			catchphrase: '',
 			goldPrice: {
-				amount: undefined,
+				amount: 0,
 				tax: undefined,
 				duration: 12,
-				stripePriceId: undefined,
+				stripePriceId: '',
 			},
 			classicPrice: defaultClassicPrice,
-			imageUrl: null,
+			imageUrl: '',
 		},
 		validationSchema: Yup.object({
 			city: Yup.string().required('City is required'),
