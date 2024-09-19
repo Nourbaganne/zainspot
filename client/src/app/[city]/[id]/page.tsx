@@ -66,6 +66,8 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
 	const city: City = data?.data;
 
+	console.log(city)
+
 	return (
 		city && (
 			<div className='flex flex-col md:grid md:grid-cols-2 font-sans md:pt-5 text-text-foreground '>

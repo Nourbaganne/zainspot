@@ -5,13 +5,12 @@ import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { useState } from 'react';
 
 interface ClassicPrice {
-	perMonth: [
-		{
-			duration: number;
-			amount: number;
-			tax?: number;
-		},
-	];
+	perMonth: Array<{
+		duration?: number;
+		amount: number;
+		tax?: number;
+		stripePriceId: string;
+	}>;
 }
 
 interface ZSClassisProps {
