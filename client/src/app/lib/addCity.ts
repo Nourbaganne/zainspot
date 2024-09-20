@@ -47,12 +47,13 @@ const defaultClassicPrice = {
 };
 
 export const useAddCity = ({ onClose }: { onClose: () => void }) => {
+
+
 	const { user } = useContext(AuthContext);
 	const queryClient = useQueryClient();
 
 	const mutation = useMutation({
 		mutationFn: async (values: CityData) => {
-			console.log('Submitting form data:', values); 
 			const formData = new FormData();
 			formData.append('city', values.city);
 			formData.append('country', values.country);
@@ -62,10 +63,10 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			formData.append('catchphrase', values.catchphrase);
 			formData.append('goldPrice', JSON.stringify(values.goldPrice));
 			formData.append('classicPrice', JSON.stringify(values.classicPrice));
-
 			if (values.imageUrl) {
 				formData.append('imageUrl', values.imageUrl);
 			}
+
 
 			const response = await axiosInstance.post('/city', formData, {
 				headers: {
@@ -73,7 +74,6 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 					Authorization: `Bearer ${user?.access_token}`,
 				},
 			});
-
 			return response.data;
 		},
 
@@ -110,26 +110,24 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			}),
 			description: Yup.string().required('Description is required'),
 			catchphrase: Yup.string().required('Catch phrase is required'),
-			goldPrice: Yup.object({
+			goldPrice: Yup.object().shape({
 				amount: Yup.number().required('Gold price amount is required'),
 				tax: Yup.number().required('Gold price tax is required'),
-				srtipePriceId: Yup.string().required('Stripe price id is required'),
+				stripePriceId: Yup.string().required('Stripe price id is required'),
 			}),
 			imageUrl: Yup.mixed().required('Image is required'),
 		}),
 
 		onSubmit: async (values: CityData, { resetForm }: FormikHelpers<CityData>) => {
-			console.log('Submitting form values:', values);
 			try {
-			  await mutation.mutateAsync(values);
-			  console.log('City added successfully');
-			  resetForm();
+				await mutation.mutateAsync(values);
+				resetForm();
 			} catch (error) {
-			  console.error('Error during form submission:', error);
-			  toast.error('Failed to add the city. Please try again.');
+				console.error('Error during form submission:', error);
+				toast.error('Failed to add the city. Please try again.');
 			}
-		  }
-		  
+		}
+
 	});
 
 	return {
