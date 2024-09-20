@@ -94,6 +94,6 @@ export class User extends BaseEntity {
 	@OneToMany(() => Subscription, (subscription) => subscription.user)
 	subscriptions: Subscription[];
 
-	@Column({ nullable: true })
+	@Column({ nullable: true})
 	lastStripeSessionId: string;
 }
