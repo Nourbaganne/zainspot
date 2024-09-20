@@ -80,7 +80,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 							</h1>
 						</div>
 						<div className='flex overflow-hidden'>
-							<Image src={city.imageUrl} alt="image" width={800} height={300} />
+							<Image src={city.imageUrl as string} alt="image" width={800} height={300} />
 						</div>
 						<div className='flex flex-col px-4 md:px-2 gap-7 pt-4 text-text-foreground'>
 							<p
