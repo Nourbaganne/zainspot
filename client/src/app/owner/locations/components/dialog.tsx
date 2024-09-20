@@ -62,7 +62,11 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 						<p className='text-span font-light text-center'>
 							To create a new location, fill in the information below
 						</p>
-						<form onSubmit={formikInstance.handleSubmit}>
+						<form onSubmit={(e) => {
+							e.preventDefault();
+							console.log('Form is being submitted');
+							formikInstance.handleSubmit(e);
+						}}>
 							<div className='flex flex-col gap-4'>
 								<div className='grid  grid-cols-1 md:grid-cols-2 gap-6'>
 									<div className='flex flex-col md:border-r md:pr-6 gap-4'>
@@ -263,7 +267,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 																			typeof formikInstance.errors.classicPrice
 																				?.perMonth?.[index] === 'object'
 																				? formikInstance.errors.classicPrice
-																						?.perMonth?.[index]?.amount
+																					?.perMonth?.[index]?.amount
 																				: undefined
 																		}
 																		formik={formikInstance}
@@ -286,7 +290,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 																			typeof formikInstance.errors.classicPrice
 																				?.perMonth?.[index] === 'object'
 																				? formikInstance.errors.classicPrice
-																						?.perMonth?.[index]?.tax
+																					?.perMonth?.[index]?.tax
 																				: undefined
 																		}
 																		formik={formikInstance}
@@ -309,7 +313,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 																			typeof formikInstance.errors.classicPrice
 																				?.perMonth?.[index] === 'object'
 																				? formikInstance.errors.classicPrice
-																						?.perMonth?.[index]?.stripePriceId
+																					?.perMonth?.[index]?.stripePriceId
 																				: undefined
 																		}
 																		formik={formikInstance}

@@ -7,26 +7,27 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 
 export interface PerMonth {
-	duration: number | null;
-	amount: number | null;
-	tax: number | null;
+	duration?: number;
+	amount: number;
+	tax?: number;
+	stripePriceId: string;
 }
 
 export interface CityData {
+	id?: number;
 	city: string;
+	imageUrl: string | File | null;
 	country: string;
 	hidden: boolean;
-	location: {
-		title: string;
-		locationLink: string;
-	};
+	location: { title: string; locationLink: string };
 	description: string;
 	catchphrase: string;
 	goldPrice: PerMonth;
 	classicPrice: {
-		perMonth: PerMonth[];
+		perMonth: Array<PerMonth>;
 	};
-	imageUrl: string | null;
+	createdAt?: Date;
+	updatedAt?: Date;
 }
 
 const durations = [
@@ -38,10 +39,10 @@ const durations = [
 
 const defaultClassicPrice = {
 	perMonth: durations.map((duration) => ({
-		duration: duration.value,
-		amount: null,
-		tax: null,
-		stripePirceId: null,
+		duration: 0,
+		amount: 0,
+		tax: 0,
+		stripePriceId: '',
 	})),
 };
 
@@ -51,6 +52,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 
 	const mutation = useMutation({
 		mutationFn: async (values: CityData) => {
+			console.log('Submitting form data:', values); 
 			const formData = new FormData();
 			formData.append('city', values.city);
 			formData.append('country', values.country);
@@ -60,6 +62,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			formData.append('catchphrase', values.catchphrase);
 			formData.append('goldPrice', JSON.stringify(values.goldPrice));
 			formData.append('classicPrice', JSON.stringify(values.classicPrice));
+
 			if (values.imageUrl) {
 				formData.append('imageUrl', values.imageUrl);
 			}
@@ -70,8 +73,10 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 					Authorization: `Bearer ${user?.access_token}`,
 				},
 			});
+
 			return response.data;
 		},
+
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: ['cities'] });
 			toast.success('City created successfully!');
@@ -79,7 +84,9 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 		},
 		onError: (error: any) => {
 			console.error('Error adding city:', error);
+			toast.error('Failed to add the city. Please try again.');
 		},
+
 	});
 
 	const formik = useFormik<CityData>({
@@ -90,7 +97,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			location: { title: '', locationLink: '' },
 			description: '',
 			catchphrase: '',
-			goldPrice: { amount: null, tax: null, duration: 12 },
+			goldPrice: { amount: 0, tax: 0, duration: 12, stripePriceId: '' },
 			classicPrice: defaultClassicPrice,
 			imageUrl: null,
 		},
@@ -110,17 +117,19 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			}),
 			imageUrl: Yup.mixed().required('Image is required'),
 		}),
-		onSubmit: async (
-			values: CityData,
-			{ resetForm }: FormikHelpers<CityData>,
-		) => {
+
+		onSubmit: async (values: CityData, { resetForm }: FormikHelpers<CityData>) => {
+			console.log('Submitting form values:', values);
 			try {
-				await mutation.mutateAsync(values);
-				resetForm();
+			  await mutation.mutateAsync(values);
+			  console.log('City added successfully');
+			  resetForm();
 			} catch (error) {
-				console.error('Error adding city:', error);
+			  console.error('Error during form submission:', error);
+			  toast.error('Failed to add the city. Please try again.');
 			}
-		},
+		  }
+		  
 	});
 
 	return {
