@@ -88,8 +88,7 @@ const ZsClassic = ({ amounts, onSelect }: ZSClassisProps) => {
 					.map((month, index) => (
 						<div key={index} className='flex justify-between font-semibold'>
 							<h1>
-								{month?.duration}{' '}
-								<Translation translationKey='citypage_month' />
+								{month?.duration}
 							</h1>
 							<h1 className='text-primary'>
 								<MoneyValue

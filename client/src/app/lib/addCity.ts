@@ -31,15 +31,14 @@ export interface CityData {
 }
 
 const durations = [
-	{ label: '1 Year', value: 12 },
+	{ label: '12 Months', value: 12 },
 	{ label: '6 Months', value: 6 },
-	{ label: '3 Months', value: 3 },
 	{ label: '1 Month', value: 1 },
 ];
 
 const defaultClassicPrice = {
 	perMonth: durations.map((duration) => ({
-		duration: 0,
+		duration: duration?.value,
 		amount: 0,
 		tax: 0,
 		stripePriceId: '',

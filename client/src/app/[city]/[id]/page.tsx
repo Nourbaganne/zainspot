@@ -1,7 +1,5 @@
 'use client';
 
-import returnIcon from "@/app/assets/city-details/return-icon.svg";
-import { useState } from "react";
 import Image from 'next/image';
 import Link from 'next/link';
 import locationLogo from '@/app/assets/city-details/location-logo.svg';
@@ -16,12 +14,10 @@ import { useContext } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
 import { useCart } from '@/app/contexts/CartContext';
 import City from '@/app/interfaces/City';
-import Subscription from '@/app/interfaces/Subscription';
 import { FiChevronLeft } from 'react-icons/fi';
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
-	const [selectedPayment, setSelectedPayment] = useState<Object | null>(false);
 	const { user } = useContext(AuthContext);
 	const { addToCart, state } = useCart();
 
@@ -65,8 +61,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
 
 	const city: City = data?.data;
-
-	console.log(city)
 
 	return (
 		city && (

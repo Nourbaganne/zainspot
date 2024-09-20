@@ -176,7 +176,7 @@
 	"locationDialog_img": "Image",
 	"locationDialog_img_btn": "Choose File",
 	"locationDialog_submit": "Submit",
-	"locationDialog_duration_perYear": "1 Year",
+	"locationDialog_duration_perYear": "12 Months",
 	"locationDialog_duration_permonth": "1 Month",
 	"locationDialog_duration_per3months": "3 Months",
 	"locationDialog_duration_per6months": "6 Months",

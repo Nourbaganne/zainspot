@@ -8,9 +8,8 @@ import { toast } from 'react-hot-toast';
 import { CityData } from './addCity';
 
 const durations = [
-	{ label: '1 Year', value: 12 },
+	{ label: '12 Months', value: 12 },
 	{ label: '6 Months', value: 6 },
-	{ label: '3 Months', value: 3 },
 	{ label: '1 Month', value: 1 },
 ];
 
@@ -90,6 +89,7 @@ export const useEditCity = ({
 				amount: data?.goldPrice?.amount || null,
 				duration: data?.goldPrice?.duration || null,
 				tax: data?.goldPrice?.tax || null,
+				stripePriceId: data?.goldPrice?.stripePriceId || null
 			},
 			classicPrice: data?.classicPrice || defaultClassicPrice,
 			imageUrl: data?.imageUrl || null,

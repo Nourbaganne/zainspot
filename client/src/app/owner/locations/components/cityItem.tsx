@@ -109,7 +109,7 @@ const CityItem = ({
 							.filter((month) => month.duration !== 12)
 							.map((month, index) => (
 								<div key={index} className='flex justify-between'>
-									<p className='text-span font-light'>{`${month.duration} Months:`}</p>
+									<p className='text-span font-light'>{`${month.duration}`}</p>
 									<span className='font-semibold text-primary'>
 										<MoneyValue
 											value={month?.amount}
