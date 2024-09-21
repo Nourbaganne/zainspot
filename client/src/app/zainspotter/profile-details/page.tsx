@@ -28,15 +28,16 @@ const Page = () => {
 		queryFn: () => getUserData(user?.user.userId, user?.access_token),
 		enabled: !!user?.user.userId && !!user?.access_token,
 	});
-
-	const formik = useUpdateForm(data);
-
+	
 	if (isLoading) {
 		return <Loader />;
 	}
 	if (isError) {
 		return <div>{(error as Error).message}</div>;
 	}
+
+	const formik = useUpdateForm(data);
+
 
 	const breadcrumbItems = [
 		{ label: 'breadcrumb_home', href: '/' },
@@ -116,11 +117,10 @@ const Page = () => {
 													value='male'
 													checked={formik.values.gender === 'male'}
 													onChange={formik.handleChange}
-													className={`w-5 h-5 accent-primary ${
-														formik.errors.gender && formik.touched.gender
+													className={`w-5 h-5 accent-primary ${formik.errors.gender && formik.touched.gender
 															? 'border-alert'
 															: ''
-													}`}
+														}`}
 												/>
 												<label htmlFor='male'>
 													<Translation translationKey='register_gender_male_label' />
@@ -134,11 +134,10 @@ const Page = () => {
 													value='female'
 													checked={formik.values.gender === 'female'}
 													onChange={formik.handleChange}
-													className={`w-5 h-5 accent-primary ${
-														formik.errors.gender && formik.touched.gender
+													className={`w-5 h-5 accent-primary ${formik.errors.gender && formik.touched.gender
 															? 'border-alert'
 															: ''
-													}`}
+														}`}
 												/>
 												<label htmlFor='female'>
 													<Translation translationKey='register_gender_female_label' />
@@ -161,11 +160,10 @@ const Page = () => {
 												id='birthday'
 												value={formik.values.birthday}
 												onChange={formik.handleChange}
-												className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 w-2/3 ${
-													formik.errors.birthday && formik.touched.birthday
+												className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 w-2/3 ${formik.errors.birthday && formik.touched.birthday
 														? 'border-alert'
 														: 'border-button focus:border-primary'
-												}`}
+													}`}
 											/>
 										</div>
 
@@ -223,12 +221,11 @@ const Page = () => {
 												inputProps={{
 													className: `
                           border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
-                          ${
-														formik.errors.businessNumber &&
-														formik.touched.businessNumber
+                          ${formik.errors.businessNumber &&
+															formik.touched.businessNumber
 															? 'border-alert'
 															: 'border-button focus:border-primary'
-													}
+														}
                         `,
 													name: 'businessNumber',
 												}}
@@ -238,12 +235,11 @@ const Page = () => {
 											<label
 												htmlFor='businessNumber'
 												className={`absolute left-3 top-0 transform -translate-y-1/2 text-xs bg-white text-primary px-1  
-                        ${
-													formik.errors.businessNumber &&
-													formik.touched.businessNumber
+                        ${formik.errors.businessNumber &&
+														formik.touched.businessNumber
 														? 'text-alert'
 														: 'text-primary'
-												}`}
+													}`}
 											>
 												<Translation translationKey='register_business_number_label' />
 											</label>
@@ -264,12 +260,11 @@ const Page = () => {
 												name='businessType'
 												value={formik.values.businessType}
 												onChange={formik.handleChange}
-												className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${
-													formik.errors.businessType &&
-													formik.touched.businessType
+												className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.businessType &&
+														formik.touched.businessType
 														? 'border-alert'
 														: 'border-button focus:border-primary'
-												}`}
+													}`}
 											>
 												<option value='' disabled></option>
 												<option value='business1'>Business 1</option>
@@ -278,16 +273,14 @@ const Page = () => {
 											</select>
 											<label
 												htmlFor='businessType'
-												className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${
-													formik.errors.businessType &&
-													formik.touched.businessType
+												className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType &&
+														formik.touched.businessType
 														? 'peer-focus:text-alert text-alert'
 														: 'peer-focus:text-primary'
-												} ${
-													formik.values.businessType
+													} ${formik.values.businessType
 														? 'top-[0px] left-3 text-xs bg-white z-10'
 														: ''
-												}`}
+													}`}
 											>
 												<Translation translationKey='register_typeof_business_label' />
 											</label>
@@ -376,12 +369,11 @@ const Page = () => {
 											name='preferedLanguage'
 											value={formik.values.preferedLanguage}
 											onChange={formik.handleChange}
-											className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${
-												formik.errors.preferedLanguage &&
-												formik.touched.preferedLanguage
+											className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedLanguage &&
+													formik.touched.preferedLanguage
 													? 'border-alert'
 													: 'border-button focus:border-primary'
-											}`}
+												}`}
 										>
 											<option value=''></option>
 											{LANGUAGES_DATA.map((language, index) => (
@@ -392,16 +384,14 @@ const Page = () => {
 										</select>
 										<label
 											htmlFor='preferedLanguage'
-											className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${
-												formik.errors.businessType &&
-												formik.touched.businessType
+											className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType &&
+													formik.touched.businessType
 													? 'peer-focus:text-alert text-alert'
 													: 'peer-focus:text-primary'
-											} ${
-												formik.values.preferedLanguage
+												} ${formik.values.preferedLanguage
 													? 'top-[0px] left-3 text-xs bg-white z-10'
 													: ''
-											}`}
+												}`}
 										>
 											<Translation translationKey='prefered_language' />
 										</label>
@@ -411,12 +401,11 @@ const Page = () => {
 											name='preferedCurrency'
 											value={formik.values.preferedCurrency}
 											onChange={formik.handleChange}
-											className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${
-												formik.errors.preferedCurrency &&
-												formik.touched.preferedCurrency
+											className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedCurrency &&
+													formik.touched.preferedCurrency
 													? 'border-alert'
 													: 'border-button focus:border-primary'
-											}`}
+												}`}
 										>
 											<option value=''></option>
 											{CURRENCIES_DATA.map((currency) => (
@@ -427,16 +416,14 @@ const Page = () => {
 										</select>
 										<label
 											htmlFor='preferedCurrency'
-											className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${
-												formik.errors.businessType &&
-												formik.touched.businessType
+											className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType &&
+													formik.touched.businessType
 													? 'peer-focus:text-alert text-alert'
 													: 'peer-focus:text-primary'
-											} ${
-												formik.values.preferedCurrency
+												} ${formik.values.preferedCurrency
 													? 'top-[0px] left-3 text-xs bg-white z-10'
 													: ''
-											}`}
+												}`}
 										>
 											<Translation translationKey='prefered_currency' />
 										</label>

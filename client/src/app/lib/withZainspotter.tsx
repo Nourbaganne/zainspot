@@ -11,12 +11,10 @@ export function withNoAuth<P extends object>(Component: ComponentType<P>) {
 
         useEffect(() => {
             if (user) {
-                if (user?.user?.role?.name === 'owner') {
+                if (user.user.role === 'owner')
                     router.push('/owner');
-                } else if (user?.user?.role?.name === 'zainspotter') {
-                    router.push('/zainspotter');
-                } else {
-                    router.push('/'); // Default fallback
+                else{
+                    router.push('/zainspotter')
                 }
             }
         }, [user, router]);

@@ -11,6 +11,10 @@ export function WithAuth<P extends object>(WrappedComponent: React.ComponentType
     useEffect(() => {
       if (!loading && !user) {
         router.push('/login');
+      } else if (user?.user?.role.name === 'owner') {
+        router.push('/owner');
+      } else if (user?.user?.role.name === 'zainspotter') {
+        router.push('/zainspotter');
       }
     }, [user, loading, router]);
 

@@ -9,6 +9,8 @@ import Breadcrumb from './components/breadcrumb';
 import SubsImage from '@/app/assets/cart/row-image.png';
 import Image from 'next/image';
 import { FiArrowRight } from 'react-icons/fi';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/authContext';
 
 interface SubscriptionCardProps {
 	title: string;
@@ -20,6 +22,9 @@ const SubscriptionCard = ({
 	description,
 	image,
 }: SubscriptionCardProps) => {
+	const user = useContext(AuthContext);
+
+	console.log(user?.user?.user.role)
 	return (
 		<div className='bg-white rounded-xl flex items-center gap-6 border'>
 			<div className='max-w-1/3 h-28 object-fit scale-105 rounded-lg overflow-hidden object-fit'>
@@ -96,4 +101,4 @@ const Page = () => {
 	);
 };
 
-export default WithAuth(Page);
+export default Page;

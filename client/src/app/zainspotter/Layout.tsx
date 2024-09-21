@@ -25,4 +25,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     );
 }
 
-export default WithAuth(Layout);
+export default Layout;

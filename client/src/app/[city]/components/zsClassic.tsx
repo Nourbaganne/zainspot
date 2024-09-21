@@ -19,6 +19,7 @@ interface ZSClassisProps {
 }
 
 const ZsClassic = ({ amounts, onSelect }: ZSClassisProps) => {
+
 	const { state } = useCart();
 	const { currency } = useCurrency();
 

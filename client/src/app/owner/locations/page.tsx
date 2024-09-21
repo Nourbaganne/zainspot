@@ -14,6 +14,7 @@ import LocationsHeader from './components/locationsHeader';
 import TableHeader from './components/tableHeader';
 import Pagination from './components/pagination';
 import Loader from '@/app/components/loader';
+import { WithAuth } from '@/app/lib/withAuth';
 
 
 const Locations = () => {
@@ -101,4 +102,4 @@ const Locations = () => {
   );
 };
 
-export default Locations;
+export default WithAuth(Locations);
