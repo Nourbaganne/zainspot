@@ -12,32 +12,32 @@ import { PoliciesGuard } from 'src/casl/policiesGuard.guard';
 import { CaslAbilityFactory } from 'src/casl/casl-ability.factory/casl-ability.factory';
 
 @Module({
-  imports: [
-    UserModule,
-    PassportModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '14400s' }, //expires in 4 hours
-      }),
-      inject: [ConfigService],
-    }),
-  ],
-  controllers: [AuthController],
-  providers: [
-    AuthService,
-    JwtStrategy,
-    CaslAbilityFactory,
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: PoliciesGuard,
-    },
-  ],
-  exports: [JwtModule],
+	imports: [
+		UserModule,
+		PassportModule,
+		JwtModule.registerAsync({
+			imports: [ConfigModule],
+			useFactory: async (configService: ConfigService) => ({
+				secret: configService.get('JWT_SECRET'),
+				signOptions: { expiresIn: '14400s' }, //expires in 4 hours
+			}),
+			inject: [ConfigService],
+		}),
+	],
+	controllers: [AuthController],
+	providers: [
+		AuthService,
+		JwtStrategy,
+		CaslAbilityFactory,
+		{
+			provide: APP_GUARD,
+			useClass: JwtAuthGuard,
+		},
+		{
+			provide: APP_GUARD,
+			useClass: PoliciesGuard,
+		},
+	],
+	exports: [JwtModule],
 })
 export class AuthModule {}
