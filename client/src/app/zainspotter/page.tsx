@@ -101,4 +101,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default WithAuth(Page);

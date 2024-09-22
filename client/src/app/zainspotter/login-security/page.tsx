@@ -1,7 +1,6 @@
 'use client';
 
 import 'react-phone-input-2/lib/style.css';
-import Image from 'next/image';
 import Layout from '../Layout';
 import Translation from '@/app/components/translation';
 import { useContext, useState } from 'react';
@@ -14,7 +13,6 @@ import UseUserData from '@/app/lib/getUserData';
 import Loader from '@/app/components/loader';
 import Authentification from '../components/authentification';
 import LoginSecurityForm from '../components/loginSecurityForm';
-import { WithAuth } from '@/app/lib/withAuth';
 
 const Page = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
@@ -22,20 +20,19 @@ const Page = () => {
 
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['users', user?.user.userId],
-    queryFn: () => UseUserData(user?.user.userId, user?.access_token),
+    queryFn: () => UseUserData(user?.user.userId,  user?.access_token),
     enabled: !!user?.user.userId && !!user?.access_token,
   });
 
-  
+  const formik = useUpdateForm(data, user?.user.userId, user?.access_token);
 
   if (isLoading) {
     return <Loader />;
   }
   if (isError) {
-    return <div>{(error as Error).message}</div>;
+    return <div>{error.message}</div>;
   }
-  
-  const formik = useUpdateForm(data);
+
   const breadcrumbItems = [
     { label: 'breadcrumb_home', href: '/' },
     { label: 'breadcrumb_zainspotter', href: '/zainspotter' },

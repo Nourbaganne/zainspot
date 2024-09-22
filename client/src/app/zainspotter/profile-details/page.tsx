@@ -19,31 +19,30 @@ import { useQuery } from '@tanstack/react-query';
 import Loader from '@/app/components/loader';
 
 const Page = () => {
-	const { user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+    const [isOpenDialog, setIsOpenDialog] = useState(false);
 
-	const [isOpenDialog, setIsOpenDialog] = useState(false);
+    const { data, isLoading, isError, error } = useQuery({
+        queryKey: ['users', user?.user.userId],
+        queryFn: () => getUserData(user?.user.userId, user?.access_token),
+        enabled: !!user?.user.userId && !!user?.access_token,
+    });
 
-	const { data, isLoading, isError, error } = useQuery({
-		queryKey: ['users', user?.user.userId],
-		queryFn: () => getUserData(user?.user.userId, user?.access_token),
-		enabled: !!user?.user.userId && !!user?.access_token,
-	});
-	
-	if (isLoading) {
-		return <Loader />;
-	}
-	if (isError) {
-		return <div>{(error as Error).message}</div>;
-	}
+    const formik = useUpdateForm(data); 
 
-	const formik = useUpdateForm(data);
+    if (isLoading) {
+        return <Loader />;
+    }
+    
+    if (isError) {
+        return <div>{(error as Error).message}</div>;
+    }
 
-
-	const breadcrumbItems = [
-		{ label: 'breadcrumb_home', href: '/' },
-		{ label: 'breadcrumb_zainspotter', href: '/zainspotter' },
-		{ label: 'editProfile_ProfileDetails' },
-	];
+    const breadcrumbItems = [
+        { label: 'breadcrumb_home', href: '/' },
+        { label: 'breadcrumb_zainspotter', href: '/zainspotter' },
+        { label: 'editProfile_ProfileDetails' },
+    ];
 	return (
 		<div className='flex flex-col gap-4 md:gap-6 bg-background-foreground md:px-16 md:py-8 py-6 px-2  md:pb-20'>
 			<Breadcrumb items={breadcrumbItems} />

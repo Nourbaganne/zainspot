@@ -11,13 +11,7 @@ export function withNoAuth<P extends object>(Component: ComponentType<P>) {
 
         useEffect(() => {
             if (user) {
-                if (user?.user?.role?.name === 'owner') {
-                    router.push('/owner');
-                } else if (user?.user?.role?.name === 'zainspotter') {
-                    router.push('/zainspotter');
-                } else {
-                    router.push('/'); // Default fallback
-                }
+                router.push('/');
             }
         }, [user, router]);
 
@@ -25,6 +19,6 @@ export function withNoAuth<P extends object>(Component: ComponentType<P>) {
             return null;
         }
 
-        return <Component {...props} />;
+        return <Component { ...props } />;
     };
 }
