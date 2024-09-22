@@ -22,9 +22,8 @@ const SubscriptionCard = ({
 	description,
 	image,
 }: SubscriptionCardProps) => {
-	const user = useContext(AuthContext);
+	const { user } = useContext(AuthContext);
 
-	console.log(user?.user?.user.role)
 	return (
 		<div className='bg-white rounded-xl flex items-center gap-6 border'>
 			<div className='max-w-1/3 h-28 object-fit scale-105 rounded-lg overflow-hidden object-fit'>

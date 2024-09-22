@@ -20,18 +20,19 @@ const Page = () => {
 
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['users', user?.user.userId],
-    queryFn: () => UseUserData(user?.user.userId,  user?.access_token),
+    queryFn: () => UseUserData(user?.user.userId, user?.access_token),
     enabled: !!user?.user.userId && !!user?.access_token,
   });
 
-  const formik = useUpdateForm(data, user?.user.userId, user?.access_token);
+  const formik = useUpdateForm(data);
 
   if (isLoading) {
     return <Loader />;
   }
   if (isError) {
-    return <div>{error.message}</div>;
+    return <div>Error: {error.message || 'Something went wrong'}</div>;
   }
+  
 
   const breadcrumbItems = [
     { label: 'breadcrumb_home', href: '/' },
@@ -58,6 +59,7 @@ const Page = () => {
             email={data?.email}
             setIsOpenDialog={setIsOpenDialog}
           />
+
         </div>
       </Layout>
       {isOpenDialog && (

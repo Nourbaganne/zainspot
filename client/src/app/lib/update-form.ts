@@ -1,6 +1,5 @@
 import { useFormik, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/authContext";
 import axiosInstance from "./axios/axiosInstance";
@@ -30,8 +29,10 @@ export interface UserData {
     preferedCurrency?: string;
 }
 
-export const useUpdateForm = (userData: UserData | null, userId: number | undefined, accessToken: string | undefined) => {
-    const initialValues: UserData = {
+export const useUpdateForm = (userData: UserData) => {
+  const { user } = useContext(AuthContext);
+
+  const initialValues: UserData = {
       email: userData?.email || "",
       isEmailConfirmed: userData?.isEmailConfirmed || false,
       password: "",
@@ -54,50 +55,50 @@ export const useUpdateForm = (userData: UserData | null, userId: number | undefi
       mediaProfile: userData?.mediaProfile || "",
       preferedLanguage: userData?.preferedLanguage || "",
       preferedCurrency: userData?.preferedCurrency || "",
-    };
-  
-    return useFormik({
+  };
+
+  return useFormik({
       initialValues,
       enableReinitialize: true,
       validationSchema: Yup.object({
-        email: Yup.string().email("Invalid email address"),
-        password: Yup.string()
-          .min(8, "8 characters minimum")
-          .matches(/[A-Z]/, "1 uppercase letter")
-          .matches(/[a-z]/, "1 lowercase letter")
-          .matches(/[0-9]/, "Password requires a number")
-          .matches(/[^\w]/, "1 special character, e.g.: !@#%&*^°"),
-        confirmPassword: Yup.string().oneOf(
-          [Yup.ref("password")],
-          "Passwords must match"
-        ),
+          email: Yup.string().email("Invalid email address"),
+          password: Yup.string()
+              .min(8, "8 characters minimum")
+              .matches(/[A-Z]/, "1 uppercase letter")
+              .matches(/[a-z]/, "1 lowercase letter")
+              .matches(/[0-9]/, "Password requires a number")
+              .matches(/[^\w]/, "1 special character, e.g.: !@#%&*^°"),
+          confirmPassword: Yup.string().oneOf(
+              [Yup.ref("password")],
+              "Passwords must match"
+          ),
       }),
       onSubmit: async (values, { resetForm }: FormikHelpers<UserData>) => {
-        try {
-          const formattedValues = {
-            ...values,
-            birthday: values?.birthday
-              ? new Date(values.birthday).toISOString().split("T")[0]
-              : null,
-          };
-  
-          const response = await axiosInstance.patch(
-            `/user/${userId}`,
-            formattedValues,
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          );
-          if (response.status === 200) {
-            resetForm();
-            console.log("User updated");
+          try {
+              const formattedValues = {
+                  ...values,
+                  birthday: values?.birthday
+                      ? new Date(values.birthday).toISOString().split("T")[0]
+                      : null,
+              };
+
+              const response = await axiosInstance.patch(
+                  `/user/${user?.user.userId}`,
+                  formattedValues,
+                  {
+                      headers: {
+                          Authorization: `Bearer ${user?.access_token}`,
+                      },
+                  }
+              );
+              if (response.status === 200) {
+                  resetForm();
+                  console.log("User updated");
+              }
+          } catch (error) {
+              console.error("Error submitting form:", error);
           }
-        } catch (error) {
-          console.error("Error submitting form:", error);
-        }
       },
-    });
-  };
+  });
+};
   
