@@ -18,8 +18,12 @@ export function WithAuth<P extends object>(WrappedComponent: React.ComponentType
       return <Loader />;
     }
 
-    if (!user) {
-      return null;
+    if (user && user.user.role.name === 'owner'){
+      router.push('/owner')
+    }
+    
+    else if (user && user.user.role.name === 'zainspotter'){
+      router.push('/zainspotter')
     }
 
     return <WrappedComponent {...props} />;
