@@ -1,8 +1,9 @@
 'use client'
+
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
-const Unauthorized = () => {
+const NotFound = () => {
   const router = useRouter();
 
   return (
@@ -20,29 +21,29 @@ const Unauthorized = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-              d="M12 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"
+              d="M9.75 17.25h4.5l-.75-3h-3l-.75 3zM12 9.75a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"
             />
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-              d="M12 14v8m0-8a4 4 0 11-8 0m8 0a4 4 0 108 0"
+              d="M12 2.25c5.385 0 9.75 4.365 9.75 9.75s-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12 6.615 2.25 12 2.25z"
             />
           </svg>
         </div>
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">Access Denied</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">404 - Page Not Found</h1>
         <p className="text-gray-600 mb-6">
-          You do not have permission to view this page.
+          Oops! The page you're looking for doesn't exist. It may have been moved or deleted.
         </p>
         <button
           onClick={() => router.push('/')}
           className="bg-primary text-white font-semibold py-2 px-4 rounded hover:bg-primary-dark transition duration-300"
         >
-          Go to Homepage
+          Back to Homepage
         </button>
       </div>
     </div>
   );
 };
 
-export default Unauthorized;
+export default NotFound;
