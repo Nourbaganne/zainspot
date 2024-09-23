@@ -10,7 +10,7 @@ import {
 import { Subscription } from './subscription.entity';
 import PerMonth from 'src/interfaces/PerMonth';
 
-@Entity()
+@Entity('city')
 export class City extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number;
