@@ -17,6 +17,7 @@ import { handleEmailVerification } from '@/app/lib/email-verification';
 import getUserData from '@/app/lib/getUserData';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '@/app/components/loader';
+import { WithAuth } from '@/app/lib/withAuth';
 
 const Page = () => {
     const { user } = useContext(AuthContext);
@@ -471,4 +472,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default WithAuth(Page, 'zainspotter');

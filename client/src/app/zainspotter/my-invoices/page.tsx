@@ -13,6 +13,7 @@ import { AuthContext } from '@/app/contexts/authContext';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
 import Loader from '@/app/components/loader';
+import { WithAuth } from '@/app/lib/withAuth';
 
 interface Invoice {
 	id: number;
@@ -168,4 +169,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default WithAuth(Page, 'zainspotter');

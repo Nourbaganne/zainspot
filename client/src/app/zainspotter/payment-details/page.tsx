@@ -12,6 +12,7 @@ import PaymentCard from './component/paymentCard';
 import { useState } from 'react';
 import Image from 'next/image';
 import Translation from '@/app/components/translation';
+import { WithAuth } from '@/app/lib/withAuth';
 
 const Page = () => {
 	const [selectedPayment, setSelectedPayment] = useState('');
@@ -148,4 +149,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default WithAuth(Page, 'zainspotter');

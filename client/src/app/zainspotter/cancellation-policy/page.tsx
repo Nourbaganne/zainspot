@@ -3,6 +3,7 @@
 import Translation from '@/app/components/translation';
 import Breadcrumb from '../components/breadcrumb';
 import Layout from '../Layout';
+import { WithAuth } from '@/app/lib/withAuth';
 
 const Page = () => {
 	const breadcrumbItems = [
@@ -100,4 +101,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default WithAuth(Page, 'zainspotter');

@@ -21,6 +21,7 @@ import { AuthContext } from '@/app/contexts/authContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
 import Loader from '@/app/components/loader';
+import { WithAuth } from '@/app/lib/withAuth';
 
 interface Subscription {
 	country: string;
@@ -260,4 +261,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default WithAuth(Page, 'zainspotter');

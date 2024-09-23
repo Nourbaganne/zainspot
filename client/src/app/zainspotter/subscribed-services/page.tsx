@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
 import Subscription from './component/subscription';
 import Loader from '@/app/components/loader';
+import { WithAuth } from '@/app/lib/withAuth';
 
 export interface SubscriptionProps {
 	id: number;
@@ -85,4 +86,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default WithAuth(Page, 'zainspotter');

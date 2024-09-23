@@ -321,4 +321,4 @@ const Users = () => {
 	);
 };
 
-export default WithAuth(Users);
+export default WithAuth(Users, 'owner');

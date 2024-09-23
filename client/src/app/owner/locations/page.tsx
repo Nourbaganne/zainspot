@@ -102,4 +102,4 @@ const Locations = () => {
   );
 };
 
-export default WithAuth(Locations);
+export default WithAuth(Locations, 'owner');

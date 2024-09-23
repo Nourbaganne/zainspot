@@ -13,6 +13,7 @@ import UseUserData from '@/app/lib/getUserData';
 import Loader from '@/app/components/loader';
 import Authentification from '../components/authentification';
 import LoginSecurityForm from '../components/loginSecurityForm';
+import { WithAuth } from '@/app/lib/withAuth';
 
 const Page = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
@@ -73,4 +74,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default WithAuth(Page, 'zainspotter');

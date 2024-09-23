@@ -1,5 +1,6 @@
 'use client';
 
+import { WithAuth } from '@/app/lib/withAuth';
 import Breadcrumb from '../components/breadcrumb';
 import Layout from '../Layout';
 
@@ -129,4 +130,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default WithAuth(Page, 'zainspotter');

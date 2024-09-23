@@ -323,4 +323,4 @@ const Reports = () => {
   )
 }
 
-export default WithAuth(Reports)
+export default WithAuth(Reports, 'owner')
