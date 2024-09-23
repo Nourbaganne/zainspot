@@ -9,13 +9,11 @@ import {
 } from '@nestjs/common';
 import { InvoiceService } from './invoice.service';
 import { CreateInvoicesDto } from './dto/create-invoices';
-import { Public } from 'src/decorators/public.decorator';
 
 @Controller('invoices')
 export class InvoicesController {
   constructor(private readonly invoiceService: InvoiceService) {}
 
-  @Public()
   @Post()
   create(@Body() createPaymentHistoryDto: CreateInvoicesDto) {
     return this.invoiceService.create(createPaymentHistoryDto);

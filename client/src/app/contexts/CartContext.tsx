@@ -15,9 +15,11 @@ type CartAction =
 	| { type: 'REMOVE_FROM_CART'; payload: Subscription };
 
 // Initial state for the cart
-const initialState: CartState = JSON.parse(localStorage.getItem('cart')) || {
-	items: [],
-};
+// const initialState: CartState = JSON.parse(localStorage.getItem('cart')) || {
+// 	items: [],
+// };
+
+const initialState = {items: []};
 
 // Cart reducer function
 function cartReducer(state: CartState, action: CartAction): CartState {
@@ -33,7 +35,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 				...state,
 				items: newItems,
 			};
-			localStorage.setItem('cart', JSON.stringify(data));
+			// localStorage.setItem('cart', JSON.stringify(data));
 			return data;
 		case 'REMOVE_FROM_CART':
 			let newData = {
@@ -44,7 +46,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 						item.optionType != action.payload.optionType,
 				),
 			};
-			localStorage.setItem('cart', JSON.stringify(newData));
+			// localStorage.setItem('cart', JSON.stringify(newData));
 			return newData;
 		default:
 			return state;
