@@ -13,6 +13,7 @@ import Image from 'next/image';
 import CustomStackedBarChart from '../../components/barChart';
 import SubscriptionList from '../../components/subscriptionList';
 import Loader from '@/app/components/loader';
+import { WithAuth } from '@/app/lib/withAuth';
 
 const Page = ({ params }: { params: { id: number } }) => {
   const { user } = useContext(AuthContext);
@@ -158,4 +159,4 @@ const Page = ({ params }: { params: { id: number } }) => {
   );
 };
 
-export default Page;
+export default WithAuth(Page);

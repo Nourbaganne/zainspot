@@ -9,6 +9,8 @@ import Breadcrumb from './components/breadcrumb';
 import SubsImage from '@/app/assets/cart/row-image.png';
 import Image from 'next/image';
 import { FiArrowRight } from 'react-icons/fi';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/authContext';
 
 interface SubscriptionCardProps {
 	title: string;
@@ -20,6 +22,8 @@ const SubscriptionCard = ({
 	description,
 	image,
 }: SubscriptionCardProps) => {
+	const { user } = useContext(AuthContext);
+
 	return (
 		<div className='bg-white rounded-xl flex items-center gap-6 border'>
 			<div className='max-w-1/3 h-28 object-fit scale-105 rounded-lg overflow-hidden object-fit'>
@@ -42,13 +46,13 @@ const Page = () => {
 	];
 
 	return (
-		<div className='flex flex-col bg-background-foreground gap-8 px-4 md:px-6 xl:px-8 py-6 md:py-8 '>
+		<div className='flex flex-col bg-background-foreground gap-8 px-4 md:px-6 xl:px-16 py-6 md:py-8 '>
 			<Breadcrumb items={breadcrumbItems} />
 			<div className='grid grid-cols-12 gap-8'>
 				{/* Left (Some text) */}
 				<div className='col-span-12 lg:col-span-7 xl:col-span-8'>
 					<h1 className='h1'>My Zainspot</h1>
-					<p className='mt-4 text-lg text-gray-400'>
+					<p className='mt-4 text-base max-w-3xl text-gray-400'>
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
 						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
 						ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut

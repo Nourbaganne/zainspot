@@ -1,12 +1,14 @@
 import axiosInstance from './axios/axiosInstance';
 
-const getUserData = async (userId: number | undefined, accessToken: string | undefined) => {
+const useUserData = async (userId?: number, access_token?: string) => {
+
     const response = await axiosInstance.get(`/user/${userId}`, {
         headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${access_token}`,
         }
     });
+    
     return response.data;
 };
 
-export default getUserData;
+export default useUserData;

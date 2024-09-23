@@ -1,7 +1,5 @@
 'use client';
 
-import returnIcon from "@/app/assets/city-details/return-icon.svg";
-import { useState } from "react";
 import Image from 'next/image';
 import Link from 'next/link';
 import locationLogo from '@/app/assets/city-details/location-logo.svg';
@@ -16,12 +14,10 @@ import { useContext } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
 import { useCart } from '@/app/contexts/CartContext';
 import City from '@/app/interfaces/City';
-import Subscription from '@/app/interfaces/Subscription';
 import { FiChevronLeft } from 'react-icons/fi';
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
-	const [selectedPayment, setSelectedPayment] = useState<Object | null>(false);
 	const { user } = useContext(AuthContext);
 	const { addToCart, state } = useCart();
 
@@ -84,7 +80,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 							</h1>
 						</div>
 						<div className='flex overflow-hidden'>
-							<Image src={city?.imageUrl} alt="image" width={800} height={300} />
+							<Image src={city.imageUrl as string} alt="image" width={800} height={300} />
 						</div>
 						<div className='flex flex-col px-4 md:px-2 gap-7 pt-4 text-text-foreground'>
 							<p

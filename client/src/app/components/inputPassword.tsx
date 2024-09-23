@@ -125,6 +125,7 @@ const InputPassword = ({
                             />
                         )
                     )}
+                    
                 </div>
             </div>
             {isTypingPassword && errors && (

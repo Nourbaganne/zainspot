@@ -161,7 +161,7 @@ const config: Config = {
 				'-2%': '-0.02em',
 			},
 			fontFamily: {
-				sans: ['"Work Sans"', 'sans-serif'],
+				sans: ['Work Sans', 'sans-serif'],
 				regular: ['"Open Sans"', 'sans-serif'],
 			},
 		},

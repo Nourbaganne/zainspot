@@ -1,13 +1,13 @@
 import Container from '../components/Container'
 import Image from 'next/image'
-import explanationImage from '@/app/assets/howitworks/Container.svg'
+import explanationImage from '@/app/assets/howitworks/how-it-works.svg'
 
 const page = () => {
     return (
         <Container
             breadcrumbItems={[
-                { label: 'Home', href: '/' },
-                { label: 'How it works' },
+                { label: 'breadcrumb_home', href: '/' },
+                { label: 'footer_title_howitworks' },
             ]}
             withPaddingBottom={false}>
             <div className='flex flex-col gap-8'>

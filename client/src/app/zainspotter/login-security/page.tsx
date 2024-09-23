@@ -1,7 +1,6 @@
 'use client';
 
 import 'react-phone-input-2/lib/style.css';
-import Image from 'next/image';
 import Layout from '../Layout';
 import Translation from '@/app/components/translation';
 import { useContext, useState } from 'react';
@@ -10,7 +9,7 @@ import Dialog from '@/app/components/dialog';
 import Breadcrumb from '../components/breadcrumb';
 import { AuthContext } from '@/app/contexts/authContext';
 import { useQuery } from '@tanstack/react-query';
-import getUserData from '@/app/lib/getUserData';
+import UseUserData from '@/app/lib/getUserData';
 import Loader from '@/app/components/loader';
 import Authentification from '../components/authentification';
 import LoginSecurityForm from '../components/loginSecurityForm';
@@ -21,7 +20,7 @@ const Page = () => {
 
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['users', user?.user.userId],
-    queryFn: () => getUserData(user?.user.userId, user?.access_token),
+    queryFn: () => UseUserData(user?.user.userId, user?.access_token),
     enabled: !!user?.user.userId && !!user?.access_token,
   });
 
@@ -31,8 +30,9 @@ const Page = () => {
     return <Loader />;
   }
   if (isError) {
-    return <div>{(error as Error).message}</div>;
+    return <div>Error: {error.message || 'Something went wrong'}</div>;
   }
+  
 
   const breadcrumbItems = [
     { label: 'breadcrumb_home', href: '/' },
@@ -59,6 +59,7 @@ const Page = () => {
             email={data?.email}
             setIsOpenDialog={setIsOpenDialog}
           />
+
         </div>
       </Layout>
       {isOpenDialog && (

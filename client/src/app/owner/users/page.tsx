@@ -14,12 +14,12 @@ import Modal from '@/app/components/Modal';
 import UsersTable from './components/UsersTable';
 import RolesModal from './components/RolesModal';
 import Loader from '@/app/components/loader';
+import { WithAuth } from '@/app/lib/withAuth';
 
 const Users = () => {
 	const [selectedFilter, setSelectedFilter] = useState<string>('');
 	const [searchUser, setSearchUser] = useState<string>('');
-	const [debouncedSearchUser, setDebouncedSearchUser] =
-		useState<string>(searchUser);
+	const [debouncedSearchUser, setDebouncedSearchUser] = useState<string>(searchUser);
 	const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const { user } = useContext(AuthContext);
@@ -321,4 +321,4 @@ const Users = () => {
 	);
 };
 
-export default Users;
+export default WithAuth(Users);

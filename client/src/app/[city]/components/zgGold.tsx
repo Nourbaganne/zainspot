@@ -21,7 +21,7 @@ const ZsGold = ({ goldPrice, setSelectedPayment }: ZsGoldProps) => {
       <div className="flex flex-col">
         <div className="flex justify-between items-center">
           <h1
-            className="font-sans font-semibold text-semibold-24 md:text-[36px]">
+            className="font-sans font-semibold text-semibold-24 md:text-semibold-36">
             ZS Gold
           </h1>
           <h1

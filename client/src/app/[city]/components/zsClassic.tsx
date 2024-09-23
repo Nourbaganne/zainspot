@@ -5,13 +5,12 @@ import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { useState } from 'react';
 
 interface ClassicPrice {
-	perMonth: [
-		{
-			duration: number;
-			amount: number;
-			tax?: number;
-		},
-	];
+	perMonth: Array<{
+		duration?: number;
+		amount: number;
+		tax?: number;
+		stripePriceId: string;
+	}>;
 }
 
 interface ZSClassisProps {
@@ -20,6 +19,7 @@ interface ZSClassisProps {
 }
 
 const ZsClassic = ({ amounts, onSelect }: ZSClassisProps) => {
+
 	const { state } = useCart();
 	const { currency } = useCurrency();
 
@@ -89,8 +89,7 @@ const ZsClassic = ({ amounts, onSelect }: ZSClassisProps) => {
 					.map((month, index) => (
 						<div key={index} className='flex justify-between font-semibold'>
 							<h1>
-								{month?.duration}{' '}
-								<Translation translationKey='citypage_month' />
+								{month?.duration}
 							</h1>
 							<h1 className='text-primary'>
 								<MoneyValue

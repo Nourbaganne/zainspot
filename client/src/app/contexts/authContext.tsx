@@ -8,11 +8,16 @@ import React, {
 	useState,
 } from 'react';
 
+interface RoleProps {
+	id: number;
+	name: string
+}
+
 interface User {
 	access_token: string;
 	user: {
 		email: string;
-		role: string;
+		role: RoleProps;
 		userId: number;
 	};
 }

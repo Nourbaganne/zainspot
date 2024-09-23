@@ -8,6 +8,7 @@ import { AreaChart, DonutChart } from '@tremor/react';
 
 import MapImage from '../../assets/owner/reports/map.png';
 import Container from '@/app/components/Container';
+import { WithAuth } from '@/app/lib/withAuth';
 
 const CardVisitors = () => {
   return (
@@ -322,4 +323,4 @@ const Reports = () => {
   )
 }
 
-export default Reports
+export default WithAuth(Reports)

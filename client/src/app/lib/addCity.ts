@@ -5,36 +5,54 @@ import { AuthContext } from '../contexts/authContext';
 import axiosInstance from './axios/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import City from '../interfaces/City';
 
 export interface PerMonth {
-	duration: number | null;
-	amount: number | null;
-	tax: number | null;
+	duration?: number;
+	amount: number;
+	tax?: number;
+	stripePriceId: string;
+}
+
+export interface CityData {
+	id?: number;
+	city: string;
+	imageUrl: string | File | null;
+	country: string;
+	hidden: boolean;
+	location: { title: string; locationLink: string };
+	description: string;
+	catchphrase: string;
+	goldPrice: PerMonth;
+	classicPrice: {
+		perMonth: Array<PerMonth>;
+	};
+	createdAt?: Date;
+	updatedAt?: Date;
 }
 
 const durations = [
-	{ label: '1 Year', value: 12 },
+	{ label: '12 Months', value: 12 },
 	{ label: '6 Months', value: 6 },
-	{ label: '3 Months', value: 3 },
 	{ label: '1 Month', value: 1 },
 ];
 
 const defaultClassicPrice = {
 	perMonth: durations.map((duration) => ({
-		duration: duration.value,
-		amount: null,
-		tax: null,
-		stripePirceId: null,
+		duration: duration?.value,
+		amount: 0,
+		tax: 0,
+		stripePriceId: '',
 	})),
 };
 
 export const useAddCity = ({ onClose }: { onClose: () => void }) => {
+
+
 	const { user } = useContext(AuthContext);
 	const queryClient = useQueryClient();
 
 	const mutation = useMutation({
-		mutationFn: async (values: City) => {
+		mutationFn: async (values: CityData) => {
 			const formData = new FormData();
 			formData.append('city', values.city);
 			formData.append('country', values.country);
@@ -48,6 +66,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 				formData.append('imageUrl', values.imageUrl);
 			}
 
+
 			const response = await axiosInstance.post('/city', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
@@ -56,6 +75,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			});
 			return response.data;
 		},
+
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: ['cities'] });
 			toast.success('City created successfully!');
@@ -63,10 +83,12 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 		},
 		onError: (error: any) => {
 			console.error('Error adding city:', error);
+			toast.error('Failed to add the city. Please try again.');
 		},
+
 	});
 
-	const formik = useFormik<City>({
+	const formik = useFormik<CityData>({
 		initialValues: {
 			city: '',
 			country: '',
@@ -74,12 +96,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			location: { title: '', locationLink: '' },
 			description: '',
 			catchphrase: '',
-			goldPrice: {
-				amount: undefined,
-				tax: undefined,
-				duration: 12,
-				stripePriceId: undefined,
-			},
+			goldPrice: { amount: 0, tax: 0, duration: 12, stripePriceId: '' },
 			classicPrice: defaultClassicPrice,
 			imageUrl: null,
 		},
@@ -87,28 +104,29 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			city: Yup.string().required('City is required'),
 			country: Yup.string().required('Country is required'),
 			location: Yup.object({
-				title: Yup.string().required('Location Title is required'),
-				locationLink: Yup.string().required('Map Location Link is required'),
+				title: Yup.string().required('Location title is required'),
+				locationLink: Yup.string().required('Map location link is required'),
 			}),
 			description: Yup.string().required('Description is required'),
-			catchphrase: Yup.string().required('Catch Phrase is required'),
-			goldPrice: Yup.object({
-				amount: Yup.number().required('Gold Price amount is required'),
-				tax: Yup.number().required('Gold Price Tax is required'),
-				srtipePriceId: Yup.string().required(
-					'Gold Stripe Price ID is required',
-				),
+			catchphrase: Yup.string().required('Catch phrase is required'),
+			goldPrice: Yup.object().shape({
+				amount: Yup.number().required('Gold price amount is required'),
+				tax: Yup.number().required('Gold price tax is required'),
+				stripePriceId: Yup.string().required('Stripe price id is required'),
 			}),
 			imageUrl: Yup.mixed().required('Image is required'),
 		}),
-		onSubmit: async (values: City, { resetForm }: FormikHelpers<City>) => {
+
+		onSubmit: async (values: CityData, { resetForm }: FormikHelpers<CityData>) => {
 			try {
 				await mutation.mutateAsync(values);
 				resetForm();
 			} catch (error) {
-				console.error('Error adding city:', error);
+				console.error('Error during form submission:', error);
+				toast.error('Failed to add the city. Please try again.');
 			}
-		},
+		}
+
 	});
 
 	return {

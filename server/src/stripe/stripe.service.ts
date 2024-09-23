@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { UserService } from 'src/user/user.service';
 import Stripe from 'stripe';
 
 @Injectable()
 export class StripeService {
 	private stripe: Stripe;
 
-	constructor() {
+	constructor(private userService: UserService) {
 		this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 	}
 
@@ -22,6 +23,12 @@ export class StripeService {
 			success_url: process.env.CLIENT_URL + '/cart/checkout/success',
 			cancel_url: process.env.CLIENT_URL + '/cart/checkout/cancel',
 		});
+
+		// TODO: use userService instead of this.userRepository
+		// update user.lastStripeSessionId
+		// const user = await this.userRepository.findOne({ where: { id: null } });
+		// user.lastStripeSessionId = session.id;
+		// await this.userRepository.save(user);
 
 		return session;
 	}

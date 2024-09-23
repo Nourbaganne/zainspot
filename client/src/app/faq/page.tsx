@@ -4,6 +4,7 @@ import { FaSearch } from 'react-icons/fa';
 import Container from '../components/Container';
 import { FiMinus, FiSearch } from 'react-icons/fi';
 import { useState } from 'react';
+import Translation from '../components/translation';
 
 interface Faq {
 	question: string;
@@ -12,55 +13,55 @@ interface Faq {
 
 const originalFaqs: Faq[] = [
 	{
-		question: 'How does billing work?',
+		question: 'faqPage_billing_question',
 		answer:
-			'Plans are per city and per subscriptions type: Zs Gold or ZS Silver',
+			'faqPage_billing_answer',
 	},
 	{
-		question: 'How can I change my account email?',
+		question: 'faqPage_emailChanging_question',
 		answer:
-			'You can log in to your account and change it by following these steps: Go to My ZainSpot > Profile Details and in the Business section, change your business email',
+			'faqPage_emailChanging_question',
 	},
 	{
-		question: 'Do you provide tutorials?',
+		question: 'faqPage_tutorials_question',
 		answer:
-			"Not yet, but we're working on it! In the meantine, we've done our best to make it intuitive and we're building our documentation page.",
+			"faqPage_tutorials_answer",
 	},
 	{
-		question: 'How does billing work?',
+		question: 'faqPage_billing_question',
 		answer:
-			'Plans are per city and per subscriptions type: Zs Gold or ZS Silver',
+			'faqPage_billing_answer',
 	},
 	{
-		question: 'What is your cancellation policy?',
+		question: 'faqPage_cancellation_question',
 		answer:
-			"We understand that things change. You can cancel your plan at any time and we'll refund you the difference already paid.",
+			"faqPage_cancellation_answer",
 	},
 	{
-		question: 'What is your cancellation policy?',
+		question: 'faqPage_cancellation_question',
 		answer:
-			"We understand that things change. You can cancel your plan at any time and we'll refund you the difference already paid.",
+			"faqPage_cancellation_answer",
 	},
 	{
-		question: 'How does billing work?',
+		question: 'faqPage_billing_question',
 		answer:
-			'Plans are per city and per subscriptions type: Zs Gold or ZS Silver',
+			'faqPage_billing_answer',
 	},
 	// Add 2 more FAQs
 	{
-		question: 'How can I change my account email?',
+		question: 'faqPage_emailChanging_question',
 		answer:
-			'You can log in to your account and change it by following these steps: Go to My ZainSpot > Profile Details and in the Business section, change your business email',
+			'faqPage_emailChanging_question',
 	},
 	{
-		question: 'Do you provide tutorials?',
+		question: 'faqPage_tutorials_question',
 		answer:
-			"Not yet, but we're working on it! In the meantine, we've done our best to make it intuitive and we're building our documentation page.",
+			"faqPage_tutorials_answer",
 	},
 	{
-		question: 'What is your cancellation policy?',
+		question: 'faqPage_cancellation_question',
 		answer:
-			"We understand that things change. You can cancel your plan at any time and we'll refund you the difference already paid.",
+			"faqPage_cancellation_answer",
 	},
 ];
 
@@ -91,19 +92,18 @@ export default function FaqPage() {
 	return (
 		<Container
 			breadcrumbItems={[
-				{ label: 'Home', href: '/' },
-				{ label: 'FAQ', href: '/' },
+				{ label: 'breadcrumb_home', href: '/' },
+				{ label: 'footer_title_faq' },
 			]}
 			className='p-0'
 		>
 			<div>
 				<div className='text-center p-6 pb-12'>
 					<h1 className='text-3xl font-extrabold'>
-						Frequently Asked Questions
+						<Translation translationKey='faqPage_header' />
 					</h1>
 					<p className='mt-3 text-md text-gray-500 max-w-3xl mx-auto'>
-						Stuck on something? We’re here to help with all your questions and
-						answers in one place.
+						<Translation translationKey='faqPage_desc' />
 					</p>
 					{/* Search bar */}
 					<div className='mt-8 px-4 form-control bg-white max-w-2xl mx-auto flex items-center gap-0'>
@@ -123,11 +123,14 @@ export default function FaqPage() {
 							<div key={index} className='p-6 border-b border-gray-400'>
 								<div className='flex items-center justify-between'>
 									<h2 className='text-xl font-bold flex-grow'>
-										{faq.question}
+
+										<Translation translationKey={faq.question} />
 									</h2>
 									<FiMinus className='h-6 w-6 text-gray-700' />
 								</div>
-								<p className='mt-4 text-gray-400'>{faq.answer}</p>
+								<p className='mt-4 text-gray-400'>
+									<Translation translationKey={faq.answer} />
+								</p>
 							</div>
 						))}
 					</div>

@@ -16,12 +16,12 @@ const Page = () => {
 	const formik = useLoginForm(setIsError);
 
 	return (
-		<div className='flex py-12'>
+		<div className='flex lg:grid lg:grid-cols-2 pt-6 pb-24'>
 			{/* Left Section */}
 			<WelcomeToBusinessSection />
 			{/* Right Section */}
-			<div className='flex-grow flex flex-col gap-10 px-4 md:px-6 lg:px-8 xl:px-12 '>
-				<h1 className='font-bold text-2xl md:text-3xl  text-primary'>
+			<div className='flex-grow flex flex-col gap-10 px-4 md:px-6 lg:px-8 xl:px-5 '>
+				<h1 className='text-4xl font-bold text-primary'>
 					Login to Your Secure ZainSpot Account
 				</h1>
 				<form onSubmit={formik.handleSubmit} className='flex flex-col gap-8'>
