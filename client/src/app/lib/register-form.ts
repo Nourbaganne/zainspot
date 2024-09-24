@@ -1,11 +1,14 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useRouter } from "next/navigation";
 import axiosInstance from "./axios/axiosInstance";
 
-export const useRegisterForm = ({ setIsOpenDialog, setError }: { setIsOpenDialog: (isOpen: boolean) => void; setError: (error: string | null) => void; }) => {
-  const router = useRouter();
-
+export const useRegisterForm = ({
+  setIsOpenDialog,
+  setError,
+}: {
+  setIsOpenDialog: (isOpen: boolean) => void;
+  setError: (error: string | null) => void;
+}) => {
   return useFormik({
     initialValues: {
       email: "",
@@ -14,7 +17,6 @@ export const useRegisterForm = ({ setIsOpenDialog, setError }: { setIsOpenDialog
       businessNumber: "",
       businessName: "",
       tradeName: "",
-      businessTradingName: "",
       businessType: "",
       businessWebsite: "",
       country: "",
@@ -46,10 +48,10 @@ export const useRegisterForm = ({ setIsOpenDialog, setError }: { setIsOpenDialog
         .required("Confirm password is required"),
       businessNumber: Yup.string().required("Business Phone Number is required"),
       businessName: Yup.string().required("Business name is required"),
-      tradeName: Yup.string().required("Business name is required"),
+      tradeName: Yup.string().required("Trade name is required"),
       businessType: Yup.string().required("Business type is required"),
       country: Yup.string().required("Business country is required"),
-      businessWebsite: Yup.string(),
+      businessWebsite: Yup.string().url("Must be a valid URL"),
       city: Yup.string().required("City is required"),
       state: Yup.string().required("State or Province or Department is required"),
       interestRegion: Yup.string().required("Regions of interest are required"),
@@ -59,30 +61,33 @@ export const useRegisterForm = ({ setIsOpenDialog, setError }: { setIsOpenDialog
       gender: Yup.string().required("Gender is required"),
       birthday: Yup.date().required("Your Birthday is required"),
       mediaProfile: Yup.string(),
+      preferedLanguage: Yup.string(),
+      preferedCurrency: Yup.string(),
     }),
-    onSubmit: async (values, { setErrors, resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
+        const { confirmPassword, ...userData } = values;
+
         const formattedValues = {
-          ...values,
-          birthday: values.birthday ? new Date(values.birthday).toISOString().split('T')[0] : null,
+          ...userData,
+          birthday: userData.birthday
+            ? new Date(userData.birthday).toISOString().split('T')[0]
+            : null,
         };
 
-        const response = await axiosInstance.post("/user/register", formattedValues).then((response) => {
+        const response = await axiosInstance.post("/user/register", formattedValues);
+
+        if (response.status === 201) {
           resetForm();
           setIsOpenDialog(true);
-        }).catch((error) => {
-          if (error.response && error.response.status === 409) {
-            setError('Email already exists');
-          } else if (error.response && error.response.data.message) {
-            setError(error.response.data.message);
-          } else {
-            setError('An unexpected error occurred during registration');
-          }
-        });
-
+          setError(null);
+        }
       } catch (error) {
-        setError("Error submitting form:");
+        console.log(error)
+        setError('An unexpected error occurred during registration.: ');
       }
-    },
+    }
+
   });
 };
+
