@@ -44,7 +44,7 @@ export function Input({
 						value={value}
 						placeholder={placeholderValue}
 						onChange={handleChange}
-						className={`text-sm border p-3 rounded-md font-light focus:outline-none focus:ring-0 autofill:bg-white resize-none ${
+						className={`text-sm border p-3 rounded-md text-span font-light focus:outline-none focus:ring-0 autofill:bg-white resize-none ${
 							errors && value || errors && touched 
 								? 'border-alert'
 								: 'border-button focus:border-primary'
@@ -58,7 +58,7 @@ export function Input({
 						value={value}
 						onChange={handleChange}
 						placeholder={placeholderValue}
-						className={`text-sm border p-3 rounded-md font-light outline-none focus:outline-none focus:ring-0 autofill:bg-white ${
+						className={`text-sm border p-3 rounded-md text-span font-light outline-none focus:outline-none focus:ring-0 autofill:bg-white ${
 							errors && value || errors && touched 
 								? 'border-alert'
 								: 'border-button focus:border-primary'
