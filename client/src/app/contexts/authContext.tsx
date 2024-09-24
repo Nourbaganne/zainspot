@@ -15,6 +15,7 @@ interface RoleProps {
 
 interface User {
 	access_token: string;
+	expires_at: Date;
 	user: {
 		email: string;
 		role: RoleProps;

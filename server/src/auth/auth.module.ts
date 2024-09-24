@@ -19,7 +19,6 @@ import { CaslAbilityFactory } from 'src/casl/casl-ability.factory/casl-ability.f
 			imports: [ConfigModule],
 			useFactory: async (configService: ConfigService) => ({
 				secret: configService.get('JWT_SECRET'),
-				signOptions: { expiresIn: '14400s' }, //expires in 4 hours
 			}),
 			inject: [ConfigService],
 		}),
