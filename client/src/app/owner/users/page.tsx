@@ -29,7 +29,6 @@ const Users = () => {
 	const [roles, setRoles] = useState([]);
 	function getRoles() {
 		axiosInstance.get('/role').then((res) => {
-			console.log('roles', res.data);
 			setRoles(res.data);
 		});
 	}
@@ -57,7 +56,7 @@ const Users = () => {
 		{ title: 'View All', value: '' },
 		{ title: 'Zainspotters', value: 'zainspotter' },
 		{ title: 'Admins', value: 'admin' },
-		{ title: 'Managers', value: 'manager' },
+		{ title: 'Owners', value: 'owner' },
 	];
 
 	const { data, isLoading, isError, error } = useQuery({
@@ -78,7 +77,7 @@ const Users = () => {
 
 	const zainspottersCount = data?.data.counts.zainspotter || 0;
 	const adminsCount = data?.data.counts.admin || 0;
-	const managersCount = data?.data.counts.manager || 0;
+	const ownersCount = data?.data.counts.owner || 0;
 
 	const generatePageNumbers = () => {
 		const totalPages = data?.data.totalPages || 1;
@@ -119,12 +118,12 @@ const Users = () => {
 			},
 		},
 		{
-			title: 'Managers',
-			value: managersCount,
+			title: 'Owners',
+			value: ownersCount,
 			editPermissions: true,
 			stats: {
-				increase: checkIncreasment(data?.data.percentageChange.manager),
-				percentage: Math.abs(data?.data.percentageChange.manager),
+				increase: checkIncreasment(data?.data.percentageChange.owner),
+				percentage: Math.abs(data?.data.percentageChange.owner),
 			},
 		},
 	];
