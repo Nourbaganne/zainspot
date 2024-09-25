@@ -86,7 +86,7 @@ const ImageInput: React.FC<ImageInputProps> = ({ onFileSelect, selectedFile, val
                 </div>
             ) : (
                 <div className="relative flex flex-col items-center">
-                    <img
+                    <Image
                         className="rounded-2xl w-full max-h-60"
                         src={file}
                         alt="Selected file preview"

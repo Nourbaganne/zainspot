@@ -41,11 +41,11 @@ const Dialog = ({ email, isOpenDialog, setIsOpenDialog }: DialogProps) => {
                     Verify Your Email
                 </h1>
                 <p className="text-gray-600 text-lg leading-relaxed mb-6 text-center">
-                    We've sent a verification email to <span className="text-secondary font-semibold">{email}</span>. 
+                    We&apos;ve sent a verification email to <span className="text-secondary font-semibold">{email}</span>. 
                     Please check your inbox to complete the verification process.
                     <br />
                     <span className="block mt-4">
-                        Didn’t receive an email?
+                        Didn&apos;t receive an email?
                         <span
                             className="underline text-secondary cursor-pointer font-medium hover:text-secondary-dark transition-colors"
                             onClick={() => handleEmailVerification(email, setIsOpenDialog)}

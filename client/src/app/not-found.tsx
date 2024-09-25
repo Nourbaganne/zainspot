@@ -33,7 +33,7 @@ const NotFound = () => {
         </div>
         <h1 className="text-3xl font-bold text-gray-800 mb-2">404 - Page Not Found</h1>
         <p className="text-gray-600 mb-6">
-          Oops! The page you're looking for doesn't exist. It may have been moved or deleted.
+          Oops! The page you&apos;re looking for doesn&apos;t exist. It may have been moved or deleted.
         </p>
         <button
           onClick={() => router.push('/')}
