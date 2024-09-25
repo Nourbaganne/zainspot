@@ -9,11 +9,11 @@ export interface PaginatedResource<T> {
   counts?: {
     zainspotter: number;
     admin: number;
-    manager: number;
+    owner: number;
   };
   percentageChange?: {
     zainspotter: number;
     admin: number;
-    manager: number;
+    owner: number;
   };
 }
