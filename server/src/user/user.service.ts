@@ -19,13 +19,13 @@ import {
 type RoleCounts = {
 	zainspotter: number;
 	admin: number;
-	manager: number;
+	owner: number;
 };
 
 type PercentageChange = {
 	zainspotter: number;
 	admin: number;
-	manager: number;
+	owner: number;
 };
 
 @Injectable()
@@ -137,14 +137,14 @@ export class UserService {
 		const counts: RoleCounts = {
 			zainspotter: 0,
 			admin: 0,
-			manager: 0,
+			owner: 0,
 		};
 
 		roleCounts.forEach((roleCount) => {
 			if (roleCount.role === 'zainspotter')
 				counts.zainspotter = +roleCount.count;
 			if (roleCount.role === 'admin') counts.admin = +roleCount.count;
-			if (roleCount.role === 'manager') counts.manager = +roleCount.count;
+			if (roleCount.role === 'owner') counts.owner = +roleCount.count;
 		});
 
 		return counts;
@@ -167,7 +167,7 @@ export class UserService {
 		const previousCounts: RoleCounts = {
 			zainspotter: 0,
 			admin: 0,
-			manager: 0,
+			owner: 0,
 		};
 
 		previousRoleCounts.forEach((roleCount) => {
@@ -176,8 +176,8 @@ export class UserService {
 
 			if (roleCount.role === 'admin') previousCounts.admin = +roleCount.count;
 
-			if (roleCount.role === 'manager')
-				previousCounts.manager = +roleCount.count;
+			if (roleCount.role === 'owner')
+				previousCounts.owner = +roleCount.count;
 		});
 
 		return previousCounts;
@@ -205,9 +205,9 @@ export class UserService {
 				previousCounts.admin,
 				currentCounts.admin,
 			),
-			manager: this.calculatePercentageChange(
-				previousCounts.manager,
-				currentCounts.manager,
+			owner: this.calculatePercentageChange(
+				previousCounts.owner,
+				currentCounts.owner,
 			),
 		};
 
