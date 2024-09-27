@@ -7,6 +7,9 @@ import downButton from '@/app/assets/owner/users/Down.svg';
 import Link from 'next/link';
 import User from '@/app/interfaces/User';
 import Role from '@/app/interfaces/Role';
+import Loader from '@/app/components/loader';
+import axiosInstance from '@/app/lib/axios/axiosInstance';
+import toast from 'react-hot-toast';
 
 const USERS_LIST_HEADER = [
 	{ title: 'User', hasFiltering: true },
@@ -24,12 +27,16 @@ interface Props {
 	setSelectedUsers: (
 		selectedUsers: string[] | ((prevSelectedUsers: string[]) => string[]),
 	) => void;
+	isLoading: boolean;
+	access_token: string | undefined
 }
 const UsersTable = ({
 	users,
 	roles,
 	selectedUsers,
 	setSelectedUsers,
+	isLoading,
+	access_token
 }: Props) => {
 	const handleSelectUser = (userEmail: string) => {
 		setSelectedUsers((prevSelectedUsers: string[]) => {
@@ -40,6 +47,33 @@ const UsersTable = ({
 			}
 		});
 	};
+
+	if (isLoading) {
+		return <Loader />
+	}
+
+	const handleRoleChanges = async ({ userId, updatedRole }: { userId: number; updatedRole: number }) => {
+		try {
+			const response = await axiosInstance.patch(`http://localhost:3001/user/${userId}`, {
+				role: {
+					id: updatedRole
+				}
+			},
+				{
+					headers: {
+						Authorization: `Bearer ${access_token}`,
+					},
+				},
+			);
+
+			if (response.status === 200) {
+				toast.success('User Role is updated successfully!');
+			}
+		} catch (error) {
+			toast.error('Failed to update user role.');
+			console.error(error);
+		}
+	}
 
 	return (
 		<table className='mt-6 bg-background border rounded-lg w-full overflow-hidden'>
@@ -58,9 +92,8 @@ const UsersTable = ({
 				{USERS_LIST_HEADER.map((item, index) => (
 					<td
 						key={index}
-						className={`${
-							item.hasFiltering && 'flex items-center gap-2'
-						} text-left p-4`}
+						className={`${item.hasFiltering && 'flex items-center gap-2'
+							} text-left p-4`}
 					>
 						{item.hasFiltering && (
 							<div className='flex flex-col gap-1'>
@@ -77,7 +110,7 @@ const UsersTable = ({
 				))}
 			</tr>
 			{/* Table Data */}
-			{users.length > 0 &&
+			{users?.length > 0 &&
 				users.map((user: User, index: number) => (
 					<tr className='border-t' key={index}>
 						<td className='p-4'>
@@ -125,14 +158,19 @@ const UsersTable = ({
 							<select
 								name='selectRole'
 								id='selectRole'
-								className=' bg-background-foreground border-none rounded-md'
+								className=' bg-background-foreground border-none rounded-md px-2 py-1'
+								onChange={(e) => handleRoleChanges({ userId: user?.id, updatedRole: Number(e.target.value) })}
 							>
+								<option defaultValue={user?.role.id}> {user?.role.name}</option>
 								{roles.map((role) => {
+
 									return (
-										<option key={role.id} value={role.id}>
-											{/* Capitalize role name */}
-											{role.name.charAt(0).toUpperCase() + role.name.slice(1)}
-										</option>
+										role.id !== user?.role.id && (
+											<option key={role.id} value={role.id} className=''>
+												{role.name.charAt(0).toUpperCase() + role.name.slice(1)}
+											</option>
+										)
+
 									);
 								})}
 							</select>
@@ -148,7 +186,7 @@ const UsersTable = ({
 						</td>
 					</tr>
 				))}
-			{users.length == 0 && <div>No users found</div>}
+			{users?.length == 0 && !isLoading && <div>No users found</div>}
 		</table>
 	);
 };

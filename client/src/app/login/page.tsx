@@ -52,14 +52,19 @@ const Page = () => {
 							/>
 						</div>
 						<p
-						onClick={() => setIsOpenDialog(true)}
-						className='text-xs font-medium text-[#9B9B9B] underline pl-3 underline-offset-1 cursor-pointer '>
+							onClick={() => setIsOpenDialog(true)}
+							className='text-xs font-medium text-[#9B9B9B] underline pl-3 underline-offset-1 cursor-pointer '>
 							Forgot your password?
 						</p>
 					</div>
 
 
-					<button className='bg-button text-background w-full rounded-md py-3 text-xl font-semibold'>
+					<button
+						disabled={!(formik.isValid && formik.dirty)}
+						className={`w-full py-3 px-6 rounded-md text-white font-semibold ${formik.isValid && formik.dirty
+							? 'bg-primary hover:bg-primary-dark'
+							: 'bg-button cursor-not-allowed'
+							}`}>
 						Login to Zainspot
 					</button>
 				</form>
