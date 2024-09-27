@@ -28,14 +28,18 @@ const Users = () => {
 
 	const [roles, setRoles] = useState([]);
 	function getRoles() {
-		axiosInstance.get('/role').then((res) => {
-			setRoles(res.data);
-		});
-	}
+        axiosInstance.get('/role')
+            .then((res) => {
+                setRoles(res.data);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch roles:", error);
+            });
+    }
 
 	useEffect(() => {
 		getRoles();
-	}, [roles]);
+	}, []);
 
 	useEffect(() => {
 		const handler = setTimeout(() => {
