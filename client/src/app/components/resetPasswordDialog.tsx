@@ -65,7 +65,7 @@ const ResetPasswordDialog: React.FC<ResetPasswordDialogProps> = ({ isOpenDialog,
         </button>
 
         {/* Dialog Header */}
-        <h2 className='text-2xl font-bold text-center mb-4'>
+        <h2 className='text-2xl flex gap-1 items-center justify-center font-bold mb-4'>
           <span className='text-primary'>
             <Translation translationKey='reset_password_title' />
           </span>

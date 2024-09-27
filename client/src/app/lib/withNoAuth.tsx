@@ -23,9 +23,10 @@ export function withNoAuth<P extends object>(Component: ComponentType<P>) {
         if (loading) return <Loader />;
 
         if (user) {
-            return null;
+            return <Loader />;
         }
 
         return <Component {...props} />;
+
     };
 }

@@ -35,7 +35,7 @@ const Users = () => {
 
 	useEffect(() => {
 		getRoles();
-	}, []);
+	}, [roles]);
 
 	useEffect(() => {
 		const handler = setTimeout(() => {
@@ -74,6 +74,7 @@ const Users = () => {
 
 
 	if (isError) return <h1>{error.message}</h1>;
+	if (isLoading && !searchUser && !selectedFilter) return <Loader />
 
 	const zainspottersCount = data?.data.counts.zainspotter || 0;
 	const adminsCount = data?.data.counts.admin || 0;
@@ -253,7 +254,7 @@ const Users = () => {
 				</div>
 				<>
 					{
-						isLoading ? (
+						isLoading && searchUser ? (
 							<Loader />
 						) : (
 							<>
@@ -263,6 +264,8 @@ const Users = () => {
 										roles={roles}
 										selectedUsers={selectedUsers}
 										setSelectedUsers={setSelectedUsers}
+										isLoading={isLoading}
+										access_token={user?.access_token}
 									/>
 								</div>
 

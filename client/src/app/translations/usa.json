@@ -329,11 +329,12 @@
 	"privacies_changes_title": "Changes to This Privacy Policy",
 	"privacies_changes_desc": "We may update this Privacy Policy from time to time to reflect changes in our practices or for legal, operational, or regulatory reasons. We will notify you of any significant changes by posting the new policy on our website and updating the effective date. Your continued use of our services after the changes take effect constitutes your acceptance of the revised policy.",
 	"privacies_contact_title": "Contact Us",
-	"privacies_contact_desc": "For any questions or concerns regarding these Terms of Use, please contact us at example@mail.com"
+	"privacies_contact_desc": "For any questions or concerns regarding these Terms of Use, please contact us at example@mail.com",
 
 
-
-
+	"reset_password_title": "Reset Your",
+	"reset_password_title_span": "Password",
+	"reset_password_description": "Enter your email address to receive a password reset link."
 
 
 
