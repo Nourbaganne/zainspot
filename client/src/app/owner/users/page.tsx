@@ -54,7 +54,7 @@ const Users = () => {
 
 	useEffect(() => {
 		getRoles();
-	}, []);
+	}, [roles]);
 
 	useEffect(() => {
 		const handler = setTimeout(() => {
