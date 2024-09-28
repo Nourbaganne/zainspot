@@ -10,7 +10,6 @@ import axiosInstance from '@/app/lib/axios/axiosInstance';
 import { AuthContext } from '@/app/contexts/authContext';
 import nextIcon from '@/app/assets/owner/users/chevron-forward.svg';
 import previousIcon from '@/app/assets/owner/users/chevron-back.svg';
-import Modal from '@/app/components/Modal';
 import UsersTable from './components/UsersTable';
 import RolesModal from './components/RolesModal';
 import Loader from '@/app/components/loader';
@@ -22,20 +21,36 @@ const Users = () => {
 	const [debouncedSearchUser, setDebouncedSearchUser] = useState<string>(searchUser);
 	const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [initialCounts, setInitialCounts] = useState({
+		zainspotter: {
+			value: 0,
+			increasmentValue: 0,
+		},
+		admin: {
+			value: 0,
+			increasmentValue: 0
+		},
+		owner: {
+			value: 0,
+			increasmentValue: 0
+		},
+	});
+	const [totalUsers, setTotalUsers] = useState<number>(0);
+
 	const { user } = useContext(AuthContext);
 
 	const rolesModalRef = useRef<any>(null);
 
 	const [roles, setRoles] = useState([]);
 	function getRoles() {
-        axiosInstance.get('/role')
-            .then((res) => {
-                setRoles(res.data);
-            })
-            .catch((error) => {
-                console.error("Failed to fetch roles:", error);
-            });
-    }
+		axiosInstance.get('/role')
+			.then((res) => {
+				setRoles(res.data);
+			})
+			.catch((error) => {
+				console.error("Failed to fetch roles:", error);
+			});
+	}
 
 	useEffect(() => {
 		getRoles();
@@ -76,13 +91,22 @@ const Users = () => {
 			),
 	});
 
+	useEffect(() => {
+		if (data && !searchUser && !selectedFilter) {
+			setInitialCounts({
+				zainspotter: { value: data.data.counts.zainspotter || 0, increasmentValue: data.data.percentageChange.zainspotter || 0, },
+				admin: { value: data.data.counts.admin || 0, increasmentValue: data.data.percentageChange.admin || 0 },
+				owner: { value: data.data.counts.owner || 0, increasmentValue: data.data.percentageChange.owner || 0 },
+			});
+			setTotalUsers(data?.data.totalItems || 0);
+		}
+	}, [data, searchUser, selectedFilter, currentPage]);
 
 	if (isError) return <h1>{error.message}</h1>;
 	if (isLoading && !searchUser && !selectedFilter) return <Loader />
 
-	const zainspottersCount = data?.data.counts.zainspotter || 0;
-	const adminsCount = data?.data.counts.admin || 0;
-	const ownersCount = data?.data.counts.owner || 0;
+
+
 
 	const generatePageNumbers = () => {
 		const totalPages = data?.data.totalPages || 1;
@@ -106,32 +130,33 @@ const Users = () => {
 	const USERS_HEADER_DATA = [
 		{
 			title: 'ZainSpotters',
-			value: zainspottersCount,
+			value: initialCounts.zainspotter.value,
 			editPermissions: false,
 			stats: {
-				increase: checkIncreasment(data?.data.percentageChange.zainspotter),
-				percentage: Math.abs(data?.data.percentageChange.zainspotter),
+				increase: checkIncreasment(initialCounts.zainspotter.increasmentValue),
+				percentage: Math.abs(initialCounts.zainspotter.increasmentValue),
 			},
 		},
 		{
 			title: 'Admins',
-			value: adminsCount,
+			value: initialCounts.admin.value,
 			editPermissions: true,
 			stats: {
-				increase: checkIncreasment(data?.data.percentageChange.admin),
-				percentage: Math.abs(data?.data.percentageChange.admin),
+				increase: checkIncreasment(initialCounts.admin.increasmentValue),
+				percentage: Math.abs(initialCounts.admin.increasmentValue),
 			},
 		},
 		{
 			title: 'Owners',
-			value: ownersCount,
+			value: initialCounts.owner.value,
 			editPermissions: true,
 			stats: {
-				increase: checkIncreasment(data?.data.percentageChange.owner),
-				percentage: Math.abs(data?.data.percentageChange.owner),
+				increase: checkIncreasment(initialCounts.admin.increasmentValue),
+				percentage: Math.abs(initialCounts.owner.increasmentValue),
 			},
 		},
 	];
+
 
 	return (
 		<div className='flex flex-col gap-6 bg-background-foreground md:px-24 py-4 md:py-8 md:pb-20'>
@@ -153,7 +178,7 @@ const Users = () => {
 			<div className='w-full pl-2 md:pl-0'>
 				<h1 className='text-2xl'>
 					<span className='font-bold'>All Users</span>{' '}
-					<span className='font-light'>({data?.data.totalItems ?? 0})</span>
+					<span className='font-light'>({totalUsers})</span>
 				</h1>
 				{/* Filters */}
 				<div className='mt-4 flex flex-col gap-2 md:gap-0 md:flex-row justify-between md:items-center'>
