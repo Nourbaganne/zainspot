@@ -18,14 +18,14 @@ interface RoleCardProps {
 
 const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
   return (
-    <div className='card flex flex-col '>
+    <div className='card flex flex-col w-full '>
       <div className='flex flex-row mb-8 justify-between items-center'>
-        <p className='text-span'>
+        <p className='text-span '>
           {title}
         </p>
         {editPermissions && (
           <Link href='' className='text-primary font-semibold flex flex-row hover:underline text-sm'>
-            <span className='pr-1'>Edit Permissions</span>
+            <span className='pr-1 text-base sm:text-xs lg:text-base'>Edit Permissions</span>
             <Image src={arrowRight} alt='arrow-right-icon' />
           </Link>
         )}
