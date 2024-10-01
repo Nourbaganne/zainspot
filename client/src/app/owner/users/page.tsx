@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import RoleCard from '../components/roleCard';
 import searchIcon from '@/app/assets/owner/users/search-outline.svg';
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import { AuthContext } from '@/app/contexts/authContext';
 import nextIcon from '@/app/assets/owner/users/chevron-forward.svg';
@@ -94,13 +94,23 @@ const Users = () => {
 	useEffect(() => {
 		if (data && !searchUser && !selectedFilter) {
 			setInitialCounts({
-				zainspotter: { value: data.data.counts.zainspotter || 0, increasmentValue: data.data.percentageChange.zainspotter || 0, },
-				admin: { value: data.data.counts.admin || 0, increasmentValue: data.data.percentageChange.admin || 0 },
-				owner: { value: data.data.counts.owner || 0, increasmentValue: data.data.percentageChange.owner || 0 },
+				zainspotter: {
+					value: data.data.counts.zainspotter || 0,
+					increasmentValue: data.data.percentageChange.zainspotter || 0
+				},
+				admin: {
+					value: data.data.counts.admin || 0,
+					increasmentValue: data.data.percentageChange.admin || 0
+				},
+				owner: {
+					value: data.data.counts.owner || 0,
+					increasmentValue: data.data.percentageChange.owner || 0
+				},
 			});
 			setTotalUsers(data?.data.totalItems || 0);
 		}
 	}, [data, searchUser, selectedFilter, currentPage]);
+
 
 	if (isError) return <h1>{error.message}</h1>;
 	if (isLoading && !searchUser && !selectedFilter) return <Loader />
@@ -299,6 +309,7 @@ const Users = () => {
 										setSelectedUsers={setSelectedUsers}
 										isLoading={isLoading}
 										access_token={user?.access_token}
+										setInitialCounts={setInitialCounts}
 									/>
 								</div>
 

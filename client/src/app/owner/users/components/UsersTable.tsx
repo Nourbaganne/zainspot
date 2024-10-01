@@ -8,8 +8,7 @@ import Link from 'next/link';
 import User from '@/app/interfaces/User';
 import Role from '@/app/interfaces/Role';
 import Loader from '@/app/components/loader';
-import axiosInstance from '@/app/lib/axios/axiosInstance';
-import toast from 'react-hot-toast';
+import { HandleRoleChanges } from '@/app/lib/userRoleChanging';
 
 const USERS_LIST_HEADER = [
 	{ title: 'User', hasFiltering: true },
@@ -20,6 +19,17 @@ const USERS_LIST_HEADER = [
 	// {title: 'Actions', hasFiltering: false},
 ];
 
+interface Counts {
+	value: number;
+	increasmentValue: number;
+}
+
+interface InitialCounts {
+	zainspotter: Counts;
+	admin: Counts;
+	owner: Counts;
+}
+
 interface Props {
 	users: User[];
 	roles: Role[];
@@ -28,7 +38,8 @@ interface Props {
 		selectedUsers: string[] | ((prevSelectedUsers: string[]) => string[]),
 	) => void;
 	isLoading: boolean;
-	access_token: string | undefined
+	access_token: string | undefined;
+	setInitialCounts: (counts: InitialCounts | ((prevCounts: InitialCounts) => InitialCounts)) => void;
 }
 const UsersTable = ({
 	users,
@@ -36,7 +47,9 @@ const UsersTable = ({
 	selectedUsers,
 	setSelectedUsers,
 	isLoading,
-	access_token
+	access_token,
+	setInitialCounts
+
 }: Props) => {
 	const handleSelectUser = (userEmail: string) => {
 		setSelectedUsers((prevSelectedUsers: string[]) => {
@@ -50,29 +63,6 @@ const UsersTable = ({
 
 	if (isLoading) {
 		return <Loader />
-	}
-
-	const handleRoleChanges = async ({ userId, updatedRole }: { userId: number; updatedRole: number }) => {
-		try {
-			const response = await axiosInstance.patch(`http://localhost:3001/user/${userId}`, {
-				role: {
-					id: updatedRole
-				}
-			},
-				{
-					headers: {
-						Authorization: `Bearer ${access_token}`,
-					},
-				},
-			);
-
-			if (response.status === 200) {
-				toast.success('User Role is updated successfully!');
-			}
-		} catch (error) {
-			toast.error('Failed to update user role.');
-			console.error(error);
-		}
 	}
 
 	return (
@@ -158,23 +148,29 @@ const UsersTable = ({
 							<select
 								name='selectRole'
 								id='selectRole'
-								className=' bg-background-foreground border-none rounded-md px-2 py-1'
-								onChange={(e) => handleRoleChanges({ userId: user?.id, updatedRole: Number(e.target.value) })}
+								className='bg-background-foreground border-none rounded-md px-2 py-1'
+								onChange={(e) =>
+									HandleRoleChanges({
+										access_token,
+										userId: user?.id,
+										updatedRole: Number(e.target.value),
+										previousRole: user?.role.id,
+										setInitialCounts,
+									})
+								}
 							>
-								<option defaultValue={user?.role.id}> {user?.role.name}</option>
-								{roles.map((role) => {
+								<option value={user?.role.id}>{user?.role.name}</option>
 
-									return (
-										role.id !== user?.role.id && (
-											<option key={role.id} value={role.id} className=''>
-												{role.name.charAt(0).toUpperCase() + role.name.slice(1)}
-											</option>
-										)
-
-									);
-								})}
+								{roles
+									.filter(role => role.id !== user?.role.id && role.name)
+									.map((role) => (
+										<option key={role.id} value={role.id}>
+											{role.name.charAt(0).toUpperCase() + role.name.slice(1)}
+										</option>
+									))}
 							</select>
 						</td>
+
 						<td className='p-4'>
 							<Link
 								href={`/owner/users/${user.id}`}

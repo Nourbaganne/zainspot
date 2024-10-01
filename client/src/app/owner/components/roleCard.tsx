@@ -1,9 +1,7 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import arrowRight from '@/app/assets/owner/arrow-right.svg'
 import Image from 'next/image'
-import increase from '@/app/assets/owner/users/increase.svg'
-import decrease from '@/app/assets/owner/users/decrease.svg'
 import { FiArrowUp } from 'react-icons/fi'
 
 interface RoleCardProps {
@@ -17,10 +15,38 @@ interface RoleCardProps {
 }
 
 const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    let startValue = displayValue;
+    const endValue = value;
+
+    const duration = 800; 
+    const animationFrame = 60; 
+    const totalFrames = Math.round(duration / (1000 / animationFrame));
+    let frame = 0;
+
+    const increment = (endValue - startValue) / totalFrames;
+
+    const timer = setInterval(() => {
+      frame++;
+      startValue += increment;
+
+      if (frame >= totalFrames) {
+        clearInterval(timer);
+        setDisplayValue(endValue);
+      } else {
+        setDisplayValue(Math.round(startValue));
+      }
+    }, 1000 / animationFrame);
+
+    return () => clearInterval(timer); 
+  }, [value]);
+
   return (
-    <div className='card flex flex-col w-full '>
+    <div className='card flex flex-col w-full'>
       <div className='flex flex-row mb-8 justify-between items-center'>
-        <p className='text-span '>
+        <p className='text-span'>
           {title}
         </p>
         {editPermissions && (
@@ -32,7 +58,7 @@ const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
       </div>
       <div className='flex justify-between'>
         <p className='text-4xl font-semibold'>
-          {value.toLocaleString()}
+          {displayValue.toLocaleString()}
         </p>
         <div className='flex flex-col gap-1'>
           <div className={`badge flex items-center justify-center ${stats.increase ? 'badge-success' : 'badge-danger'}`}>
@@ -50,4 +76,4 @@ const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
   )
 }
 
-export default RoleCard
+export default RoleCard;

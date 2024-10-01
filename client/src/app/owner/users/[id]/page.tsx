@@ -84,6 +84,9 @@ const Page = ({ params }: { params: { id: number } }) => {
               </select>
             </div>
             <div className='flex flex-col gap-2'>
+            <p className='text-sm text-span font-light'>
+                User ID : #{currentUser?.id}
+              </p>
               <p className='text-sm text-span font-light'>
                 Member since{' '}
                 {new Date(data?.data.createdAt).toLocaleDateString('en-GB', {
@@ -127,7 +130,7 @@ const Page = ({ params }: { params: { id: number } }) => {
         <div className='grid grid-cols-2 gap-7'>
           <div className='flex flex-col gap-5'>
             <h1 className='text-lg font-semibold'>Business</h1>
-            <div className='flex flex-col gap-1'>
+            <div className='flex flex-col gap-3'>
               {BUSINESS_LIST.map((item, index) => (
                 <div key={index} className='grid grid-cols-3 gap-4 text-sm'>
                   <p className='col-span-1 text-span'>{item.title}</p>
