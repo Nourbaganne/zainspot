@@ -14,9 +14,18 @@ import CustomStackedBarChart from '../../components/barChart';
 import SubscriptionList from '../../components/subscriptionList';
 import Loader from '@/app/components/loader';
 import { WithAuth } from '@/app/lib/withAuth';
+import { HandleRoleChanges } from '@/app/lib/userRoleChanging';
+import { useSearchParams } from 'next/navigation';
+import Role from '@/app/interfaces/Role';
 
 const Page = ({ params }: { params: { id: number } }) => {
   const { user } = useContext(AuthContext);
+  const searchParams = useSearchParams();
+
+  // Retrieve and parse roles from the search params
+  const rolesParam = searchParams.get('roles');
+  const roles = rolesParam ? JSON.parse(decodeURIComponent(rolesParam)) : [];
+
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['user', params.id],
     queryFn: () =>
@@ -37,9 +46,7 @@ const Page = ({ params }: { params: { id: number } }) => {
 
   let currentUser = data?.data;
 
-  const fullname = `${data?.data.name} ${data?.data?.middlename ?? ''} ${
-    data?.data.lastName ?? ''
-  }`.trim();
+  const fullname = `${data?.data.name} ${data?.data?.middlename ?? ''} ${data?.data.lastName ?? ''}`.trim();
 
   const breadcrumbItems = [
     { label: 'owner_dashboard', href: '/owner' },
@@ -74,17 +81,29 @@ const Page = ({ params }: { params: { id: number } }) => {
             <div className='flex gap-2'>
               <h1 className='text-3xl font-semibold'>{fullname}</h1>
               <select
-                name=''
-                id=''
-                className='bg-background-foreground rounded-md border-border'
+                name='selectRole'
+                id='selectRole'
+                className='bg-background-foreground border-none rounded-md px-2 py-1'
+                onChange={(e) =>
+                  HandleRoleChanges({
+                    access_token: user?.access_token,
+                    userId: currentUser?.id,
+                    updatedRole: Number(e.target.value),
+                  })
+                }
               >
-                <option value={data?.data?.role.name}>
-                  {data?.data?.role.name}
-                </option>
+                <option value={currentUser?.role.id}>{currentUser?.role.name}</option>
+                {roles
+                  .filter((role: Role) => role.id !== currentUser?.role.id && role.name)
+                  .map((role: Role) => (
+                    <option key={role.id} value={role.id}>
+                      {role.name.charAt(0).toUpperCase() + role.name.slice(1)}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className='flex flex-col gap-2'>
-            <p className='text-sm text-span font-light'>
+              <p className='text-sm text-span font-light'>
                 User ID : #{currentUser?.id}
               </p>
               <p className='text-sm text-span font-light'>

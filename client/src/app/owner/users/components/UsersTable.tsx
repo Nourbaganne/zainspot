@@ -11,12 +11,12 @@ import Loader from '@/app/components/loader';
 import { HandleRoleChanges } from '@/app/lib/userRoleChanging';
 
 const USERS_LIST_HEADER = [
-	{ title: 'User', hasFiltering: true },
-	{ title: 'Email & Number', hasFiltering: false },
-	{ title: 'Subscriptions', hasFiltering: false },
-	{ title: 'Renewals', hasFiltering: true },
-	{ title: 'Role', hasFiltering: false },
-	// {title: 'Actions', hasFiltering: false},
+    { title: 'User', hasFiltering: true },
+    { title: 'Email & Number', hasFiltering: false },
+    { title: 'Subscriptions', hasFiltering: false },
+    { title: 'Renewals', hasFiltering: true },
+    { title: 'Role', hasFiltering: false },
+    // {title: 'Actions', hasFiltering: false},
 ];
 
 interface Counts {
@@ -48,7 +48,7 @@ const UsersTable = ({
 	setSelectedUsers,
 	isLoading,
 	access_token,
-	setInitialCounts
+	setInitialCounts,
 
 }: Props) => {
 	const handleSelectUser = (userEmail: string) => {
@@ -173,7 +173,7 @@ const UsersTable = ({
 
 						<td className='p-4'>
 							<Link
-								href={`/owner/users/${user.id}`}
+								 href={`/owner/users/${user.id}?roles=${encodeURIComponent(JSON.stringify(roles))}`}
 								className='flex text-secondary gap-2 text-xs font-semibold hover:underline ml-auto'
 							>
 								<span>Details</span>
