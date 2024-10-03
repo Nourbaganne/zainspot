@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 .custom-select {
 	-webkit-appearance: none;
@@ -47,12 +46,6 @@ input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
-}
-
-.work-sans {
-	font-family: 'Work Sans', sans-serif;
-	font-optical-sizing: auto;
-	font-style: normal;
 }
 
 @keyframes switch-positions {
@@ -174,7 +167,7 @@ input[type='number']::-webkit-outer-spin-button {
 	}
 
 	.btn-uppercase {
-		@apply font-semibold uppercase gap-4;
+		@apply font-medium uppercase gap-4 px-6;
 	}
 
 	.btn-primary {

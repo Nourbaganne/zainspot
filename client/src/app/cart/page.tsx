@@ -2,11 +2,9 @@
 
 import Image from 'next/image';
 import Container from '../components/Container';
-import RowImage from '@/app/assets/cart/row-image.png';
 import { FiArrowLeft, FiArrowRight, FiChevronRight, FiX } from 'react-icons/fi';
 import Translation from '../components/translation';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useContext } from 'react';
 import axiosInstance from '../lib/axios/axiosInstance';
 import { getCities } from '../lib/getCitites';
 import { useQuery } from '@tanstack/react-query';
@@ -14,6 +12,8 @@ import { useCart } from '../contexts/CartContext';
 import City from '../interfaces/City';
 import Loader from '../components/loader';
 import Link from 'next/link';
+import PerMonth from '../interfaces/PerMonth';
+import { AuthContext } from '../contexts/authContext';
 
 // const fakeItems = [
 // 	{
@@ -36,6 +36,7 @@ import Link from 'next/link';
 // ];
 
 export default function CartPage() {
+	const { user } = useContext(AuthContext);
 	const { data, isLoading, isError, error } = useQuery({
 		queryKey: ['cities'],
 		queryFn: getCities,
@@ -69,25 +70,36 @@ export default function CartPage() {
 			return;
 		}
 
-		// TODO: change to handle multiple cart items
-		let priceId = null;
-		if (items[0].optionType == 'gold') {
-			priceId = citiesById[items[0].cityId].goldPrice.stripePriceId;
-		} else {
-			priceId =
-				citiesById[items[0].cityId].classicPrice.perMonth[0].stripePriceId;
+		const stripePriceIds = items.map((item) => {
+			if (item.optionType == 'classic') {
+				const priceData = citiesById[item.cityId].classicPrice.perMonth.find(
+					(price: PerMonth) => price.duration == item.duration,
+				);
+				return priceData.stripePriceId;
+			} else {
+				const priceData = citiesById[item.cityId].goldPrice;
+				return priceData.stripePriceId;
+			}
+		});
+
+		console.log('Stripe Prices IDs', stripePriceIds);
+		if (!user?.user.userId) {
+			alert('User not logged in');
+			return;
 		}
 
-		console.log('Stripe Price ID:', priceId);
-
+		const reqBody = {
+			stripePriceIds,
+			userId: user?.user.userId,
+			subscriptions: items,
+		};
 		axiosInstance
-			.post('/stripe/create-checkout-session', { priceId })
+			.post('/stripe/create-checkout-session', reqBody)
 			.then(function (response) {
-				console.log(response);
-				console.log(response.data);
 				window.location = response.data.url;
 			})
 			.catch(function (error) {
+				alert('Checkout error! Check console for more details');
 				console.error(error);
 			});
 	}
@@ -114,58 +126,64 @@ export default function CartPage() {
 						{items.length > 0 && (
 							<table className='text-center w-full'>
 								<thead>
-									<th className='text-left'>City</th>
-									<th>Subscription</th>
-									<th className='text-right'>Subtotal</th>
+									<tr className='border-t-0'>
+										<th className='text-left'>City</th>
+										<th>Subscription</th>
+										<th className='text-right'>Subtotal</th>
+									</tr>
 								</thead>
-								{items.map((item, index) => (
-									<tr key={index}>
-										<td className='text-left'>
-											<div className='flex items-center gap-6'>
-												<div className='max-w-48'>
-													<Image
-														src={citiesById[item.cityId].imageUrl}
-														width={350}
-														height={200}
-														alt='Row Image'
-														className='rounded-lg'
-													/>
+								<tbody>
+									{items.map((item, index) => (
+										<tr key={index}>
+											<td className='text-left'>
+												<div className='flex items-center gap-6'>
+													<div className='max-w-48'>
+														<Image
+															src={citiesById[item.cityId].imageUrl}
+															width={350}
+															height={200}
+															alt='Row Image'
+															className='rounded-lg'
+														/>
+													</div>
+													<div>
+														<h2 className='text-xl font-semibold'>
+															{citiesById[item.cityId].city}
+														</h2>
+														<span className='text-gray-400 mt-2 block'>
+															{citiesById[item.cityId].description}
+														</span>
+													</div>
 												</div>
-												<div>
-													<h2 className='text-xl font-semibold'>
-														{citiesById[item.cityId].city}
-													</h2>
-													<span className='text-gray-400 mt-2 block'>
-														{citiesById[item.cityId].description}
+											</td>
+											<td>
+												<div className='font-bold text-2xl'>
+													<span className='capitalize'>
+														ZS {item.optionType}
 													</span>
 												</div>
-											</div>
-										</td>
-										<td>
-											<div className='font-bold text-2xl'>
-												<span className='capitalize'>ZS {item.optionType}</span>
-											</div>
-											{item.duration && item.duration != 12 && (
-												<div className='text-primary block mt-1'>
-													<span>{item.duration} Months</span>
+												{item.duration && item.duration != 12 && (
+													<div className='text-primary block mt-1'>
+														<span>{item.duration} Months</span>
+													</div>
+												)}
+											</td>
+											<td className='text-right'>
+												<div className='font-bold text-2xl'>
+													<span>${item.price}</span>
 												</div>
-											)}
-										</td>
-										<td className='text-right'>
-											<div className='font-bold text-2xl'>
-												<span>${item.price}</span>
-											</div>
-											<div className='text-gray-500 block mt-1'>
-												{item.duration == 12 ? 'Single Payment' : 'Per month'}
-											</div>
-										</td>
-										<td className='text-right'>
-											<button onClick={() => removeFromCart(item)}>
-												<FiX className='text-gray-400 hover:text-gray-700 h-6 w-6' />
-											</button>
-										</td>
-									</tr>
-								))}
+												<div className='text-gray-500 block mt-1'>
+													{item.duration == 12 ? 'Single Payment' : 'Per month'}
+												</div>
+											</td>
+											<td className='text-right'>
+												<button onClick={() => removeFromCart(item)}>
+													<FiX className='text-gray-400 hover:text-gray-700 h-6 w-6' />
+												</button>
+											</td>
+										</tr>
+									))}
+								</tbody>
 							</table>
 						)}
 						<div className='mt-8'>
@@ -188,22 +206,22 @@ export default function CartPage() {
 							<div className='py-6 border-b'>
 								<div className='text-lg'>
 									<div className='flex-between'>
-										<td>
+										<div>
 											<Translation translationKey='subtotal' />
-										</td>
-										<td className='font-bold'>$417.00</td>
+										</div>
+										<div className='font-bold'>${totalPrice}</div>
 									</div>
 									<div className='flex-between mt-3'>
-										<td>
-											<Translation translationKey='discount' /> (15%)
-										</td>
-										<td className='font-bold'>-$62.55</td>
+										<div>
+											<Translation translationKey='discount' /> (0%)
+										</div>
+										<div className='font-bold'>-$0</div>
 									</div>
 									<div className='flex-between mt-3'>
-										<td>
-											<Translation translationKey='tax' /> (7%)
-										</td>
-										<td className='font-bold'>$29.19</td>
+										<div>
+											<Translation translationKey='tax' /> (0%)
+										</div>
+										<div className='font-bold'>$0</div>
 									</div>
 								</div>
 							</div>

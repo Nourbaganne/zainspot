@@ -5,44 +5,45 @@ import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class PaymentHistoryService {
-  constructor() {}
+	constructor() {}
 
-  async create(createPaymentHistoryDto: CreatePaymentHistoryDto): Promise<PaymentHistory> {
-    const { userId, ...paymentHistoryData } = createPaymentHistoryDto;
+	async create(
+		createPaymentHistoryDto: CreatePaymentHistoryDto,
+	): Promise<PaymentHistory> {
+		const { userId, ...paymentHistoryData } = createPaymentHistoryDto;
 
-    const user = await User.findOneBy({ id: userId });
-    if (!user) {
-      throw new Error('User not found');
-    }
+		const user = await User.findOneBy({ id: userId });
+		if (!user) {
+			throw new Error('User not found');
+		}
 
-    const paymentHistory = PaymentHistory.create({
-      ...paymentHistoryData,
-      user, 
-    });
+		const paymentHistory = PaymentHistory.create({
+			...paymentHistoryData,
+			user,
+		});
 
-    return PaymentHistory.save(paymentHistory);
-  }
+		return PaymentHistory.save(paymentHistory);
+	}
 
-  async findOneByUserId(userId: number): Promise<PaymentHistory[]> {
-    return PaymentHistory.find({
-      where: { user: { id: userId } },
-    });
-  }
+	async findOneByUserId(userId: number): Promise<PaymentHistory[]> {
+		return PaymentHistory.find({
+			where: { user: { id: userId } },
+		});
+	}
 
-  findOne(id: number): Promise<PaymentHistory> {
-    return PaymentHistory.findOne({ where: { id } });
-  }
+	findOne(id: number): Promise<PaymentHistory> {
+		return PaymentHistory.findOne({ where: { id } });
+	}
 
-  async remove(id: number): Promise<string> {
-    const payment = await PaymentHistory.findOne({ where: {id}});
+	async remove(id: number): Promise<string> {
+		const payment = await PaymentHistory.findOne({ where: { id } });
 
-    if (!payment) {
-      throw new NotFoundException(`payment history with ID ${id} not found`);
-    }
+		if (!payment) {
+			throw new NotFoundException(`payment history with ID ${id} not found`);
+		}
 
-    await PaymentHistory.delete(id);
+		await PaymentHistory.delete(id);
 
-    return `payment with ID ${id} deleted successfully`;
-    
-  }
+		return `payment with ID ${id} deleted successfully`;
+	}
 }

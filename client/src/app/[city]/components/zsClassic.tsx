@@ -2,6 +2,7 @@ import { MoneyValue } from '@/app/components/MoneyValue';
 import Translation from '@/app/components/translation';
 import { useCart } from '@/app/contexts/CartContext';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
+import City from '@/app/interfaces/City';
 import { useState } from 'react';
 
 interface ClassicPrice {
@@ -16,10 +17,10 @@ interface ClassicPrice {
 interface ZSClassisProps {
 	amounts: ClassicPrice;
 	onSelect: (args: any) => void;
+	city: City;
 }
 
-const ZsClassic = ({ amounts, onSelect }: ZSClassisProps) => {
-
+const ZsClassic = ({ amounts, onSelect, city }: ZSClassisProps) => {
 	const { state } = useCart();
 	const { currency } = useCurrency();
 
@@ -65,7 +66,10 @@ const ZsClassic = ({ amounts, onSelect }: ZSClassisProps) => {
 						name='buy'
 						className='w-6 h-6 border-4 border-text-foreground text-primary focus:ring-primary'
 						checked={state.items.some(
-							(item) => item.optionType == 'classic' && item.duration == 12,
+							(item) =>
+								item.optionType == 'classic' &&
+								item.duration == 12 &&
+								item.cityId == city.id,
 						)}
 						onClick={() =>
 							onSelect({
@@ -74,6 +78,7 @@ const ZsClassic = ({ amounts, onSelect }: ZSClassisProps) => {
 								amount: amounts?.perMonth[0].amount,
 							})
 						}
+						onChange={() => {}}
 					/>
 					<label htmlFor='buy-classic-12'>
 						<Translation translationKey='citypage_radio_label' />
@@ -88,9 +93,7 @@ const ZsClassic = ({ amounts, onSelect }: ZSClassisProps) => {
 					.filter((month) => month.duration !== 12)
 					.map((month, index) => (
 						<div key={index} className='flex justify-between font-semibold'>
-							<h1>
-								{month?.duration}
-							</h1>
+							<h1>{month?.duration}</h1>
 							<h1 className='text-primary'>
 								<MoneyValue
 									value={month?.amount}
@@ -108,7 +111,8 @@ const ZsClassic = ({ amounts, onSelect }: ZSClassisProps) => {
 									checked={state.items.some(
 										(item) =>
 											item.optionType == 'classic' &&
-											item.duration == month.duration,
+											item.duration == month.duration &&
+											item.cityId == city.id,
 									)}
 									onClick={() =>
 										onSelect({
@@ -117,6 +121,7 @@ const ZsClassic = ({ amounts, onSelect }: ZSClassisProps) => {
 											amount: month.amount,
 										})
 									}
+									onChange={() => {}}
 								/>
 								<label htmlFor={'buy-classic-' + month.duration}>
 									<Translation translationKey='citypage_radio_label' />

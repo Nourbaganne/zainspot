@@ -4,12 +4,14 @@ import {
 	ManyToOne,
 	Column,
 	CreateDateColumn,
+	BaseEntity,
 } from 'typeorm';
 import { User } from './user.entity';
 import { City } from './city.entity';
+import { PaymentHistory } from './payment-history.entity';
 
 @Entity()
-export class Subscription {
+export class Subscription extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number;
 
@@ -39,4 +41,9 @@ export class Subscription {
 
 	@Column({ nullable: true })
 	renewalStatus: string;
+
+	@ManyToOne(() => PaymentHistory, (payment) => payment.subscriptions)
+	payment: PaymentHistory;
 }
+
+// ? You can get the stripePriceId using cityId, optionType, and duration

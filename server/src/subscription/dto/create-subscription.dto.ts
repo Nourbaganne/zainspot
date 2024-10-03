@@ -26,4 +26,7 @@ export class CreateSubscriptionDto {
 
 	@IsOptional()
 	renewalStatus: string;
+
+	@IsOptional()
+	paymentId: number;
 }

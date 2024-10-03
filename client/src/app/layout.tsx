@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Work_Sans } from 'next/font/google';
 import './globals.css';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
@@ -10,7 +10,7 @@ import { AuthContextProvider } from './contexts/authContext';
 import { CartProvider } from './contexts/CartContext';
 import { Toaster } from 'react-hot-toast';
 
-const inter = Inter({ subsets: ['latin'] });
+const workSans = Work_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
 	title: 'Zainspot',
@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='en'>
-			<body className={inter.className}>
+			<body className={workSans.className}>
 				<QueryProvider>
 					<AuthContextProvider>
 						<LanguageProvider>

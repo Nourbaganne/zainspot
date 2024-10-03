@@ -1,29 +1,37 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, BaseEntity } from 'typeorm';
+import {
+	Entity,
+	Column,
+	PrimaryGeneratedColumn,
+	ManyToOne,
+	BaseEntity,
+	OneToMany,
+} from 'typeorm';
 import { User } from './user.entity';
+import { Subscription } from './subscription.entity';
 
 @Entity()
 export class PaymentHistory extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+	@PrimaryGeneratedColumn()
+	id: number;
 
-  @Column('json')
-  subscription: {
-    country: string;
-    type: string;
-  };
+	@OneToMany(() => Subscription, (subscription) => subscription.payment)
+	subscriptions: Subscription[];
 
-  @Column()
-  date: Date;
+	@Column()
+	date: Date;
 
-  @Column()
-  method: string;
+	@Column({ nullable: true })
+	method: string;
 
-  @Column('decimal')
-  amount: number;
+	@Column('decimal')
+	amount: number;
 
-  @Column()
-  status: string;
+	@Column()
+	status: string = 'PENDING';
 
-  @ManyToOne(() => User, user => user.paymentHistories)
-  user: User;
+	@Column({ nullable: true })
+	stripeSessionId: string;
+
+	@ManyToOne(() => User, (user) => user.paymentHistories)
+	user: User;
 }

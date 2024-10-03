@@ -4,13 +4,15 @@ import { MoneyValue } from '@/app/components/MoneyValue';
 import Translation from '@/app/components/translation';
 import { useCart } from '@/app/contexts/CartContext';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
+import City from '@/app/interfaces/City';
 
 interface ZSGoldProps {
 	amount: number;
 	onSelect: (args: any) => void;
+	city: City;
 }
 
-const ZsGold = ({ amount, onSelect }: ZSGoldProps) => {
+const ZsGold = ({ amount, onSelect, city }: ZSGoldProps) => {
 	const { state } = useCart();
 
 	const { currency } = useCurrency();
@@ -64,10 +66,13 @@ const ZsGold = ({ amount, onSelect }: ZSGoldProps) => {
 						id='buy-gold'
 						name='buy'
 						className='w-6 h-6 border-4 border-text-foreground text-primary  focus:ring-primary'
-						checked={state.items.some((item) => item.optionType == 'gold')}
+						checked={state.items.some(
+							(item) => item.optionType == 'gold' && item.cityId == city.id,
+						)}
 						onClick={() =>
 							onSelect({ amount, optionType: 'gold', duration: 12 })
 						}
+						onChange={() => {}}
 					/>
 					<label htmlFor='buy-gold'>
 						<Translation translationKey='citypage_radio_label' />

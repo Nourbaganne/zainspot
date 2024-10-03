@@ -12,30 +12,29 @@ interface CartState {
 // Define actions
 type CartAction =
 	| { type: 'ADD_TO_CART'; payload: Subscription }
-	| { type: 'REMOVE_FROM_CART'; payload: Subscription };
+	| { type: 'REMOVE_FROM_CART'; payload: Subscription }
+	| { type: 'CLEAR_CART' };
 
 // Initial state for the cart
-// const initialState: CartState = JSON.parse(localStorage.getItem('cart')) || {
-// 	items: [],
-// };
-
-const initialState = {items: []};
+const savedCart = window.localStorage.getItem('cart');
+const initialState: CartState = savedCart
+	? JSON.parse(savedCart)
+	: {
+			items: [],
+	  };
 
 // Cart reducer function
 function cartReducer(state: CartState, action: CartAction): CartState {
 	switch (action.type) {
 		case 'ADD_TO_CART':
 			let newItems = state.items.filter(
-				(item) =>
-					item.cityId != action.payload.cityId &&
-					item.optionType != action.payload.optionType,
+				(item) => item.cityId != action.payload.cityId,
 			);
 			newItems.push(action.payload);
 			let data = {
 				...state,
 				items: newItems,
 			};
-			// localStorage.setItem('cart', JSON.stringify(data));
 			return data;
 		case 'REMOVE_FROM_CART':
 			let newData = {
@@ -43,11 +42,17 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 				items: state.items.filter(
 					(item) =>
 						item.cityId != action.payload.cityId &&
-						item.optionType != action.payload.optionType,
+						item.optionType != action.payload.optionType &&
+						item.duration == action.payload.duration,
 				),
 			};
-			// localStorage.setItem('cart', JSON.stringify(newData));
+			window.localStorage.setItem('cart', JSON.stringify(newData));
 			return newData;
+		case 'CLEAR_CART':
+			window.localStorage.removeItem('cart');
+			return {
+				items: [],
+			};
 		default:
 			return state;
 	}
@@ -58,6 +63,7 @@ interface CartContextType {
 	state: CartState;
 	addToCart: (subscription: Subscription) => void;
 	removeFromCart: (subscription: Subscription) => void;
+	clearCart: () => void;
 }
 
 // Create Cart Context
@@ -75,8 +81,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
 		dispatch({ type: 'REMOVE_FROM_CART', payload: subscription });
 	};
 
+	const clearCart = () => {
+		dispatch({ type: 'CLEAR_CART' });
+	};
+
 	return (
-		<CartContext.Provider value={{ state, addToCart, removeFromCart }}>
+		<CartContext.Provider
+			value={{ state, addToCart, removeFromCart, clearCart }}
+		>
 			{children}
 		</CartContext.Provider>
 	);

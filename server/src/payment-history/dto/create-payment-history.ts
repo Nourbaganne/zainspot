@@ -1,30 +1,39 @@
-import { IsNotEmpty, IsNumber, IsString, IsDate, IsObject } from 'class-validator';
+import {
+	IsNotEmpty,
+	IsNumber,
+	IsString,
+	IsDate,
+	IsObject,
+	IsOptional,
+} from 'class-validator';
+import { Subscription } from 'src/entities/subscription.entity';
 
 export class CreatePaymentHistoryDto {
-  @IsNotEmpty()
-  @IsNumber()
-  userId: number;
+	@IsNotEmpty()
+	@IsNumber()
+	userId: number;
 
-  @IsNotEmpty()
-  @IsObject()
-  subscription: {
-    country: string;
-    type: string;
-  };
+	@IsNotEmpty()
+	@IsObject()
+	subscriptions: Subscription[];
 
-  @IsNotEmpty()
-  @IsDate()
-  date: Date;
+	@IsNotEmpty()
+	@IsDate()
+	date: Date;
 
-  @IsNotEmpty()
-  @IsString()
-  method: string;
+	@IsOptional()
+	@IsString()
+	method: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  amount: number;
+	@IsNotEmpty()
+	@IsNumber()
+	amount: number;
 
-  @IsNotEmpty()
-  @IsString()
-  status: string;
+	@IsNotEmpty()
+	@IsString()
+	status: string;
+
+	@IsOptional()
+	@IsString()
+	stripeSessionId: string;
 }

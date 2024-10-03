@@ -5,10 +5,13 @@ import { SubscriptionService } from './subscription.service';
 import { SubscriptionController } from './subscription.controller';
 import { User } from '../entities/user.entity';
 import { City } from '../entities/city.entity';
+import { PaymentHistory } from 'src/entities/payment-history.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Subscription, User, City])],
-  providers: [SubscriptionService],
-  controllers: [SubscriptionController],
+	imports: [
+		TypeOrmModule.forFeature([Subscription, User, City, PaymentHistory]),
+	],
+	providers: [SubscriptionService],
+	controllers: [SubscriptionController],
 })
 export class SubscriptionModule {}

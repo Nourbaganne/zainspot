@@ -63,7 +63,4 @@ export class CreateUserDto {
 	mediaProfile: string;
 
 	roleId: number;
-
-	@IsOptional()
-	lastStripeSessionId: string;
 }

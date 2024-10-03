@@ -17,7 +17,6 @@ import City from '@/app/interfaces/City';
 import { FiChevronLeft } from 'react-icons/fi';
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
-
 	const { user } = useContext(AuthContext);
 	const { addToCart, state } = useCart();
 
@@ -47,8 +46,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 		};
 
 		addToCart(newSubscription);
-		console.log('added new subscription to cart', newSubscription);
-		console.log('new cart state', state);
 	}
 
 	if (isLoading) {
@@ -58,7 +55,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 	if (isError) {
 		return <div>{error.message}</div>;
 	}
-
 
 	const city: City = data?.data;
 
@@ -80,7 +76,12 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 							</h1>
 						</div>
 						<div className='flex overflow-hidden'>
-							<Image src={city.imageUrl as string} alt="image" width={800} height={300} />
+							<Image
+								src={city.imageUrl as string}
+								alt='image'
+								width={800}
+								height={300}
+							/>
 						</div>
 						<div className='flex flex-col px-4 md:px-2 gap-7 pt-4 text-text-foreground'>
 							<p
@@ -110,8 +111,16 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 					</div>
 				</div>
 				<div className='flex flex-col gap-7 px-0 md:px-10 '>
-					<ZsGold amount={city?.goldPrice.amount} onSelect={handleSelect} />
-					<ZsClassic amounts={city?.classicPrice} onSelect={handleSelect} />
+					<ZsGold
+						amount={city?.goldPrice.amount}
+						onSelect={handleSelect}
+						city={city}
+					/>
+					<ZsClassic
+						amounts={city?.classicPrice}
+						onSelect={handleSelect}
+						city={city}
+					/>
 					<div className='flex flex-col justify-center items-center gap-5 py-6'>
 						<div className='flex flex-col justify-center items-center gap-5 md:flex-row w-full'>
 							{!user?.user.userId && (

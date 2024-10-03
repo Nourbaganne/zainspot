@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityManager, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Subscription } from '../entities/subscription.entity';
 import { User } from '../entities/user.entity';
 import { City } from '../entities/city.entity';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { SubscriptionResponseDto } from './dto/subscription-response.dto';
-import dataSource from 'db/data-source';
+import { PaymentHistory } from 'src/entities/payment-history.entity';
 
 @Injectable()
 export class SubscriptionService {
@@ -17,6 +17,8 @@ export class SubscriptionService {
 		private readonly userRepository: Repository<User>,
 		@InjectRepository(City)
 		private readonly cityRepository: Repository<City>,
+		@InjectRepository(PaymentHistory)
+		private readonly paymentHistoryRepository: Repository<PaymentHistory>,
 	) {}
 
 	async createSubscription(
@@ -30,23 +32,45 @@ export class SubscriptionService {
 		const city = await this.cityRepository.findOneBy({
 			id: subscriptionData.cityId,
 		});
-		if (!user || !city) {
-			throw new Error('User or City not found');
+		const paymentHistory = await this.paymentHistoryRepository.findOneBy({
+			id: subscriptionData.paymentId,
+		});
+
+		if (!user || !city || !paymentHistory) {
+			throw new Error('User or City or Payment History not found');
 		}
 
 		const startDate = new Date();
 		const endDate = new Date();
 		endDate.setMonth(startDate.getMonth() + subscriptionData.duration);
 
+		console.log('subscriptionData', subscriptionData);
 		const subscription = this.subscriptionRepository.create({
 			...subscriptionData,
-			user,
-			city,
-			startDate,
-			endDate,
 		});
 
 		return this.subscriptionRepository.save(subscription);
+	}
+
+	async createMany(subscriptions: any): Promise<Subscription[]> {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const subs: Subscription[] = [];
+				for (let i = 0; i < subscriptions.length; i++) {
+					const sub = await Subscription.create(subscriptions[i]);
+					sub.user = await User.findOneBy({ id: subscriptions[i].userId });
+					sub.city = await City.findOneBy({ id: subscriptions[i].cityId });
+					sub.payment = await PaymentHistory.findOneBy({
+						id: subscriptions[i].paymentId,
+					});
+					sub.save();
+					subs.push(sub);
+				}
+				resolve(subs);
+			} catch (err) {
+				reject(err);
+			}
+		});
 	}
 
 	async getSubscriptionsByUser(
