@@ -19,7 +19,7 @@ export default function CheckoutSuccessPage({ children }: Props) {
 	const sessionId = searchParams.get('session_id');
 
 	return (
-		<div className='py-24 max-w-2xl mx-auto'>
+		<div className='py-24 max-w-xl mx-auto text-center'>
 			{children}
 			<div className='mt-10 border-t border-dashed w-full pt-8'>
 				<p className='text-gray-500'>

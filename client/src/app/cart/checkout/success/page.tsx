@@ -26,7 +26,7 @@ export default function CheckoutSuccessPage() {
 	// TODO: save session id in the server for renewing the subscription(s) in the future
 
 	return (
-		<div className='text-center flex-center flex-col'>
+		<div className='flex-center flex-col'>
 			<Image src={CONGRATS_IMG} className='w-full' height={300} alt='' />
 			<div className='mt-6'>
 				<h1 className='text-gray-900 text-2xl font-medium'>Congratulations!</h1>
