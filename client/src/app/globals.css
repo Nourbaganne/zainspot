@@ -104,6 +104,9 @@ input[type='number']::-webkit-outer-spin-button {
 	animation: fadeIn 0.3s ease-in-out;
 }
 
+
+  
+
 @layer components {
 	.flex-center {
 		@apply flex items-center justify-center;

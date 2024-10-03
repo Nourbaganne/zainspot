@@ -332,5 +332,7 @@
 
 	"reset_password_title": "Reset Your",
 	"reset_password_title_span": "Password",
-	"reset_password_description": "Enter your email address to receive a password reset link."
+	"reset_password_description": "Enter your email address to receive a password reset link.",
+
+	"footer_title_owner": "Owner Page"
 }

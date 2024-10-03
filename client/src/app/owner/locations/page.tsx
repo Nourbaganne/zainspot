@@ -47,9 +47,18 @@ const Locations = () => {
 
 
   return (
-    <div className='flex flex-col gap-6 bg-background-foreground px-4 md:px-24 py-8 md:pb-20'>
+    <div className='flex flex-col gap-6 bg-background-foreground px-4 sm:px-6 md:px-8 lg:px-16 py-8 md:pb-20'>
       <Breadcrumb items={BREADCRUMB_ITEMS} />
-      <Image src={worldImage} alt='world-map' />
+
+      <div className='w-full h-auto relative'>
+        <Image
+          src={worldImage}
+          alt='world-map'
+          layout='responsive'
+          objectFit='contain'
+          className='rounded-md'
+        />
+      </div>
 
       <LocationsHeader
         searchCity={searchCity}
@@ -58,14 +67,15 @@ const Locations = () => {
         setIsHidden={setIsHidden}
         setIsDialogOpen={setIsDialogOpen}
       />
-      <div className='flex flex-col py-6 bg-background pl-6 border rounded-md overflow-x-auto'>
-        <div className=''>
+
+      <div className='flex flex-col py-6 bg-background pl-6 pr-2 md:pr-6 border rounded-md overflow-x-auto'>
+        <div className='min-w-full'>
           <TableHeader />
           <>
             {isLoading ? (
               <Loader />
             ) : (
-              <>
+              <div className='overflow-x-auto' >
                 {filteredCities?.length > 0 ? (
                   filteredCities.map((city: CityProps, index: number) => (
                     <CityItem
@@ -82,7 +92,7 @@ const Locations = () => {
                 ) : (
                   <h1 className='py-8'>No cities found</h1>
                 )}
-              </>)
+              </div>)
             }
 
           </>
@@ -93,12 +103,13 @@ const Locations = () => {
         <Pagination
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          totalPages={data?.data.totalPages} />
+          totalPages={data?.data.totalPages}
+        />
       )}
-
 
       <Dialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
     </div>
+
   );
 };
 
