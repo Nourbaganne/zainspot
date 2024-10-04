@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class LastStripe1728050530294 implements MigrationInterface {
-    name = 'LastStripe1728050530294'
+export class UpdateStripePaymentCols1728052694971 implements MigrationInterface {
+    name = 'UpdateStripePaymentCols1728052694971'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE \`payment_history\` DROP COLUMN \`subscription\``);
