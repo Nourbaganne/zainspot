@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class LastStripe1728050530294 implements MigrationInterface {
-    name = 'LastStripe1728050530294'
+export class LastStripeSession1728053703631 implements MigrationInterface {
+    name = 'LastStripeSession1728053703631'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE \`payment_history\` DROP COLUMN \`subscription\``);
         await queryRunner.query(`ALTER TABLE \`user\` DROP COLUMN \`lastStripeSessionId\``);
+        await queryRunner.query(`ALTER TABLE \`payment_history\` DROP COLUMN \`subscription\``);
         await queryRunner.query(`ALTER TABLE \`subscription\` ADD \`paymentId\` int NULL`);
         await queryRunner.query(`ALTER TABLE \`payment_history\` ADD \`stripeSessionId\` varchar(255) NULL`);
         await queryRunner.query(`ALTER TABLE \`payment_history\` CHANGE \`method\` \`method\` varchar(255) NULL`);
@@ -17,8 +17,8 @@ export class LastStripe1728050530294 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE \`payment_history\` CHANGE \`method\` \`method\` varchar(255) NOT NULL`);
         await queryRunner.query(`ALTER TABLE \`payment_history\` DROP COLUMN \`stripeSessionId\``);
         await queryRunner.query(`ALTER TABLE \`subscription\` DROP COLUMN \`paymentId\``);
-        await queryRunner.query(`ALTER TABLE \`user\` ADD \`lastStripeSessionId\` varchar(255) NULL`);
         await queryRunner.query(`ALTER TABLE \`payment_history\` ADD \`subscription\` json NOT NULL`);
+        await queryRunner.query(`ALTER TABLE \`user\` ADD \`lastStripeSessionId\` varchar(255) NULL`);
     }
 
 }
