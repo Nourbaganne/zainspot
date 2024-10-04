@@ -104,7 +104,7 @@ export default function PrivacyPolicy() {
                 <div className='bg-background pt-8 px-5 sm:px-[50px] md:px-[150px] xl:px-[300px] pb-20 flex flex-col gap-10 text-sm '>
                     <ol className='list-decimal pl-6 flex flex-col gap-7'>
                         {privacies.map((privacy, index) => (
-                            <li key={index} className='text-semibold-24 '>
+                            <li key={index} className='text-semibold-24 text-primary '>
                                 <h1 className='font-semibold pb-3 leading-[27px]'>
                                     <Translation translationKey={privacy.title} />
                                 </h1>

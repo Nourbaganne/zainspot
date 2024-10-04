@@ -121,7 +121,7 @@ export default function FaqPage() {
 						{/* FAQ Cards */}
 						{faqs.map((faq, index) => (
 							<div key={index} className='p-6 border-b border-gray-400'>
-								<div className='flex items-center justify-between'>
+								<div className='flex items-center justify-between text-primary'>
 									<h2 className='text-xl font-bold flex-grow'>
 
 										<Translation translationKey={faq.question} />

@@ -60,7 +60,7 @@ export default function MissionPage() {
                     {
                         missions.map((mission, index) => (
                             <div key={index} className='flex flex-col gap-3'>
-                                <h1 className='text-semibold-24 font-semibold'>
+                                <h1 className='text-semibold-24 font-semibold text-primary'>
                                     <Translation translationKey={mission.title} />
                                 </h1>
                                 <p className='font-regular text-span font-light leading-[27px] '

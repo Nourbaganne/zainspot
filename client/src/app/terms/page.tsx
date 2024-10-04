@@ -94,9 +94,10 @@ export default function TermsOfUse() {
                 <div className='bg-background pt-8 px-5 sm:px-[50px] md:px-[150px] xl:px-[300px]  pb-20 flex flex-col gap-10 text-sm '>
                     <ol className='list-decimal pl-6 flex flex-col gap-7'>
                         {terms.map((term, index) => (
-                            <li key={index} className='text-semibold-24 '>
+                            <li key={index} className='text-semibold-24 text-primary'>
                                 <h1 className='font-semibold pb-3 leading-[27px]'>
-                                    <Translation translationKey={term.title} /> </h1>
+                                    <Translation translationKey={term.title} />
+                                </h1>
                                 {typeof term.description === 'string' ? (
                                     <p className='font-regular text-sm text-span font-light leading-[27px]'
                                         style={{ wordSpacing: '0.1em', textAlign: 'justify' }}
@@ -111,14 +112,14 @@ export default function TermsOfUse() {
                                                     <Translation translationKey={item.item} />
                                                 </strong>
                                                 <span className='font-light text-span leading-[27px]' style={{ wordSpacing: '0.1em', textAlign: 'justify' }}>
-                                                 <Translation translationKey={item.desc} />  
+                                                    <Translation translationKey={item.desc} />
                                                 </span>
 
                                                 {item.cnt && (
                                                     <ul className='list-disc list-inside pl-6'>
                                                         {item.cnt.map((cntItem, cntIndex) => (
                                                             <li key={cntIndex} className='font-light text-span leading-[27px]'>
-                                                               <Translation translationKey={cntItem} />
+                                                                <Translation translationKey={cntItem} />
                                                             </li>
                                                         ))}
                                                     </ul>
