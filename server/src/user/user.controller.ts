@@ -40,7 +40,7 @@ export class UserController {
       );
       return {
         body: user,
-        message: 'Registration successful' 
+        message: 'Registration successful'
       };
     } catch (error) {
       if (error instanceof HttpException) {
