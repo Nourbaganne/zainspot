@@ -46,6 +46,7 @@ const config: Config = {
 					DEFAULT: '#C6C6C6',
 					text: '#B0B0B0',
 					foreground: '#A8A8A8',
+					gray: '#9B9B9B'
 				},
 				span: {
 					DEFAULT: '#666666',

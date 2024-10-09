@@ -6,10 +6,9 @@ import axiosInstance from '@/app/lib/axios/axiosInstance';
 
 interface Props {
 	rolesModalRef: any;
-	roles: Role[];
 }
 
-const RolesModal = ({ rolesModalRef, roles }: Props) => {
+const RolesModal = ({ rolesModalRef }: Props) => {
 	const [permissions, setPermissions] = useState<Permission[]>([]);
 	function getPermissions() {
 		axiosInstance.get('/permission').then((res) => {
@@ -61,7 +60,6 @@ const RolesModal = ({ rolesModalRef, roles }: Props) => {
 			onButtonClick={createRole}
 			buttonText='Create Role'
 		>
-			<>
 				<div className='form-group'>
 					<label
 						htmlFor='roleName'
@@ -99,7 +97,6 @@ const RolesModal = ({ rolesModalRef, roles }: Props) => {
 						))}
 					</div>
 				</div>
-			</>
 		</Modal>
 	);
 };

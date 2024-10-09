@@ -151,7 +151,7 @@
 	"users": "Users",
 	"locations": "Locations",
 
-	"ownerPage_header": "Admin Page",
+	"ownerPage_header": "Admin Dashboard",
 	"ownerDashboard_reports": "Reports",
 	"ownerDashboard_reports_desc": "View reports of revenue, visitors, subscribers and Zainspot locations",
 	"ownerDashboard_users": "Users",
@@ -334,5 +334,8 @@
 	"reset_password_title_span": "Password",
 	"reset_password_description": "Enter your email address to receive a password reset link.",
 
-	"footer_title_owner": "Owner Page"
+	"footer_title_owner": "Owner Page",
+
+	"email_content": "Message",
+    "email_description": "Please compose your message below."
 }

@@ -9,14 +9,15 @@ import User from '@/app/interfaces/User';
 import Role from '@/app/interfaces/Role';
 import Loader from '@/app/components/loader';
 import { HandleRoleChanges } from '@/app/lib/userRoleChanging';
+import { useRoles } from '@/app/contexts/RoleContext';
 
 const USERS_LIST_HEADER = [
-    { title: 'User', hasFiltering: true },
-    { title: 'Email & Number', hasFiltering: false },
-    { title: 'Subscriptions', hasFiltering: false },
-    { title: 'Renewals', hasFiltering: true },
-    { title: 'Role', hasFiltering: false },
-    // {title: 'Actions', hasFiltering: false},
+	{ title: 'User', hasFiltering: true },
+	{ title: 'Email & Number', hasFiltering: false },
+	{ title: 'Subscriptions', hasFiltering: false },
+	{ title: 'Renewals', hasFiltering: true },
+	{ title: 'Role', hasFiltering: false },
+	// {title: 'Actions', hasFiltering: false},
 ];
 
 interface Counts {
@@ -32,7 +33,6 @@ interface InitialCounts {
 
 interface Props {
 	users: User[];
-	roles: Role[];
 	selectedUsers: string[];
 	setSelectedUsers: (
 		selectedUsers: string[] | ((prevSelectedUsers: string[]) => string[]),
@@ -43,7 +43,6 @@ interface Props {
 }
 const UsersTable = ({
 	users,
-	roles,
 	selectedUsers,
 	setSelectedUsers,
 	isLoading,
@@ -64,6 +63,14 @@ const UsersTable = ({
 	if (isLoading) {
 		return <Loader />
 	}
+
+	const { roles } = useRoles();
+
+	const getFullName = (user: User) => {
+		return `${user.name} ${user.middlename ? user.middlename + ' ' : ''}${user.lastName}`;
+	};
+
+
 
 	return (
 		<table className='mt-6 bg-background border rounded-lg w-full overflow-hidden'>
@@ -114,7 +121,9 @@ const UsersTable = ({
 							</div>
 						</td>
 						<td className='p-4'>
-							<span>{user.name}</span>
+							<span>
+								{getFullName(user)}
+							</span>
 						</td>
 						<td className='p-4'>
 							<div>
@@ -173,7 +182,7 @@ const UsersTable = ({
 
 						<td className='p-4'>
 							<Link
-								 href={`/owner/users/${user.id}?roles=${encodeURIComponent(JSON.stringify(roles))}`}
+								href={`/owner/users/${user.id}`}
 								className='flex text-secondary gap-2 text-xs font-semibold hover:underline ml-auto'
 							>
 								<span>Details</span>

@@ -34,7 +34,7 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                     <span className='font-bold text-2xl'>17</span> Locations
                 </h1>
             </div>
-            <div className='grid grid-cols-1 gap-4 md:grid-cols-5 col-span-3'>
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-5 col-span-3 items-center'>
                 <div className='flex col-span-3 bg-background gap-2 items-center p-2 text-span border border-button rounded-md'>
                     <Image src={searchIcon} alt='search-user' />
                     <input
@@ -44,26 +44,21 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                         onChange={(e) => setSearchCity(e.target.value)}
                     />
                 </div>
-                <div className='flex col-span-2 justify-between md:justify-end gap-5 items-center'>
-                    <button onClick={() => setIsHidden(!isHidden)}>
-                        {isHidden ? (
-                            <div className='border-2 border-primary text-primary rounded-lg px-3 py-2 flex items-center gap-2'>
-                                <Image src={visibleLogo} alt='visible-cities' />
-                                <h1>View Visible</h1>
-                            </div>
-                        ) : (
-                            <div className='border-2 border-primary text-primary rounded-lg px-3 py-2 flex items-center gap-2'>
-                                <Image src={eyeOffIcon} alt='eye off icon' />
-                                <h1>View Hidden</h1>
-                            </div>
-                        )}
+                <div className='flex col-span-2 justify-between md:justify-end gap-4 items-center flex-wrap'>
+                    <button onClick={() => setIsHidden(!isHidden)} className='w-full md:w-auto flex justify-end items-center'>
+                        <div className={`border-2 border-primary text-primary rounded-lg px-3 py-2 flex items-center gap-2 ${isHidden ? 'flex-col' : 'flex-row'}`}>
+                            <Image src={isHidden ? visibleLogo : eyeOffIcon} alt={isHidden ? 'visible-cities' : 'eye off icon'} />
+                            <h1 className='text-sm md:text-base'>{isHidden ? 'View Visible' : 'View Hidden'}</h1>
+                        </div>
                     </button>
                     <button
-                        className='bg-primary rounded-lg text-white px-3 py-[9px] flex items-center gap-2'
+                        className='flex justify-end items-center w-full md:w-auto'
                         onClick={() => setIsDialogOpen(true)}
                     >
-                        <Image src={plusIcon} alt='plus icon'></Image>
-                        Create New
+                        <div className='bg-primary border-2 border-primary rounded-lg text-white px-3 py-2 flex gap-2  '>
+                            <Image src={plusIcon} alt='plus icon' />
+                            <span className='text-sm md:text-base'>Create New</span>
+                        </div>
                     </button>
                 </div>
             </div>

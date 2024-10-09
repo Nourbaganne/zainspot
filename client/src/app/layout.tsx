@@ -9,6 +9,7 @@ import { QueryProvider } from './queryProvider';
 import { AuthContextProvider } from './contexts/authContext';
 import { CartProvider } from './contexts/CartContext';
 import { Toaster } from 'react-hot-toast';
+import { RolesProvider } from './contexts/RoleContext';
 
 const workSans = Work_Sans({ subsets: ['latin'] });
 
@@ -30,10 +31,12 @@ export default function RootLayout({
 						<LanguageProvider>
 							<CurrencyProvider>
 								<CartProvider>
-									<Navbar />
-									<Toaster position='top-right' />
-									<main>{children}</main>
-									<Footer />
+									<RolesProvider>
+										<Navbar />
+										<Toaster position='top-right' />
+										<main>{children}</main>
+										<Footer />
+									</RolesProvider>
 								</CartProvider>
 							</CurrencyProvider>
 						</LanguageProvider>

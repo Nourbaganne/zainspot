@@ -239,4 +239,7 @@ input[type='number']::-webkit-outer-spin-button {
 	table tr th {
 		@apply p-4;
 	}
+	
 }
+
+

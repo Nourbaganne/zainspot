@@ -3,7 +3,7 @@ import { AuthContext } from '@/app/contexts/authContext';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import Breadcrumb from '@/app/zainspotter/components/breadcrumb';
 import { useQuery } from '@tanstack/react-query';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import genreIcon from '@/app/assets/owner/users/genreIcon.svg';
 import birthdayIcon from '@/app/assets/owner/users/birthdayIcon.svg';
 import pointIc from '@/app/assets/owner/users/pointIc.svg';
@@ -15,16 +15,13 @@ import SubscriptionList from '../../components/subscriptionList';
 import Loader from '@/app/components/loader';
 import { WithAuth } from '@/app/lib/withAuth';
 import { HandleRoleChanges } from '@/app/lib/userRoleChanging';
-import { useSearchParams } from 'next/navigation';
 import Role from '@/app/interfaces/Role';
+import Link from 'next/link';
+import { useRoles } from '@/app/contexts/RoleContext';
 
 const Page = ({ params }: { params: { id: number } }) => {
   const { user } = useContext(AuthContext);
-  const searchParams = useSearchParams();
-
-  // Retrieve and parse roles from the search params
-  const rolesParam = searchParams.get('roles');
-  const roles = rolesParam ? JSON.parse(decodeURIComponent(rolesParam)) : [];
+  const { roles } = useRoles()
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['user', params.id],
@@ -78,12 +75,12 @@ const Page = ({ params }: { params: { id: number } }) => {
       <div className='card flex flex-col gap-10 md:py-10'>
         <div className='flex justify-between'>
           <div className='flex flex-col gap-4'>
-            <div className='flex gap-2'>
-              <h1 className='text-3xl font-semibold'>{fullname}</h1>
+            <div className='flex gap-2 items-center'>
+              <h1 className='text-4xl font-semibold'>{fullname}</h1>
               <select
                 name='selectRole'
                 id='selectRole'
-                className='bg-background-foreground border-none rounded-md px-2 py-1'
+                className='bg-background-foreground border border-border text-sm rounded-md p-1'
                 onChange={(e) =>
                   HandleRoleChanges({
                     access_token: user?.access_token,
@@ -141,6 +138,12 @@ const Page = ({ params }: { params: { id: number } }) => {
             <button className='px-4 py-2 text-primary border-2 border-primary rounded-md'>
               EDIT INFORMATION
             </button>
+            <Link
+              href={`/owner/users/${currentUser?.id}/sendMail?fullname=${fullname}&id=${currentUser?.id}`}
+              className='px-4 py-2 border-2 border-primary bg-primary text-background rounded-md'>
+              SEND EMAIL
+            </Link>
+
             <button className='px-4 py-2 border-2 border-alert bg-alert text-background rounded-md'>
               DESACTIVE USER
             </button>
