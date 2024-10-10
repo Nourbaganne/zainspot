@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../contexts/authContext";
 import Loader from "../components/loader";
@@ -12,13 +12,13 @@ export function WithAuth<P extends object>(
     const router = useRouter();
     const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
-    // Helper function to log out the user
-    const logoutUser = () => {
+    // Memoized logout function
+    const logoutUser = useCallback(() => {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       dispatch({ type: 'LOGOUT' });
       router.push('/login');
-    };
+    }, [dispatch, router]); // Include dispatch and router as dependencies
 
     useEffect(() => {
       // Check if loading state is finished
@@ -53,7 +53,7 @@ export function WithAuth<P extends object>(
         // If authorized, finish checking
         setIsCheckingAuth(false);
       }
-    }, [user, loading, router, requiredRole]);
+    }, [user, loading, router, logoutUser]); // logoutUser is now stable
 
     // If still checking authorization or loading, show loader
     if (isCheckingAuth || loading) {

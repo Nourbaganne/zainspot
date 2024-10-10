@@ -41,7 +41,7 @@ const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
     }, 1000 / animationFrame);
 
     return () => clearInterval(timer); 
-  }, [value]);
+  }, [value, displayValue]);
 
   return (
     <div className='card flex flex-col w-full'>

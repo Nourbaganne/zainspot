@@ -19,7 +19,7 @@ export default function CheckoutSuccessPage() {
 	useEffect(() => {
 		console.log('Clearing cart');
 		clearCart();
-	}, []);
+	}, [clearCart]);
 
 	// Subscription.paymentId (references payment_history table)
 

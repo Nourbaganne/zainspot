@@ -139,7 +139,7 @@ const Page = ({ params }: { params: { id: number } }) => {
               EDIT INFORMATION
             </button>
             <Link
-              href={`/owner/users/${currentUser?.id}/sendMail?fullname=${fullname}&id=${currentUser?.id}`}
+              href={`/owner/users/${currentUser?.id}/sendMail?fullname=${fullname}&email=${currentUser?.email}&id=${currentUser?.id}`}
               className='px-4 py-2 border-2 border-primary bg-primary text-background rounded-md'>
               SEND EMAIL
             </Link>
