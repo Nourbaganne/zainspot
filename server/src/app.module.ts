@@ -24,6 +24,7 @@ import { ContactModule } from './contact/contact.module';
 import { TelnyxModule } from './telnyx/telnyx.module';
 import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { StripeModule } from './stripe/stripe.module';
+import { SendMailModule } from './send-mail/send-mail.module';
 
 @Module({
 	imports: [
@@ -60,6 +61,7 @@ import { StripeModule } from './stripe/stripe.module';
 		TelnyxModule,
 		ResetPasswordModule,
 		StripeModule,
+		SendMailModule,
 	
 	],
 	controllers: [AppController],
