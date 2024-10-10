@@ -50,6 +50,9 @@ const UsersTable = ({
 	setInitialCounts,
 
 }: Props) => {
+
+	const { roles } = useRoles();
+
 	const handleSelectUser = (userEmail: string) => {
 		setSelectedUsers((prevSelectedUsers: string[]) => {
 			if (prevSelectedUsers.includes(userEmail)) {
@@ -64,7 +67,7 @@ const UsersTable = ({
 		return <Loader />
 	}
 
-	const { roles } = useRoles();
+	
 
 	const getFullName = (user: User) => {
 		return `${user.name} ${user.middlename ? user.middlename + ' ' : ''}${user.lastName}`;
