@@ -4,13 +4,14 @@ import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { EmailConfirmationModule } from '../email-confirmation/email-confirmation.module';
+import { RecaptchaService } from './recaptcha.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     forwardRef(() => EmailConfirmationModule),
   ],
-  providers: [UserService],
+  providers: [UserService, RecaptchaService],
   exports: [UserService],
   controllers: [UserController],
 })

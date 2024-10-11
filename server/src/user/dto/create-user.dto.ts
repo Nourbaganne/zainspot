@@ -4,6 +4,7 @@ import {
 	IsNotEmpty,
 	IsNumber,
 	IsOptional,
+	IsString,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -63,4 +64,8 @@ export class CreateUserDto {
 	mediaProfile: string;
 
 	roleId: number;
+
+	@IsNotEmpty()
+	@IsString()
+	recaptcha: string;
 }

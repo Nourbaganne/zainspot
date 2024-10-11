@@ -22,31 +22,53 @@ import {
 } from 'src/decorators/pagination-params.decorator';
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { User } from 'src/entities/user.entity';
+import { RecaptchaService } from './recaptcha.service';
 
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
+    private readonly recaptchaService: RecaptchaService,
     private readonly emailConfirmationService: EmailConfirmationService,
   ) { }
 
-  @Public()
+  @Public() // Assuming you have a custom decorator for public routes
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     try {
+      // Validate reCAPTCHA token
+      const isRecaptchaValid = await this.recaptchaService.validateRecaptcha(
+        createUserDto.recaptcha,
+      );
+
+      if (!isRecaptchaValid) {
+        throw new HttpException(
+          'reCAPTCHA validation failed',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      // Proceed with user registration
       const user = await this.userService.register(createUserDto);
+
+      // Send email confirmation
       await this.emailConfirmationService.sendVerificationLink(
         createUserDto.email,
       );
+
       return {
         body: user,
-        message: 'Registration successful'
+        message: 'Registration successful',
       };
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
       } else {
-        throw new HttpException('Registration failed', HttpStatus.INTERNAL_SERVER_ERROR);
+        console.error('Registration error:', error);
+        throw new HttpException(
+          'Registration failed',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
       }
     }
   }
@@ -66,6 +88,7 @@ export class UserController {
   ): Promise<PaginatedResource<Partial<User>>> {
     return await this.userService.findAll(paginationParams, name, filter);
   }
+
 
   @Permissions({ action: 'update', subject: 'user' })
   @Patch(':id')
