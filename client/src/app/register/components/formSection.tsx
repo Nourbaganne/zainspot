@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { Input } from './input'
 import { FormikProps } from 'formik';
 import InputPassword from '@/app/components/inputPassword';
@@ -8,12 +8,26 @@ import Translation from '@/app/components/translation';
 import { businessTypeOptions, genderOptions, interestRegionOptions, personalInfoFields } from '../config/formFieldsConfig';
 import SelectField from './selectField';
 import { RadioGroup } from './radiGroup';
+// import ImageInput from '@/app/owner/locations/components/imageInput';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 interface FormSectionProps {
     formik: FormikProps<any>;
 }
 
 const FormSection = ({ formik }: FormSectionProps) => {
+
+    const recaptchaRef = useRef<ReCAPTCHA>(null);
+
+    const handleRecaptchaChange = (token: string | null) => {
+        formik.setFieldValue('recaptcha', token);
+    };
+
+    const handleRecaptchaExpire = () => {
+        formik.setFieldValue('recaptcha', '');
+        recaptchaRef.current?.reset();
+    };
+
     return (
         <>
             <Input
@@ -52,17 +66,10 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     <PhoneInput
                         country={'us'}
                         value={formik.values.businessNumber}
-                        onChange={(value: string) =>
-                            formik.setFieldValue('businessNumber', value)
-                        }
+                        onChange={(value: string) => formik.setFieldValue('businessNumber', value)}
                         inputProps={{
-                            className: `border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
-											${formik.errors.businessNumber &&
-                                    formik.touched.businessNumber
-                                    ? 'border-alert'
-                                    : 'border-button focus:border-primary'
-                                }
-											`,
+                            className: `bg-white border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
+            ${formik.errors.businessNumber && formik.touched.businessNumber ? 'border-alert' : 'border-button focus:border-primary'}`,
                             name: 'businessNumber',
                         }}
                     />
@@ -110,7 +117,7 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     formik={formik}
                 />
             </div>
-            <div className='flex flex-col md:flex-row gap-6'>
+            <div className='flex flex-col md:flex-row gap-6 z-0'>
                 <SelectField
                     value={formik.values.businessType}
                     name='businessType'
@@ -203,8 +210,8 @@ const FormSection = ({ formik }: FormSectionProps) => {
                 />
 
                 <div className='flex flex-col w-full gap-2 place-self-start '>
-                    <div className='flex gap-2 md:gap-4 items-center '>
-                        <h1 className={`text-xs ${formik.values.birthday ? 'text-primary' : 'text-span'}`}>
+                    <div className='relative flex gap-2 md:gap-4 items-center '>
+                        <h1 className={`absolute mb-[46px] ml-[10px] bg-white text-xs text-primary`}>
                             <Translation translationKey='register_birthday_label' />
                         </h1>
                         <input
@@ -213,11 +220,11 @@ const FormSection = ({ formik }: FormSectionProps) => {
                             id='birthday'
                             value={formik.values.birthday}
                             onChange={formik.handleChange}
-                            className={`border text-span  px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 w-2/3 
+                            className={`border text-span w-full  px-2 py-3 rounded-md peer focus:outline-none focus:ring-0
                                 ${formik.values.birthday && 'border-primary'}
                                 ${formik.errors.birthday && formik.touched.birthday
-                                ? 'border-alert'
-                                : 'border-button focus:border-primary'
+                                    ? 'border-alert'
+                                    : 'border-button focus:border-primary'
                                 }`}
                         />
                     </div>
@@ -239,6 +246,19 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     formik={formik}
                 />
             </div>
+            <div>
+                <ReCAPTCHA
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                    onChange={handleRecaptchaChange}
+                    onExpired={handleRecaptchaExpire}
+                    ref={recaptchaRef}
+                />
+                {formik.touched.recaptcha && formik.errors.recaptcha && (
+                    <p className="text-alert">{formik.errors.recaptcha as string}</p>
+                )}
+            </div>
+
+
         </>
     )
 }

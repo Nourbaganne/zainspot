@@ -3,7 +3,11 @@
 	"join": "JOIN",
 	"logout": "LOGOUT",
 	"secure_checkout": "Secure Checkout",
-	"navbar_titles": ["HOW IT WORKS", "SWITCH CUTTENCY", "SWITCH LANGUAGE"],
+	"navbar_titles": [
+		"HOW IT WORKS",
+		"SWITCH CUTTENCY",
+		"SWITCH LANGUAGE"
+	],
 	"homepage_header_title": "Your Overseas Offices from ",
 	"homepage_header_span": "30¢ a day",
 	"homepage_header_features": [
@@ -80,12 +84,13 @@
 	"register_gender_label": "Gender",
 	"register_gender_male_label": "Male",
 	"register_gender_female_label": "Female",
-	"register_birthday_label": "Your Birthday",
+	"register_birthday_label": "Your Date of Birth",
 	"register_media_profile_label": "Your Social Media Profiles",
 	"register_submit_button": "Join Zainspot",
-
 	"prefered_language": "Language",
 	"prefered_currency": "Currency",
+	"prefered_timeZone": "Time Zone",
+	"prefered_communication": "Primary Communication",
 	"editProfile_ProfileDetails": "Profile Details",
 	"editProfile_Login_Security": "Login & Security",
 	"editProfile_Payment_details": "Payment Details",
@@ -150,7 +155,6 @@
 	"owner_dashboard": "Owner Dashboard",
 	"users": "Users",
 	"locations": "Locations",
-
 	"ownerPage_header": "Admin Dashboard",
 	"ownerDashboard_reports": "Reports",
 	"ownerDashboard_reports_desc": "View reports of revenue, visitors, subscribers and Zainspot locations",
@@ -158,7 +162,6 @@
 	"ownerDashboard_users_desc": "A detailed list of Zainspot users, admins and managers",
 	"ownerDashboard_location": "Zainspot Locations",
 	"ownerDashboard_location_desc": "View, edit or add locations, cities and countries where Zainspot is available",
-
 	"locationDialog_header": "Create New Location",
 	"locationDialog_info": "Location Info",
 	"locationDialog_info_city": "City",
@@ -180,14 +183,11 @@
 	"locationDialog_duration_permonth": "1 Month",
 	"locationDialog_duration_per3months": "3 Months",
 	"locationDialog_duration_per6months": "6 Months",
-
 	"select_more_cities": "SELECT MORE CITIES",
 	"contact_email_label": "Your Email",
 	"contact_subject_label": "Subject",
 	"contact_message_label": "Your Message",
-
 	"cart_my_cart_heading": "My Cart",
-
 	"checkout_credit_card_label": "Credit Card",
 	"checkout_card_holder_label": "Card Holder",
 	"checkout_billing_address_label": "Billing Address",
@@ -196,14 +196,12 @@
 	"checkout_submit_button": "Checkout & Pay",
 	"checkout_direct_card_label": "Direct Card",
 	"checkout_paypal_label": "Paypal",
-
 	"checkout": "Checkout",
 	"total": "Total",
 	"subtotal": "Subtotal",
 	"discount": "Discount",
 	"tax": "Tax",
 	"continue_shopping": "Continue Shopping",
-
 	"zainspotMissions_title": "Zainspot Mission",
 	"zainspotMissions_desc": "Get to know ZainSpot's values and goals, how we connect with our customers on a deeper level by emphasizing the company&apos;s dedication to empowerment, inclusivity, and innovation.",
 	"missions_globalBusiness_title": "Empowering Global Business Expansion",
@@ -218,7 +216,6 @@
 	"missions_economies_desc": "ZainSpot is dedicated to supporting businesses in emerging economies and the poorest countries. We offer localized services with language and currency options to ensure that our clients can operate effectively in their target markets. Our focus on these regions reflects our commitment to fostering economic growth and creating opportunities where they are needed most.",
 	"missions_success_title": "Your Success is Our Success",
 	"missions_success_desc": "We measure our success by the success of our clients. When your business grows and thrives, so does ZainSpot. We are dedicated to being a reliable partner in your journey, providing consistent support, flexible solutions, and a global network that you can trust.",
-
 	"contact_header": "Contact Our Team",
 	"contact_desc": "Got any questions about the services or cities on our platform? We’re here to help.Chat with our friendly team and get onboard in no time.",
 	"contact_button": "SEND MESSAGE",
@@ -229,7 +226,6 @@
 	"contact_call_availability": "Available Mon-Fri from 8:00 AM to 5:00 PM",
 	"contact_visit": "Visit us",
 	"contact_visit_desc": "Chat with us in person at our ZainSpot HQ",
-
 	"faqPage_header": "Frequently Asked Questions",
 	"faqPage_desc": "Stuck on something? We're here to help with all your questions and answers in one place.",
 	"faqPage_billing_question": "How does billing work?",
@@ -240,10 +236,8 @@
 	"faqPage_tutorials_answer": "Not yet, but we're working on it! In the meantine, we've done our best to make it intuitive and we're building our documentation page.",
 	"faqPage_cancellation_question": "What is your cancellation policy?",
 	"faqPage_cancellation_answer": "We understand that things change. You can cancel your plan at any time and we'll refund you the difference already paid.",
-
 	"termsPage_header": "Terms of Use",
 	"termsPage_desc": "Effective: January 31, 2024",
-
 	"terms_acceptance_title": "Acceptance of Terms",
 	"terms_acceptance_desc": "By accessing and using the ZainSpot website and services, you agree to comply with and be bound by these Terms of Use. If you do not agree to these terms, please do not use our services.",
 	"terms_eligibility_title": "Eligibility",
@@ -279,7 +273,6 @@
 	"terms_law_desc": "These Terms of Use are governed by and construed in accordance with the laws of [Your Country/State], without regard to its conflict of law principles. Any disputes arising from these terms will be resolved in the courts.",
 	"terms_contact_title": "Contact Information",
 	"terms_contact_desc": "For any questions or concerns regarding these Terms of Use, please contact us at example@mail.com",
-
 	"privacyPage_header": "Privacy Policy",
 	"privacyPage_desc": "Effective: January 31, 2024",
 	"privacies_introduction_title": "Introduction",
@@ -329,13 +322,35 @@
 	"privacies_changes_desc": "We may update this Privacy Policy from time to time to reflect changes in our practices or for legal, operational, or regulatory reasons. We will notify you of any significant changes by posting the new policy on our website and updating the effective date. Your continued use of our services after the changes take effect constitutes your acceptance of the revised policy.",
 	"privacies_contact_title": "Contact Us",
 	"privacies_contact_desc": "For any questions or concerns regarding these Terms of Use, please contact us at example@mail.com",
-
 	"reset_password_title": "Reset Your",
 	"reset_password_title_span": "Password",
 	"reset_password_description": "Enter your email address to receive a password reset link.",
-
 	"footer_title_owner": "Owner Page",
-
 	"email_content": "Message",
-    "email_description": "Please compose your message below."
+	"email_description": "Please compose your message below.",
+	"userInfo_id": "User ID : #",
+	"userInfo_membership": "Member since",
+	"userInfo_downloadBtn": "DOWNLOAD",
+	"userInfo_editBtn": "EDIT INFORMATION",
+	"userInfo_sendmailBtn": "SEND EMAIL",
+	"userInfo_desactivationBtn": "DESACTIVE USER",
+	"userInfo_businessInfo": "Business",
+	"userInfo_revenue": "Revenue",
+	"userInfo_totalrevenue": "Total",
+	"mailForm_sender": "From",
+	"mailForm_receiver": "To",
+	"mailForm_cc": "CC",
+	"mailForm_bcc": "BCC",
+	"mailForm_subject": "Subject",
+	"mailform_status": "Unsaved",
+	"mailform_status_sending": "Sending...",
+	"mailform_status_error": "Error",
+	"sendMail_header": "Send Email",
+	"cancellation_btn": "CANCEL",
+	"schedule_btn": "SCHEDULE",
+	"send_btn": "SEND",
+	"emailAttachment_header": "Attachments",
+	"emailAttachment_remove": "Remove",
+	"userDetails_subscriptions": "Subscriptions & Payments"
+
 }

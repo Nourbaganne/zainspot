@@ -1,5 +1,6 @@
 // components/AttachmentCard.tsx
 
+import Translation from '@/app/components/translation';
 import React from 'react';
 
 interface Attachment {
@@ -45,7 +46,8 @@ const AttachmentCard: React.FC<AttachmentCardProps> = ({ attachments, setAttachm
     <div className='col-span-2 flex flex-col p-8 gap-2 border bg-background h-full'>
       <div className='flex justify-between text-span px-6'>
         <h1 className='text-semibold-18 font-semibold'>
-          Attachments ({attachments.length})
+          <Translation translationKey='emailAttachment_header' />
+          ({attachments.length})
         </h1>
         <label
           htmlFor='file-upload'
@@ -76,7 +78,7 @@ const AttachmentCard: React.FC<AttachmentCardProps> = ({ attachments, setAttachm
               onClick={() => removeAttachment(index)}
               className='text-red-500'
             >
-              Remove
+              <Translation translationKey='emailAttachment_remove' />
             </button>
           </div>
         ))}

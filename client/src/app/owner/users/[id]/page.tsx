@@ -18,6 +18,7 @@ import { HandleRoleChanges } from '@/app/lib/userRoleChanging';
 import Role from '@/app/interfaces/Role';
 import Link from 'next/link';
 import { useRoles } from '@/app/contexts/RoleContext';
+import Translation from '@/app/components/translation';
 
 const Page = ({ params }: { params: { id: number } }) => {
   const { user } = useContext(AuthContext);
@@ -101,10 +102,10 @@ const Page = ({ params }: { params: { id: number } }) => {
             </div>
             <div className='flex flex-col gap-2'>
               <p className='text-sm text-span font-light'>
-                User ID : #{currentUser?.id}
+                <Translation translationKey='userInfo_id' />{currentUser?.id}
               </p>
               <p className='text-sm text-span font-light'>
-                Member since{' '}
+                <Translation translationKey='userInfo_membership' />{' '}
                 {new Date(data?.data.createdAt).toLocaleDateString('en-GB', {
                   day: 'numeric',
                   month: 'long',
@@ -133,25 +134,27 @@ const Page = ({ params }: { params: { id: number } }) => {
           <div className='flex gap-3 items-start justify-center text-sm font-bold'>
             <button className='text-span flex  px-4 py-2 gap-2 items-center'>
               <Image src={downloadIcon} alt='download' />
-              DOWNLOAD
+              <Translation translationKey='userInfo_downloadBtn' />
             </button>
             <button className='px-4 py-2 text-primary border-2 border-primary rounded-md'>
-              EDIT INFORMATION
+              <Translation translationKey='userInfo_editBtn' />
             </button>
             <Link
               href={`/owner/users/${currentUser?.id}/sendMail?fullname=${fullname}&email=${currentUser?.email}&id=${currentUser?.id}`}
               className='px-4 py-2 border-2 border-primary bg-primary text-background rounded-md'>
-              SEND EMAIL
+              <Translation translationKey='userInfo_sendmailBtn' />
             </Link>
 
             <button className='px-4 py-2 border-2 border-alert bg-alert text-background rounded-md'>
-              DESACTIVE USER
+              <Translation translationKey='userInfo_desactivationBtn' />
             </button>
           </div>
         </div>
         <div className='grid grid-cols-2 gap-7'>
           <div className='flex flex-col gap-5'>
-            <h1 className='text-lg font-semibold'>Business</h1>
+            <h1 className='text-lg font-semibold'>
+              <Translation translationKey='userInfo_businessInfo' />
+            </h1>
             <div className='flex flex-col gap-3'>
               {BUSINESS_LIST.map((item, index) => (
                 <div key={index} className='grid grid-cols-3 gap-4 text-sm'>
@@ -164,11 +167,15 @@ const Page = ({ params }: { params: { id: number } }) => {
           <div className='flex flex-col gap-4'>
             <div className='flex justify-between'>
               <div className='flex gap-1 items-center'>
-                <h1 className='text-lg font-semibold'>Revenue</h1>
+                <h1 className='text-lg font-semibold'>
+                  <Translation translationKey='userInfo_revenue' />
+                </h1>
                 <Image src={revenueIcon} alt='revenue' />
               </div>
               <div className='flex gap-1 items-center'>
-                <p className='text-span font-light text-xs'>Total</p>
+                <p className='text-span font-light text-xs'>
+                  <Translation translationKey='userInfo_totalrevenue' />
+                </p>
                 <h1 className='text-lg font-semibold'>$764,900</h1>
               </div>
             </div>

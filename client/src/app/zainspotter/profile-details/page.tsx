@@ -363,7 +363,7 @@ const Page = () => {
 								<h1 className='text-span font-semibold'>
 									<Translation translationKey='profile_details_preferencesSection' />
 								</h1>
-								<div className='flex flex-col md:flex-row w-full  gap-5'>
+								<div className='grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-5 w-full'>
 									<div className='relative flex flex-col w-full'>
 										<select
 											name='preferedLanguage'
@@ -426,6 +426,67 @@ const Page = () => {
 												}`}
 										>
 											<Translation translationKey='prefered_currency' />
+										</label>
+									</div>
+									<div className='relative flex flex-col w-full'>
+										<select
+											name='preferedCurrency'
+											value={formik.values.preferedCurrency}
+											onChange={formik.handleChange}
+											className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedCurrency &&
+													formik.touched.preferedCurrency
+													? 'border-alert'
+													: 'border-button focus:border-primary'
+												}`}
+										>
+											<option value=''></option>
+											{CURRENCIES_DATA.map((currency) => (
+												<option value={currency.key} key={currency.key}>
+													{currency.title} ({currency.key})
+												</option>
+											))}
+										</select>
+										<label
+											htmlFor='preferedCurrency'
+											className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType &&
+													formik.touched.businessType
+													? 'peer-focus:text-alert text-alert'
+													: 'peer-focus:text-primary'
+												} ${formik.values.preferedCurrency
+													? 'top-[0px] left-3 text-xs bg-white z-10'
+													: ''
+												}`}
+										>
+											<Translation translationKey='prefered_timeZone' />
+										</label>
+									</div>
+									<div className='relative flex flex-col w-full'>
+										<select
+											name='preferedCurrency'
+											value={formik.values.preferedCurrency}
+											onChange={formik.handleChange}
+											className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedCurrency &&
+													formik.touched.preferedCurrency
+													? 'border-alert'
+													: 'border-button focus:border-primary'
+												}`}
+										>
+											<option value=''></option>
+											<option value="sms">SMS</option>
+											<option value="email">Email</option>
+										</select>
+										<label
+											htmlFor='preferedCurrency'
+											className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType &&
+													formik.touched.businessType
+													? 'peer-focus:text-alert text-alert'
+													: 'peer-focus:text-primary'
+												} ${formik.values.preferedCurrency
+													? 'top-[0px] left-3 text-xs bg-white z-10'
+													: ''
+												}`}
+										>
+											<Translation translationKey='prefered_communication' />
 										</label>
 									</div>
 								</div>

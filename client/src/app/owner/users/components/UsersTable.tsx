@@ -67,7 +67,7 @@ const UsersTable = ({
 		return <Loader />
 	}
 
-	
+
 
 	const getFullName = (user: User) => {
 		return `${user.name} ${user.middlename ? user.middlename + ' ' : ''}${user.lastName}`;
@@ -157,30 +157,48 @@ const UsersTable = ({
 							<span className='font-light'>(N/A)</span>
 						</td>
 						<td className='p-4'>
-							<select
-								name='selectRole'
-								id='selectRole'
-								className='bg-background-foreground border-none rounded-md px-2 py-1'
-								onChange={(e) =>
-									HandleRoleChanges({
-										access_token,
-										userId: user?.id,
-										updatedRole: Number(e.target.value),
-										previousRole: user?.role.id,
-										setInitialCounts,
-									})
-								}
-							>
-								<option value={user?.role.id}>{user?.role.name}</option>
+							<div className="relative inline-block w-full">
+								<select
+									name="selectRole"
+									id="selectRole"
+									className={`appearance-none bg-background-foreground border-none rounded-md px-4 py-1 pr-10 w-full
+      ${user?.role.id === 2 && 'bg-secondary-foreground text-primary'}
+      ${user?.role.id == 1 && 'text-secondary bg-secondary-background'}
+    `}
+									onChange={(e) =>
+										HandleRoleChanges({
+											access_token,
+											userId: user?.id,
+											updatedRole: Number(e.target.value),
+											previousRole: user?.role.id,
+											setInitialCounts,
+										})
+									}
+								>
+									<option value={user?.role.id}>{user?.role.name}</option>
 
-								{roles
-									.filter(role => role.id !== user?.role.id && role.name)
-									.map((role) => (
-										<option key={role.id} value={role.id}>
-											{role.name.charAt(0).toUpperCase() + role.name.slice(1)}
-										</option>
-									))}
-							</select>
+									{roles
+										.filter((role) => role.id !== user?.role.id && role.name)
+										.map((role) => (
+											<option key={role.id} value={role.id}>
+												{role.name.charAt(0).toUpperCase() + role.name.slice(1)}
+											</option>
+										))}
+								</select>
+								<span className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
+									<svg
+										className="w-4 h-4 text-gray-500"
+										fill="none"
+										stroke="currentColor"
+										strokeWidth="2"
+										viewBox="0 0 24 24"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+									</svg>
+								</span>
+							</div>
+
 						</td>
 
 						<td className='p-4'>

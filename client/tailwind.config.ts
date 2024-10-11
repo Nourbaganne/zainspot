@@ -31,6 +31,7 @@ const config: Config = {
 				},
 				secondary: {
 					DEFAULT: '#23599D',
+					background: '#DBEAFE',
 					foreground: '#EAF6F3',
 				},
 				description: {

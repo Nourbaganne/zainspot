@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import Loader from '@/app/components/loader';
+import Translation from '@/app/components/translation';
 
 interface SubscriptionItemProps {
     city: {
@@ -109,7 +110,9 @@ const SubscriptionList = ({ userId, access_token }: { userId: number, access_tok
 
     return (
         <div className='flex flex-col gap-4'>
-            <h1 className='text-lg font-semibold'>Subscriptions & Payments</h1>
+            <h1 className='text-lg font-semibold'>
+                <Translation translationKey='userDetails_subscriptions' />
+            </h1>
             <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
                 <div className=' grid grid-cols-6 text-sm  w-full border-b-2 text-span pb-4 pt-6   pl-4'>
                     {USER_LIST_HEADER.map((item, index) => (

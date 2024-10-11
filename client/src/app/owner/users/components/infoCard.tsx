@@ -1,5 +1,6 @@
 // components/InfoCard.tsx
 
+import Translation from '@/app/components/translation';
 import React from 'react';
 
 interface InfoCardProps {
@@ -21,11 +22,11 @@ interface InfoCardProps {
 }
 
 const INFOCARD_FORM = [
-  { label: 'from', placeholder: 'ZainSpot Support' },
-  { label: 'To', placeholder: 'John Doe' },
-  { label: 'CC', placeholder: '---' },
-  { label: 'BCC', placeholder: '---' },
-  { label: 'Subject', placeholder: '---' },
+  { label: 'mailForm_sender', placeholder: 'ZainSpot Support' },
+  { label: 'mailForm_receiver', placeholder: 'John Doe' },
+  { label: 'mailForm_cc', placeholder: '---' },
+  { label: 'mailForm_bcc', placeholder: '---' },
+  { label: 'mailForm_subject', placeholder: '---' },
 ];
 
 const InfoCard: React.FC<InfoCardProps> = ({ formData, setFormData, fullname }) => {
@@ -33,7 +34,9 @@ const InfoCard: React.FC<InfoCardProps> = ({ formData, setFormData, fullname }) 
     <div className='col-span-3 flex flex-col p-8 gap-4 bg-background border'>
       {INFOCARD_FORM.map((item, key) => (
         <div key={key} className='grid grid-cols-7 items-center'>
-          <label htmlFor={item.label} className='text-sm text-span col-span-2 capitalize'>{item.label}</label>
+          <label htmlFor={item.label} className='text-sm text-span col-span-2 capitalize'>
+            <Translation translationKey={item.label} />
+          </label>
           <input
             type="text"
             name={item.label.toLowerCase()}

@@ -11,14 +11,14 @@
 	/* Hide default arrow in Firefox */
 	appearance: none;
 	/* Hide default arrow in other browsers */
-	background: url('./assets/register/Vector-select.svg') no-repeat right 0.75rem
-		center/1rem;
+	background: url('./assets/register/Vector-select.svg') no-repeat right 0.75rem center/1rem;
 	padding-right: 2.5rem;
 	/* Adjust padding to prevent text overlap with the arrow */
 }
 
 /* Custom autofill styles */
 @layer utilities {
+
 	input:-webkit-autofill,
 	input:-webkit-autofill:hover,
 	input:-webkit-autofill:focus,
@@ -42,6 +42,21 @@
 	/* Firefox */
 }
 
+.react-tel-input .form-control {
+	background-color: white !important;
+	/* For the input */
+}
+
+.react-tel-input .flag-dropdown {
+	background-color: white !important;
+	/* For the flag dropdown */
+	width: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* Optional: Set a border color */
+}
+
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
 	-webkit-appearance: none;
@@ -49,6 +64,7 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 @keyframes switch-positions {
+
 	0%,
 	100% {
 		left: 0;
@@ -60,6 +76,7 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 @keyframes switch-positions-reverse {
+
 	0%,
 	100% {
 		left: 36px;
@@ -94,6 +111,7 @@ input[type='number']::-webkit-outer-spin-button {
 		opacity: 0;
 		transform: scale(0.95);
 	}
+
 	100% {
 		opacity: 1;
 		transform: scale(1);
@@ -105,7 +123,7 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 
-  
+
 
 @layer components {
 	.flex-center {
@@ -239,7 +257,5 @@ input[type='number']::-webkit-outer-spin-button {
 	table tr th {
 		@apply p-4;
 	}
-	
+
 }
-
-

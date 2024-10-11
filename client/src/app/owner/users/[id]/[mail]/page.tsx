@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import InfoCard from '../../components/infoCard';
 import AttachmentCard from '../../components/attachmentCard';
+import Translation from '@/app/components/translation';
 
 interface Attachment {
     filename: string;
@@ -83,7 +84,7 @@ const Email = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    from: formData.from !== 'ZainSpot Support' ? formData.from : undefined, 
+                    from: formData.from !== 'ZainSpot Support' ? formData.from : undefined,
                     to: formData.to,
                     cc: formData.cc ? formData.cc.split(',').map(email => email.trim()) : undefined,
                     bcc: formData.bcc ? formData.bcc.split(',').map(email => email.trim()) : undefined,
@@ -126,7 +127,7 @@ const Email = () => {
                 { label: 'ownerPage_header', href: '/owner' },
                 { label: 'users', href: '/owner/users' },
                 { label: fullname, href: `/owner/users/${userId}` },
-                { label: 'Send Email' },
+                { label: 'sendMail_header' },
             ]}
             className='px-12'
         >
@@ -134,14 +135,14 @@ const Email = () => {
                 <div className='flex gap-6 items-center'>
                     <h1 className='text-semibold-24 font-semibold text-span'>New Email</h1>
                     <p className='bg-span-background py-1 px-3 rounded-full text-sm text-span-foreground'>
-                        {status.loading ? 'Sending...' : status.error ? 'Error' : 'Unsaved'}
+                        <Translation translationKey={status.loading ? 'mailform_status_sending' : status.error ? 'mailform_status_error' : 'mailform_status'} />
                     </p>
                 </div>
                 {status.message && (
                     <div
                         className={`p-4 rounded ${status.error
-                                ? 'bg-red-100 text-red-700'
-                                : 'bg-green-100 text-green-700'
+                            ? 'bg-red-100 text-red-700'
+                            : 'bg-green-100 text-green-700'
                             }`}
                     >
                         {status.message}
@@ -173,11 +174,11 @@ const Email = () => {
                         }}
                         className='px-4 py-2 rounded-md border-2 border-button-gray text-button-gray text-sm'
                     >
-                        CANCEL
+                        <Translation translationKey='cancellation_btn' />
                     </button>
                     <button
                         onClick={() => {
-                            
+
                             setStatus({
                                 loading: false,
                                 message: 'Scheduling feature not implemented yet',
@@ -187,7 +188,7 @@ const Email = () => {
                         className='flex gap-2 justify-center items-center px-4 py-2 rounded-md border-2 border-primary text-primary text-sm'
                     >
                         <Image src={SheduleLogo} alt='schedule-logo' className='w-4' />
-                        SCHEDULE
+                        <Translation translationKey='schedule_btn' />
                     </button>
                     <button
                         onClick={handleSubmit}
@@ -195,7 +196,7 @@ const Email = () => {
                         className='flex gap-2 justify-center items-center px-4 py-2 rounded-md border-2 border-primary text-background bg-primary text-sm'
                     >
                         <Image src={SendeLogo} alt='send-logo' className='w-4' />
-                        SEND
+                        <Translation translationKey='send_btn' />
                     </button>
                 </div>
             </div>

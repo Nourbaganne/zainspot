@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axiosInstance from "./axios/axiosInstance";
+import { toast } from "react-hot-toast";
 
 export const useRegisterForm = ({
   setIsOpenDialog,
@@ -31,6 +32,7 @@ export const useRegisterForm = ({
       mediaProfile: "",
       preferedLanguage: "",
       preferedCurrency: "",
+      recaptcha: "",  
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -63,8 +65,12 @@ export const useRegisterForm = ({
       mediaProfile: Yup.string(),
       preferedLanguage: Yup.string(),
       preferedCurrency: Yup.string(),
+      recaptcha: Yup.string().required("Please complete the reCAPTCHA verification"),
     }),
     onSubmit: async (values, { resetForm }) => {
+      // Show loading toast
+      const toastId = toast.loading('Registering...');
+
       try {
         const { confirmPassword, ...userData } = values;
 
@@ -81,13 +87,20 @@ export const useRegisterForm = ({
           resetForm();
           setIsOpenDialog(true);
           setError(null);
+
+          // Update toast to success
+          toast.success("Registration successful!", { id: toastId });
         }
       } catch (error) {
-        console.log(error)
-        setError('An unexpected error occurred during registration.: ');
+        console.log(error);
+        setError('An unexpected error occurred during registration.');
+
+        // Update toast to error
+        toast.error('Registration failed. Please try again.', { id: toastId });
+      } finally {
+        // Remove loading toast if the promise completes
+        toast.dismiss(toastId);
       }
     }
-
   });
 };
-
