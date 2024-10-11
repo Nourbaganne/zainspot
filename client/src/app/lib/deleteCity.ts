@@ -14,12 +14,18 @@ export const useDeleteCity = () => {
         Authorization: `Bearer ${user?.access_token}`,
       }
     }),
+    onMutate: () => {
+      toast.loading('Deleting city...');
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cities'] });
+      toast.dismiss(); 
       toast.success('City deleted successfully!');
     },
     onError: (error) => {
+      toast.dismiss();
       console.error('Error deleting city:', error);
+      toast.error('Failed to delete city');
     },
   });
 };

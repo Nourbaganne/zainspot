@@ -351,6 +351,11 @@
 	"send_btn": "SEND",
 	"emailAttachment_header": "Attachments",
 	"emailAttachment_remove": "Remove",
-	"userDetails_subscriptions": "Subscriptions & Payments"
+	"userDetails_subscriptions": "Subscriptions & Payments",
+
+	"deleteLocation_header":"Delete Location",
+	"deleteLocation_desc":"Are you sure you want to delete this location?",
+	"deleteLocation_confirmation":"To confirm, type 'Delete'",
+	"deleteLocation_btn":"Delete Location"
 
 }

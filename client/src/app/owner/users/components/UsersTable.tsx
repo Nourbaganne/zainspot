@@ -161,7 +161,7 @@ const UsersTable = ({
 								<select
 									name="selectRole"
 									id="selectRole"
-									className={`appearance-none bg-background-foreground border-none rounded-md px-4 py-1 pr-10 w-full
+									className={`appearance-none bg-background-foreground border-none rounded-md px-2 py-1 pr-5 w-full
       ${user?.role.id === 2 && 'bg-secondary-foreground text-primary'}
       ${user?.role.id == 1 && 'text-secondary bg-secondary-background'}
     `}

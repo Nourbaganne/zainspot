@@ -66,6 +66,9 @@ const Locations = () => {
         isHidden={isHidden}
         setIsHidden={setIsHidden}
         setIsDialogOpen={setIsDialogOpen}
+        locations={data?.data.totalItems}
+        cities={data?.data.totalCities}
+        countries={data?.data.totalCountries}
       />
 
       <div className='flex flex-col py-6 bg-background pl-6 pr-2 md:pr-6 border rounded-md overflow-x-auto'>

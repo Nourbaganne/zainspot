@@ -12,6 +12,9 @@ interface LocationsHeaderProps {
     isHidden: boolean;
     setIsHidden: (value: boolean) => void;
     setIsDialogOpen: (value: boolean) => void;
+    locations: number;
+    cities: number;
+    countries: number
 }
 
 const LocationsHeader: React.FC<LocationsHeaderProps> = ({
@@ -19,19 +22,37 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
     setSearchCity,
     isHidden,
     setIsHidden,
-    setIsDialogOpen
+    setIsDialogOpen,
+    locations,
+    cities,
+    countries
 }) => {
     return (
         <div className='grid grid-cols-1 gap-4 md:grid-cols-4 text-span'>
-            <div className='flex items-center gap-2 text-sm flex-wrap'>
-                <h1 className='flex items-center gap-1'>
-                    <span className='font-bold text-2xl'>6</span> Countries
+            <div className='flex items-center justify-center gap-4 text-sm flex-wrap'>
+                <h1 className='flex items-end gap-1'>
+                    <span className='font-bold text-2xl'>
+                        {countries}
+                    </span>
+                    <span className='pb-[1px]'>
+                        Countries
+                    </span>
                 </h1>
-                <h1 className='flex items-center gap-1'>
-                    <span className='font-bold text-2xl'>8</span> Cities
+                <h1 className='flex items-end gap-1'>
+                    <span className='font-bold text-2xl'>
+                        {cities}
+                    </span>
+                    <span className='pb-[1px]'>
+                        Cities
+                    </span>
                 </h1>
-                <h1 className='flex items-center gap-1'>
-                    <span className='font-bold text-2xl'>17</span> Locations
+                <h1 className='flex items-end gap-1'>
+                    <span className='font-bold text-2xl'>
+                        {locations}
+                    </span>
+                    <span className='pb-[1px]'>
+                        Locations
+                    </span>
                 </h1>
             </div>
             <div className='grid grid-cols-1 gap-4 md:grid-cols-5 col-span-3 items-center'>
@@ -46,7 +67,7 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                 </div>
                 <div className='flex col-span-2 justify-between md:justify-end gap-4 items-center flex-wrap'>
                     <button onClick={() => setIsHidden(!isHidden)} className='w-full md:w-auto flex justify-end items-center'>
-                        <div className={`border-2 border-primary text-primary rounded-lg px-3 py-2 flex items-center gap-2 ${isHidden ? 'flex-col' : 'flex-row'}`}>
+                        <div className={`border-2 border-primary text-primary rounded-lg px-3 py-2 flex items-center gap-2`}>
                             <Image src={isHidden ? visibleLogo : eyeOffIcon} alt={isHidden ? 'visible-cities' : 'eye off icon'} />
                             <h1 className='text-sm md:text-base'>{isHidden ? 'View Visible' : 'View Hidden'}</h1>
                         </div>

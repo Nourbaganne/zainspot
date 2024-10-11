@@ -46,8 +46,6 @@ const defaultClassicPrice = {
 };
 
 export const useAddCity = ({ onClose }: { onClose: () => void }) => {
-
-
 	const { user } = useContext(AuthContext);
 	const queryClient = useQueryClient();
 
@@ -66,7 +64,6 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 				formData.append('imageUrl', values.imageUrl);
 			}
 
-
 			const response = await axiosInstance.post('/city', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
@@ -78,14 +75,15 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: ['cities'] });
+			toast.dismiss(); // Dismiss the loading toast
 			toast.success('City created successfully!');
 			onClose();
 		},
 		onError: (error: any) => {
+			toast.dismiss(); // Dismiss the loading toast on error
 			console.error('Error adding city:', error);
 			toast.error('Failed to add the city. Please try again.');
 		},
-
 	});
 
 	const formik = useFormik<CityData>({
@@ -118,6 +116,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 		}),
 
 		onSubmit: async (values: CityData, { resetForm }: FormikHelpers<CityData>) => {
+			toast.loading('Adding city...'); // Show loading toast
 			try {
 				await mutation.mutateAsync(values);
 				resetForm();
@@ -125,8 +124,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 				console.error('Error during form submission:', error);
 				toast.error('Failed to add the city. Please try again.');
 			}
-		}
-
+		},
 	});
 
 	return {
