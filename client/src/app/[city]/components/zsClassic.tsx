@@ -78,7 +78,7 @@ const ZsClassic = ({ amounts, onSelect, city }: ZSClassisProps) => {
 								amount: amounts?.perMonth[0].amount,
 							})
 						}
-						onChange={() => {}}
+						onChange={() => { }}
 					/>
 					<label htmlFor='buy-classic-12'>
 						<Translation translationKey='citypage_radio_label' />
@@ -93,7 +93,12 @@ const ZsClassic = ({ amounts, onSelect, city }: ZSClassisProps) => {
 					.filter((month) => month.duration !== 12)
 					.map((month, index) => (
 						<div key={index} className='flex justify-between font-semibold'>
-							<h1>{month?.duration}</h1>
+							<h1 className='flex gap-2'>
+								{month?.duration}
+								<span>
+									{month?.duration === 1 ? 'month' : 'months'}
+								</span>
+							</h1>
 							<h1 className='text-primary'>
 								<MoneyValue
 									value={month?.amount}
@@ -121,7 +126,7 @@ const ZsClassic = ({ amounts, onSelect, city }: ZSClassisProps) => {
 											amount: month.amount,
 										})
 									}
-									onChange={() => {}}
+									onChange={() => { }}
 								/>
 								<label htmlFor={'buy-classic-' + month.duration}>
 									<Translation translationKey='citypage_radio_label' />
