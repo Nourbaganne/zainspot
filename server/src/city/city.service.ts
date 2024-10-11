@@ -12,7 +12,7 @@ export class CityService {
 	constructor(
 		@InjectRepository(City)
 		private cityRepository: Repository<City>,
-	) {}
+	) { }
 
 	async getCities(
 		{ page, limit = 1 }: Pagination,
@@ -20,25 +20,39 @@ export class CityService {
 	): Promise<PaginatedResource<Partial<City>>> {
 		let queryBuilder = this.cityRepository.createQueryBuilder('city');
 
-		// Apply the name filter globally
+		// Apply the name filter globally (for filtering locations by city name)
 		if (name) {
 			queryBuilder = queryBuilder.andWhere(`city.city LIKE :name`, {
 				name: `%${name}%`,
 			});
 		}
 
-		const total = await queryBuilder.getCount();
+		// Get total number of locations (all entries in the city table)
+		const totalLocations = await queryBuilder.getCount();
 
+		// Get total number of distinct cities
+		const totalCities = await this.cityRepository.createQueryBuilder('city')
+			.select('COUNT(DISTINCT city.city)', 'count')
+			.getRawOne();
+
+		// Get total number of distinct countries
+		const totalCountries = await this.cityRepository.createQueryBuilder('city')
+			.select('COUNT(DISTINCT city.country)', 'count')
+			.getRawOne();
+
+		// Apply pagination
 		queryBuilder = queryBuilder.take(limit).skip((page - 1) * limit);
 
 		const cities = await queryBuilder.getMany();
 
-		const totalPages = Math.ceil(total / limit);
+		const totalPages = Math.ceil(totalLocations / limit);
 		const hasNextPage = page < totalPages;
 		const hasPreviousPage = page > 1;
 
 		return {
-			totalItems: total,
+			totalItems: totalLocations,   
+			totalCities: totalCities.count,   
+			totalCountries: totalCountries.count,
 			items: cities,
 			page,
 			size: limit,
@@ -47,6 +61,7 @@ export class CityService {
 			hasPreviousPage,
 		};
 	}
+
 
 	async getCity(id: number): Promise<City> {
 		const city = await this.cityRepository.findOne({ where: { id } });

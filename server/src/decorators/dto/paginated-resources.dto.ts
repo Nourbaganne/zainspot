@@ -16,4 +16,6 @@ export interface PaginatedResource<T> {
     admin: number;
     owner: number;
   };
+  totalCities?: number,
+  totalCountries?: number,
 }
