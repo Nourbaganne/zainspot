@@ -4,7 +4,7 @@ const axiosInstance = axios.create({
 	baseURL: process.env.NODE_ENV === 'development'
 		? 'http://localhost:3001' // Local backend
 		: process.env.NEXT_PUBLIC_API_BASE_URL, // Deployed backend (from environment variables)
-	timeout: 10000,
+	timeout: 50000,
 });
 
 axiosInstance.interceptors.request.use(

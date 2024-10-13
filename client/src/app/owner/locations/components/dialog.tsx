@@ -262,7 +262,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 																			typeof formikInstance.errors.classicPrice
 																				?.perMonth?.[index] === 'object'
 																				? formikInstance.errors.classicPrice
-																						?.perMonth?.[index]?.amount
+																					?.perMonth?.[index]?.amount
 																				: undefined
 																		}
 																		formik={formikInstance}
@@ -285,7 +285,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 																			typeof formikInstance.errors.classicPrice
 																				?.perMonth?.[index] === 'object'
 																				? formikInstance.errors.classicPrice
-																						?.perMonth?.[index]?.tax
+																					?.perMonth?.[index]?.tax
 																				: undefined
 																		}
 																		formik={formikInstance}
@@ -308,7 +308,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 																			typeof formikInstance.errors.classicPrice
 																				?.perMonth?.[index] === 'object'
 																				? formikInstance.errors.classicPrice
-																						?.perMonth?.[index]?.stripePriceId
+																					?.perMonth?.[index]?.stripePriceId
 																				: undefined
 																		}
 																		formik={formikInstance}

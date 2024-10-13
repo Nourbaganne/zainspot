@@ -1,35 +1,158 @@
-import React, { useRef, useState } from 'react'
-import { Input } from './input'
+// FormSection.tsx
+import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
+import CountryFlag from 'react-country-flag';
+import { Country, State, City } from 'country-state-city';
+import { Input } from './input';
 import { FormikProps } from 'formik';
 import InputPassword from '@/app/components/inputPassword';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import Translation from '@/app/components/translation';
-import { businessTypeOptions, genderOptions, interestRegionOptions, personalInfoFields } from '../config/formFieldsConfig';
+import {
+    businessTypeOptions,
+    genderOptions,
+    interestRegionOptions,
+    personalInfoFields
+} from '../config/formFieldsConfig';
 import SelectField from './selectField';
 import { RadioGroup } from './radiGroup';
-// import ImageInput from '@/app/owner/locations/components/imageInput';
 import ReCAPTCHA from 'react-google-recaptcha';
+import ImageInput from '@/app/owner/locations/components/imageInput';
+import toast from 'react-hot-toast';
+import classNames from 'classnames';
+import SelectWrapper from './selectWraper';
+import { SingleValue } from 'react-select';
 
 interface FormSectionProps {
     formik: FormikProps<any>;
 }
 
-const FormSection = ({ formik }: FormSectionProps) => {
+interface OptionType {
+    label: React.ReactNode;
+    value: string;
+}
 
+const getCountryOptions = (): OptionType[] => {
+    return Country.getAllCountries().map(country => ({
+        label: (
+            <div className="flex items-center">
+                <CountryFlag
+                    countryCode={country.isoCode}
+                    svg
+                    style={{ width: '1.5em', height: '1.5em', marginRight: '8px' }}
+                />
+                <span>{country.name}</span>
+            </div>
+        ),
+        value: country.isoCode,
+    }));
+};
+
+const getStateOptions = (countryCode: string): OptionType[] => {
+    return State.getStatesOfCountry(countryCode).map(state => ({
+        label: state.name,
+        value: state.isoCode,
+    }));
+};
+
+const getCityOptions = (countryCode: string, stateCode: string): OptionType[] => {
+    return City.getCitiesOfState(countryCode, stateCode).map(city => ({
+        label: city.name,
+        value: city.name,
+    }));
+};
+
+const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
+    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
     const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-    const handleRecaptchaChange = (token: string | null) => {
-        formik.setFieldValue('recaptcha', token);
-    };
+    const countryOptions = useMemo(() => getCountryOptions(), []);
+    const stateOptions = useMemo(() => {
+        return formik.values.country ? getStateOptions(formik.values.country) : [];
+    }, [formik.values.country]);
 
-    const handleRecaptchaExpire = () => {
-        formik.setFieldValue('recaptcha', '');
-        recaptchaRef.current?.reset();
-    };
+    const cityOptions = useMemo(() => {
+        return formik.values.country && formik.values.state ? getCityOptions(formik.values.country, formik.values.state) : [];
+    }, [formik.values.country, formik.values.state]);
+
+    const handleRecaptchaChange = useCallback(
+        (token: string | null) => {
+            formik.setFieldValue('recaptcha', token);
+        },
+        [formik]
+    );
+
+    const handleRecaptchaExpire = useCallback(
+        () => {
+            formik.setFieldValue('recaptcha', '');
+            recaptchaRef.current?.reset();
+        },
+        [formik]
+    );
+
+    const handleFileSelect = useCallback(
+        (file: File | null) => {
+            if (!file) {
+                toast.error('No file selected.');
+                return;
+            }
+
+            const validTypes = ['image/jpeg', 'image/png'];
+            const maxSize = 20 * 1024 * 1024; // 20MB
+
+            if (validTypes.includes(file.type) && file.size <= maxSize) {
+                formik.setFieldValue('imageUrl', file);
+            } else {
+                toast.error('Invalid file type or size. Please upload a JPEG or PNG image under 20MB.');
+            }
+        },
+        [formik]
+    );
+
+    const handleCountryChange = useCallback(
+        (option: SingleValue<OptionType>) => {
+            const selectedCountry = option ? option.value : '';
+            formik.setFieldValue('country', selectedCountry);
+            // Reset state and city when country changes
+            formik.setFieldValue('state', '');
+            formik.setFieldValue('city', '');
+        },
+        [formik]
+    );
+
+    const handleStateChange = useCallback(
+        (option: SingleValue<OptionType>) => {
+            const selectedState = option ? option.value : '';
+            formik.setFieldValue('state', selectedState);
+            // Reset city when state changes
+            formik.setFieldValue('city', '');
+        },
+        [formik]
+    );
+
+    const handleCityChange = useCallback(
+        (option: SingleValue<OptionType>) => {
+            const selectedCity = option ? option.value : '';
+            formik.setFieldValue('city', selectedCity);
+        },
+        [formik]
+    );
+
+    useEffect(() => {
+        if (formik.values.imageUrl instanceof File) {
+            const url = URL.createObjectURL(formik.values.imageUrl);
+            setImageUrl(url);
+            return () => URL.revokeObjectURL(url);
+        } else if (typeof formik.values.imageUrl === 'string') {
+            setImageUrl(formik.values.imageUrl);
+        } else {
+            setImageUrl(undefined);
+        }
+    }, [formik.values.imageUrl]);
 
     return (
         <>
+            {/* Email Input */}
             <Input
                 type='text'
                 labelKey='register_email_label'
@@ -42,6 +165,7 @@ const FormSection = ({ formik }: FormSectionProps) => {
                 formik={formik}
             />
 
+            {/* Password and Confirm Password */}
             <div className='flex flex-col md:flex-row gap-6'>
                 <InputPassword
                     labelKey='register_password_label'
@@ -61,6 +185,8 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     formik={formik}
                 />
             </div>
+
+            {/* Business Number */}
             <div className='flex flex-col gap-2'>
                 <div className='relative flex flex-col'>
                     <PhoneInput
@@ -68,22 +194,25 @@ const FormSection = ({ formik }: FormSectionProps) => {
                         value={formik.values.businessNumber}
                         onChange={(value: string) => formik.setFieldValue('businessNumber', value)}
                         inputProps={{
-                            className: `bg-white border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
-            ${formik.errors.businessNumber && formik.touched.businessNumber ? 'border-alert' : 'border-button focus:border-primary'}`,
+                            className: classNames(
+                                `bg-white border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full`,
+                                {
+                                    'border-alert': formik.errors.businessNumber && formik.touched.businessNumber,
+                                    'border-button focus:border-primary': !(formik.errors.businessNumber && formik.touched.businessNumber),
+                                }
+                            ),
                             name: 'businessNumber',
                         }}
                     />
                     <label
                         htmlFor='businessNumber'
-                        className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
-                  ${formik.values.businessNumber &&
-                                !formik.errors.businessNumber
-                                ? 'text-primary'
-                                : formik.errors.businessNumber &&
-                                    formik.touched.businessNumber
-                                    ? 'text-alert'
-                                    : 'text-primary'
-                            } `}
+                        className={classNames(
+                            `absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10`,
+                            {
+                                'text-primary': formik.values.businessNumber && !formik.errors.businessNumber || !formik.errors.businessNumber && !formik.values.businessNumber,
+                                'text-alert': formik.errors.businessNumber && formik.touched.businessNumber,
+                            }
+                        )}
                     >
                         <Translation translationKey='register_business_number_label' />
                     </label>
@@ -95,6 +224,8 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     </h1>
                 )}
             </div>
+
+            {/* Business Name and Trade Name */}
             <div className='flex flex-col md:flex-row gap-6'>
                 <Input
                     type='text'
@@ -117,6 +248,8 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     formik={formik}
                 />
             </div>
+
+            {/* Business Type and Website */}
             <div className='flex flex-col md:flex-row gap-6 z-0'>
                 <SelectField
                     value={formik.values.businessType}
@@ -139,38 +272,76 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     formik={formik}
                 />
             </div>
-            <div className='flex flex-col md:flex-row gap-6'>
-                <Input
-                    type='text'
+
+            {/* Country and Full Street Address */}
+            <div className='flex flex-col md:flex-row gap-6 justify-center items-center'>
+                {/* Country Select */}
+                <SelectWrapper
                     labelKey='register_business_country_label'
-                    value={formik.values.country}
-                    name='country'
-                    handleChange={formik.handleChange}
+                    options={countryOptions}
+                    value={countryOptions.find(option => option.value === formik.values.country) || null}
+                    onChange={handleCountryChange}
+                    placeholder="Select Country"
+                    error={formik.errors.country as string}
                     touched={formik.touched.country as boolean}
-                    errors={formik.errors.country as string}
-                    formik={formik}
+                    name="country"
                 />
+
+                {/* Full Street Address */}
                 <Input
                     type='text'
-                    labelKey='register_city_label'
-                    value={formik.values.city}
-                    name='city'
+                    labelKey='register_business_streetAdress_label'
+                    value={formik.values.fullStreetAdress}
+                    name='fullStreetAdress'
                     handleChange={formik.handleChange}
-                    touched={formik.touched.city as boolean}
-                    errors={formik.errors.city as string}
-                    formik={formik}
-                />
-                <Input
-                    type='text'
-                    labelKey='register_state_label'
-                    value={formik.values.state}
-                    name='state'
-                    handleChange={formik.handleChange}
-                    touched={formik.touched.state as boolean}
-                    errors={formik.errors.state as string}
+                    touched={formik.touched.fullStreetAdress as boolean}
+                    errors={formik.errors.fullStreetAdress as string}
                     formik={formik}
                 />
             </div>
+
+            {/* City, State, and Zip Code */}
+            <div className='flex flex-col md:grid grid-cols-8 gap-6'>
+                {/* State Select */}
+                <SelectWrapper
+                    labelKey='register_state_label'
+                    options={stateOptions}
+                    value={stateOptions.find(option => option.value === formik.values.state) || null}
+                    onChange={handleStateChange}
+                    placeholder="Select State"
+                    error={formik.errors.state as string}
+                    touched={formik.touched.state as boolean}
+                    name="state"
+                />
+
+                {/* City Select */}
+                <SelectWrapper
+                    labelKey='register_city_label'
+                    options={cityOptions}
+                    value={cityOptions.find(option => option.value === formik.values.city) || null}
+                    onChange={handleCityChange}
+                    placeholder="Select City"
+                    error={formik.errors.city as string}
+                    touched={formik.touched.city as boolean}
+                    name="city"
+                />
+
+                {/* Zip Code Input */}
+                <div className='col-span-2'>
+                    <Input
+                        type='text'
+                        labelKey='register_business_zip_label'
+                        value={formik.values.zipCode}
+                        name='zipCode'
+                        handleChange={formik.handleChange}
+                        touched={formik.touched.zipCode as boolean}
+                        errors={formik.errors.zipCode as string}
+                        formik={formik}
+                    />
+                </div>
+            </div>
+
+            {/* Interest Region Select */}
             <div className='flex flex-col gap-2'>
                 <SelectField
                     value={formik.values.interestRegion}
@@ -183,6 +354,7 @@ const FormSection = ({ formik }: FormSectionProps) => {
                 />
             </div>
 
+            {/* Personal Info Fields */}
             <div className='flex flex-col md:flex-row gap-6'>
                 {personalInfoFields.map((field) => (
                     <Input
@@ -198,7 +370,10 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     />
                 ))}
             </div>
-            <div className='flex flex-col md:grid md:grid-cols-2 gap-4 text-sm w-full items-center justify-center '>
+
+            {/* Gender and Birthday */}
+            <div className='flex flex-col md:grid md:grid-cols-2 gap-4 text-sm w-full items-center justify-center'>
+                {/* Gender Radio Group */}
                 <RadioGroup
                     labelKey='register_gender_label'
                     options={genderOptions}
@@ -209,8 +384,9 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     touched={formik.touched.gender as boolean | undefined}
                 />
 
-                <div className='flex flex-col w-full gap-2 place-self-start '>
-                    <div className='relative flex gap-2 md:gap-4 items-center '>
+                {/* Birthday Input */}
+                <div className='flex flex-col w-full gap-2 place-self-start'>
+                    <div className='relative flex gap-2 md:gap-4 items-center'>
                         <h1 className={`absolute mb-[46px] ml-[10px] bg-white text-xs text-primary`}>
                             <Translation translationKey='register_birthday_label' />
                         </h1>
@@ -220,12 +396,14 @@ const FormSection = ({ formik }: FormSectionProps) => {
                             id='birthday'
                             value={formik.values.birthday}
                             onChange={formik.handleChange}
-                            className={`border text-span w-full  px-2 py-3 rounded-md peer focus:outline-none focus:ring-0
-                                ${formik.values.birthday && 'border-primary'}
-                                ${formik.errors.birthday && formik.touched.birthday
-                                    ? 'border-alert'
-                                    : 'border-button focus:border-primary'
-                                }`}
+                            className={classNames(
+                                `border text-span w-full px-2 py-3 rounded-md peer focus:outline-none focus:ring-0`,
+                                {
+                                    'border-primary': formik.values.birthday,
+                                    'border-alert': formik.errors.birthday && formik.touched.birthday,
+                                    'border-button focus:border-primary': !(formik.errors.birthday && formik.touched.birthday) && !formik.values.birthday,
+                                }
+                            )}
                         />
                     </div>
 
@@ -234,6 +412,8 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     )}
                 </div>
             </div>
+
+            {/* Media Profile Input */}
             <div className="flex flex-col gap-2">
                 <Input
                     type="text"
@@ -246,6 +426,22 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     formik={formik}
                 />
             </div>
+
+            {/* Photo ID Upload */}
+            <div className='flex flex-col gap-2'>
+                <h1 className='text-primary text-sm'>Your Photo ID</h1>
+                <ImageInput
+                    value={formik.values.imageUrl}
+                    onFileSelect={handleFileSelect}
+                />
+                {formik.errors.imageUrl && formik.touched.imageUrl && (
+                    <div className='text-alert'>
+                        {formik.errors.imageUrl as string}
+                    </div>
+                )}
+            </div>
+
+            {/* reCAPTCHA */}
             <div>
                 <ReCAPTCHA
                     sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
@@ -257,10 +453,8 @@ const FormSection = ({ formik }: FormSectionProps) => {
                     <p className="text-alert">{formik.errors.recaptcha as string}</p>
                 )}
             </div>
-
-
         </>
     )
 }
 
-export default FormSection
+export default React.memo(FormSection);

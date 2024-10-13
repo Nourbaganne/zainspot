@@ -75,6 +75,8 @@
 	"register_typeof_business_label": "Your Type of Business",
 	"register_website_label": "Your Business Website Adress",
 	"register_business_country_label": "Your Country of Business",
+	"register_business_streetAdress_label": "Your Full Street Address",
+	"register_business_zip_label": "ZIP/ Postal Code",
 	"register_city_label": "City",
 	"register_state_label": "State/Province/Department",
 	"regster_interest_region_label": "Your Regions of interest",

@@ -62,9 +62,8 @@ const ImageInput: React.FC<ImageInputProps> = ({
 								}
 							}
 						}}
-						className={`${
-							fileEnter ? 'border-4' : 'border-2'
-						} bg-white flex flex-col h-64 border-dashed rounded-xl items-center justify-center`}
+						className={`${fileEnter ? 'border-4' : 'border-2'
+							} bg-white flex flex-col h-64 border-dashed rounded-xl items-center justify-center`}
 					>
 						<div className='h-full flex flex-col justify-center items-center gap-3'>
 							<Image
@@ -89,6 +88,7 @@ const ImageInput: React.FC<ImageInputProps> = ({
 						<input
 							id='file'
 							type='file'
+							accept="image/*"
 							className='hidden'
 							onChange={(e) => handleFileChange(e.target.files)}
 							ref={fileInputRef}
