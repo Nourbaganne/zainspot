@@ -26,8 +26,10 @@ import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { StripeModule } from './stripe/stripe.module';
 import { SendMailModule } from './send-mail/send-mail.module';
 
+
 @Module({
 	imports: [
+
 		ThrottlerModule.forRoot([
 			{
 				ttl: 60000,

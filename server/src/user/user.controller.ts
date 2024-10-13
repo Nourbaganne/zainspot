@@ -1,3 +1,5 @@
+// src/user/user.controller.ts
+
 import {
   Controller,
   Get,
@@ -9,6 +11,8 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,6 +27,8 @@ import {
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { User } from 'src/entities/user.entity';
 import { RecaptchaService } from './recaptcha.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { multerOptions } from 'src/config/multer.config';
 
 @Controller('user')
 export class UserController {
@@ -32,7 +38,7 @@ export class UserController {
     private readonly emailConfirmationService: EmailConfirmationService,
   ) { }
 
-  @Public() // Assuming you have a custom decorator for public routes
+  @Public()
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     try {
@@ -79,7 +85,6 @@ export class UserController {
     return this.userService.findUser(id);
   }
 
-
   @Get()
   async findAll(
     @PaginationParams() paginationParams: Pagination,
@@ -88,7 +93,6 @@ export class UserController {
   ): Promise<PaginatedResource<Partial<User>>> {
     return await this.userService.findAll(paginationParams, name, filter);
   }
-
 
   @Permissions({ action: 'update', subject: 'user' })
   @Patch(':id')
@@ -101,4 +105,27 @@ export class UserController {
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
   }
+
+
+  @Patch(':id/image')
+  @UseInterceptors(FileInterceptor('imageUrl', multerOptions)) // Apply multerOptions here
+  async uploadUserImage(
+    @Param('id') id: number,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
+    }
+
+    const imageUrl = `uploads/users/${file.filename}`;
+
+    // Update user profile with the new image URL
+    const user = await this.userService.updateProfileImage(id, imageUrl);
+
+    return {
+      message: 'Image uploaded successfully',
+      imageUrl: user.imageUrl,
+    };
+  }
+
 }

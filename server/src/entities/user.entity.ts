@@ -31,7 +31,6 @@ export class User extends BaseEntity {
 	@CreateDateColumn()
 	createdAt: Date;
 
-	@Column()
 	@UpdateDateColumn()
 	updatedAt: Date;
 
@@ -64,6 +63,12 @@ export class User extends BaseEntity {
 	state: string;
 
 	@Column()
+	zipCode: string;
+	
+	@Column()
+	fullStreetAdress: string;
+
+	@Column()
 	interestRegion: string;
 
 	@Column()
@@ -87,7 +92,8 @@ export class User extends BaseEntity {
 	@Column({default: ''})
 	recaptcha: string;
 
-
+	@Column({nullable: true})
+	imageUrl: string;
 
 	@ManyToOne(() => Role, { cascade: true })
 	@JoinColumn({ name: 'roleId' })

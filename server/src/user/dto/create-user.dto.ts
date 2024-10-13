@@ -37,6 +37,12 @@ export class CreateUserDto {
 	@IsNotEmpty()
 	city: string;
 
+	@IsNotEmpty()
+	zipCode: string;
+
+	@IsNotEmpty()
+	fullStreetAdress: string;
+
 	businessWebsite: string;
 
 	@IsNotEmpty()
@@ -64,6 +70,10 @@ export class CreateUserDto {
 	mediaProfile: string;
 
 	roleId: number;
+
+	@IsOptional()
+	@IsString()
+	imageUrl: string;
 
 	@IsNotEmpty()
 	@IsString()

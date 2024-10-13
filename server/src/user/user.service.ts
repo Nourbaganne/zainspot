@@ -15,6 +15,8 @@ import {
 	getEndOfPreviousMonth,
 	getStartOfPreviousMonth,
 } from 'src/utils/date-utils';
+import { join } from 'path';
+import { promises as fs } from 'fs';
 
 type RoleCounts = {
 	zainspotter: number;
@@ -30,7 +32,7 @@ type PercentageChange = {
 
 @Injectable()
 export class UserService {
-	constructor() {}
+	constructor() { }
 
 	async hashPassword(password: string): Promise<string> {
 		const salt = await bcrypt.genSalt(8);
@@ -53,6 +55,7 @@ export class UserService {
 			password: hashedPassword,
 			isEmailConfirmed: false,
 			role: defaultRole,
+			imageUrl: '',
 		});
 
 		await User.save(user);
@@ -313,5 +316,17 @@ export class UserService {
 			where: { id: userId },
 			relations: ['role', 'role.permissions'],
 		});
+	}
+
+	async updateProfileImage(id: number, imageUrl: string): Promise<User> {
+		const user = await User.findOne({ where: { id } });
+		if (!user) {
+			throw new NotFoundException('User not found');
+		}
+
+		user.imageUrl = imageUrl;
+		await user.save();
+
+		return user;
 	}
 }
