@@ -35,15 +35,28 @@ const Locations = () => {
   }, [searchCity]);
 
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [isHidden]);
+
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['cities', currentPage, debouncedSearchCity],
-    queryFn: () => axiosInstance.get(`/city?page=${currentPage}&name=${debouncedSearchCity}`),
+    queryKey: ['cities', currentPage, debouncedSearchCity, isHidden],
+    queryFn: () =>
+      axiosInstance.get(`/city`, {
+        params: {
+          page: currentPage,
+          limit: 5, // Ensure limit is consistent with backend default
+          name: debouncedSearchCity,
+          hidden: isHidden, // Pass the hidden status to the API
+        },
+      }),
+    staleTime: 5 * 60 * 1000, // Optional: 5 minutes cache
   });
+
 
   if (isError) return <h1>{error.message}</h1>;
 
-
-  const filteredCities = data?.data.items.filter((city: CityProps) => isHidden === city.hidden);
+  const filteredCities = data?.data.items;
 
 
   return (

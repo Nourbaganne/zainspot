@@ -1,4 +1,4 @@
-// FormSection.tsx
+'use client'
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import CountryFlag from 'react-country-flag';
 import { Country, State, City } from 'country-state-city';

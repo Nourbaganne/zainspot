@@ -2,7 +2,6 @@
 
 import { useRegisterForm } from '../lib/register-form';
 import Translation from '../components/translation';
-import { withNoAuth } from '../lib/withNoAuth';
 import { useState } from 'react';
 import Dialog from '../components/dialog';
 import WelcomeToBusinessSection from '../components/WelcomeToBusiness';
@@ -53,4 +52,4 @@ const Register = () => {
 	);
 };
 
-export default withNoAuth(Register);
+export default Register;

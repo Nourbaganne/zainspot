@@ -18,6 +18,8 @@ export interface UserData {
     country?: string;
     city?: string;
     state?: string;
+    fullStreetAdress?: string;
+    zipCode?: string;
     interestRegion?: string;
     name?: string;
     middleName?: string;
@@ -27,6 +29,7 @@ export interface UserData {
     mediaProfile?: string;
     preferedLanguage?: string;
     preferedCurrency?: string;
+
 }
 
 export const useUpdateForm = (userData: UserData) => {
@@ -45,6 +48,8 @@ export const useUpdateForm = (userData: UserData) => {
       businessWebsite: userData?.businessWebsite || "",
       country: userData?.country || "",
       city: userData?.city || "",
+      fullStreetAdress: userData?.fullStreetAdress || "",
+      zipCode: userData?.zipCode || "",
       state: userData?.state || "",
       interestRegion: userData?.interestRegion || "",
       name: userData?.name || "",

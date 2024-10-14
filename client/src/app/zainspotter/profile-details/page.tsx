@@ -10,7 +10,7 @@ import Image from 'next/image';
 import Layout from '../Layout';
 import { useUpdateForm } from '@/app/lib/update-form';
 import Breadcrumb from '../components/breadcrumb';
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
 import Dialog from '@/app/components/dialog';
 import { handleEmailVerification } from '@/app/lib/email-verification';
@@ -18,32 +18,114 @@ import getUserData from '@/app/lib/getUserData';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '@/app/components/loader';
 import { WithAuth } from '@/app/lib/withAuth';
+import CountryFlag from 'react-country-flag';
+import { Country, State, City } from 'country-state-city';
+import { SingleValue } from 'react-select';
+import SelectWraper from '@/app/register/components/selectWraper';
+import { RadioGroup } from '@/app/register/components/radiGroup';
+import { genderOptions } from '@/app/register/config/formFieldsConfig';
+import classNames from 'classnames';
+
+interface OptionType {
+	label: React.ReactNode;
+	value: string
+}
+
+const getCountryOptions = (): OptionType[] => {
+	return Country.getAllCountries().map(country => ({
+		label: (
+			<div className="flex items-center">
+				<CountryFlag
+					countryCode={country.isoCode}
+					svg
+					style={{ width: '1.5em', height: '1.5em', marginRight: '8px' }}
+				/>
+				<span>{country.name}</span>
+			</div>
+		),
+		value: country.isoCode,
+	}));
+};
+
+const getStateOptions = (countryCode: string): OptionType[] => {
+	return State.getStatesOfCountry(countryCode).map(state => ({
+		label: state.name,
+		value: state.isoCode,
+	}));
+};
+
+const getCityOptions = (countryCode: string, stateCode: string): OptionType[] => {
+	return City.getCitiesOfState(countryCode, stateCode).map(city => ({
+		label: city.name,
+		value: city.name,
+	}));
+};
 
 const Page = () => {
-    const { user } = useContext(AuthContext);
-    const [isOpenDialog, setIsOpenDialog] = useState(false);
+	const { user } = useContext(AuthContext);
+	const [isOpenDialog, setIsOpenDialog] = useState(false);
 
-    const { data, isLoading, isError, error } = useQuery({
-        queryKey: ['users', user?.user.userId],
-        queryFn: () => getUserData(user?.user.userId, user?.access_token),
-        enabled: !!user?.user.userId && !!user?.access_token,
-    });
 
-    const formik = useUpdateForm(data); 
+	const { data, isLoading, isError, error } = useQuery({
+		queryKey: ['users', user?.user.userId],
+		queryFn: () => getUserData(user?.user.userId, user?.access_token),
+		enabled: !!user?.user.userId && !!user?.access_token,
+	});
 
-    if (isLoading) {
-        return <Loader />;
-    }
-    
-    if (isError) {
-        return <div>{(error as Error).message}</div>;
-    }
+	const formik = useUpdateForm(data);
 
-    const breadcrumbItems = [
-        { label: 'breadcrumb_home', href: '/' },
-        { label: 'breadcrumb_zainspotter', href: '/zainspotter' },
-        { label: 'editProfile_ProfileDetails' },
-    ];
+	const countryOptions = useMemo(() => getCountryOptions(), []);
+	const stateOptions = useMemo(() => {
+		return formik.values.country ? getStateOptions(formik.values.country) : [];
+	}, [formik.values.country]);
+
+	const cityOptions = useMemo(() => {
+		return formik.values.country && formik.values.state ? getCityOptions(formik.values.country, formik.values.state) : [];
+	}, [formik.values.country, formik.values.state]);
+
+
+	const handleCountryChange = useCallback(
+		(option: SingleValue<OptionType>) => {
+			const selectedCountry = option ? option.value : '';
+			formik.setFieldValue('country', selectedCountry);
+			// Reset state and city when country changes
+			formik.setFieldValue('state', '');
+			formik.setFieldValue('city', '');
+		},
+		[formik]
+	);
+
+	const handleStateChange = useCallback(
+		(option: SingleValue<OptionType>) => {
+			const selectedState = option ? option.value : '';
+			formik.setFieldValue('state', selectedState);
+			// Reset city when state changes
+			formik.setFieldValue('city', '');
+		},
+		[formik]
+	);
+
+	const handleCityChange = useCallback(
+		(option: SingleValue<OptionType>) => {
+			const selectedCity = option ? option.value : '';
+			formik.setFieldValue('city', selectedCity);
+		},
+		[formik]
+	);
+
+	if (isLoading) {
+		return <Loader />;
+	}
+
+	if (isError) {
+		return <div>{(error as Error).message}</div>;
+	}
+
+	const breadcrumbItems = [
+		{ label: 'breadcrumb_home', href: '/' },
+		{ label: 'breadcrumb_zainspotter', href: '/zainspotter' },
+		{ label: 'editProfile_ProfileDetails' },
+	];
 	return (
 		<div className='flex flex-col gap-4 md:gap-6 bg-background-foreground md:px-16 md:py-8 py-6 px-2  md:pb-20'>
 			<Breadcrumb items={breadcrumbItems} />
@@ -103,55 +185,22 @@ const Page = () => {
 										formik={formik}
 									/>
 								</div>
-								<div className='flex flex-col md:flex-row gap-8 md:gap-12 w-full md:items-center '>
-									<div className='flex flex-col gap-6 '>
-										<div className='flex gap-4 items-center'>
-											<label htmlFor='gender' className='text-sm'>
-												<Translation translationKey='register_gender_label' />
-											</label>
-											<div className='flex gap-3'>
-												<input
-													type='radio'
-													id='male'
-													name='gender'
-													value='male'
-													checked={formik.values.gender === 'male'}
-													onChange={formik.handleChange}
-													className={`w-5 h-5 accent-primary ${formik.errors.gender && formik.touched.gender
-															? 'border-alert'
-															: ''
-														}`}
-												/>
-												<label htmlFor='male'>
-													<Translation translationKey='register_gender_male_label' />
-												</label>
-											</div>
-											<div className='flex gap-3'>
-												<input
-													type='radio'
-													id='female'
-													name='gender'
-													value='female'
-													checked={formik.values.gender === 'female'}
-													onChange={formik.handleChange}
-													className={`w-5 h-5 accent-primary ${formik.errors.gender && formik.touched.gender
-															? 'border-alert'
-															: ''
-														}`}
-												/>
-												<label htmlFor='female'>
-													<Translation translationKey='register_gender_female_label' />
-												</label>
-											</div>
-										</div>
-										{formik.touched.gender && formik.errors.gender && (
-											<p className='text-alert'>{formik.errors.gender}</p>
-										)}
-									</div>
+								<div className='flex flex-col md:grid md:grid-cols-2 gap-4 text-sm w-full items-center justify-center'>
+									{/* Gender Radio Group */}
+									<RadioGroup
+										labelKey='register_gender_label'
+										options={genderOptions}
+										value={formik.values.gender || ''}
+										name='gender'
+										onChange={formik.setFieldValue}
+										error={formik.errors.gender as string | undefined}
+										touched={formik.touched.gender as boolean | undefined}
+									/>
 
-									<div className='flex flex-col w-full gap-2'>
-										<div className='flex gap-4 items-center '>
-											<h1 className='text-sm'>
+									{/* Birthday Input */}
+									<div className='flex flex-col w-full gap-2 place-self-start'>
+										<div className='relative flex gap-2 md:gap-4 items-center'>
+											<h1 className={`absolute mb-[46px] ml-[10px] bg-white text-xs text-primary`}>
 												<Translation translationKey='register_birthday_label' />
 											</h1>
 											<input
@@ -160,15 +209,19 @@ const Page = () => {
 												id='birthday'
 												value={formik.values.birthday}
 												onChange={formik.handleChange}
-												className={`border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 w-2/3 ${formik.errors.birthday && formik.touched.birthday
-														? 'border-alert'
-														: 'border-button focus:border-primary'
-													}`}
+												className={classNames(
+													`border text-span w-full px-2 py-3 rounded-md peer focus:outline-none focus:ring-0`,
+													{
+														'border-primary': formik.values.birthday,
+														'border-alert': formik.errors.birthday && formik.touched.birthday,
+														'border-button focus:border-primary': !(formik.errors.birthday && formik.touched.birthday) && !formik.values.birthday,
+													}
+												)}
 											/>
 										</div>
 
 										{formik.errors.birthday && formik.touched.birthday && (
-											<p className='text-alert'>{formik.errors.birthday}</p>
+											<p className='text-alert'>{formik.errors.birthday as string}</p>
 										)}
 									</div>
 								</div>
@@ -220,13 +273,13 @@ const Page = () => {
 												}
 												inputProps={{
 													className: `
-                          border pl-14 text-base py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
-                          ${formik.errors.businessNumber &&
+														border pl-14 text-sm text-span py-3 rounded-md peer focus:outline-none focus:ring-0 w-full
+														${formik.errors.businessNumber &&
 															formik.touched.businessNumber
 															? 'border-alert'
 															: 'border-button focus:border-primary'
 														}
-                        `,
+                        							`,
 													name: 'businessNumber',
 												}}
 												containerClass='bg-white'
@@ -260,10 +313,10 @@ const Page = () => {
 												name='businessType'
 												value={formik.values.businessType}
 												onChange={formik.handleChange}
-												className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.businessType &&
-														formik.touched.businessType
-														? 'border-alert'
-														: 'border-button focus:border-primary'
+												className={`custom-select border px-2 py-3 text-span rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.businessType &&
+													formik.touched.businessType
+													? 'border-alert'
+													: 'border-button focus:border-primary'
 													}`}
 											>
 												<option value='' disabled></option>
@@ -273,14 +326,11 @@ const Page = () => {
 											</select>
 											<label
 												htmlFor='businessType'
-												className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-text-foreground transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType &&
-														formik.touched.businessType
-														? 'peer-focus:text-alert text-alert'
-														: 'peer-focus:text-primary'
-													} ${formik.values.businessType
-														? 'top-[0px] left-3 text-xs bg-white z-10'
-														: ''
-													}`}
+												className={`absolute text-xs left-3 bottom-[36px] bg-white text-primary px-1  ${formik.errors.businessType &&
+													formik.touched.businessType
+													? 'peer-focus:text-alert text-alert'
+													: 'text-primary'
+													} `}
 											>
 												<Translation translationKey='register_typeof_business_label' />
 											</label>
@@ -307,43 +357,55 @@ const Page = () => {
 									</div>
 								</div>
 
-								<div className='flex flex-col md:grid md:grid-cols-7 gap-4'>
-									<div className='col-span-2'>
-										<Input
-											type='text'
+								<div className='flex flex-col md:grid md:grid-cols-7 gap-4 md:justify-center md:items-center'>
+									<div className='col-span-4'>
+										<SelectWraper
 											labelKey='register_business_country_label'
-											value={formik.values.country || ''}
-											name='country'
-											handleChange={formik.handleChange}
-											touched={formik.touched.country}
-											errors={formik.errors.country}
-											formik={formik}
-										/>
-									</div>
-									<div className='col-span-2'>
-										<Input
-											type='text'
-											labelKey='register_city_label'
-											value={formik.values.city || ''}
-											name='city'
-											handleChange={formik.handleChange}
-											touched={formik.touched.city}
-											errors={formik.errors.city}
-											formik={formik}
+											options={countryOptions}
+											value={countryOptions.find(option => option.value === formik.values.country) || null}
+											onChange={handleCountryChange}
+											placeholder="Select Country"
+											error={formik.errors.country as string}
+											touched={formik.touched.country as boolean}
+											name="country"
 										/>
 									</div>
 									<div className='col-span-3'>
 										<Input
 											type='text'
-											labelKey='register_state_label'
-											value={formik.values.state || ''}
-											name='state'
+											labelKey='register_business_streetAdress_label'
+											value={formik.values.fullStreetAdress || ''}
+											name='fullStreetAdress'
 											handleChange={formik.handleChange}
-											touched={formik.touched.state}
-											errors={formik.errors.state}
+											touched={formik.touched.fullStreetAdress as boolean}
+											errors={formik.errors.fullStreetAdress as string}
 											formik={formik}
 										/>
 									</div>
+								</div>
+								<div className='flex flex-col md:flex-row gap-4 md:justify-center md:items-center'>
+									<SelectWraper
+										labelKey='register_city_label'
+										options={cityOptions}
+										value={cityOptions.find(option => option.value === formik.values.city) || null}
+										onChange={handleCityChange}
+										placeholder="Select City"
+										error={formik.errors.city as string}
+										touched={formik.touched.city as boolean}
+										name="city"
+									/>
+
+									<SelectWraper
+										labelKey='register_state_label'
+										options={stateOptions}
+										value={stateOptions.find(option => option.value === formik.values.state) || null}
+										onChange={handleStateChange}
+										placeholder="Select State"
+										error={formik.errors.state as string}
+										touched={formik.touched.state as boolean}
+										name="state"
+									/>
+
 								</div>
 
 								<div>
@@ -370,9 +432,9 @@ const Page = () => {
 											value={formik.values.preferedLanguage}
 											onChange={formik.handleChange}
 											className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedLanguage &&
-													formik.touched.preferedLanguage
-													? 'border-alert'
-													: 'border-button focus:border-primary'
+												formik.touched.preferedLanguage
+												? 'border-alert'
+												: 'border-button focus:border-primary'
 												}`}
 										>
 											<option value=''></option>
@@ -385,9 +447,9 @@ const Page = () => {
 										<label
 											htmlFor='preferedLanguage'
 											className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType &&
-													formik.touched.businessType
-													? 'peer-focus:text-alert text-alert'
-													: 'peer-focus:text-primary'
+												formik.touched.businessType
+												? 'peer-focus:text-alert text-alert'
+												: 'peer-focus:text-primary'
 												} ${formik.values.preferedLanguage
 													? 'top-[0px] left-3 text-xs bg-white z-10'
 													: ''
@@ -402,9 +464,9 @@ const Page = () => {
 											value={formik.values.preferedCurrency}
 											onChange={formik.handleChange}
 											className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedCurrency &&
-													formik.touched.preferedCurrency
-													? 'border-alert'
-													: 'border-button focus:border-primary'
+												formik.touched.preferedCurrency
+												? 'border-alert'
+												: 'border-button focus:border-primary'
 												}`}
 										>
 											<option value=''></option>
@@ -417,9 +479,9 @@ const Page = () => {
 										<label
 											htmlFor='preferedCurrency'
 											className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType &&
-													formik.touched.businessType
-													? 'peer-focus:text-alert text-alert'
-													: 'peer-focus:text-primary'
+												formik.touched.businessType
+												? 'peer-focus:text-alert text-alert'
+												: 'peer-focus:text-primary'
 												} ${formik.values.preferedCurrency
 													? 'top-[0px] left-3 text-xs bg-white z-10'
 													: ''
@@ -434,9 +496,9 @@ const Page = () => {
 											value={formik.values.preferedCurrency}
 											onChange={formik.handleChange}
 											className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedCurrency &&
-													formik.touched.preferedCurrency
-													? 'border-alert'
-													: 'border-button focus:border-primary'
+												formik.touched.preferedCurrency
+												? 'border-alert'
+												: 'border-button focus:border-primary'
 												}`}
 										>
 											<option value=''></option>
@@ -449,9 +511,9 @@ const Page = () => {
 										<label
 											htmlFor='preferedCurrency'
 											className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType &&
-													formik.touched.businessType
-													? 'peer-focus:text-alert text-alert'
-													: 'peer-focus:text-primary'
+												formik.touched.businessType
+												? 'peer-focus:text-alert text-alert'
+												: 'peer-focus:text-primary'
 												} ${formik.values.preferedCurrency
 													? 'top-[0px] left-3 text-xs bg-white z-10'
 													: ''
@@ -466,9 +528,9 @@ const Page = () => {
 											value={formik.values.preferedCurrency}
 											onChange={formik.handleChange}
 											className={`custom-select border px-2 py-3 rounded-md peer focus:outline-none focus:ring-0 ${formik.errors.preferedCurrency &&
-													formik.touched.preferedCurrency
-													? 'border-alert'
-													: 'border-button focus:border-primary'
+												formik.touched.preferedCurrency
+												? 'border-alert'
+												: 'border-button focus:border-primary'
 												}`}
 										>
 											<option value=''></option>
@@ -478,9 +540,9 @@ const Page = () => {
 										<label
 											htmlFor='preferedCurrency'
 											className={`absolute left-3 top-1/2 transform -translate-y-1/2 text-base text-primary transition-all duration-300 pointer-events-none px-1 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:left-3 peer-focus:text-xs peer-visited:top-0 peer-focus:bg-white peer-focus:z-10 ${formik.errors.businessType &&
-													formik.touched.businessType
-													? 'peer-focus:text-alert text-alert'
-													: 'peer-focus:text-primary'
+												formik.touched.businessType
+												? 'peer-focus:text-alert text-alert'
+												: 'peer-focus:text-primary'
 												} ${formik.values.preferedCurrency
 													? 'top-[0px] left-3 text-xs bg-white z-10'
 													: ''
@@ -494,7 +556,7 @@ const Page = () => {
 							<div className='flex md:justify-end'>
 								<button
 									type='submit'
-									className='flex w-full md:w-auto justify-center gap-2 bg-primary p-4 rounded-md text-background md:justify-end hover:bg-primary-foreground transition-all duration-300'
+									className='flex w-full md:w-auto justify-center items-center font-semibold gap-2 bg-primary p-4 rounded-md text-background md:justify-end hover:bg-primary-foreground transition-all duration-300'
 								>
 									<Image src={save} alt='save-changes' />
 									<Translation translationKey='profile_details_saving_button' />

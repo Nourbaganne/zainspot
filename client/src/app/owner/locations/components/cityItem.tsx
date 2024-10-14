@@ -26,7 +26,7 @@ const CityItem = ({
 	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
 	const handleHideCity = () => {
-		hideCity(id);
+		hideCity({ id, hidden });
 	};
 
 	return (
