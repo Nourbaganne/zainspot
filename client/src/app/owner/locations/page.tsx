@@ -47,7 +47,7 @@ const Locations = () => {
           page: currentPage,
           limit: 5, // Ensure limit is consistent with backend default
           name: debouncedSearchCity,
-          hidden: isHidden, // Pass the hidden status to the API
+          hidden: isHidden,
         },
       }),
     staleTime: 5 * 60 * 1000, // Optional: 5 minutes cache

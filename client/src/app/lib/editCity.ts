@@ -5,11 +5,12 @@ import { AuthContext } from '../contexts/authContext';
 import axiosInstance from './axios/axiosInstance';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { CityData } from './addCity';
+import CityData from '../interfaces/City';
 
 const durations = [
 	{ label: '12 Months', value: 12 },
 	{ label: '6 Months', value: 6 },
+	{ label: '3 Months', value: 3 },
 	{ label: '1 Month', value: 1 },
 ];
 
@@ -18,7 +19,6 @@ const defaultClassicPrice = {
 		duration: duration.value,
 		amount: null,
 		tax: null,
-		stripePriceId: null,
 	})),
 };
 
@@ -66,11 +66,14 @@ export const useEditCity = ({
 		},
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: ['city', id] });
+			toast.dismiss();
 			toast.success('City updated successfuly!');
 			onClose();
 		},
 		onError: (error: any) => {
+			toast.dismiss();
 			console.error('Error adding city:', error);
+			toast.error('Failed to edit the city. Please try again.');
 		},
 	});
 
@@ -89,7 +92,6 @@ export const useEditCity = ({
 				amount: data?.goldPrice?.amount || null,
 				duration: data?.goldPrice?.duration || null,
 				tax: data?.goldPrice?.tax || null,
-				stripePriceId: data?.goldPrice?.stripePriceId || null
 			},
 			classicPrice: data?.classicPrice || defaultClassicPrice,
 			imageUrl: data?.imageUrl || null,
@@ -107,16 +109,20 @@ export const useEditCity = ({
 			goldPrice: Yup.object({
 				amount: Yup.number().required('Gold Price Amount is required'),
 				tax: Yup.number().required('Gold Price Tax is required'),
-				stripePriceId: Yup.string().required('Stripe Price ID is required'),
 			}),
 			imageUrl: Yup.mixed().required('Image is required'),
 		}),
-		onSubmit: async (values: CityData, { resetForm }: FormikHelpers<CityData>) => {
+		onSubmit: async (
+			values: CityData,
+			{ resetForm }: FormikHelpers<CityData>,
+		) => {
+			toast.loading('Editing city...');
 			try {
 				await mutation.mutateAsync(values);
 				resetForm();
 			} catch (error) {
 				console.error('Error adding city:', error);
+				toast.error('Failed to edit the city. Please try again.');
 			}
 		},
 	});
