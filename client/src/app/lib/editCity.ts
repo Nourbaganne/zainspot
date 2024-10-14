@@ -10,6 +10,7 @@ import { CityData } from './addCity';
 const durations = [
 	{ label: '12 Months', value: 12 },
 	{ label: '6 Months', value: 6 },
+	{ label: '3 Months', value: 3 },
 	{ label: '1 Month', value: 1 },
 ];
 
@@ -66,11 +67,14 @@ export const useEditCity = ({
 		},
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: ['city', id] });
+			toast.dismiss();
 			toast.success('City updated successfuly!');
 			onClose();
 		},
 		onError: (error: any) => {
+			toast.dismiss();
 			console.error('Error adding city:', error);
+			toast.error('Failed to edit the city. Please try again.');
 		},
 	});
 
@@ -112,11 +116,13 @@ export const useEditCity = ({
 			imageUrl: Yup.mixed().required('Image is required'),
 		}),
 		onSubmit: async (values: CityData, { resetForm }: FormikHelpers<CityData>) => {
+			toast.loading('Editing city...')
 			try {
 				await mutation.mutateAsync(values);
 				resetForm();
 			} catch (error) {
 				console.error('Error adding city:', error);
+				toast.error('Failed to edit the city. Please try again.');
 			}
 		},
 	});

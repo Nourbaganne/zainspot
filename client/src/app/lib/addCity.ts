@@ -33,6 +33,7 @@ export interface CityData {
 const durations = [
 	{ label: '12 Months', value: 12 },
 	{ label: '6 Months', value: 6 },
+	{ label: '3 Months', value: 3 },
 	{ label: '1 Month', value: 1 },
 ];
 
@@ -75,12 +76,12 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: ['cities'] });
-			toast.dismiss(); // Dismiss the loading toast
+			toast.dismiss(); 
 			toast.success('City created successfully!');
 			onClose();
 		},
 		onError: (error: any) => {
-			toast.dismiss(); // Dismiss the loading toast on error
+			toast.dismiss();
 			console.error('Error adding city:', error);
 			toast.error('Failed to add the city. Please try again.');
 		},
@@ -116,7 +117,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 		}),
 
 		onSubmit: async (values: CityData, { resetForm }: FormikHelpers<CityData>) => {
-			toast.loading('Adding city...'); // Show loading toast
+			toast.loading('Adding city...');
 			try {
 				await mutation.mutateAsync(values);
 				resetForm();

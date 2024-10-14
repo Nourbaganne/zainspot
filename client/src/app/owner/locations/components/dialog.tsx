@@ -41,6 +41,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 	const durations = [
 		{ label: 'locationDialog_duration_perYear', value: 12 },
 		{ label: 'locationDialog_duration_per6months', value: 6 },
+		{ label: 'locationDialog_duration_per3months', value: 3 },
 		{ label: 'locationDialog_duration_permonth', value: 1 },
 	];
 
