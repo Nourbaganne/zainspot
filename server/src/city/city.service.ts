@@ -15,33 +15,58 @@ export class CityService {
 	) { }
 
 	async getCities(
-		{ page, limit = 1 }: Pagination,
+		{ page, limit, size, offset, hidden }: Pagination,
 		name?: string,
 	): Promise<PaginatedResource<Partial<City>>> {
 		let queryBuilder = this.cityRepository.createQueryBuilder('city');
 
 		// Apply the name filter globally (for filtering locations by city name)
 		if (name) {
-			queryBuilder = queryBuilder.andWhere(`city.city LIKE :name`, {
+			queryBuilder = queryBuilder.andWhere('city.city LIKE :name', {
 				name: `%${name}%`,
 			});
 		}
 
-		// Get total number of locations (all entries in the city table)
+		// Apply hidden filter if provided
+		if (hidden !== undefined) {
+			queryBuilder = queryBuilder.andWhere('city.hidden = :hidden', {
+				hidden,
+			});
+		}
+
+		// Get total number of locations (all entries in the city table after filters)
 		const totalLocations = await queryBuilder.getCount();
 
-		// Get total number of distinct cities
-		const totalCities = await this.cityRepository.createQueryBuilder('city')
-			.select('COUNT(DISTINCT city.city)', 'count')
-			.getRawOne();
+		// Get total number of distinct cities after filters
+		const totalCitiesQuery = this.cityRepository.createQueryBuilder('city')
+			.select('COUNT(DISTINCT city.city)', 'count');
 
-		// Get total number of distinct countries
-		const totalCountries = await this.cityRepository.createQueryBuilder('city')
-			.select('COUNT(DISTINCT city.country)', 'count')
-			.getRawOne();
+		if (name) {
+			totalCitiesQuery.andWhere('city.city LIKE :name', { name: `%${name}%` });
+		}
+
+		if (hidden !== undefined) {
+			totalCitiesQuery.andWhere('city.hidden = :hidden', { hidden });
+		}
+
+		const totalCities = await totalCitiesQuery.getRawOne();
+
+		// Get total number of distinct countries after filters
+		const totalCountriesQuery = this.cityRepository.createQueryBuilder('city')
+			.select('COUNT(DISTINCT city.country)', 'count');
+
+		if (name) {
+			totalCountriesQuery.andWhere('city.city LIKE :name', { name: `%${name}%` });
+		}
+
+		if (hidden !== undefined) {
+			totalCountriesQuery.andWhere('city.hidden = :hidden', { hidden });
+		}
+
+		const totalCountries = await totalCountriesQuery.getRawOne();
 
 		// Apply pagination
-		queryBuilder = queryBuilder.take(limit).skip((page - 1) * limit);
+		queryBuilder = queryBuilder.take(limit).skip(offset);
 
 		const cities = await queryBuilder.getMany();
 
@@ -50,12 +75,12 @@ export class CityService {
 		const hasPreviousPage = page > 1;
 
 		return {
-			totalItems: totalLocations,   
-			totalCities: totalCities.count,   
-			totalCountries: totalCountries.count,
+			totalItems: totalLocations,
+			totalCities: Number(totalCities.count),
+			totalCountries: Number(totalCountries.count),
 			items: cities,
 			page,
-			size: limit,
+			size,
 			totalPages,
 			hasNextPage,
 			hasPreviousPage,
