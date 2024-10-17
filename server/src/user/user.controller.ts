@@ -79,7 +79,7 @@ export class UserController {
     }
   }
 
-  @Permissions({ action: 'read', subject: 'user' })
+
   @Get(':id')
   async findUserById(@Param('id') id: number) {
     return this.userService.findUser(id);
@@ -94,7 +94,8 @@ export class UserController {
     return await this.userService.findAll(paginationParams, name, filter);
   }
 
-  @Permissions({ action: 'update', subject: 'user' })
+
+  // @Permissions({ action: 'update', subject: 'user' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
@@ -108,7 +109,7 @@ export class UserController {
 
 
   @Patch(':id/image')
-  @UseInterceptors(FileInterceptor('imageUrl', multerOptions)) // Apply multerOptions here
+  @UseInterceptors(FileInterceptor('imageUrl', multerOptions))
   async uploadUserImage(
     @Param('id') id: number,
     @UploadedFile() file: Express.Multer.File,
