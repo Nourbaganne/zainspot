@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Input } from '../register/components/input';
 import { useLoginForm } from '../lib/login-form';
 import Link from 'next/link';
+import { withNoAuth } from '../lib/withNoAuth';
 import InputPassword from '../components/inputPassword';
 import WelcomeToBusinessSection from '../components/WelcomeToBusiness';
 import ResetPasswordDialog from '../components/resetPasswordDialog';
@@ -88,4 +89,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default withNoAuth(Page);
