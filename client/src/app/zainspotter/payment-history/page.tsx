@@ -24,12 +24,15 @@ import Loader from '@/app/components/loader';
 import { WithAuth } from '@/app/lib/withAuth';
 
 interface Subscription {
-	country: string;
-	type: string;
+	optionType: string;
+	city: {
+		city: string;
+		country: string;
+	};
 }
 
 interface PaymentHistory {
-	subscription: Subscription;
+	subscriptions: Subscription[];
 	date: string;
 	method: string;
 	amount: number;
@@ -163,19 +166,25 @@ const Page = () => {
 										>
 											<ul className='w-full grid grid-cols-11 items-center'>
 												<li className='col-span-3'>
-													<div className='flex flex-col text-sm'>
-														<h1 className='font-normal'>
-															{payment.subscription.country}
-														</h1>
-														<span className='text-span'>
-															{payment.subscription.type}
-														</span>
-													</div>
+													{payment.subscriptions.length > 0 ? (
+														payment.subscriptions.map((subscription, subIndex) => (
+															<div key={subIndex} className='flex flex-col text-sm'>
+																<h1 className='font-normal'>
+																	{subscription.city.city}, {subscription.city.country}
+																</h1>
+																<span className='text-span'>
+																	ZS {subscription.optionType}
+																</span>
+															</div>
+														))
+													) : (
+														<div>No Subscription</div>
+													)}
 												</li>
 												<li className='col-span-2 pl-4'>
 													{new Date(payment.date).toLocaleDateString()}
 												</li>
-												<li className='col-span-2 pl-4'>{payment.method}</li>
+												<li className='col-span-2 pl-4'>{payment.method || "Credit Card"}</li>
 												<li className='col-span-2 pl-4'>
 													<MoneyValue
 														value={payment.amount}
@@ -185,22 +194,20 @@ const Page = () => {
 													/>
 												</li>
 												<li
-													className={`col-span-2 pl-4 flex items-center gap-2 ${
-														payment.status === 'Complete'
+													className={`col-span-2 pl-4 flex items-center gap-2 ${payment.status === 'Complete'
 															? 'text-primary'
 															: payment.status === 'Pending'
-															? 'text-yellow-500'
-															: 'text-alert'
-													}`}
+																? 'text-yellow-500'
+																: 'text-alert'
+														}`}
 												>
 													<span
-														className={`w-3 h-3 rounded-full ${
-															payment.status === 'Complete'
+														className={`w-3 h-3 rounded-full ${payment.status === 'Complete'
 																? 'bg-primary'
 																: payment.status === 'Pending'
-																? 'bg-yellow-500'
-																: 'bg-alert'
-														}`}
+																	? 'bg-yellow-500'
+																	: 'bg-alert'
+															}`}
 													></span>
 													{payment.status}
 												</li>
