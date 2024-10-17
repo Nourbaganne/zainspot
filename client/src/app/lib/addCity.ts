@@ -5,29 +5,13 @@ import { AuthContext } from '../contexts/authContext';
 import axiosInstance from './axios/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
+import CityData from '../interfaces/City';
 
 export interface PerMonth {
-	duration?: number;
+	duration: number;
 	amount: number;
 	tax?: number;
-	stripePriceId: string;
-}
-
-export interface CityData {
-	id?: number;
-	city: string;
-	imageUrl: string | File | null;
-	country: string;
-	hidden: boolean;
-	location: { title: string; locationLink: string };
-	description: string;
-	catchphrase: string;
-	goldPrice: PerMonth;
-	classicPrice: {
-		perMonth: Array<PerMonth>;
-	};
-	createdAt?: Date;
-	updatedAt?: Date;
+	stripePriceId?: string; // will be set in the server
 }
 
 const durations = [
@@ -42,7 +26,6 @@ const defaultClassicPrice = {
 		duration: duration?.value,
 		amount: 0,
 		tax: 0,
-		stripePriceId: '',
 	})),
 };
 
@@ -76,7 +59,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: ['cities'] });
-			toast.dismiss(); 
+			toast.dismiss();
 			toast.success('City created successfully!');
 			onClose();
 		},
@@ -95,7 +78,7 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			location: { title: '', locationLink: '' },
 			description: '',
 			catchphrase: '',
-			goldPrice: { amount: 0, tax: 0, duration: 12, stripePriceId: '' },
+			goldPrice: { amount: 0, tax: 0, duration: 12 },
 			classicPrice: defaultClassicPrice,
 			imageUrl: null,
 		},
@@ -111,12 +94,14 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			goldPrice: Yup.object().shape({
 				amount: Yup.number().required('Gold price amount is required'),
 				tax: Yup.number().required('Gold price tax is required'),
-				stripePriceId: Yup.string().required('Stripe price id is required'),
 			}),
 			imageUrl: Yup.mixed().required('Image is required'),
 		}),
 
-		onSubmit: async (values: CityData, { resetForm }: FormikHelpers<CityData>) => {
+		onSubmit: async (
+			values: CityData,
+			{ resetForm }: FormikHelpers<CityData>,
+		) => {
 			toast.loading('Adding city...');
 			try {
 				await mutation.mutateAsync(values);

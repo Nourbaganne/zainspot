@@ -4,6 +4,7 @@ import {
 	IsString,
 	IsOptional,
 	IsBoolean,
+	IsObject,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import PerMonth from 'src/interfaces/PerMonth';
@@ -30,7 +31,7 @@ export class CreateCityDto {
 	catchphrase: string;
 
 	@IsNotEmpty()
-	@IsNumber()
+	@IsObject()
 	goldPrice: PerMonth;
 
 	@IsOptional()

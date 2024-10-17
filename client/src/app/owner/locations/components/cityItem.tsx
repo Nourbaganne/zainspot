@@ -31,12 +31,14 @@ const CityItem = ({
 	};
 
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-6 py-4 px-2 border-b">
-			<div className="col-span-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-9 text-sm gap-4">
-				<h1 className="col-span-1 md:col-span-2 font-light">{location.title}</h1>
-				<div className="col-span-1 md:col-span-2 flex flex-col">
-					<h1 className="font-semibold">{city}</h1>
-					<p className="font-light text-span">{country}</p>
+		<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-6 py-4 px-2 border-b'>
+			<div className='col-span-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-9 text-sm gap-4'>
+				<h1 className='col-span-1 md:col-span-2 font-light'>
+					{location.title}
+				</h1>
+				<div className='col-span-1 md:col-span-2 flex flex-col'>
+					<h1 className='font-semibold'>{city}</h1>
+					<p className='font-light text-span'>{country}</p>
 				</div>
 				{/* Gold Price Section */}
 				<div className="col-span-1 md:col-span-2 flex flex-col justify-between">
@@ -117,25 +119,29 @@ const CityItem = ({
 					</div>
 				</div>
 			</div>
-			<div className=" col-span-10 mt-5 lg:mt-0 lg:-col-start-1 flex flex-col gap-3 items-end text-xs font-semibold">
-				<div className="flex flex-row gap-1">
+			<div className=' col-span-10 mt-5 lg:mt-0 lg:-col-start-1 flex flex-col gap-3 items-end text-xs font-semibold'>
+				<div className='flex flex-row gap-1'>
 					<button
 						onClick={() => setIsEditDialogOpen(true)}
-						className="flex items-center gap-2 text-span py-2 px-4 border-2 border-span rounded-md"
+						className='flex items-center gap-2 text-span py-2 px-4 border-2 border-span rounded-md'
 					>
 						<Image src={editLogo} alt="edit-city" />
 						<Translation translationKey='location_editBtn' />
 					</button>
 					<button onClick={handleHideCity}>
-						<div className="flex items-center gap-2 text-span py-2 px-4 border-2 border-span rounded-md">
-							<Image src={hidden ? unhiddenLogo : hiddenLogo} alt={hidden ? 'unhide-city' : 'hide-city'} className="w-4" />
+						<div className='flex items-center gap-2 text-span py-2 px-4 border-2 border-span rounded-md'>
+							<Image
+								src={hidden ? unhiddenLogo : hiddenLogo}
+								alt={hidden ? 'unhide-city' : 'hide-city'}
+								className='w-4'
+							/>
 							{hidden ? 'Unhide' : 'Hide'}
 						</div>
 					</button>
 				</div>
 				<button
 					onClick={() => setIsDialogOpen(true)}
-					className="flex items-center gap-2 text-alert-dark"
+					className='flex items-center gap-2 text-alert-dark'
 				>
 					<Image src={deleteLogo} alt="delete-city" />
 					<Translation translationKey='location_deleteBtn' />

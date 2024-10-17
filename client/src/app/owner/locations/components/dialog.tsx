@@ -193,24 +193,6 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 													formik={formikInstance}
 													placeholderValue='0'
 												/>
-												<Input
-													type='text'
-													labelKey='locationDialog_stripePriceId'
-													value={
-														formikInstance.values.goldPrice?.stripePriceId || ''
-													}
-													name='goldPrice.stripePriceId'
-													handleChange={formikInstance.handleChange}
-													touched={
-														formikInstance.touched.goldPrice?.stripePriceId
-													}
-													errors={
-														formikInstance.errors.goldPrice?.stripePriceId
-													}
-													formik={formikInstance}
-													className='col-span-2'
-													placeholderValue='price_1Pvfw3JnZJIbV5q2A8Q1cBnP'
-												/>
 											</div>
 										</div>
 										<div className='flex flex-col gap-2'>
@@ -263,7 +245,7 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 																			typeof formikInstance.errors.classicPrice
 																				?.perMonth?.[index] === 'object'
 																				? formikInstance.errors.classicPrice
-																					?.perMonth?.[index]?.amount
+																						?.perMonth?.[index]?.amount
 																				: undefined
 																		}
 																		formik={formikInstance}
@@ -286,35 +268,11 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 																			typeof formikInstance.errors.classicPrice
 																				?.perMonth?.[index] === 'object'
 																				? formikInstance.errors.classicPrice
-																					?.perMonth?.[index]?.tax
+																						?.perMonth?.[index]?.tax
 																				: undefined
 																		}
 																		formik={formikInstance}
 																		placeholderValue='0'
-																	/>
-																	<Input
-																		type='text'
-																		labelKey='locationDialog_stripePriceId'
-																		value={
-																			formikInstance.values.classicPrice
-																				.perMonth[index]?.stripePriceId || ''
-																		}
-																		name={`classicPrice.perMonth.${index}.stripePriceId`}
-																		handleChange={formikInstance.handleChange}
-																		touched={
-																			formikInstance.touched.classicPrice
-																				?.perMonth?.[index]?.stripePriceId
-																		}
-																		errors={
-																			typeof formikInstance.errors.classicPrice
-																				?.perMonth?.[index] === 'object'
-																				? formikInstance.errors.classicPrice
-																					?.perMonth?.[index]?.stripePriceId
-																				: undefined
-																		}
-																		formik={formikInstance}
-																		className='col-span-2'
-																		placeholderValue='price_1Pvfw3JnZJIbV5q2A8Q1cBnP'
 																	/>
 																	{/* Ensure duration is sent */}
 																	<input
