@@ -5,7 +5,7 @@ import { useCurrency } from '@/app/contexts/CurrencyContext';
 import City from '@/app/interfaces/City';
 import { useState } from 'react';
 
-interface ClassicPrice {
+export interface ClassicPrice {
 	perMonth: Array<{
 		duration?: number;
 		amount: number;

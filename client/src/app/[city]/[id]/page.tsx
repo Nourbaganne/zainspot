@@ -45,7 +45,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 			cityId: parseInt(params.id),
 		};
 
-		addToCart(newSubscription);
+		addToCart(newSubscription as any);
 	}
 
 	if (isLoading) {
@@ -117,7 +117,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						city={city}
 					/>
 					<ZsClassic
-						amounts={city?.classicPrice}
+						amounts={city?.classicPrice as any}
 						onSelect={handleSelect}
 						city={city}
 					/>
