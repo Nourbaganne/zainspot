@@ -17,7 +17,7 @@ export class StripeController {
 		private readonly stripeService: StripeService,
 		private readonly paymentHistoryService: PaymentHistoryService,
 		private readonly subscriptionService: SubscriptionService,
-	) {}
+	) { }
 
 	@Post('create-checkout-session')
 	async createCheckoutSession(
@@ -38,7 +38,7 @@ export class StripeController {
 			const newPayment = await this.paymentHistoryService.create({
 				subscriptions: subscriptions,
 				date: new Date(),
-				method: null,
+				method: "Credit Card",
 				amount: session.amount_total,
 				status: 'PENDING',
 				stripeSessionId: session.id,
