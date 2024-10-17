@@ -2,6 +2,7 @@ import Image from 'next/image';
 import nextIcon from '@/app/assets/owner/users/chevron-forward.svg';
 import previousIcon from '@/app/assets/owner/users/chevron-back.svg';
 import { generatePageNumbers } from '@/app/lib/owner-locations';
+import Translation from '@/app/components/translation';
 
 interface PaginationProps {
   currentPage: number;
@@ -18,7 +19,7 @@ const Pagination = ({ currentPage, setCurrentPage, totalPages }: PaginationProps
         onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}
       >
         <Image src={previousIcon} alt='previous-page' />
-        Previous
+        <Translation translationKey='previous_btn' />
       </button>
       <div className='flex gap-2'>
         {generatePageNumbers({ totalPage: totalPages, currentPage }).map((page, index) =>
@@ -40,7 +41,7 @@ const Pagination = ({ currentPage, setCurrentPage, totalPages }: PaginationProps
         disabled={currentPage === totalPages}
         onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))}
       >
-        Next
+        <Translation translationKey='next_btn' />
         <Image src={nextIcon} alt='next-page' />
       </button>
     </div>

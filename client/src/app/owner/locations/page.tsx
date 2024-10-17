@@ -15,6 +15,7 @@ import TableHeader from './components/tableHeader';
 import Pagination from './components/pagination';
 import Loader from '@/app/components/loader';
 import { WithAuth } from '@/app/lib/withAuth';
+import Translation from '@/app/components/translation';
 
 
 const Locations = () => {
@@ -106,7 +107,9 @@ const Locations = () => {
                     />
                   ))
                 ) : (
-                  <h1 className='py-8'>No cities found</h1>
+                  <h1 className='py-8'>
+                    <Translation translationKey='locationHeader_emptyTable' />
+                  </h1>
                 )}
               </div>)
             }

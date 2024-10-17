@@ -15,6 +15,7 @@ import RolesModal from './components/RolesModal';
 import Loader from '@/app/components/loader';
 import { WithAuth } from '@/app/lib/withAuth';
 import { useRoles } from '@/app/contexts/RoleContext';
+import Translation from '@/app/components/translation';
 
 const Users = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('');
@@ -189,9 +190,8 @@ const Users = () => {
               {FILTERING_TYPE.map((filter, index) => (
                 <div
                   key={index}
-                  className={`px-3 py-2 rounded-md cursor-pointer text-sm md:text-base ${
-                    selectedFilter === filter.value ? 'bg-background text-text' : 'hover:bg-gray-200'
-                  }`}
+                  className={`px-3 py-2 rounded-md cursor-pointer text-sm md:text-base ${selectedFilter === filter.value ? 'bg-background text-text' : 'hover:bg-gray-200'
+                    }`}
                   onClick={() => setSelectedFilter(filter.value)}
                 >
                   {filter.title}
@@ -235,7 +235,7 @@ const Users = () => {
                     className='py-2 px-4 border-2 rounded-md border-alert-dark text-alert-dark'
                     onClick={() => setSelectedUsers([])}
                   >
-                    Deselect All
+                    <Translation translationKey='deselect_btn' />
                   </button>
                   <button
                     className='py-2 px-4 border-2 border-primary rounded-md text-primary'
@@ -247,10 +247,10 @@ const Users = () => {
                       )
                     }
                   >
-                    Select All
+                    <Translation translationKey='select_btn' />
                   </button>
                   <button className='py-2 px-4 bg-alert text-background rounded-md'>
-                    Deactivate User
+                    <Translation translationKey='desactive_btn' />
                   </button>
                 </div>
               ) : (
@@ -259,7 +259,7 @@ const Users = () => {
                     disabled
                     className='py-2 px-4 border-2 rounded-md border-button text-button-text cursor-not-allowed'
                   >
-                    Deselect All
+                    <Translation translationKey='deselect_btn' />
                   </button>
                   <button
                     className='py-2 px-4 border-2 border-primary rounded-md text-primary'
@@ -271,13 +271,13 @@ const Users = () => {
                       )
                     }
                   >
-                    Select All
+                    <Translation translationKey='select_btn' />
                   </button>
                   <button
                     disabled
                     className='py-2 px-4 bg-button text-background rounded-md cursor-not-allowed'
                   >
-                    Deactivate User
+                    <Translation translationKey='desactive_btn' />
                   </button>
                 </div>
               )}
@@ -307,7 +307,7 @@ const Users = () => {
                   onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 >
                   <Image src={previousIcon} alt='previous-page' />
-                  Previous
+                  <Translation translationKey='previous_btn' />
                 </button>
                 <div className='flex gap-2 overflow-x-auto'>
                   {generatePageNumbers().map((page, index) =>
@@ -318,11 +318,10 @@ const Users = () => {
                     ) : (
                       <button
                         key={index}
-                        className={`px-3 py-1 rounded-lg text-sm ${
-                          currentPage === page
-                            ? 'bg-primary text-background'
-                            : 'bg-transparent text-primary hover:bg-primary hover:text-background'
-                        }`}
+                        className={`px-3 py-1 rounded-lg text-sm ${currentPage === page
+                          ? 'bg-primary text-background'
+                          : 'bg-transparent text-primary hover:bg-primary hover:text-background'
+                          }`}
                         onClick={() => setCurrentPage(page as number)}
                       >
                         {page}
@@ -339,7 +338,7 @@ const Users = () => {
                     )
                   }
                 >
-                  Next
+                  <Translation translationKey='next_btn' />
                   <Image src={nextIcon} alt='next-page' />
                 </button>
               </div>

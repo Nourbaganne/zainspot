@@ -10,6 +10,7 @@ import Role from '@/app/interfaces/Role';
 import Loader from '@/app/components/loader';
 import { HandleRoleChanges } from '@/app/lib/userRoleChanging';
 import { useRoles } from '@/app/contexts/RoleContext';
+import Translation from '@/app/components/translation';
 
 const USERS_LIST_HEADER = [
 	{ title: 'User', hasFiltering: true },
@@ -206,13 +207,18 @@ const UsersTable = ({
 								href={`/owner/users/${user.id}`}
 								className='flex text-secondary gap-2 text-xs font-semibold hover:underline ml-auto'
 							>
-								<span>Details</span>
+								<span>
+									<Translation translationKey='userDetails_btn' />
+								</span>
 								<Image src={detailsButton} alt='details-button' />
 							</Link>
 						</td>
 					</tr>
 				))}
-			{users?.length == 0 && !isLoading && <div>No users found</div>}
+			{users?.length == 0 && !isLoading &&
+				<div>
+					<Translation translationKey='userTable_empty' />
+				</div>}
 		</table>
 	);
 };

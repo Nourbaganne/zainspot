@@ -354,10 +354,30 @@
 	"emailAttachment_header": "Attachments",
 	"emailAttachment_remove": "Remove",
 	"userDetails_subscriptions": "Subscriptions & Payments",
+	"deleteLocation_header": "Delete Location",
+	"deleteLocation_desc": "Are you sure you want to delete this location?",
+	"deleteLocation_confirmation": "To confirm, type 'Delete'",
+	"deleteLocation_btn": "Delete Location",
+	"deselect_btn": "Deselect All",
+	"select_btn": "Select All",
+	"desactive_btn": "Deactivate User",
+	"previous_btn": "Previous",
+	"next_btn": "Next",
+	"roleName_label": "Role Name",
+	"roleCard_edit": "Edit Permissions",
+	"roleCard_statsLabel": "vs. last month",
+	"userDetails_btn": "Details",
+	"userTable_empty": "No users found",
+	"locationHeader_countries": "Countries",
+	"locationHeader_cities": "Cities",
+	"locationHeader_locations": "Locations",
+	"locationHeader_createBtn": "Create New",
+	"locationHeader_emptyTable": "No cities found",
 
-	"deleteLocation_header":"Delete Location",
-	"deleteLocation_desc":"Are you sure you want to delete this location?",
-	"deleteLocation_confirmation":"To confirm, type 'Delete'",
-	"deleteLocation_btn":"Delete Location"
-
+	"location_yearPayment": "1 Year Single Payment",
+	"location_yearLabel": "1 Year",
+	"location_manuelPayment": "Manual Payment Tax Fee",
+	"location_editBtn": "Edit",
+	"location_deleteBtn": "Delete Permanently"
+	
 }
