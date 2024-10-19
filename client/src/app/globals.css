@@ -44,6 +44,7 @@
 
 .react-tel-input .form-control {
 	background-color: white !important;
+	
 	/* For the input */
 }
 
@@ -51,11 +52,10 @@
 	background-color: white !important;
 	/* For the flag dropdown */
 	width: 50px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	
 	/* Optional: Set a border color */
 }
+
 
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
