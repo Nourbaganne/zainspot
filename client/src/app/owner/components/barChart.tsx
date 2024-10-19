@@ -1,45 +1,83 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useMemo } from 'react';
+import dayjs from 'dayjs';
 
-const mockChartData = [
-    { month: 'Jan', revenue: 50000, azer: 40001, other: 30001 },
-    { month: 'Feb', revenue: 45000, azer: 40002, other: 30002 },
-    { month: 'Mar', revenue: 55000, azer: 40003, other: 30003 },
-    { month: 'Apr', revenue: 60000, azer: 40004, other: 30004 },
-    { month: 'May', revenue: 52000, azer: 40005, other: 30005 },
-    { month: 'Jun', revenue: 58000, azer: 40006, other: 30006 },
-    { month: 'Jul', revenue: 62000, azer: 40007, other: 30007 },
-    { month: 'Aug', revenue: 59000, azer: 40008, other: 30008 },
-    { month: 'Sep', revenue: 61000, azer: 40009, other: 30009 },
-    { month: 'Oct', revenue: 63000, azer: 40010, other: 30010 },
-    { month: 'Nov', revenue: 64000, azer: 40011, other: 30011 },
-    { month: 'Dec', revenue: 67000, azer: 40012, other: 30012 },
-];
+const colors = ["#23599D", "#00927C", "#D6A62C", "#A62CD6", "#9D3523", "#4A3D99", "#E4D00A"];
 
-const CustomStackedBarChart = () => (
-    <ResponsiveContainer width="100%" height={400}>
-        <BarChart data={mockChartData} barSize={20}>
-            <CartesianGrid 
-                stroke="#ddd" 
-                strokeDasharray="none" 
-                vertical={false} 
-            />
-            <XAxis dataKey="month" />
-            <YAxis 
-                axisLine={false} 
-                tickLine={false} 
-            />
-            <Tooltip />
-            <Legend 
-                iconType="circle" 
-                align="left" 
-                verticalAlign="bottom" 
-                formatter={(value) => <span style={{ marginRight: '50px'}}>{value}</span>}
-            />
-            <Bar dataKey="revenue" stackId="a" fill="#23599D"/>
-            <Bar dataKey="azer" stackId="a" fill="#00927C" />
-            <Bar dataKey="other" stackId="a" fill="#D6A62C" />
-        </BarChart>
-    </ResponsiveContainer>
-);
+
+const transformData = (subscriptions: any[]) => {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    const dataMap: any = {};
+
+    months.forEach(month => {
+        dataMap[month] = { month };
+    });
+
+
+    subscriptions.forEach(sub => {
+        const month = dayjs(sub.startDate).format('MMM'); 
+        const city = sub.city.split(',')[0]; 
+
+        if (!dataMap[month]) {
+            dataMap[month] = { month };
+        }
+
+        if (!dataMap[month][city]) {
+            dataMap[month][city] = 0;
+        }
+        dataMap[month][city] += sub.price;
+    });
+
+    const cities = Array.from(new Set(subscriptions.map(sub => sub.city.split(',')[0])));
+    months.forEach(month => {
+        cities.forEach(city => {
+            if (!dataMap[month][city]) {
+                dataMap[month][city] = 0; 
+            }
+        });
+    });
+
+    return Object.values(dataMap); 
+};
+
+
+const CustomStackedBarChart = ({ subscriptions }: { subscriptions: any[] }) => {
+    // Transform the subscriptions data
+    const chartData = useMemo(() => transformData(subscriptions), [subscriptions]);
+
+    // Dynamically get the city keys from the first entry in the transformed data
+    const cityKeys = chartData.length > 0 
+    ? Object.keys(chartData[0] as Record<string, any>).filter(key => key !== 'month') 
+    : [];
+
+
+    return (
+        <ResponsiveContainer width="100%" height={400}>
+            <BarChart data={chartData} barSize={20}>
+                <CartesianGrid stroke="#ddd" strokeDasharray="none" vertical={false} />
+                <XAxis dataKey="month" />
+                <YAxis axisLine={false} tickLine={false} />
+                <Tooltip />
+                <Legend
+                    iconType="circle"
+                    align="left"
+                    verticalAlign="bottom"
+                    formatter={(value) => <span style={{ marginRight: '50px' }}>{value}</span>}
+                />
+                
+                {/* Dynamically generate Bar components based on city keys */}
+                {cityKeys.map((city, index) => (
+                    <Bar 
+                        key={city} 
+                        dataKey={city} 
+                        stackId="a" 
+                        fill={colors[index % colors.length]} 
+                    />
+                ))}
+            </BarChart>
+        </ResponsiveContainer>
+    );
+};
 
 export default CustomStackedBarChart;

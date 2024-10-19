@@ -140,7 +140,7 @@ const UsersTable = ({
 						<td className='p-4'>
 							{user.subscriptions.length > 0 ? (
 								<div className='flex gap-1'>
-									{user.subscriptions.map((sub, index) => (
+									{user.subscriptions.slice(0, 3).map((sub, index) => (
 										<h1
 											key={index}
 											className='bg-background-foreground rounded-md text-text font-light py-1 px-2 text-md'
@@ -148,11 +148,17 @@ const UsersTable = ({
 											{sub.city.city}
 										</h1>
 									))}
+									{user.subscriptions.length > 3 && (
+										<h1 className='bg-background-foreground rounded-md text-text font-light py-1 px-2 text-md'>
+											+{user.subscriptions.length - 3}
+										</h1>
+									)}
 								</div>
 							) : (
 								<span>N/A</span>
 							)}
 						</td>
+
 						<td className={`p-4 ${false ? 'text-primary' : 'text-alert-dark'}`}>
 							<span className='font-semibold'>Failed</span>{' '}
 							<span className='font-light'>(N/A)</span>

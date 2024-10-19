@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import Loader from '@/app/components/loader';
 import Translation from '@/app/components/translation';
+import { useEffect } from 'react';
 
 interface SubscriptionItemProps {
     city: {
@@ -84,7 +85,7 @@ const SubscriptionItem = ({
 }
 
 
-const SubscriptionList = ({ userId, access_token }: { userId: number, access_token: string | undefined }) => {
+const SubscriptionList = ({ userId, access_token, setSubscriptions }: { userId: number, access_token: string | undefined, setSubscriptions: (subscriptions: Object | undefined) => void }) => {
     const USER_LIST_HEADER = [
         { title: 'Location', hasFiltering: true },
         { title: 'City & Country', hasFiltering: true },
@@ -104,8 +105,26 @@ const SubscriptionList = ({ userId, access_token }: { userId: number, access_tok
         })
     });
 
+
+    useEffect(() => {
+        if (data?.data) {
+            // Extract subscription stats and update the parent state
+            const subscriptionStats = data?.data.map((sub: SubscriptionItemProps) => ({
+                locationTitle: sub.city.locationTitle,
+                city: sub.city.city,
+                price: sub.price,
+                startDate: sub.startDate,
+                renewalStatus: sub.renewal.status,
+            }));
+            setSubscriptions(subscriptionStats);
+
+        }
+    }, [data?.data, setSubscriptions]);
+
+
     if (isLoading) return <Loader />
     if (isError) return <h1>{error.message}</h1>
+
 
 
     return (
