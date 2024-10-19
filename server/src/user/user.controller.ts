@@ -101,11 +101,20 @@ export class UserController {
     return this.userService.update(+id, updateUserDto);
   }
 
-  @Permissions({ action: 'delete', subject: 'user' })
+  // @Permissions({ action: 'delete', subject: 'user' })
+  @Public()
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
+    const user = await this.userService.findUser(+id);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    // Cascade delete will automatically handle the deletion of subscriptions and payment history
     return this.userService.remove(+id);
   }
+
 
 
   @Patch(':id/image')

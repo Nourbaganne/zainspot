@@ -291,7 +291,10 @@ export class UserService {
 	}
 
 	async remove(id: number): Promise<string> {
-		const user = await User.findOne({ where: { id } });
+		const user = await User.findOne({ 
+			where: { id },
+			relations: ['paymentHistories', 'subscriptions']
+		});
 
 		if (!user) {
 			throw new NotFoundException(`User with ID ${id} not found`);
