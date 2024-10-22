@@ -57,8 +57,6 @@ const Navbar = () => {
 				);
 			};
 		}
-
-
 	}, []);
 
 	if (!isClient) {
@@ -128,7 +126,7 @@ const Navbar = () => {
 					</div>
 				</div>
 
-				<div className='flex flex-col gap-2'>
+				<div className='flex flex-col items-end gap-2'>
 					{user ? (
 						<button
 							className='text-alert font-semibold text-start'
@@ -147,13 +145,8 @@ const Navbar = () => {
 						</div>
 					)}
 
-					<Link href='/cart' className='text-secondary text-sm uppercase'>
-						<Translation translationKey='secure_checkout' />{' '}
-						{/* TODO: replace "Secure Checkout" link with "My ZainSpot Profile" link */}
-						{/* ? We no longer have a cart */}
-						<span className='bg-secondary rounded-full text-background px-1'>
-							0
-						</span>
+					<Link href='/zainspotter' className='text-primary capitalize'>
+						<Translation translationKey='go_to_my_zainspot' />{' '}
 					</Link>
 				</div>
 			</div>

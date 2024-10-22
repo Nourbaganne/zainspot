@@ -63,12 +63,15 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 			cityId: parseInt(params.id),
 		};
 
+		const reqBody = {
+			stripePriceId: selectedItem.stripePriceId,
+			subscription: newSubscription,
+			userId: user?.user.userId,
+		};
+		console.log('reqBody', reqBody);
+
 		axiosInstance
-			.post('stripe/create-checkout-session', {
-				stripePriceId: selectedItem.stripePriceId,
-				subscription: newSubscription,
-				userId: user?.user.userId,
-			})
+			.post('stripe/create-checkout-session', reqBody)
 			.then((res) => {
 				window.location.href = res.data.url;
 			})

@@ -16,7 +16,9 @@ export class Subscription extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@ManyToOne(() => User, (user) => user.paymentHistories, { onDelete: 'CASCADE' })
+	@ManyToOne(() => User, (user) => user.paymentHistories, {
+		onDelete: 'CASCADE',
+	})
 	user: User;
 
 	@ManyToOne(() => City, (city) => city.subscriptions)

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { StripeService } from './stripe.service';
 import { Response } from 'express';
 import { PaymentHistoryService } from 'src/payment-history/payment-history.service';
@@ -22,7 +22,6 @@ export class StripeController {
 	@Post('create-checkout-session')
 	async createCheckoutSession(
 		@Res() res: Response,
-		@Req() req: Request,
 		@Body()
 		{ stripePriceId, subscription, userId }: CreateCheckoutSessionBodyInterface,
 	) {
@@ -43,6 +42,7 @@ export class StripeController {
 
 		const newSubscription =
 			await this.subscriptionService.createSubscription(subscription);
+		console.log('stripe controller newSubscription', newSubscription);
 
 		// create payment history record
 		const newPaymentHistory = await this.paymentHistoryService.create({
@@ -54,6 +54,7 @@ export class StripeController {
 			stripeSessionId: session.id,
 			userId,
 		});
+		console.log('stripe controller newPaymentHistory', newPaymentHistory);
 
 		newPaymentHistory.save();
 

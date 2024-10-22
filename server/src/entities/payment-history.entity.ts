@@ -32,6 +32,8 @@ export class PaymentHistory extends BaseEntity {
 	@Column({ nullable: true })
 	stripeSessionId: string;
 
-	@ManyToOne(() => User, (user) => user.paymentHistories, { onDelete: 'CASCADE' })
+	@ManyToOne(() => User, (user) => user.paymentHistories, {
+		onDelete: 'CASCADE',
+	})
 	user: User;
 }
