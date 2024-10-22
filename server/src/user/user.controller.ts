@@ -1,4 +1,3 @@
-// src/user/user.controller.ts
 
 import {
   Controller,
@@ -11,8 +10,6 @@ import {
   Query,
   HttpException,
   HttpStatus,
-  UseInterceptors,
-  UploadedFile,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -26,8 +23,6 @@ import {
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { User } from 'src/entities/user.entity';
 import { RecaptchaService } from './recaptcha.service';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { multerOptions } from 'src/config/multer.config';
 
 @Controller('user')
 export class UserController {
@@ -112,29 +107,6 @@ export class UserController {
 
     // Cascade delete will automatically handle the deletion of subscriptions and payment history
     return this.userService.remove(+id);
-  }
-
-
-
-  @Patch(':id/image')
-  @UseInterceptors(FileInterceptor('imageUrl', multerOptions))
-  async uploadUserImage(
-    @Param('id') id: number,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    if (!file) {
-      throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
-    }
-
-    const imageUrl = `uploads/users/${file.filename}`;
-
-    // Update user profile with the new image URL
-    const user = await this.userService.updateProfileImage(id, imageUrl);
-
-    return {
-      message: 'Image uploaded successfully',
-      imageUrl: user.imageUrl,
-    };
   }
 
 }

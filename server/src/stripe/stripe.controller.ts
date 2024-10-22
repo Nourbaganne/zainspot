@@ -1,9 +1,10 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { StripeService } from './stripe.service';
 import { Response } from 'express';
 import { PaymentHistoryService } from 'src/payment-history/payment-history.service';
 import { SubscriptionService } from 'src/subscription/subscription.service';
 import { CreateSubscriptionDto } from 'src/subscription/dto/create-subscription.dto';
+import { Public } from 'src/decorators/public.decorator';
 
 interface CreateCheckoutSessionBodyInterface {
 	stripePriceId: string;
@@ -17,7 +18,7 @@ export class StripeController {
 		private readonly stripeService: StripeService,
 		private readonly paymentHistoryService: PaymentHistoryService,
 		private readonly subscriptionService: SubscriptionService,
-	) {}
+	) { }
 
 	@Post('create-checkout-session')
 	async createCheckoutSession(
@@ -59,4 +60,12 @@ export class StripeController {
 
 		res.json({ id: session.id, url: session.url });
 	}
+
+	@Public()
+	@Get('payment-intents/:userId')
+	async getPaymentIntents(@Param('userId') userId: number) {
+		return await this.stripeService.getPaymentIntentsByUserId(userId);
+	}
+
+
 }
