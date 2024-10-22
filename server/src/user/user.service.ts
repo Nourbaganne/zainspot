@@ -15,8 +15,6 @@ import {
 	getEndOfPreviousMonth,
 	getStartOfPreviousMonth,
 } from 'src/utils/date-utils';
-import { join } from 'path';
-import { promises as fs } from 'fs';
 
 type RoleCounts = {
 	zainspotter: number;
