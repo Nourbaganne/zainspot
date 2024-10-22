@@ -5,6 +5,7 @@ import {
 	ManyToOne,
 	BaseEntity,
 	OneToOne,
+	JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 import { Subscription } from './subscription.entity';
@@ -13,9 +14,6 @@ import { Subscription } from './subscription.entity';
 export class PaymentHistory extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number;
-
-	@OneToOne(() => Subscription, (subscription) => subscription.paymentHistory)
-	subscription: Subscription;
 
 	@Column()
 	date: Date;
@@ -32,6 +30,12 @@ export class PaymentHistory extends BaseEntity {
 	@Column({ nullable: true })
 	stripeSessionId: string;
 
-	@ManyToOne(() => User, (user) => user.paymentHistories, { onDelete: 'CASCADE' })
+	@ManyToOne(() => User, (user) => user.paymentHistories, {
+		onDelete: 'CASCADE',
+	})
 	user: User;
+
+	@OneToOne(() => Subscription)
+	@JoinColumn()
+	subscription: Subscription;
 }

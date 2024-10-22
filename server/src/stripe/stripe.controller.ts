@@ -23,7 +23,6 @@ export class StripeController {
 	@Post('create-checkout-session')
 	async createCheckoutSession(
 		@Res() res: Response,
-		@Req() req: Request,
 		@Body()
 		{ stripePriceId, subscription, userId }: CreateCheckoutSessionBodyInterface,
 	) {
@@ -44,19 +43,20 @@ export class StripeController {
 
 		const newSubscription =
 			await this.subscriptionService.createSubscription(subscription);
+		console.log('stripe controller newSubscription', newSubscription);
 
 		// create payment history record
-		const newPaymentHistory = await this.paymentHistoryService.create({
-			subscription: newSubscription,
-			date: new Date(),
-			method: null,
-			amount: session.amount_total,
-			status: 'PENDING',
-			stripeSessionId: session.id,
-			userId,
-		});
-
-		newPaymentHistory.save();
+		try {
+			const newPaymentHistory = await this.paymentHistoryService.create({
+				subscriptionId: newSubscription.id,
+				date: new Date(),
+				method: 'card',
+				amount: session.amount_total,
+				status: 'PENDING',
+				stripeSessionId: session.id,
+				userId,
+			});
+			console.log('stripe controller newPaymentHistory', newPaymentHistory);
 
 		res.json({ id: session.id, url: session.url });
 	}

@@ -21,10 +21,10 @@ export class StripeService {
 			mode: 'subscription',
 			success_url:
 				process.env.CLIENT_URL +
-				'/cart/checkout/success?session_id={CHECKOUT_SESSION_ID}',
+				'/checkout/success?session_id={CHECKOUT_SESSION_ID}',
 			cancel_url:
 				process.env.CLIENT_URL +
-				'/cart/checkout/cancel?session_id={CHECKOUT_SESSION_ID}',
+				'/checkout/cancel?session_id={CHECKOUT_SESSION_ID}',
 		});
 
 		return session;

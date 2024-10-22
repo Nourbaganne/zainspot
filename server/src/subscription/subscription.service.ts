@@ -41,9 +41,10 @@ export class SubscriptionService {
 		const endDate = new Date();
 		endDate.setMonth(startDate.getMonth() + subscriptionData.duration);
 
-		console.log('subscriptionData', subscriptionData);
 		const subscription = this.subscriptionRepository.create({
 			...subscriptionData,
+			user,
+			city,
 		});
 
 		return this.subscriptionRepository.save(subscription);

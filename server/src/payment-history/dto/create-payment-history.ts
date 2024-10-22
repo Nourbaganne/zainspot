@@ -14,8 +14,8 @@ export class CreatePaymentHistoryDto {
 	userId: number;
 
 	@IsNotEmpty()
-	@IsObject()
-	subscription: Subscription;
+	@IsNumber()
+	subscriptionId: number;
 
 	@IsNotEmpty()
 	@IsDate()
