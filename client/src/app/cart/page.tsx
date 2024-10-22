@@ -96,7 +96,9 @@ export default function CartPage() {
 		axiosInstance
 			.post('/stripe/create-checkout-session', reqBody)
 			.then(function (response) {
-				window.location = response.data.url;
+				if (typeof window !== 'undefined') {
+					window.location = response.data.url;
+				}
 			})
 			.catch(function (error) {
 				alert('Checkout error! Check console for more details');

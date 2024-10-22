@@ -16,12 +16,12 @@ type CartAction =
 	| { type: 'CLEAR_CART' };
 
 // Initial state for the cart
-const savedCart = window.localStorage.getItem('cart');
+const savedCart = typeof window !== "undefined" && window.localStorage.getItem('cart');
 const initialState: CartState = savedCart
 	? JSON.parse(savedCart)
 	: {
-			items: [],
-	  };
+		items: [],
+	};
 
 // Cart reducer function
 function cartReducer(state: CartState, action: CartAction): CartState {
@@ -46,10 +46,15 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 						item.duration == action.payload.duration,
 				),
 			};
-			window.localStorage.setItem('cart', JSON.stringify(newData));
+			if (typeof window !== 'undefined') {
+				window.localStorage.setItem('cart', JSON.stringify(newData));
+			}
 			return newData;
 		case 'CLEAR_CART':
-			window.localStorage.removeItem('cart');
+			if (typeof window !== 'undefined') {
+
+				window.localStorage.removeItem('cart');
+			}
 			return {
 				items: [],
 			};

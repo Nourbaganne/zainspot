@@ -62,11 +62,11 @@ const Page = () => {
 		index: number,
 	) => {
 		const buttonRect = event.currentTarget.getBoundingClientRect();
-		const isMobile = window.innerWidth < 768;
+		const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 		const menuWidth = isMobile ? 330 : 390;
 		const menuPos = {
-			top: buttonRect.bottom + window.scrollY,
-			left: buttonRect.right + window.scrollX - menuWidth,
+			top: buttonRect.bottom + (typeof window !== 'undefined' ? window.scrollY : 0),
+			left: buttonRect.right + (typeof window !== 'undefined' ? window.scrollX : 0) - menuWidth,
 		};
 
 		if (openFailedMenuIndex === index) {
