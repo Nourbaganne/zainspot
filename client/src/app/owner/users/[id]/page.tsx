@@ -21,8 +21,12 @@ import { useRoles } from '@/app/contexts/RoleContext';
 import Translation from '@/app/components/translation';
 
 const Page = ({ params }: { params: { id: number } }) => {
+
+  const [subscriptions, setSubscriptions] = useState<any | undefined>();
+
   const { user } = useContext(AuthContext);
-  const { roles } = useRoles()
+  const { roles } = useRoles();
+
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['user', params.id],
@@ -69,6 +73,7 @@ const Page = ({ params }: { params: { id: number } }) => {
     },
     { title: 'Social Media Pages', value: currentUser?.mediaProfile },
   ];
+
 
   return (
     <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
@@ -164,31 +169,41 @@ const Page = ({ params }: { params: { id: number } }) => {
               ))}
             </div>
           </div>
-          <div className='flex flex-col gap-4'>
-            <div className='flex justify-between'>
-              <div className='flex gap-1 items-center'>
-                <h1 className='text-lg font-semibold'>
-                  <Translation translationKey='userInfo_revenue' />
-                </h1>
-                <Image src={revenueIcon} alt='revenue' />
+          {
+            subscriptions ? (
+              <div className='flex flex-col gap-4'>
+                <div className='flex justify-between'>
+                  <div className='flex gap-1 items-center'>
+                    <h1 className='text-lg font-semibold'>
+                      <Translation translationKey='userInfo_revenue' />
+                    </h1>
+                    <Image src={revenueIcon} alt='revenue' />
+                  </div>
+                  <div className='flex gap-1 items-center'>
+                    <p className='text-span font-light text-xs'>
+                      <Translation translationKey='userInfo_totalrevenue' />
+                    </p>
+                    <h1 className='text-lg font-semibold'>$764,900</h1>
+                  </div>
+                </div>
+                <CustomStackedBarChart subscriptions={subscriptions} />
               </div>
-              <div className='flex gap-1 items-center'>
-                <p className='text-span font-light text-xs'>
-                  <Translation translationKey='userInfo_totalrevenue' />
-                </p>
-                <h1 className='text-lg font-semibold'>$764,900</h1>
-              </div>
-            </div>
-            <CustomStackedBarChart />
-          </div>
+            ) : (
+              <h1>
+                No subscriptions yet
+              </h1>
+            )
+          }
+
         </div>
         <SubscriptionList
           userId={params?.id}
           access_token={user?.access_token}
+          setSubscriptions={setSubscriptions}
         />
       </div>
-    </div>
+    </div >
   );
 };
 
-export default WithAuth(Page);
+export default WithAuth(Page, 'owner');

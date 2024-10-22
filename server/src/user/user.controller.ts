@@ -19,7 +19,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/decorators/public.decorator';
 import { EmailConfirmationService } from 'src/email-confirmation/email-confirmation.service';
-import { Permissions } from 'src/decorators/permissions.decorator';
 import {
   Pagination,
   PaginationParams,
@@ -79,7 +78,7 @@ export class UserController {
     }
   }
 
-  @Permissions({ action: 'read', subject: 'user' })
+
   @Get(':id')
   async findUserById(@Param('id') id: number) {
     return this.userService.findUser(id);
@@ -94,21 +93,31 @@ export class UserController {
     return await this.userService.findAll(paginationParams, name, filter);
   }
 
-  @Permissions({ action: 'update', subject: 'user' })
+
+  // @Permissions({ action: 'update', subject: 'user' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
-  @Permissions({ action: 'delete', subject: 'user' })
+  // @Permissions({ action: 'delete', subject: 'user' })
+  @Public()
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
+    const user = await this.userService.findUser(+id);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    // Cascade delete will automatically handle the deletion of subscriptions and payment history
     return this.userService.remove(+id);
   }
 
 
+
   @Patch(':id/image')
-  @UseInterceptors(FileInterceptor('imageUrl', multerOptions)) // Apply multerOptions here
+  @UseInterceptors(FileInterceptor('imageUrl', multerOptions))
   async uploadUserImage(
     @Param('id') id: number,
     @UploadedFile() file: Express.Multer.File,

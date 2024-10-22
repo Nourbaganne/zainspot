@@ -3,6 +3,7 @@ import Role from '@/app/interfaces/Role';
 import Permission from '@/app/interfaces/Permission';
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
+import Translation from '@/app/components/translation';
 
 interface Props {
 	rolesModalRef: any;
@@ -65,7 +66,7 @@ const RolesModal = ({ rolesModalRef }: Props) => {
 						htmlFor='roleName'
 						className='text-sm font-medium !text-gray-400'
 					>
-						Role Name
+						<Translation translationKey='roleName_label' />
 					</label>
 					<input
 						type='text'

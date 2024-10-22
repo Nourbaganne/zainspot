@@ -7,6 +7,7 @@ import Dialog from '../components/dialog';
 import WelcomeToBusinessSection from '../components/WelcomeToBusiness';
 import PrivacyPolicyLinks from './components/privacyPolicyLinks';
 import FormSection from './components/formSection';
+import { withNoAuth } from '../lib/withNoAuth';
 
 const Register = () => {
 	const [isOpenDialog, setIsOpenDialog] = useState(false);
@@ -52,4 +53,4 @@ const Register = () => {
 	);
 };
 
-export default Register;
+export default withNoAuth(Register);

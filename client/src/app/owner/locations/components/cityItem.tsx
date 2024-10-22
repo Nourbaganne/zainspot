@@ -10,6 +10,7 @@ import { useHideCity } from '@/app/lib/useHideCity';
 import { useState } from 'react';
 import DeleteDialog from './deleteDialog';
 import Dialog from './dialog';
+import Translation from '@/app/components/translation';
 
 const CityItem = ({
 	id,
@@ -40,105 +41,82 @@ const CityItem = ({
 					<p className='font-light text-span'>{country}</p>
 				</div>
 				{/* Gold Price Section */}
-				<div className='col-span-1 md:col-span-2 flex flex-col justify-between'>
-					<div className='flex flex-col gap-2'>
-						<h1 className='text-xs font-semibold'>1 Year Single Payment</h1>
-						<div className='flex gap-8'>
-							<p className='font-light text-span'>1 Year:</p>
-							<span className='text-primary font-semibold'>
-								<MoneyValue
-									value={goldPrice?.amount}
-									fromCurrency='USD'
-									toCurrency={currency}
-									decimals={0}
-								/>
+				<div className="col-span-1 md:col-span-2 flex flex-col justify-between">
+					<div className="flex flex-col gap-2">
+						<h1 className="text-xs font-semibold">
+							<Translation translationKey='location_yearPayment' />
+						</h1>
+						<div className="flex gap-8">
+							<p className="font-light text-span">
+								<Translation translationKey='location_yearLabel' />
+							</p>
+							<span className="text-primary font-semibold">
+								<MoneyValue value={goldPrice?.amount} fromCurrency="USD" toCurrency={currency} decimals={0} />
 							</span>
 						</div>
 					</div>
 					{/* Tax Section */}
-					<div className='flex flex-col gap-2'>
-						<h1 className='text-xs font-semibold text-alert-dark'>
-							Manual Payment Tax Fee
+					<div className="flex flex-col gap-2">
+						<h1 className="text-xs font-semibold text-alert-dark">
+							<Translation translationKey='location_manuelPayment' />
 						</h1>
-						<div className='flex gap-8'>
-							<p className='font-light text-span'>1 Year:</p>
-							<span className='text-alert-dark font-semibold'>
-								<MoneyValue
-									value={goldPrice?.tax}
-									fromCurrency='USD'
-									toCurrency={currency}
-									decimals={0}
-								/>
+						<div className="flex gap-8">
+							<p className="font-light text-span">
+								<Translation translationKey='location_yearLabel' />
+							</p>
+							<span className="text-alert-dark font-semibold">
+								<MoneyValue value={goldPrice?.tax} fromCurrency="USD" toCurrency={currency} decimals={0} />
 							</span>
 						</div>
 					</div>
 				</div>
 				{/* Classic Price Section */}
-				<div className='col-span-1 md:col-span-3 flex flex-col gap-4 max-w-full'>
-					{classicPrice.perMonth.length > 0 && (
-						<>
-							<div className='flex flex-col gap-2'>
-								<div className='flex justify-between'>
-									<h1 className='text-xs font-semibold'>
-										1 Year Single Payment
-									</h1>
-									<h1 className='text-xs font-semibold text-alert-dark'>
-										Tax Fee
-									</h1>
-								</div>
-								<div className='flex justify-between'>
-									<p className='text-span font-light'>1 Year:</p>
-									<span className='text-primary font-semibold'>
-										<MoneyValue
-											value={classicPrice.perMonth[0].amount}
-											fromCurrency='USD'
-											toCurrency={currency}
-											decimals={0}
-										/>
+				<div className="col-span-1 md:col-span-3 flex flex-col gap-4 max-w-full">
+					<div className="flex flex-col gap-2">
+						<div className="flex justify-between">
+							<h1 className="text-xs font-semibold">
+								<Translation translationKey='citypage_single_payment' />
+							</h1>
+							<h1 className="text-xs font-semibold text-alert-dark">
+								<Translation translationKey='locationDialog_tax' />
+							</h1>
+						</div>
+						<div className="flex justify-between">
+							<p className="text-span font-light">
+								<Translation translationKey='location_yearLabel' />
+							</p>
+							<span className="text-primary font-semibold">
+								<MoneyValue value={classicPrice.perMonth[0].amount} fromCurrency="USD" toCurrency={currency} decimals={0} />
+							</span>
+							<span className="text-alert-dark font-semibold">
+								<MoneyValue value={classicPrice.perMonth[0].tax} fromCurrency="USD" toCurrency={currency} decimals={0} />
+							</span>
+						</div>
+					</div>
+					<div className="flex flex-col gap-2">
+						<div className="flex justify-between">
+							<h1 className="text-xs font-semibold">
+								<Translation translationKey='citypage_permonth' />
+							</h1>
+							<h1 className="text-xs font-semibold text-alert-dark">
+								<Translation translationKey='locationDialog_tax' />
+
+							</h1>
+						</div>
+						{classicPrice?.perMonth
+							.filter(month => month.duration !== 12)
+							.map((month, index) => (
+								<div key={index} className="flex justify-between">
+									<p className="text-span font-light">{`${month.duration} Months:`}</p>
+									<span className="font-semibold text-primary">
+										<MoneyValue value={month?.amount} fromCurrency="USD" toCurrency={currency} decimals={0} />
 									</span>
-									<span className='text-alert-dark font-semibold'>
-										<MoneyValue
-											value={classicPrice.perMonth[0].tax}
-											fromCurrency='USD'
-											toCurrency={currency}
-											decimals={0}
-										/>
+									<span className="text-alert-dark font-semibold">
+										<MoneyValue value={month?.tax} fromCurrency="USD" toCurrency={currency} decimals={0} />
 									</span>
 								</div>
-							</div>
-							<div className='flex flex-col gap-2'>
-								<div className='flex justify-between'>
-									<h1 className='text-xs font-semibold'>Per Month</h1>
-									<h1 className='text-xs font-semibold text-alert-dark'>
-										Tax Fee
-									</h1>
-								</div>
-								{classicPrice?.perMonth
-									.filter((month) => month.duration !== 12)
-									.map((month, index) => (
-										<div key={index} className='flex justify-between'>
-											<p className='text-span font-light'>{`${month.duration} Months:`}</p>
-											<span className='font-semibold text-primary'>
-												<MoneyValue
-													value={month?.amount}
-													fromCurrency='USD'
-													toCurrency={currency}
-													decimals={0}
-												/>
-											</span>
-											<span className='text-alert-dark font-semibold'>
-												<MoneyValue
-													value={month?.tax}
-													fromCurrency='USD'
-													toCurrency={currency}
-													decimals={0}
-												/>
-											</span>
-										</div>
-									))}
-							</div>
-						</>
-					)}
+							))}
+					</div>
 				</div>
 			</div>
 			<div className=' col-span-10 mt-5 lg:mt-0 lg:-col-start-1 flex flex-col gap-3 items-end text-xs font-semibold'>
@@ -147,8 +125,8 @@ const CityItem = ({
 						onClick={() => setIsEditDialogOpen(true)}
 						className='flex items-center gap-2 text-span py-2 px-4 border-2 border-span rounded-md'
 					>
-						<Image src={editLogo} alt='edit-city' />
-						Edit
+						<Image src={editLogo} alt="edit-city" />
+						<Translation translationKey='location_editBtn' />
 					</button>
 					<button onClick={handleHideCity}>
 						<div className='flex items-center gap-2 text-span py-2 px-4 border-2 border-span rounded-md'>
@@ -165,8 +143,8 @@ const CityItem = ({
 					onClick={() => setIsDialogOpen(true)}
 					className='flex items-center gap-2 text-alert-dark'
 				>
-					<Image src={deleteLogo} alt='delete-city' />
-					Delete Permanently
+					<Image src={deleteLogo} alt="delete-city" />
+					<Translation translationKey='location_deleteBtn' />
 				</button>
 			</div>
 

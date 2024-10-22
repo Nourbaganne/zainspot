@@ -10,6 +10,7 @@ import Role from '@/app/interfaces/Role';
 import Loader from '@/app/components/loader';
 import { HandleRoleChanges } from '@/app/lib/userRoleChanging';
 import { useRoles } from '@/app/contexts/RoleContext';
+import Translation from '@/app/components/translation';
 
 const USERS_LIST_HEADER = [
 	{ title: 'User', hasFiltering: true },
@@ -139,7 +140,7 @@ const UsersTable = ({
 						<td className='p-4'>
 							{user.subscriptions.length > 0 ? (
 								<div className='flex gap-1'>
-									{user.subscriptions.map((sub, index) => (
+									{user.subscriptions.slice(0, 3).map((sub, index) => (
 										<h1
 											key={index}
 											className='bg-background-foreground rounded-md text-text font-light py-1 px-2 text-md'
@@ -147,11 +148,17 @@ const UsersTable = ({
 											{sub.city.city}
 										</h1>
 									))}
+									{user.subscriptions.length > 3 && (
+										<h1 className='bg-background-foreground rounded-md text-text font-light py-1 px-2 text-md'>
+											+{user.subscriptions.length - 3}
+										</h1>
+									)}
 								</div>
 							) : (
 								<span>N/A</span>
 							)}
 						</td>
+
 						<td className={`p-4 ${false ? 'text-primary' : 'text-alert-dark'}`}>
 							<span className='font-semibold'>Failed</span>{' '}
 							<span className='font-light'>(N/A)</span>
@@ -206,13 +213,18 @@ const UsersTable = ({
 								href={`/owner/users/${user.id}`}
 								className='flex text-secondary gap-2 text-xs font-semibold hover:underline ml-auto'
 							>
-								<span>Details</span>
+								<span>
+									<Translation translationKey='userDetails_btn' />
+								</span>
 								<Image src={detailsButton} alt='details-button' />
 							</Link>
 						</td>
 					</tr>
 				))}
-			{users?.length == 0 && !isLoading && <div>No users found</div>}
+			{users?.length == 0 && !isLoading &&
+				<div>
+					<Translation translationKey='userTable_empty' />
+				</div>}
 		</table>
 	);
 };

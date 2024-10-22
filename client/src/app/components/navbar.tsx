@@ -44,17 +44,21 @@ const Navbar = () => {
 			}
 		};
 
-		window.addEventListener(
-			'click',
-			handleClickOutside as unknown as EventListener,
-		);
-
-		return () => {
-			window.removeEventListener(
+		if (typeof window !== 'undefined') {
+			window.addEventListener(
 				'click',
 				handleClickOutside as unknown as EventListener,
 			);
-		};
+
+			return () => {
+				window.removeEventListener(
+					'click',
+					handleClickOutside as unknown as EventListener,
+				);
+			};
+		}
+
+
 	}, []);
 
 	if (!isClient) {

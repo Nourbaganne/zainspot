@@ -11,6 +11,7 @@ import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { AddPermissionDto } from './dto/add-permission.dto';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('role')
 export class RoleController {
@@ -27,11 +28,13 @@ export class RoleController {
     return this.roleService.addPermissionToRole(roleId, permissionId);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.roleService.findAll();
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.roleService.findOne(+id);

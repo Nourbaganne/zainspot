@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import arrowRight from '@/app/assets/owner/arrow-right.svg'
 import Image from 'next/image'
 import { FiArrowUp } from 'react-icons/fi'
+import Translation from '@/app/components/translation'
 
 interface RoleCardProps {
   title: string;
@@ -21,8 +22,8 @@ const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
     let startValue = displayValue;
     const endValue = value;
 
-    const duration = 800; 
-    const animationFrame = 60; 
+    const duration = 800;
+    const animationFrame = 60;
     const totalFrames = Math.round(duration / (1000 / animationFrame));
     let frame = 0;
 
@@ -40,7 +41,7 @@ const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
       }
     }, 1000 / animationFrame);
 
-    return () => clearInterval(timer); 
+    return () => clearInterval(timer);
   }, [value, displayValue]);
 
   return (
@@ -51,7 +52,9 @@ const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
         </p>
         {editPermissions && (
           <Link href='' className='text-primary font-semibold flex flex-row hover:underline text-sm'>
-            <span className='pr-1 text-base sm:text-xs lg:text-base'>Edit Permissions</span>
+            <span className='pr-1 text-base sm:text-xs lg:text-base'>
+              <Translation translationKey='roleCard_edit' />
+            </span>
             <Image src={arrowRight} alt='arrow-right-icon' />
           </Link>
         )}
@@ -68,7 +71,7 @@ const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
             </span>
           </div>
           <div className='text-span text-xs font-light'>
-            vs. last month
+            <Translation translationKey='roleCard_statsLabel' />
           </div>
         </div>
       </div>

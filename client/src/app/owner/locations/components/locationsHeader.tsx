@@ -5,6 +5,7 @@ import searchIcon from '@/app/assets/owner/users/search-outline.svg';
 import visibleLogo from '@/app/assets/owner/locations/visibleCitiesLogo.svg';
 import eyeOffIcon from '@/app/assets/owner/locations/eye-off-outline.svg';
 import plusIcon from '@/app/assets/owner/locations/plus.svg';
+import Translation from '@/app/components/translation';
 
 interface LocationsHeaderProps {
     searchCity: string;
@@ -35,7 +36,7 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                         {countries}
                     </span>
                     <span className='pb-[1px]'>
-                        Countries
+                        <Translation translationKey='locationHeader_countries' />
                     </span>
                 </h1>
                 <h1 className='flex items-end gap-1'>
@@ -43,7 +44,7 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                         {cities}
                     </span>
                     <span className='pb-[1px]'>
-                        Cities
+                        <Translation translationKey='locationHeader_cities' />
                     </span>
                 </h1>
                 <h1 className='flex items-end gap-1'>
@@ -51,7 +52,7 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                         {locations}
                     </span>
                     <span className='pb-[1px]'>
-                        Locations
+                        <Translation translationKey='locationHeader_locations' />
                     </span>
                 </h1>
             </div>
@@ -78,7 +79,9 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                     >
                         <div className='bg-primary border-2 border-primary rounded-lg text-white px-3 py-2 flex gap-2  '>
                             <Image src={plusIcon} alt='plus icon' />
-                            <span className='text-sm md:text-base'>Create New</span>
+                            <span className='text-sm md:text-base'>
+                                <Translation translationKey='locationHeader_createBtn' />
+                            </span>
                         </div>
                     </button>
                 </div>

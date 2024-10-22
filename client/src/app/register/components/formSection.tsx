@@ -224,13 +224,8 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 					<label
 						htmlFor='businessNumber'
 						className={classNames(
-							`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10`,
+							`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10 text-primary`,
 							{
-								'text-primary':
-									(formik.values.businessNumber &&
-										!formik.errors.businessNumber) ||
-									(!formik.errors.businessNumber &&
-										!formik.values.businessNumber),
 								'text-alert':
 									formik.errors.businessNumber && formik.touched.businessNumber,
 							},

@@ -94,11 +94,10 @@
             setIsOpenDialog(true);
             setError(null);
 
-            // Update toast to success
+            // Update toast to success 
             toast.success("Registration successful!", { id: toastId });
           }
         } catch (error) {
-          console.log(error);
           setError('An unexpected error occurred during registration.');
 
           // Update toast to error

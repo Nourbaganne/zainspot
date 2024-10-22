@@ -64,7 +64,7 @@ export class User extends BaseEntity {
 
 	@Column()
 	zipCode: string;
-	
+
 	@Column()
 	fullStreetAdress: string;
 
@@ -89,19 +89,24 @@ export class User extends BaseEntity {
 	@Column({ nullable: true, default: '' })
 	mediaProfile: string;
 
-	@Column({default: ''})
+	@Column({ default: '' })
 	recaptcha: string;
 
-	@Column({nullable: true})
+	@Column({ nullable: true })
 	imageUrl: string;
 
 	@ManyToOne(() => Role, { cascade: true })
 	@JoinColumn({ name: 'roleId' })
 	role: Role;
 
-	@OneToMany(() => PaymentHistory, (paymentHistory) => paymentHistory.user)
+	
+	@OneToMany(() => PaymentHistory, (paymentHistory) => paymentHistory.user, {
+		cascade: ['remove'],  // Cascade delete when user is deleted
+	})
 	paymentHistories: PaymentHistory[];
 
-	@OneToMany(() => Subscription, (subscription) => subscription.user)
+	@OneToMany(() => Subscription, (subscription) => subscription.user, {
+		cascade: ['remove'],  // Cascade delete when user is deleted
+	})
 	subscriptions: Subscription[];
 }
