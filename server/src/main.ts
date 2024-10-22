@@ -14,9 +14,7 @@ async function bootstrap() {
 
   app.use(bodyParser.json({ limit: '20mb' }));
   app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
-  app.enableCors({
-    origin: ['https://zainspot-ecomm.vercel.app', 'http://localhost:3000'], // Specify the origin you want to allow
-  });
+  app.enableCors();
   console.log('Server running on http://localhost:3001');
   await app.listen(3001);
 }
