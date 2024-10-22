@@ -30,18 +30,5 @@ export class StripeService {
 		return session;
 	}
 
-	async getPaymentIntentsByUserId(userId: number) {
-		// Retrieve all payment intents
-		const paymentIntents = await this.stripe.paymentIntents.list({
-			limit: 100, // You can adjust this limit based on your requirements
-		});
-
-		// Filter payment intents to return only those that match the user ID
-		const userPaymentIntents = paymentIntents.data.filter(intent =>
-			intent.metadata.userId === userId.toString()
-		);
-
-		return userPaymentIntents;
-	}
 
 }

@@ -4,7 +4,6 @@ import { Response } from 'express';
 import { PaymentHistoryService } from 'src/payment-history/payment-history.service';
 import { SubscriptionService } from 'src/subscription/subscription.service';
 import { CreateSubscriptionDto } from 'src/subscription/dto/create-subscription.dto';
-import { Public } from 'src/decorators/public.decorator';
 
 interface CreateCheckoutSessionBodyInterface {
 	stripePriceId: string;
@@ -21,51 +20,48 @@ export class StripeController {
 	) { }
 
 	@Post('create-checkout-session')
-	async createCheckoutSession(
-		@Res() res: Response,
-		@Body()
-		{ stripePriceId, subscription, userId }: CreateCheckoutSessionBodyInterface,
-	) {
-		if (!stripePriceId || !subscription || !userId) {
-			return res
-				.status(422)
-				.json({ message: 'StripePriceIds and Subscriptions are required' });
-		}
+async createCheckoutSession(
+    @Res() res: Response,
+    @Body() { stripePriceId, subscription, userId }: CreateCheckoutSessionBodyInterface,
+) {
+    if (!stripePriceId || !subscription || !userId) {
+        return res
+            .status(422)
+            .json({ message: 'StripePriceIds and Subscriptions are required' });
+    }
 
-		const session =
-			await this.stripeService.createCheckoutSession(stripePriceId);
+    try {
+        subscription = {
+            ...subscription,
+            renewalDate: subscription.endDate,
+            renewalStatus: 'YES',
+        };
 
-		subscription = {
-			...subscription,
-			renewalDate: subscription.endDate,
-			renewalStatus: 'YES',
-		};
+        const newSubscription = await this.subscriptionService.createSubscription(subscription);
+        console.log('stripe controller newSubscription', newSubscription);
 
-		const newSubscription =
-			await this.subscriptionService.createSubscription(subscription);
-		console.log('stripe controller newSubscription', newSubscription);
+        const session = await this.stripeService.createCheckoutSession(stripePriceId);
 
-		// create payment history record
-		try {
-			const newPaymentHistory = await this.paymentHistoryService.create({
-				subscriptionId: newSubscription.id,
-				date: new Date(),
-				method: 'card',
-				amount: session.amount_total,
-				status: 'PENDING',
-				stripeSessionId: session.id,
-				userId,
-			});
-			console.log('stripe controller newPaymentHistory', newPaymentHistory);
+        // Create payment history record
+        const newPaymentHistory = await this.paymentHistoryService.create({
+            subscriptionId: newSubscription.id,
+            date: new Date(),
+            method: 'card',
+            amount: session.amount_total,
+            status: 'PENDING',
+            stripeSessionId: session.id,
+            userId,
+        });
+        console.log('stripe controller newPaymentHistory', newPaymentHistory);
 
-		res.json({ id: session.id, url: session.url });
-	}
+        return res.json({ id: session.id, url: session.url });
+    } catch (error) {
+        console.error('Error in createCheckoutSession:', error);
+        return res.status(500).json({ message: 'An error occurred during the checkout session creation' });
+    }
+}
 
-	@Public()
-	@Get('payment-intents/:userId')
-	async getPaymentIntents(@Param('userId') userId: number) {
-		return await this.stripeService.getPaymentIntentsByUserId(userId);
-	}
+
 
 
 }
