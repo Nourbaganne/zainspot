@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import InfoCard from '../../components/infoCard';
 import AttachmentCard from '../../components/attachmentCard';
 import Translation from '@/app/components/translation';
+import axiosInstance from '@/app/lib/axios/axiosInstance';
 
 interface Attachment {
     filename: string;
@@ -21,6 +22,7 @@ const Email = () => {
     const email = searchParams.get('email') || 'Unknown User';
     const userId = searchParams.get('id');
     const fullname = searchParams.get('fullname') || 'Unknown User';
+
 
     // State Management
     const [formData, setFormData] = useState({
@@ -44,6 +46,7 @@ const Email = () => {
     });
 
     const handleSubmit = async () => {
+
         if (!formData.to || !formData.subject || !body) {
             setStatus({
                 loading: false,
@@ -78,26 +81,20 @@ const Email = () => {
 
         setStatus({ loading: true, message: '', error: false });
         try {
-            const response = await fetch('http://localhost:3001/sendMail/send', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    from: formData.from !== 'ZainSpot Support' ? formData.from : undefined,
-                    to: formData.to,
-                    cc: formData.cc ? formData.cc.split(',').map(email => email.trim()) : undefined,
-                    bcc: formData.bcc ? formData.bcc.split(',').map(email => email.trim()) : undefined,
-                    subject: formData.subject,
-                    text: body.replace(/<[^>]+>/g, ''),
-                    html: body,
-                    attachments: attachments.length > 0 ? attachments : undefined,
-                }),
+            const response = await axiosInstance.post('http://localhost:3001/sendMail/send', {
+                from: formData.from !== 'ZainSpot Support' ? formData.from : undefined,
+                to: formData.to,
+                cc: formData.cc ? formData.cc.split(',').map(email => email.trim()) : undefined,
+                bcc: formData.bcc ? formData.bcc.split(',').map(email => email.trim()) : undefined,
+                subject: formData.subject,
+                text: body.replace(/<[^>]+>/g, ''),
+                html: body,
+                attachments: attachments.length > 0 ? attachments : undefined,
             });
 
-            const result = await response.json();
+            const result = response.data;
 
-            if (response.ok) {
+            if (response.status === 200) {
                 setStatus({ loading: false, message: result.message, error: false });
                 setFormData({
                     from: 'ZainSpot Support',
@@ -149,7 +146,7 @@ const Email = () => {
                     </div>
                 )}
                 <div className='grid grid-cols-5 gap-4'>
-                    <InfoCard formData={formData} setFormData={setFormData} fullname={email} />
+                    <InfoCard formData={formData} setFormData={setFormData} email={email} />
                     <AttachmentCard
                         attachments={attachments}
                         setAttachments={setAttachments}

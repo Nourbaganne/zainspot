@@ -18,18 +18,18 @@ interface InfoCardProps {
     bcc: string;
     subject: string;
   }>>;
-  fullname: string;
+  email: string;
 }
 
 const INFOCARD_FORM = [
-  { label: 'mailForm_sender', placeholder: 'ZainSpot Support' },
-  { label: 'mailForm_receiver', placeholder: 'John Doe' },
-  { label: 'mailForm_cc', placeholder: '---' },
-  { label: 'mailForm_bcc', placeholder: '---' },
-  { label: 'mailForm_subject', placeholder: '---' },
+  { label: 'From', placeholder: 'ZainSpot Support' },
+  { label: 'To', placeholder: 'John Doe' },
+  { label: 'CC', placeholder: '---' },
+  { label: 'BCC', placeholder: '---' },
+  { label: 'Subject', placeholder: '---' },
 ];
 
-const InfoCard: React.FC<InfoCardProps> = ({ formData, setFormData, fullname }) => {
+const InfoCard: React.FC<InfoCardProps> = ({ formData, setFormData, email }) => {
   return (
     <div className='col-span-3 flex flex-col p-8 gap-4 bg-background border'>
       {INFOCARD_FORM.map((item, key) => (
@@ -41,7 +41,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ formData, setFormData, fullname }) 
             type="text"
             name={item.label.toLowerCase()}
             id={item.label}
-            placeholder={item.label === 'To' ? fullname : item.placeholder}
+            placeholder={item.label === 'To' ? email : item.placeholder}
             value={formData[item.label.toLowerCase() as keyof typeof formData]}
             onChange={(e) =>
               setFormData({ ...formData, [e.target.name]: e.target.value })
