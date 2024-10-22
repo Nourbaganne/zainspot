@@ -3,6 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PaymentHistory } from '../entities/payment-history.entity';
 import { CreatePaymentHistoryDto } from './dto/create-payment-history';
 import { User } from 'src/entities/user.entity';
+import { Subscription } from 'src/entities/subscription.entity';
 
 @Injectable()
 export class PaymentHistoryService {
@@ -11,17 +12,30 @@ export class PaymentHistoryService {
 	async create(
 		createPaymentHistoryDto: CreatePaymentHistoryDto,
 	): Promise<PaymentHistory> {
-		const { userId, ...paymentHistoryData } = createPaymentHistoryDto;
+		const { userId, subscriptionId, ...paymentHistoryData } =
+			createPaymentHistoryDto;
 
 		const user = await User.findOneBy({ id: userId });
 		if (!user) {
 			throw new Error('User not found');
 		}
 
+		const subscription = await Subscription.findOneBy({ id: subscriptionId });
+		if (!subscription) {
+			throw new Error('Subscription not found');
+		}
+
 		const paymentHistory = PaymentHistory.create({
 			...paymentHistoryData,
-			user,
 		});
+
+		paymentHistory.user = user;
+		paymentHistory.subscription = subscription;
+
+		console.log('payment history service create method -----------------');
+		console.log('user', user);
+		console.log('subscription', subscription);
+		console.log('paymentHistory', paymentHistory);
 
 		return PaymentHistory.save(paymentHistory);
 	}
@@ -36,7 +50,7 @@ export class PaymentHistoryService {
 	findOne(id: number): Promise<PaymentHistory> {
 		return PaymentHistory.findOne({
 			where: { id },
-			relations: ['subscriptions', 'subscriptions.city'], 
+			relations: ['subscriptions', 'subscriptions.city'],
 		});
 	}
 
