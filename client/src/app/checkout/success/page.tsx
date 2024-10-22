@@ -7,19 +7,10 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { FiArrowRight, FiCheckCircle } from 'react-icons/fi';
 import IMG from '@/app/assets/cart/row-image.png';
 import CONGRATS_IMG from '@/app/assets/cart/success/celebration-6VFgJeZ9bs.svg';
-import { useEffect } from 'react';
-import { useCart } from '@/app/contexts/CartContext';
 
 export default function CheckoutSuccessPage() {
 	const searchParams = useSearchParams();
 	const sessionId = searchParams.get('session_id');
-
-	const { clearCart } = useCart();
-
-	useEffect(() => {
-		console.log('Clearing cart');
-		clearCart();
-	}, [clearCart]);
 
 	// Subscription.paymentId (references payment_history table)
 
