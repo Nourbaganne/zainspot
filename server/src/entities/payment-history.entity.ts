@@ -4,7 +4,7 @@ import {
 	PrimaryGeneratedColumn,
 	ManyToOne,
 	BaseEntity,
-	OneToMany,
+	OneToOne,
 } from 'typeorm';
 import { User } from './user.entity';
 import { Subscription } from './subscription.entity';
@@ -14,8 +14,8 @@ export class PaymentHistory extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@OneToMany(() => Subscription, (subscription) => subscription.payment)
-	subscriptions: Subscription[];
+	@OneToOne(() => Subscription, (subscription) => subscription.paymentHistory)
+	subscription: Subscription;
 
 	@Column()
 	date: Date;

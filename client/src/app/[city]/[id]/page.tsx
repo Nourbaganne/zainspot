@@ -10,20 +10,27 @@ import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import Loader from '@/app/components/loader';
 import Map from '@/app/components/map';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
-import { useCart } from '@/app/contexts/CartContext';
 import City from '@/app/interfaces/City';
 import { FiChevronLeft } from 'react-icons/fi';
 
+export interface SelectedItem {
+	duration: number;
+	amount: number;
+	optionType: 'gold' | 'classic';
+	stripePriceId: string;
+}
+
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 	const { user } = useContext(AuthContext);
-	const { addToCart, state } = useCart();
 
 	const { data, isLoading, isError, error } = useQuery({
 		queryKey: ['city', params.id],
 		queryFn: () => axiosInstance.get(`/city/${params.id}`),
 	});
+
+	const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
 
 	// amout is the price
 	// duration is in months
@@ -31,21 +38,43 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 		duration: number;
 		amount: number;
 		optionType: 'gold' | 'classic';
+		stripePriceId: string;
 	}) {
+		console.log('selected item', item);
+		setSelectedItem(item);
+	}
+
+	function handleCheckout() {
+		if (!selectedItem) {
+			alert('Please select an option first');
+			return;
+		}
+
 		const startDate = new Date();
 		const newSubscription = {
 			startDate,
 			endDate: new Date(
-				startDate.setMonth(startDate.getMonth() + item.duration),
+				startDate.setMonth(startDate.getMonth() + selectedItem.duration),
 			),
-			optionType: item.optionType,
-			duration: item.duration,
-			price: item.amount * item.duration,
+			optionType: selectedItem.optionType,
+			duration: selectedItem.duration,
+			price: selectedItem.amount * selectedItem.duration,
 			userId: user?.user.userId,
 			cityId: parseInt(params.id),
 		};
 
-		addToCart(newSubscription as any);
+		axiosInstance
+			.post('stripe/create-checkout-session', {
+				stripePriceId: selectedItem.stripePriceId,
+				subscription: newSubscription,
+				userId: user?.user.userId,
+			})
+			.then((res) => {
+				window.location.href = res.data.url;
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 	}
 
 	if (isLoading) {
@@ -112,14 +141,14 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 				</div>
 				<div className='flex flex-col gap-7 px-0 md:px-10 '>
 					<ZsGold
-						amount={city?.goldPrice.amount}
+						priceData={city?.goldPrice}
 						onSelect={handleSelect}
-						city={city}
+						selectedItem={selectedItem}
 					/>
 					<ZsClassic
-						amounts={city?.classicPrice as any}
+						selectedItem={selectedItem}
+						pricesData={city?.classicPrice}
 						onSelect={handleSelect}
-						city={city}
 					/>
 					<div className='flex flex-col justify-center items-center gap-5 py-6'>
 						<div className='flex flex-col justify-center items-center gap-5 md:flex-row w-full'>
@@ -133,15 +162,15 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 									</button>
 								</div>
 							)}
-							<Link
-								href='/cart'
+							<button
+								onClick={handleCheckout}
 								className='md:ml-auto flex flex-col items-center font-semibold text-secondary border-2 border-secondary rounded-md px-12'
 							>
 								Go to{' '}
 								<span className='text-xl'>
 									<Translation translationKey='secure_checkout' />
 								</span>
-							</Link>
+							</button>
 						</div>
 
 						<Link

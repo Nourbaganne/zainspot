@@ -32,7 +32,7 @@ export const HandleRoleChanges = async ({
 
     try {
         const response = await axiosInstance.patch(
-            `http://localhost:3001/user/${userId}`,
+            `/user/${userId}`,
             {
                 role: {
                     id: updatedRole,

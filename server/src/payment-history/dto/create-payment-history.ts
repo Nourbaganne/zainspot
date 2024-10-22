@@ -15,7 +15,7 @@ export class CreatePaymentHistoryDto {
 
 	@IsNotEmpty()
 	@IsObject()
-	subscriptions: Subscription[];
+	subscription: Subscription;
 
 	@IsNotEmpty()
 	@IsDate()

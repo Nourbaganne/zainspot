@@ -1,27 +1,22 @@
 import { MoneyValue } from '@/app/components/MoneyValue';
 import Translation from '@/app/components/translation';
-import { useCart } from '@/app/contexts/CartContext';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
 import City from '@/app/interfaces/City';
 import { useState } from 'react';
+import { SelectedItem } from '../[id]/page';
+import PerMonth from '@/app/interfaces/PerMonth';
 
-export interface ClassicPrice {
-	perMonth: Array<{
-		duration?: number;
-		amount: number;
-		tax?: number;
-		stripePriceId: string;
-	}>;
+interface ClassicPrice {
+	perMonth: PerMonth[];
 }
 
 interface ZSClassisProps {
-	amounts: ClassicPrice;
+	pricesData: ClassicPrice;
 	onSelect: (args: any) => void;
-	city: City;
+	selectedItem: SelectedItem | null;
 }
 
-const ZsClassic = ({ amounts, onSelect, city }: ZSClassisProps) => {
-	const { state } = useCart();
+const ZsClassic = ({ pricesData, onSelect, selectedItem }: ZSClassisProps) => {
 	const { currency } = useCurrency();
 
 	return (
@@ -52,7 +47,7 @@ const ZsClassic = ({ amounts, onSelect, city }: ZSClassisProps) => {
 				<div>
 					<span className='text-primary text-lg'>
 						<MoneyValue
-							value={amounts?.perMonth[0].amount}
+							value={pricesData?.perMonth[0].amount}
 							fromCurrency='USD'
 							toCurrency={currency}
 							decimals={0}
@@ -65,20 +60,22 @@ const ZsClassic = ({ amounts, onSelect, city }: ZSClassisProps) => {
 						id='buy-classic-12'
 						name='buy'
 						className='w-6 h-6 border-4 border-text-foreground text-primary focus:ring-primary'
-						checked={state.items.some(
-							(item) =>
-								item.optionType == 'classic' &&
-								item.duration == 12 &&
-								item.cityId == city.id,
-						)}
+						checked={
+							selectedItem != null &&
+							selectedItem.optionType == 'classic' &&
+							selectedItem.duration == 12
+						}
 						onClick={() =>
 							onSelect({
 								optionType: 'classic',
 								duration: 12,
-								amount: amounts?.perMonth[0].amount,
+								amount: pricesData?.perMonth[0].amount,
+								stripePriceId: pricesData?.perMonth.find(
+									(p) => p.duration === 12,
+								)?.stripePriceId,
 							})
 						}
-						onChange={() => { }}
+						onChange={() => {}}
 					/>
 					<label htmlFor='buy-classic-12'>
 						<Translation translationKey='citypage_radio_label' />
@@ -89,15 +86,13 @@ const ZsClassic = ({ amounts, onSelect, city }: ZSClassisProps) => {
 				<p className='font-normal text-sm text-center'>
 					<Translation translationKey='citypage_permonth' />
 				</p>
-				{amounts?.perMonth
+				{pricesData?.perMonth
 					.filter((month) => month.duration !== 12)
 					.map((month, index) => (
 						<div key={index} className='flex justify-between font-semibold'>
 							<h1 className='flex gap-2'>
 								{month?.duration}
-								<span>
-									{month?.duration === 1 ? 'month' : 'months'}
-								</span>
+								<span>{month?.duration === 1 ? 'month' : 'months'}</span>
 							</h1>
 							<h1 className='text-primary'>
 								<MoneyValue
@@ -113,20 +108,20 @@ const ZsClassic = ({ amounts, onSelect, city }: ZSClassisProps) => {
 									id={'buy-classic-' + month.duration}
 									name='buy'
 									className='w-6 h-6 border-4 border-text-foreground text-primary focus:ring-primary'
-									checked={state.items.some(
-										(item) =>
-											item.optionType == 'classic' &&
-											item.duration == month.duration &&
-											item.cityId == city.id,
-									)}
+									checked={
+										selectedItem != null &&
+										selectedItem.optionType == 'classic' &&
+										selectedItem.duration == month.duration
+									}
 									onClick={() =>
 										onSelect({
 											optionType: 'classic',
 											duration: month.duration,
 											amount: month.amount,
+											stripePriceId: month.stripePriceId,
 										})
 									}
-									onChange={() => { }}
+									onChange={() => {}}
 								/>
 								<label htmlFor={'buy-classic-' + month.duration}>
 									<Translation translationKey='citypage_radio_label' />
