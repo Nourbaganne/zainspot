@@ -46,20 +46,21 @@ export class GoldMemberEmailService {
           <p>Hi ${user?.name},</p>
           <p >You have updated your subscription to the ZS Gold on London ZainSpot.</p>
           <p >Here are your new benefits:</p>
-          <ul style="list-style-type: none;padding-top:5px ; padding-bottom: 5px">
-            <li style="display:flex;">
-              <img src="cid:checkIcon" alt="check-icon" style="margin-right: 5px;"/>
-              Your Business Address 
+          <ul style="list-style-type: none; padding: 0;">
+            <li style="display: flex; align-items: center; margin-bottom: 8px;">
+              <img src="https://res.cloudinary.com/dk1upobue/image/upload/v1729593851/emailVerification/checkmark_tqx5r4.svg" width="20" height="20" alt="checkmark" style="margin-right: 8px;" />
+              Your Business Address
             </li>
-            <li style="display:flex;">
-              <img src="cid:checkIcon" alt="check-icon" style="margin-right: 5px;"/>
-              Mail Handling 
+            <li style="display: flex; align-items: center; margin-bottom: 8px;">
+              <img src="https://res.cloudinary.com/dk1upobue/image/upload/v1729593851/emailVerification/checkmark_tqx5r4.svg" width="20" height="20" alt="checkmark" style="margin-right: 8px;" />
+              Mail Handling
             </li>
-            <li style="display:flex;">
-              <img src="cid:checkIcon" alt="check-icon" style="margin-right: 5px;"/>
-              Your Local Phone Number 
+            <li style="display: flex; align-items: center; margin-bottom: 8px;">
+              <img src="https://res.cloudinary.com/dk1upobue/image/upload/v1729593851/emailVerification/checkmark_tqx5r4.svg" width="20" height="20" alt="checkmark" style="margin-right: 8px;" />
+              Your Local Phone Number
             </li>
           </ul>
+
           <a href="${frontendUrl}" style="display: inline-block; background-color: #00927C; color: #FFFFFF; font-weight: bold; border-radius: 5px; padding: 10px 20px; text-decoration: none; text-align: center; font-size: 14px; margin-top: 10px;">Go to e-Print</a>
           <p style="font-family: 'Work Sans', Arial, sans-serif; font-weight: 300; font-size: 16px; line-height: 25.6px; color: #666666; margin-top: 20px;">If you have any questions, our support team is just an email away.</p>
           <p style="font-family: 'Work Sans', Arial, sans-serif; font-weight: 300; font-size: 16px; line-height: 25.6px; color: #666666; margin: 0;">Thank you,<br />The ZainSpot Team</p>
@@ -119,11 +120,11 @@ export class GoldMemberEmailService {
           "path": "https://res.cloudinary.com/dk1upobue/image/upload/v1725894297/emailVerification/youtubeLogo_yaajfa.png",
           "cid": "youtube-logo"
         },
-        {
-          "filename": "checkIcon_ns1nbt.png",
-          "path": "https://res.cloudinary.com/dk1upobue/image/upload/f_auto,q_auto:eco,w_20,h_20/v1729592892/emailVerification/checkIcon_ns1nbt.png",
-          "cid": "checkIcon"
-        }
+          // {
+          //   "filename": "checkIcon_ns1nbt.png",
+          //   "path": "https://res.cloudinary.com/dk1upobue/image/upload/f_auto,q_auto:eco,w_20,h_20/v1729592892/emailVerification/checkIcon_ns1nbt.png",
+          //   "cid": "checkIcon"
+          // }
         ]
       });
       this.logger.log(`Verification email sent to ${email}`);
