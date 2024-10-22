@@ -130,7 +130,7 @@ export class CityService {
 			console.log('gp', gp);
 			const goldPrice = await this.stripeService.stripe.prices.create({
 				currency: 'usd',
-				unit_amount: gp.amount,
+				unit_amount: gp.amount * 100,
 				recurring: {
 					interval: 'month',
 					interval_count: gp.duration,
@@ -153,7 +153,7 @@ export class CityService {
 						console.log('price', price);
 						const classicPrice = await this.stripeService.stripe.prices.create({
 							currency: 'usd',
-							unit_amount: price.amount,
+							unit_amount: price.amount * 100,
 							recurring: { interval: 'month', interval_count: price.duration },
 							product_data: { name: `${city.city} Classic Membership` },
 						});

@@ -45,19 +45,24 @@ export class StripeController {
 		console.log('stripe controller newSubscription', newSubscription);
 
 		// create payment history record
-		const newPaymentHistory = await this.paymentHistoryService.create({
-			subscription: newSubscription,
-			date: new Date(),
-			method: null,
-			amount: session.amount_total,
-			status: 'PENDING',
-			stripeSessionId: session.id,
-			userId,
-		});
-		console.log('stripe controller newPaymentHistory', newPaymentHistory);
+		try {
+			const newPaymentHistory = await this.paymentHistoryService.create({
+				subscriptionId: newSubscription.id,
+				date: new Date(),
+				method: 'card',
+				amount: session.amount_total,
+				status: 'PENDING',
+				stripeSessionId: session.id,
+				userId,
+			});
+			console.log('stripe controller newPaymentHistory', newPaymentHistory);
 
-		newPaymentHistory.save();
-
-		res.json({ id: session.id, url: session.url });
+			res.json({ id: session.id, url: session.url });
+		} catch (err) {
+			console.error(err);
+			return res
+				.status(500)
+				.json({ message: 'Error creating payment history', error: err });
+		}
 	}
 }
