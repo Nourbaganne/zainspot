@@ -32,11 +32,8 @@ export class SubscriptionService {
 		const city = await this.cityRepository.findOneBy({
 			id: subscriptionData.cityId,
 		});
-		const paymentHistory = await this.paymentHistoryRepository.findOneBy({
-			id: subscriptionData.paymentId,
-		});
 
-		if (!user || !city || !paymentHistory) {
+		if (!user || !city) {
 			throw new Error('User or City or Payment History not found');
 		}
 

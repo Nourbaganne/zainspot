@@ -21,6 +21,12 @@ export class CreateSubscriptionDto {
 	@IsNumber()
 	price: number;
 
+	@IsNotEmpty()
+	startDate: Date;
+
+	@IsNotEmpty()
+	endDate: Date;
+
 	@IsOptional()
 	renewalDate: Date;
 
@@ -28,5 +34,5 @@ export class CreateSubscriptionDto {
 	renewalStatus: string;
 
 	@IsOptional()
-	paymentId: number;
+	paymentHistoryId: number;
 }

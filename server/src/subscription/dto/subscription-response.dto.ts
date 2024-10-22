@@ -17,7 +17,7 @@ export class SubscriptionResponseDto {
 		email: string;
 		businessNumber: string;
 	};
-	payment?: {
+	paymentHistory?: {
 		id: number;
 	};
 }
