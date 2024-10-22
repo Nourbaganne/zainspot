@@ -126,7 +126,7 @@ const Navbar = () => {
 					</div>
 				</div>
 
-				<div className='flex flex-col items-end gap-2'>
+				<div className='flex flex-col items-end justify-center h-full gap-2'>
 					{user ? (
 						<button
 							className='text-alert font-semibold text-start'
@@ -145,9 +145,11 @@ const Navbar = () => {
 						</div>
 					)}
 
-					<Link href='/zainspotter' className='text-primary capitalize'>
-						<Translation translationKey='go_to_my_zainspot' />{' '}
-					</Link>
+					{user && (
+						<Link href='/zainspotter' className='text-primary capitalize'>
+							<Translation translationKey='go_to_my_zainspot' />{' '}
+						</Link>
+					)}
 				</div>
 			</div>
 			<div className='md:hidden flex relative'>
