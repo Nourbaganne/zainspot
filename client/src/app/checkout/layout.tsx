@@ -8,7 +8,6 @@ import { FiArrowRight, FiCheckCircle } from 'react-icons/fi';
 import IMG from '@/app/assets/cart/row-image.png';
 import CONGRATS_IMG from '@/app/assets/cart/success/celebration-6VFgJeZ9bs.svg';
 import { useEffect } from 'react';
-import { useCart } from '@/app/contexts/CartContext';
 
 interface Props {
 	children: React.ReactNode;
@@ -16,7 +15,7 @@ interface Props {
 
 export default function CheckoutSuccessPage({ children }: Props) {
 	const searchParams = useSearchParams();
-	const sessionId = searchParams.get('session_id');
+	// const sessionId = searchParams.get('session_id');
 
 	return (
 		<div className='py-24 max-w-xl mx-auto text-center'>

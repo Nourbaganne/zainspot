@@ -2,19 +2,21 @@
 
 import { MoneyValue } from '@/app/components/MoneyValue';
 import Translation from '@/app/components/translation';
-import { useCart } from '@/app/contexts/CartContext';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
-import City from '@/app/interfaces/City';
+import PerMonth from '@/app/interfaces/PerMonth';
 
 interface ZSGoldProps {
-	amount: number;
+	priceData: PerMonth;
 	onSelect: (args: any) => void;
-	city: City;
+	selectedItem: {
+		optionType: string;
+		duration: number;
+		stripePriceId: string;
+		amount: number;
+	} | null;
 }
 
-const ZsGold = ({ amount, onSelect, city }: ZSGoldProps) => {
-	const { state } = useCart();
-
+const ZsGold = ({ priceData, onSelect, selectedItem }: ZSGoldProps) => {
 	const { currency } = useCurrency();
 	return (
 		<div className='flex flex-col gap-4 border-2 font-sans rounded-md border-secondary  px-2 py-4'>
@@ -53,7 +55,7 @@ const ZsGold = ({ amount, onSelect, city }: ZSGoldProps) => {
 				<div>
 					<span className='text-primary text-lg'>
 						<MoneyValue
-							value={amount}
+							value={priceData.amount}
 							fromCurrency='USD'
 							toCurrency={currency}
 							decimals={0}
@@ -66,11 +68,14 @@ const ZsGold = ({ amount, onSelect, city }: ZSGoldProps) => {
 						id='buy-gold'
 						name='buy'
 						className='w-6 h-6 border-4 border-text-foreground text-primary  focus:ring-primary'
-						checked={state.items.some(
-							(item) => item.optionType == 'gold' && item.cityId == city.id,
-						)}
+						checked={selectedItem != null && selectedItem.optionType == 'gold'}
 						onClick={() =>
-							onSelect({ amount, optionType: 'gold', duration: 12 })
+							onSelect({
+								amount: priceData.amount,
+								optionType: 'gold',
+								duration: 12,
+								stripePriceId: priceData.stripePriceId,
+							})
 						}
 						onChange={() => {}}
 					/>

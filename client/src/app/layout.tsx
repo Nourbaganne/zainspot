@@ -7,7 +7,6 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
 import { QueryProvider } from './queryProvider';
 import { AuthContextProvider } from './contexts/authContext';
-import { CartProvider } from './contexts/CartContext';
 import { Toaster } from 'react-hot-toast';
 import { RolesProvider } from './contexts/RoleContext';
 
@@ -30,14 +29,12 @@ export default function RootLayout({
 					<AuthContextProvider>
 						<LanguageProvider>
 							<CurrencyProvider>
-								<CartProvider>
-									<RolesProvider>
-										<Navbar />
-										<Toaster position='top-right' />
-										<main>{children}</main>
-										<Footer />
-									</RolesProvider>
-								</CartProvider>
+								<RolesProvider>
+									<Navbar />
+									<Toaster position='top-right' />
+									<main>{children}</main>
+									<Footer />
+								</RolesProvider>
 							</CurrencyProvider>
 						</LanguageProvider>
 					</AuthContextProvider>

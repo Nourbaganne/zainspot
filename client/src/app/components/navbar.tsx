@@ -15,11 +15,8 @@ import { Currency } from '../lib/currencyConvert';
 import { useRouter } from 'next/navigation';
 import { AuthContext } from '../contexts/authContext';
 import Menubar from './menubar';
-import { useCart } from '../contexts/CartContext';
 
 const Navbar = () => {
-	const { state } = useCart();
-	const { items } = state;
 	const [isOpen, setIsOpen] = useState(false);
 	const [openLanguagesMenu, setOpenLanguagesMenu] = useState(false);
 	const [openCurrencyMenu, setOpenCurrencyMenu] = useState(false);
@@ -148,8 +145,10 @@ const Navbar = () => {
 
 					<Link href='/cart' className='text-secondary text-sm uppercase'>
 						<Translation translationKey='secure_checkout' />{' '}
+						{/* TODO: replace "Secure Checkout" link with "My ZainSpot Profile" link */}
+						{/* ? We no longer have a cart */}
 						<span className='bg-secondary rounded-full text-background px-1'>
-							{items.length}
+							0
 						</span>
 					</Link>
 				</div>
