@@ -7,6 +7,7 @@ import { City } from '../entities/city.entity';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { SubscriptionResponseDto } from './dto/subscription-response.dto';
 import { PaymentHistory } from 'src/entities/payment-history.entity';
+import { updateSubscriptionDto } from './dto/update-subscription.dto';
 
 @Injectable()
 export class SubscriptionService {
@@ -103,6 +104,26 @@ export class SubscriptionService {
 				status: subscription?.renewalStatus,
 			},
 		}));
+	}
+
+	async update(
+		id: number,
+		updateSubscriptionDto: updateSubscriptionDto,
+	): Promise<Subscription> {
+		const subscription = await this.subscriptionRepository.findOne({
+			where: { id },
+		});
+
+		if (!subscription) {
+			throw new NotFoundException(`Subscription with ID ${id} not found`);
+		}
+
+		const { ...subscriptionData } = updateSubscriptionDto;
+
+		// Assign new data to subscription
+		Object.assign(subscription, subscriptionData);
+
+		return subscription.save();
 	}
 
 	async remove(id: number): Promise<string> {

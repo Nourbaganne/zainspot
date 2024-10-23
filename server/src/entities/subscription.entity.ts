@@ -5,12 +5,9 @@ import {
 	Column,
 	CreateDateColumn,
 	BaseEntity,
-	OneToOne,
-	JoinColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 import { City } from './city.entity';
-import { PaymentHistory } from './payment-history.entity';
 
 @Entity()
 export class Subscription extends BaseEntity {

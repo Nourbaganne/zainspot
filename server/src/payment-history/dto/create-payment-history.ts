@@ -3,10 +3,8 @@ import {
 	IsNumber,
 	IsString,
 	IsDate,
-	IsObject,
 	IsOptional,
 } from 'class-validator';
-import { Subscription } from 'src/entities/subscription.entity';
 
 export class CreatePaymentHistoryDto {
 	@IsNotEmpty()

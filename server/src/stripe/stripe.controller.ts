@@ -1,9 +1,13 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put, Res } from '@nestjs/common';
 import { StripeService } from './stripe.service';
 import { Response } from 'express';
 import { PaymentHistoryService } from 'src/payment-history/payment-history.service';
 import { SubscriptionService } from 'src/subscription/subscription.service';
 import { CreateSubscriptionDto } from 'src/subscription/dto/create-subscription.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { Subscription } from 'src/entities/subscription.entity';
+import { Repository } from 'typeorm';
 
 interface CreateCheckoutSessionBodyInterface {
 	stripePriceId: string;
@@ -17,6 +21,8 @@ export class StripeController {
 		private readonly stripeService: StripeService,
 		private readonly paymentHistoryService: PaymentHistoryService,
 		private readonly subscriptionService: SubscriptionService,
+		@InjectRepository(Subscription)
+		private subscriptionRepository: Repository<Subscription>,
 	) {}
 
 	@Post('create-checkout-session')
@@ -42,7 +48,6 @@ export class StripeController {
 
 		const newSubscription =
 			await this.subscriptionService.createSubscription(subscription);
-		console.log('stripe controller newSubscription', newSubscription);
 
 		// create payment history record
 		try {
@@ -64,5 +69,58 @@ export class StripeController {
 				.status(500)
 				.json({ message: 'Error creating payment history', error: err });
 		}
+	}
+
+	@Put('payment-history/:stripeSessionId')
+	async updatePaymentHistoryStatus(
+		@Param() { stripeSessionId }: { stripeSessionId: string },
+		@Res() res: Response,
+	) {
+		console.log('stripe controller updatePaymentHistoryStatus has been hit');
+
+		if (!stripeSessionId) {
+			return { message: 'Stripe session ID is required' };
+		}
+
+		const session =
+			await this.stripeService.stripe.checkout.sessions.retrieve(
+				stripeSessionId,
+			);
+
+		if (session.payment_status.toLowerCase() != 'paid') {
+			return res.status(200).json({ message: 'Payment failed' });
+		}
+
+		// update payment history
+		const paymentHistory =
+			await this.paymentHistoryService.findOneByStripeSessionId(
+				stripeSessionId,
+				['subscription'],
+			);
+		if (!paymentHistory) {
+			return { message: 'Payment history not found' };
+		}
+
+		const updatedPaymentHistory = await this.paymentHistoryService.update(
+			paymentHistory.id,
+			{
+				status: 'PAID',
+			},
+		);
+
+		// update subscription
+		const updatedSubscription = await this.subscriptionService.update(
+			paymentHistory.subscription.id,
+			{
+				renewalDate: new Date(),
+				renewalStatus: 'YES',
+			},
+		);
+
+		return res.status(204).json({
+			message: 'Subscription renewed successfully',
+			updatedPaymentHistory,
+			updatedSubscription,
+		});
 	}
 }

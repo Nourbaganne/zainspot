@@ -4,6 +4,7 @@ import { PaymentHistory } from '../entities/payment-history.entity';
 import { CreatePaymentHistoryDto } from './dto/create-payment-history';
 import { User } from 'src/entities/user.entity';
 import { Subscription } from 'src/entities/subscription.entity';
+import { UpdatePaymentHistoryDto } from './dto/update-payment-history';
 
 @Injectable()
 export class PaymentHistoryService {
@@ -32,11 +33,6 @@ export class PaymentHistoryService {
 		paymentHistory.user = user;
 		paymentHistory.subscription = subscription;
 
-		console.log('payment history service create method -----------------');
-		console.log('user', user);
-		console.log('subscription', subscription);
-		console.log('paymentHistory', paymentHistory);
-
 		return PaymentHistory.save(paymentHistory);
 	}
 
@@ -47,11 +43,36 @@ export class PaymentHistoryService {
 		});
 	}
 
+	async findOneByStripeSessionId(
+		stripeSessionId: string,
+		relations: string[] = [],
+	): Promise<PaymentHistory> {
+		return PaymentHistory.findOne({
+			where: { stripeSessionId },
+			relations: relations,
+		});
+	}
+
 	findOne(id: number): Promise<PaymentHistory> {
 		return PaymentHistory.findOne({
 			where: { id },
 			relations: ['subscriptions', 'subscriptions.city'],
 		});
+	}
+
+	async update(
+		id: number,
+		updatePaymentHistoryDto: UpdatePaymentHistoryDto,
+	): Promise<PaymentHistory> {
+		const paymentHistory = await PaymentHistory.findOne({ where: { id } });
+
+		if (!paymentHistory) {
+			throw new NotFoundException(`Payment history with ID ${id} not found`);
+		}
+
+		Object.assign(paymentHistory, updatePaymentHistoryDto);
+
+		return PaymentHistory.save(paymentHistory);
 	}
 
 	async remove(id: number): Promise<string> {

@@ -13,7 +13,7 @@ import Map from '@/app/components/map';
 import { useContext, useState } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
 import City from '@/app/interfaces/City';
-import { FiChevronLeft } from 'react-icons/fi';
+import { FiArrowLeft, FiArrowRight, FiChevronLeft } from 'react-icons/fi';
 
 export interface SelectedItem {
 	duration: number;
@@ -45,6 +45,11 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 	}
 
 	function handleCheckout() {
+		if (!user?.user.userId) {
+			alert('Please login first');
+			return;
+		}
+
 		if (!selectedItem) {
 			alert('Please select an option first');
 			return;
@@ -142,7 +147,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						</div>
 					</div>
 				</div>
-				<div className='flex flex-col gap-7 px-0 md:px-10 '>
+				<div className='flex flex-col gap-7 px-4 md:px-6 '>
 					<ZsGold
 						priceData={city?.goldPrice}
 						onSelect={handleSelect}
@@ -153,35 +158,35 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						pricesData={city?.classicPrice}
 						onSelect={handleSelect}
 					/>
-					<div className='flex flex-col justify-center items-center gap-5 py-6'>
-						<div className='flex flex-col justify-center items-center gap-5 md:flex-row w-full'>
+					<div className='flex justify-between items-center gap-5 py-6'>
+						<div className='flex flex-col gap-2'>
+							<Link
+								href='/'
+								className='text-lg flex items-center font-bold text-gray-400 hover:text-gray-600 hover:underline flex-shrink-0 uppercase'
+							>
+								<FiArrowLeft className='h-6 w-6 mr-2' />
+								<Translation translationKey='select_another_city' />{' '}
+							</Link>
 							{!user?.user.userId && (
-								<div className='flex gap-7 text-xl font-bold text-primary'>
-									<button className='hover:underline uppercase'>
+								<div className='flex gap-6 text-lg font-bold text-primary'>
+									<Link href='/register' className='hover:underline uppercase'>
 										<Translation translationKey='join' />
-									</button>
-									<button className='hover:underline uppercase'>
+									</Link>
+									<Link href='/login' className='hover:underline uppercase'>
 										<Translation translationKey='login' />
-									</button>
+									</Link>
 								</div>
 							)}
-							<button
-								onClick={handleCheckout}
-								className='md:ml-auto flex flex-col items-center font-semibold text-secondary border-2 border-secondary rounded-md px-12'
-							>
-								Go to{' '}
-								<span className='text-xl'>
-									<Translation translationKey='secure_checkout' />
-								</span>
-							</button>
 						</div>
-
-						<Link
-							href='/'
-							className='text-lg font-bold text-primary hover:underline uppercase'
+						<button
+							onClick={handleCheckout}
+							className='flex flex-col items-center font-medium py-1 text-secondary border-2 border-secondary rounded-md px-12'
 						>
-							<Translation translationKey='select_more_cities' />
-						</Link>
+							Go to{' '}
+							<span className='text-xl font-bold'>
+								<Translation translationKey='secure_checkout' />
+							</span>
+						</button>
 					</div>
 				</div>
 			</div>
