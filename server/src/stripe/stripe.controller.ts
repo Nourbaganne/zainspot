@@ -4,10 +4,6 @@ import { Response } from 'express';
 import { PaymentHistoryService } from 'src/payment-history/payment-history.service';
 import { SubscriptionService } from 'src/subscription/subscription.service';
 import { CreateSubscriptionDto } from 'src/subscription/dto/create-subscription.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-
-import { Subscription } from 'src/entities/subscription.entity';
-import { Repository } from 'typeorm';
 
 interface CreateCheckoutSessionBodyInterface {
 	stripePriceId: string;
@@ -21,8 +17,6 @@ export class StripeController {
 		private readonly stripeService: StripeService,
 		private readonly paymentHistoryService: PaymentHistoryService,
 		private readonly subscriptionService: SubscriptionService,
-		@InjectRepository(Subscription)
-		private subscriptionRepository: Repository<Subscription>,
 	) {}
 
 	@Post('create-checkout-session')
@@ -79,7 +73,7 @@ export class StripeController {
 		console.log('stripe controller updatePaymentHistoryStatus has been hit');
 
 		if (!stripeSessionId) {
-			return { message: 'Stripe session ID is required' };
+			return res.status(422).json({ message: 'Stripe session ID is required' });
 		}
 
 		const session =
@@ -88,7 +82,7 @@ export class StripeController {
 			);
 
 		if (session.payment_status.toLowerCase() != 'paid') {
-			return res.status(200).json({ message: 'Payment failed' });
+			return res.status(400).json({ message: 'Payment failed' });
 		}
 
 		// update payment history
@@ -98,7 +92,7 @@ export class StripeController {
 				['subscription'],
 			);
 		if (!paymentHistory) {
-			return { message: 'Payment history not found' };
+			return res.status(404).json({ message: 'Payment history not found' });
 		}
 
 		const updatedPaymentHistory = await this.paymentHistoryService.update(

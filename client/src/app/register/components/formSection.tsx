@@ -1,8 +1,6 @@
 'use client';
 import React, {
-	useEffect,
 	useRef,
-	useState,
 	useMemo,
 	useCallback,
 } from 'react';
@@ -23,7 +21,6 @@ import {
 import SelectField from './selectField';
 import { RadioGroup } from './radiGroup';
 import ReCAPTCHA from 'react-google-recaptcha';
-import ImageInput from '@/app/owner/locations/components/imageInput';
 import toast from 'react-hot-toast';
 import classNames from 'classnames';
 import SelectWrapper from './selectWraper';
@@ -72,7 +69,6 @@ const getCityOptions = (
 };
 
 const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
-	const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 	const recaptchaRef = useRef<ReCAPTCHA>(null);
 
 	const countryOptions = useMemo(() => getCountryOptions(), []);
@@ -98,26 +94,7 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 		recaptchaRef.current?.reset();
 	}, [formik]);
 
-	const handleFileSelect = useCallback(
-		(file: File | null) => {
-			if (!file) {
-				toast.error('No file selected.');
-				return;
-			}
 
-			const validTypes = ['image/jpeg', 'image/png'];
-			const maxSize = 20 * 1024 * 1024; // 20MB
-
-			if (validTypes.includes(file.type) && file.size <= maxSize) {
-				formik.setFieldValue('imageUrl', file);
-			} else {
-				toast.error(
-					'Invalid file type or size. Please upload a JPEG or PNG image under 20MB.',
-				);
-			}
-		},
-		[formik],
-	);
 
 	const handleCountryChange = useCallback(
 		(option: SingleValue<OptionType>) => {
@@ -148,17 +125,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 		[formik],
 	);
 
-	useEffect(() => {
-		if (formik.values.imageUrl instanceof File) {
-			const url = URL.createObjectURL(formik.values.imageUrl);
-			setImageUrl(url);
-			return () => URL.revokeObjectURL(url);
-		} else if (typeof formik.values.imageUrl === 'string') {
-			setImageUrl(formik.values.imageUrl);
-		} else {
-			setImageUrl(undefined);
-		}
-	}, [formik.values.imageUrl]);
 
 	return (
 		<>
@@ -458,18 +424,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 					errors={formik.errors.mediaProfile as string | undefined}
 					formik={formik}
 				/>
-			</div>
-
-			{/* Photo ID Upload */}
-			<div className='flex flex-col gap-2'>
-				<h1 className='text-primary text-sm'>Your Photo ID</h1>
-				<ImageInput
-					value={formik.values.imageUrl}
-					onFileSelect={handleFileSelect}
-				/>
-				{formik.errors.imageUrl && formik.touched.imageUrl && (
-					<div className='text-alert'>{formik.errors.imageUrl as string}</div>
-				)}
 			</div>
 
 			{/* reCAPTCHA */}

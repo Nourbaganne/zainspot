@@ -92,9 +92,6 @@ export class User extends BaseEntity {
 	@Column({ default: '' })
 	recaptcha: string;
 
-	@Column({ nullable: true })
-	imageUrl: string;
-
 	@ManyToOne(() => Role, { cascade: true })
 	@JoinColumn({ name: 'roleId' })
 	role: Role;

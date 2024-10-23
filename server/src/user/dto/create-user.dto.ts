@@ -71,9 +71,6 @@ export class CreateUserDto {
 
 	roleId: number;
 
-	@IsOptional()
-	@IsString()
-	imageUrl: string;
 
 	@IsNotEmpty()
 	@IsString()

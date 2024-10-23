@@ -35,7 +35,6 @@
         preferedLanguage: "",
         preferedCurrency: "",
         recaptcha: "",
-        imageUrl: null
       },
       validationSchema: Yup.object({
         email: Yup.string()
@@ -70,7 +69,6 @@
         mediaProfile: Yup.string(),
         preferedLanguage: Yup.string(),
         preferedCurrency: Yup.string(),
-        imageUrl: Yup.mixed().required('Photo ID is required'),
         recaptcha: Yup.string().required("Please complete the reCAPTCHA verification"),
       }),
       onSubmit: async (values, { resetForm }) => {

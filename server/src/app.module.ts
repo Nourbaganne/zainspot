@@ -25,6 +25,7 @@ import { TelnyxModule } from './telnyx/telnyx.module';
 import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { StripeModule } from './stripe/stripe.module';
 import { SendMailModule } from './send-mail/send-mail.module';
+import { GoldMemberEmailModule } from './gold-member-email/gold-member-email.module';
 
 
 @Module({
@@ -64,6 +65,7 @@ import { SendMailModule } from './send-mail/send-mail.module';
 		ResetPasswordModule,
 		StripeModule,
 		SendMailModule,
+		GoldMemberEmailModule,
 	
 	],
 	controllers: [AppController],

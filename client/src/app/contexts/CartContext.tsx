@@ -52,7 +52,6 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 			return newData;
 		case 'CLEAR_CART':
 			if (typeof window !== 'undefined') {
-
 				window.localStorage.removeItem('cart');
 			}
 			return {

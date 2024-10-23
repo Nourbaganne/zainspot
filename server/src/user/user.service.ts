@@ -53,7 +53,6 @@ export class UserService {
 			password: hashedPassword,
 			isEmailConfirmed: false,
 			role: defaultRole,
-			imageUrl: '',
 		});
 
 		await User.save(user);
@@ -317,17 +316,5 @@ export class UserService {
 			where: { id: userId },
 			relations: ['role', 'role.permissions'],
 		});
-	}
-
-	async updateProfileImage(id: number, imageUrl: string): Promise<User> {
-		const user = await User.findOne({ where: { id } });
-		if (!user) {
-			throw new NotFoundException('User not found');
-		}
-
-		user.imageUrl = imageUrl;
-		await user.save();
-
-		return user;
 	}
 }
