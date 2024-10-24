@@ -19,11 +19,16 @@ import Role from '@/app/interfaces/Role';
 import Link from 'next/link';
 import { useRoles } from '@/app/contexts/RoleContext';
 import Translation from '@/app/components/translation';
+import { useCurrency } from '@/app/contexts/CurrencyContext';
+import { MoneyValue } from '@/app/components/MoneyValue';
 
 const Page = ({ params }: { params: { id: number } }) => {
 
-  const [subscriptions, setSubscriptions] = useState<any | undefined>();
+  const [subscriptions, setSubscriptions] = useState<any[]>([]);
+  const [total, setTotal] = useState<number>(0);
 
+
+  const { currency } = useCurrency();
   const { user } = useContext(AuthContext);
   const { roles } = useRoles();
 
@@ -170,7 +175,7 @@ const Page = ({ params }: { params: { id: number } }) => {
             </div>
           </div>
           {
-            subscriptions ? (
+            subscriptions.length > 0 ? (
               <div className='flex flex-col gap-4'>
                 <div className='flex justify-between'>
                   <div className='flex gap-1 items-center'>
@@ -183,7 +188,14 @@ const Page = ({ params }: { params: { id: number } }) => {
                     <p className='text-span font-light text-xs'>
                       <Translation translationKey='userInfo_totalrevenue' />
                     </p>
-                    <h1 className='text-lg font-semibold'>$764,900</h1>
+                    <h1 className='text-lg font-semibold'>
+                      <MoneyValue
+                        value={total}
+                        fromCurrency='USD'
+                        toCurrency={currency}
+                        decimals={0}
+                      />
+                    </h1>
                   </div>
                 </div>
                 <CustomStackedBarChart subscriptions={subscriptions} />
@@ -200,6 +212,7 @@ const Page = ({ params }: { params: { id: number } }) => {
           userId={params?.id}
           access_token={user?.access_token}
           setSubscriptions={setSubscriptions}
+          setTotal={setTotal}
         />
       </div>
     </div >

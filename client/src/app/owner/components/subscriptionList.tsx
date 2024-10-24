@@ -85,7 +85,7 @@ const SubscriptionItem = ({
 }
 
 
-const SubscriptionList = ({ userId, access_token, setSubscriptions }: { userId: number, access_token: string | undefined, setSubscriptions: (subscriptions: Object | undefined) => void }) => {
+const SubscriptionList = ({ userId, access_token, setSubscriptions, setTotal }: { userId: number, access_token: string | undefined, setSubscriptions: (subscriptions: any[]) => void , setTotal: (total: number) => void}) => {
     const USER_LIST_HEADER = [
         { title: 'Location', hasFiltering: true },
         { title: 'City & Country', hasFiltering: true },
@@ -116,10 +116,15 @@ const SubscriptionList = ({ userId, access_token, setSubscriptions }: { userId: 
                 startDate: sub.startDate,
                 renewalStatus: sub.renewal.status,
             }));
+
+            const totalAmount = subscriptionStats.reduce((total: number, subscription: SubscriptionItemProps) => total + subscription.price, 0);
+
+            setTotal(totalAmount)
+
             setSubscriptions(subscriptionStats);
 
         }
-    }, [data?.data, setSubscriptions]);
+    }, [data?.data, setSubscriptions, setTotal]);
 
 
     if (isLoading) return <Loader />
@@ -132,41 +137,42 @@ const SubscriptionList = ({ userId, access_token, setSubscriptions }: { userId: 
             <h1 className='text-lg font-semibold'>
                 <Translation translationKey='userDetails_subscriptions' />
             </h1>
-            <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
-                <div className=' grid grid-cols-6 text-sm  w-full border-b-2 text-span pb-4 pt-6   pl-4'>
-                    {USER_LIST_HEADER.map((item, index) => (
-                        <div key={index} className={`${item.hasFiltering && 'flex items-center gap-2'}`}>
-                            {item.hasFiltering && (
-                                <div className='flex flex-col gap-1'>
-                                    <button>
-                                        <Image src={upButton} alt='up-users' />
-                                    </button>
-                                    <button>
-                                        <Image src={downButton} alt='down-users' />
-                                    </button>
-                                </div>
-                            )}
-                            {item.title}
-                        </div>
-                    ))}
-                </div>
-                {data?.data ? (
-                    <>
-                        {data?.data.map((sub: SubscriptionItemProps, index: number) => (
-                            <SubscriptionItem
-                                key={index}
-                                city={sub.city}
-                                optionType={sub.optionType}
-                                price={sub.price}
-                                duration={sub.duration}
-                                startDate={sub.startDate}
-                                renewal={sub.renewal} />
+            {data?.data.length > 0 ? (
+                <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
+                    <div className=' grid grid-cols-6 text-sm  w-full border-b-2 text-span pb-4 pt-6   pl-4'>
+                        {USER_LIST_HEADER.map((item, index) => (
+                            <div key={index} className={`${item.hasFiltering && 'flex items-center gap-2'}`}>
+                                {item.hasFiltering && (
+                                    <div className='flex flex-col gap-1'>
+                                        <button>
+                                            <Image src={upButton} alt='up-users' />
+                                        </button>
+                                        <button>
+                                            <Image src={downButton} alt='down-users' />
+                                        </button>
+                                    </div>
+                                )}
+                                {item.title}
+                            </div>
                         ))}
-                    </>
-                ) : (
-                    <div>No Subscription yet</div>
-                )}
-            </div>
+                    </div>
+
+                    {data?.data.map((sub: SubscriptionItemProps, index: number) => (
+                        <SubscriptionItem
+                            key={index}
+                            city={sub.city}
+                            optionType={sub.optionType}
+                            price={sub.price}
+                            duration={sub.duration}
+                            startDate={sub.startDate}
+                            renewal={sub.renewal} />
+                    ))}
+
+
+                </div>
+            ) : (
+                <div>No Subscription yet</div>
+            )}
         </div>
     )
 }
