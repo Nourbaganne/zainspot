@@ -7,14 +7,30 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { FiArrowRight, FiCheckCircle } from 'react-icons/fi';
 import IMG from '@/app/assets/cart/row-image.png';
 import CONGRATS_IMG from '@/app/assets/cart/success/celebration-6VFgJeZ9bs.svg';
+import axiosInstance from '@/app/lib/axios/axiosInstance';
+import { useEffect } from 'react';
 
 export default function CheckoutSuccessPage() {
 	const searchParams = useSearchParams();
 	const sessionId = searchParams.get('session_id');
 
-	// Subscription.paymentId (references payment_history table)
-
-	// TODO: save session id in the server for renewing the subscription(s) in the future
+	// TODO: Update PaymentHistory status from 'PENDING' to 'SUCCESS' after successfull checkout
+	function updatePaymentHistoryStatus() {
+		function printError(err: any) {
+			alert('Failed to update PaymentHistory status');
+			console.error('Failed to update PaymentHistory status', err);
+		}
+		// Update PaymentHistory status
+		axiosInstance
+			.put(`stripe/payment-history/${sessionId}`)
+			.then((response) => {
+				if (response.status === 200) {
+					console.log('PaymentHistory status updated successfully');
+				} else printError(response);
+			})
+			.catch(printError);
+	}
+	useEffect(updatePaymentHistoryStatus, []);
 
 	return (
 		<div className='flex-center flex-col'>

@@ -32,7 +32,7 @@ interface Subscription {
 }
 
 interface PaymentHistory {
-	subscriptions: Subscription[];
+	subscription: Subscription;
 	date: string;
 	method: string;
 	amount: number;
@@ -65,8 +65,13 @@ const Page = () => {
 		const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 		const menuWidth = isMobile ? 330 : 390;
 		const menuPos = {
-			top: buttonRect.bottom + (typeof window !== 'undefined' ? window.scrollY : 0),
-			left: buttonRect.right + (typeof window !== 'undefined' ? window.scrollX : 0) - menuWidth,
+			top:
+				buttonRect.bottom +
+				(typeof window !== 'undefined' ? window.scrollY : 0),
+			left:
+				buttonRect.right +
+				(typeof window !== 'undefined' ? window.scrollX : 0) -
+				menuWidth,
 		};
 
 		if (openFailedMenuIndex === index) {
@@ -102,11 +107,20 @@ const Page = () => {
 			}),
 	});
 
+	console.log('payment history data', data);
+
 	if (isLoading) {
 		return <Loader />;
 	}
 	if (isError) {
 		return <div>{error.message}</div>;
+	}
+
+	if (data) {
+		data.data = data?.data.map((payment: PaymentHistory) => {
+			payment.status = payment.status.toLowerCase();
+			return payment;
+		});
 	}
 
 	return (
@@ -161,30 +175,27 @@ const Page = () => {
 								<div className='max-h-[340px] overflow-y-auto'>
 									{data?.data.map((payment: PaymentHistory, index: number) => (
 										<div
-											className='flex gap-3 md:gap-0 items-center border-b text-text font-light pl-4 py-[14px]'
+											className='flex gap-3 md:gap-0 items-center border-b text-text pl-4 py-[14px]'
 											key={index}
 										>
 											<ul className='w-full grid grid-cols-11 items-center'>
 												<li className='col-span-3'>
-													{payment.subscriptions.length > 0 ? (
-														payment.subscriptions.map((subscription, subIndex) => (
-															<div key={subIndex} className='flex flex-col text-sm'>
-																<h1 className='font-normal'>
-																	{subscription.city.city}, {subscription.city.country}
-																</h1>
-																<span className='text-span'>
-																	ZS {subscription.optionType}
-																</span>
-															</div>
-														))
-													) : (
-														<div>No Subscription</div>
-													)}
+													<div className='flex flex-col text-sm'>
+														<h1 className='font-normal'>
+															{payment.subscription.city.city},{' '}
+															{payment.subscription.city.country}
+														</h1>
+														<span className='text-span capitalize'>
+															ZS {payment.subscription.optionType}
+														</span>
+													</div>
 												</li>
 												<li className='col-span-2 pl-4'>
 													{new Date(payment.date).toLocaleDateString()}
 												</li>
-												<li className='col-span-2 pl-4'>{payment.method || "Credit Card"}</li>
+												<li className='col-span-2 pl-4 capitalize'>
+													{payment.method || 'Credit Card'}
+												</li>
 												<li className='col-span-2 pl-4'>
 													<MoneyValue
 														value={payment.amount}
@@ -194,20 +205,22 @@ const Page = () => {
 													/>
 												</li>
 												<li
-													className={`col-span-2 pl-4 flex items-center gap-2 ${payment.status === 'Complete'
+													className={`col-span-2 pl-4 flex items-center gap-2 uppercase ${
+														payment.status === 'paid'
 															? 'text-primary'
-															: payment.status === 'Pending'
-																? 'text-yellow-500'
-																: 'text-alert'
-														}`}
+															: payment.status === 'pending'
+															? 'text-yellow-500'
+															: 'text-alert'
+													}`}
 												>
 													<span
-														className={`w-3 h-3 rounded-full ${payment.status === 'Complete'
+														className={`w-3 h-3 rounded-full ${
+															payment.status === 'paid'
 																? 'bg-primary'
-																: payment.status === 'Pending'
-																	? 'bg-yellow-500'
-																	: 'bg-alert'
-															}`}
+																: payment.status === 'pending'
+																? 'bg-yellow-500'
+																: 'bg-alert'
+														}`}
 													></span>
 													{payment.status}
 												</li>
@@ -246,7 +259,7 @@ const Page = () => {
 						style={{ top: menuPosition.top, left: menuPosition.left }}
 					>
 						<h1 className='font-semibold'>Pay Manually</h1>
-						<p className='flex flex-col text-sm font-light max-w-xs'>
+						<p className='flex flex-col text-sm max-w-xs'>
 							To continue using this service, you have to pay manually.
 							<span>(Subscription fee + Manual payment fee)</span>
 						</p>

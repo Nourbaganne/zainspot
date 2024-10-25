@@ -11,12 +11,7 @@ import { PaymentHistory } from '../entities/payment-history.entity';
 
 @Module({
 	imports: [
-		TypeOrmModule.forFeature([
-			Subscription,
-			User,
-			City,
-			PaymentHistory, // Add PaymentHistory entity here
-		]),
+		TypeOrmModule.forFeature([Subscription, User, City, PaymentHistory]),
 	],
 	controllers: [StripeController],
 	providers: [StripeService, PaymentHistoryService, SubscriptionService],
