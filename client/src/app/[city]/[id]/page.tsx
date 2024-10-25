@@ -162,7 +162,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						<div className='flex flex-col gap-2'>
 							<Link
 								href='/'
-								className='text-lg flex items-center font-bold text-gray-400 hover:text-gray-600 hover:underline flex-shrink-0 uppercase'
+								className='text-lg flex items-center font-bold text-gray-400 hover:text-gray-600 flex-shrink-0 uppercase'
 							>
 								<FiArrowLeft className='h-6 w-6 mr-2' />
 								<Translation translationKey='select_another_city' />{' '}
