@@ -16,26 +16,21 @@ export default function CheckoutSuccessPage() {
 
 	// TODO: Update PaymentHistory status from 'PENDING' to 'SUCCESS' after successfull checkout
 	function updatePaymentHistoryStatus() {
+		function printError(err: any) {
+			alert('Failed to update PaymentHistory status');
+			console.error('Failed to update PaymentHistory status', err);
+		}
 		// Update PaymentHistory status
 		axiosInstance
-			.put(`stripe/payment-history/${sessionId}`, { status: 'SUCCESS' })
+			.put(`stripe/payment-history/${sessionId}`)
 			.then((response) => {
-				if (response.status === 204) {
+				if (response.status === 200) {
 					console.log('PaymentHistory status updated successfully');
-				} else {
-					alert('Failed to update PaymentHistory status');
-					console.error('Failed to update PaymentHistory status', response);
-				}
+				} else printError(response);
 			})
-			.catch((error) => {
-				alert('Failed to update PaymentHistory status');
-				console.error('Failed to update PaymentHistory status', error);
-			});
+			.catch(printError);
 	}
-
-	useEffect(() => {
-		updatePaymentHistoryStatus();
-	}, []);
+	useEffect(updatePaymentHistoryStatus, []);
 
 	return (
 		<div className='flex-center flex-col'>

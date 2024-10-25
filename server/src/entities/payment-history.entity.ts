@@ -6,9 +6,12 @@ import {
 	BaseEntity,
 	OneToOne,
 	JoinColumn,
+	AfterUpdate,
 } from 'typeorm';
 import { User } from './user.entity';
 import { Subscription } from './subscription.entity';
+import { Invoice } from './invoice.entity';
+import { PaymentHistoryService } from 'src/payment-history/payment-history.service';
 
 @Entity()
 export class PaymentHistory extends BaseEntity {
@@ -38,4 +41,28 @@ export class PaymentHistory extends BaseEntity {
 	@OneToOne(() => Subscription)
 	@JoinColumn()
 	subscription: Subscription;
+
+	@AfterUpdate()
+	async createInvoice() {
+		if (this.status.toLowerCase() == 'paid') {
+			try {
+				const paymentHistoryService = new PaymentHistoryService();
+				const updatedPaymentHistory =
+					await paymentHistoryService.findOneWithUser(this.id);
+
+				const inv = Invoice.create({
+					dateIssued: this.date,
+					dueDate: new Date(),
+					amount: this.amount,
+					status: this.status,
+					user: updatedPaymentHistory.user,
+					paymentHistory: this,
+				});
+
+				inv.save();
+			} catch (err) {
+				console.error(err);
+			}
+		}
+	}
 }

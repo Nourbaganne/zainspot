@@ -14,14 +14,7 @@ import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
 import Loader from '@/app/components/loader';
 import { WithAuth } from '@/app/lib/withAuth';
-
-interface Invoice {
-	id: number;
-	dateIssued: string;
-	dueDate: string;
-	amount: number;
-	status: string;
-}
+import Invoice from '@/app/interfaces/Invoice';
 
 const Page = () => {
 	const { user } = useContext(AuthContext);
@@ -48,6 +41,13 @@ const Page = () => {
 	}
 	if (isError) {
 		return <div>{error.message}</div>;
+	}
+
+	if (data) {
+		data.data = data.data.map((invoice: Invoice) => {
+			invoice.status = invoice.status.toLowerCase();
+			return invoice;
+		});
 	}
 
 	return (
@@ -109,7 +109,7 @@ const Page = () => {
 								<div className='max-h-[340px] overflow-y-auto'>
 									{data?.data.map((invoice: Invoice, index: number) => (
 										<div
-											className='flex gap-3 md:gap-0 items-center border-b text-text font-light pl-4  py-5'
+											className='flex gap-3 md:gap-0 items-center border-b text-text pl-4  py-5'
 											key={index}
 										>
 											<ul
@@ -132,19 +132,19 @@ const Page = () => {
 													/>
 												</li>
 												<li
-													className={`col-span-2 pl-4 flex items-center gap-2 ${
-														invoice.status === 'Paid'
+													className={`col-span-2 pl-4 flex items-center gap-2 uppercase ${
+														invoice.status === 'paid'
 															? 'text-primary'
-															: invoice.status === 'Unpaid'
+															: invoice.status === 'unpaid'
 															? 'text-yellow-500'
 															: 'text-alert'
 													}`}
 												>
 													<span
 														className={`w-3 h-3 rounded-full ${
-															invoice.status === 'Paid'
+															invoice.status === 'paid'
 																? 'bg-primary'
-																: invoice.status === 'Unpaid'
+																: invoice.status === 'unpaid'
 																? 'bg-yellow-500'
 																: 'bg-alert'
 														}`}

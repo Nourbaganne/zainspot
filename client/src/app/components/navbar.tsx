@@ -126,7 +126,7 @@ const Navbar = () => {
 					</div>
 				</div>
 
-				<div className='flex flex-col items-end justify-center h-full gap-2'>
+				<div className='flex flex-col items-end justify-center h-full gap-2 text-right'>
 					{user ? (
 						<button
 							className='text-alert font-semibold text-start'

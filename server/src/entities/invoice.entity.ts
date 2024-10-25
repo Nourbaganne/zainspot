@@ -1,23 +1,36 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, BaseEntity } from 'typeorm';
+import {
+	Entity,
+	Column,
+	PrimaryGeneratedColumn,
+	ManyToOne,
+	BaseEntity,
+	OneToOne,
+	JoinColumn,
+} from 'typeorm';
 import { User } from './user.entity';
+import { PaymentHistory } from './payment-history.entity';
 
 @Entity('invoice')
-export class Invoice extends BaseEntity{
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Invoice extends BaseEntity {
+	@PrimaryGeneratedColumn()
+	id: number;
 
-  @Column()
-  dateIssued: Date;
-  
-  @Column()
-  dueDate: Date;
+	@Column()
+	dateIssued: Date;
 
-  @Column('decimal')
-  amount: number;
+	@Column()
+	dueDate: Date;
 
-  @Column()
-  status: string;
+	@Column('decimal')
+	amount: number;
 
-  @ManyToOne(() => User, user => user.paymentHistories)
-  user: User;
+	@Column()
+	status: string;
+
+	@OneToOne(() => PaymentHistory)
+	@JoinColumn()
+	paymentHistory: PaymentHistory;
+
+	@ManyToOne(() => User, (user) => user.paymentHistories)
+	user: User;
 }

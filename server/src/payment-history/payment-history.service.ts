@@ -39,7 +39,7 @@ export class PaymentHistoryService {
 	async findOneByUserId(userId: number): Promise<PaymentHistory[]> {
 		return PaymentHistory.find({
 			where: { user: { id: userId } },
-			relations: ['subscriptions', 'subscriptions.city'],
+			relations: ['subscription', 'subscription.city'],
 		});
 	}
 
@@ -56,7 +56,14 @@ export class PaymentHistoryService {
 	findOne(id: number): Promise<PaymentHistory> {
 		return PaymentHistory.findOne({
 			where: { id },
-			relations: ['subscriptions', 'subscriptions.city'],
+			relations: ['subscription', 'subscription.city'],
+		});
+	}
+
+	findOneWithUser(id: number): Promise<PaymentHistory> {
+		return PaymentHistory.findOne({
+			where: { id },
+			relations: ['user'],
 		});
 	}
 

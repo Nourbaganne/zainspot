@@ -111,8 +111,8 @@ export class StripeController {
 			},
 		);
 
-		return res.status(204).json({
-			message: 'Subscription renewed successfully',
+		return res.status(200).json({
+			message: 'Paid successfully',
 			updatedPaymentHistory,
 			updatedSubscription,
 		});
