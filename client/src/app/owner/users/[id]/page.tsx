@@ -21,6 +21,8 @@ import { useRoles } from '@/app/contexts/RoleContext';
 import Translation from '@/app/components/translation';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
+import { headers } from 'next/headers';
+import toast from 'react-hot-toast';
 
 const Page = ({ params }: { params: { id: number } }) => {
 
@@ -33,7 +35,7 @@ const Page = ({ params }: { params: { id: number } }) => {
   const { roles } = useRoles();
 
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['user', params.id],
     queryFn: () =>
       axiosInstance.get(`/user/${params.id}`, {
@@ -42,6 +44,32 @@ const Page = ({ params }: { params: { id: number } }) => {
         },
       }),
   });
+
+
+  const handleUserActivation = async (id: number) => {
+    try {
+      const toastId = toast.loading('Processing...');
+      const response = await axiosInstance.patch(`/user/${id}/activation`, {
+        headers: {
+          Authorization: `Bearer ${user?.access_token}`
+        }
+      });
+
+      if (response.status === 200) {
+        if (data?.data.activation === true){
+          toast.success("User Activated Succeffully", {id: toastId});
+        }
+        toast.success("User Desactivated Succeffully", {id: toastId});
+        refetch()
+      }
+    } catch (error) {
+      toast.error(error as string);
+      console.log("error: ", error)
+    }
+  }
+
+
+
 
   if (isLoading) {
     return <Loader />;
@@ -155,8 +183,17 @@ const Page = ({ params }: { params: { id: number } }) => {
               <Translation translationKey='userInfo_sendmailBtn' />
             </Link>
 
-            <button className='px-4 py-2 border-2 border-alert bg-alert text-background rounded-md'>
-              <Translation translationKey='userInfo_desactivationBtn' />
+            <button className='px-4 py-2 border-2 border-alert bg-alert text-background rounded-md'
+              onClick={() => handleUserActivation(data?.data.id)}
+            >
+              {
+                data?.data.activation ? (
+                  <Translation translationKey='userInfo_desactivationBtn' />
+                ) : (
+                  <Translation translationKey='userInfo_activationBtn' />
+                )
+              }
+
             </button>
           </div>
         </div>

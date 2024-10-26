@@ -75,4 +75,6 @@ export class CreateUserDto {
 	@IsNotEmpty()
 	@IsString()
 	recaptcha: string;
+
+	activation: boolean;
 }

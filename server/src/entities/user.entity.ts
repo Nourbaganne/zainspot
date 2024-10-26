@@ -106,4 +106,7 @@ export class User extends BaseEntity {
 		cascade: ['remove'],  // Cascade delete when user is deleted
 	})
 	subscriptions: Subscription[];
+
+	@Column({default: true})
+	activation: boolean;
 }

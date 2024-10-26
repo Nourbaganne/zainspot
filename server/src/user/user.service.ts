@@ -317,4 +317,14 @@ export class UserService {
 			relations: ['role', 'role.permissions'],
 		});
 	}
+
+
+	async userActivation(id: number): Promise<User>{
+		const user = await this.findById(id);
+
+		user.activation = !user.activation;
+
+		await User.save(user);
+		return user;
+	}
 }

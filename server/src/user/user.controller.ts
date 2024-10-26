@@ -23,6 +23,7 @@ import {
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { User } from 'src/entities/user.entity';
 import { RecaptchaService } from './recaptcha.service';
+import { number } from 'joi';
 
 @Controller('user')
 export class UserController {
@@ -107,6 +108,11 @@ export class UserController {
 
     // Cascade delete will automatically handle the deletion of subscriptions and payment history
     return this.userService.remove(+id);
+  }
+
+  @Patch(':id/activation')
+  async userActivation(@Param('id') id: number){
+    return this.userService.userActivation(id);
   }
 
 }

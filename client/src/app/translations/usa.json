@@ -333,6 +333,7 @@
 	"userInfo_editBtn": "EDIT INFORMATION",
 	"userInfo_sendmailBtn": "SEND EMAIL",
 	"userInfo_desactivationBtn": "DESACTIVE USER",
+	"userInfo_activationBtn": "ACTIVATE USER",
 	"userInfo_businessInfo": "Business",
 	"userInfo_revenue": "Revenue",
 	"userInfo_totalrevenue": "Total",

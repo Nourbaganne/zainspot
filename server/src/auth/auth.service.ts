@@ -24,7 +24,6 @@ export class AuthService {
 
 			// Decode the token to get the expiration time (exp)
 			const decodedToken = this.jwtService.decode(token) as { exp: number };
-			console.log("decodedtoken", decodedToken);
 			
 
 		return {
@@ -44,6 +43,10 @@ export class AuthService {
 
 		if (!(await user?.validatePassword(password))) {
 			throw new UnauthorizedException('Incorrect Password! Please Try Again');
+		}
+
+		if(!user.activation){
+			throw new UnauthorizedException('Your account has been deactivated. Please contact support for further assistance.');
 		}
 
 		delete user.password;
