@@ -43,7 +43,7 @@ const AttachmentCard: React.FC<AttachmentCardProps> = ({ attachments, setAttachm
   };
 
   return (
-    <div className='col-span-2 flex flex-col p-8 gap-2 border bg-background h-full'>
+    <div className='col-span-1 md:col-span-2 flex flex-col p-8 gap-2 border bg-background h-full w-full'>
       <div className='flex justify-between text-span px-6'>
         <h1 className='text-semibold-18 font-semibold'>
           <Translation translationKey='emailAttachment_header' />

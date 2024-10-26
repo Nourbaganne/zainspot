@@ -31,7 +31,7 @@ const INFOCARD_FORM = [
 
 const InfoCard: React.FC<InfoCardProps> = ({ formData, setFormData, email }) => {
   return (
-    <div className='col-span-3 flex flex-col p-8 gap-4 bg-background border'>
+    <div className='col-span-1 md:col-span-3 flex flex-col p-8 gap-4 bg-background border'>
       {INFOCARD_FORM.map((item, key) => (
         <div key={key} className='grid grid-cols-7 items-center'>
           <label htmlFor={item.label} className='text-sm text-span col-span-2 capitalize'>
