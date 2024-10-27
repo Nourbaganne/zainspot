@@ -1,8 +1,9 @@
-'use client'
+
 import React, { useState } from 'react';
 import axiosInstance from '../lib/axios/axiosInstance';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../contexts/useAuth';
+import { withNoAuth } from '../lib/withZainspotter';
 
 interface TwoFactorDialogProps {
 	isOpen: boolean;
@@ -22,7 +23,7 @@ const TwoFactorDialog: React.FC<TwoFactorDialogProps> = ({ isOpen, setIsOpen, em
 			const response = await axiosInstance.post('/auth/verify-2fa', { email, code });
 			if (response.status === 201) {
 				setIsOpen(false);
-				await dispatch({ type: 'LOGIN', payload: response.data });
+				dispatch({ type: 'LOGIN', payload: response.data });
 				localStorage.setItem('token', response.data.access_token);
 				router.push('/zainspotter');
 			}

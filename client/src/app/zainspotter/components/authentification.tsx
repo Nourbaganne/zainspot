@@ -3,10 +3,12 @@ import Image from 'next/image'
 import smsVerification from '@/app/assets/profile-details/smsVerification.svg';
 import emailVerification from '@/app/assets/profile-details/emailVerification.svg';
 import { handleDisableEmailVerification, handleEmailVerification } from '@/app/lib/email-verification';
+import toast from 'react-hot-toast';
+import axiosInstance from '@/app/lib/axios/axiosInstance';
 
 
 interface AuthentificationProps {
-    isEmailConfirmed: boolean;
+    isEmailAuthenticated: boolean;
     userId: number | undefined;
     access_token: string | undefined;
     refetch: () => void;
@@ -14,7 +16,31 @@ interface AuthentificationProps {
     setIsOpenDialog: (isOpen: boolean) => void;
 }
 
-const Authentification = ({isEmailConfirmed, userId, access_token, refetch, email, setIsOpenDialog}: AuthentificationProps) => {
+const Authentification = ({isEmailAuthenticated, userId, access_token, refetch, email, setIsOpenDialog}: AuthentificationProps) => {
+    
+    const handle2FactorEmailActivation = async () => {
+        try {
+          const toastId = toast.loading('Processing...');
+          const response = await axiosInstance.patch(`/user/${userId}/2FactorEmailActivation`, {
+            headers: {
+              Authorization: `Bearer ${access_token}`
+            }
+          });
+    
+          if (response.status === 200) {
+            if (isEmailAuthenticated === true) {
+              toast.success("User Desactivated Succeffully", { id: toastId });
+            } else {
+              toast.success("User Activated Succeffully", { id: toastId });
+            }
+            refetch()
+          }
+        } catch (error) {
+          toast.error(error as string);
+          console.log("error: ", error)
+        }
+      }
+    
     return (
         <div className='flex flex-col gap-8'>
             <div className='flex flex-col gap-2 '>
@@ -54,19 +80,15 @@ const Authentification = ({isEmailConfirmed, userId, access_token, refetch, emai
                     </div>
                 </div>
                 {
-                    isEmailConfirmed ? (
+                    isEmailAuthenticated ? (
                         <button
-                            onClick={() =>
-                                handleDisableEmailVerification(userId, access_token, refetch)
-                            }
+                            onClick={handle2FactorEmailActivation}
                             className='px-4 py-2 border-2 rounded-md border-button text-button-text'>
                             <Translation translationKey='login_security_disablebutton_title' />
                         </button>
                     ) : (
                         <button
-                            onClick={() =>
-                                handleEmailVerification(email, setIsOpenDialog)
-                            }
+                            onClick={handle2FactorEmailActivation}
                             className='px-4 py-2 border-2 rounded-md border-primary text-primary'>
                             <Translation translationKey='login_security_button_title' />
                         </button>

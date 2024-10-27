@@ -110,9 +110,9 @@ export class UserController {
     return this.userService.remove(+id);
   }
 
-  @Patch(':id/activation')
-  async userActivation(@Param('id') id: number){
-    return this.userService.userActivation(id);
+  @Patch(':id/2FactorEmailActivation')
+  async user2FEmailActivation(@Param('id') id: number){
+    return this.userService.user2FEmailActivation(id);
   }
 
 }

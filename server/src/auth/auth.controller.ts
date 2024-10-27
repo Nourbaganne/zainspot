@@ -37,8 +37,11 @@ export class AuthController {
               role: user.role,
           };
           const token = this.jwtService.sign(payload, { expiresIn: '14400s' });
+          const decodedToken = this.jwtService.decode(token) as { exp: number };
           return {
-              access_token: token,
+            user: payload,
+            access_token: token,
+            expires_at: new Date(decodedToken.exp * 1000),
           };
       } catch (error) {
           console.log('2FA verification error:', error);

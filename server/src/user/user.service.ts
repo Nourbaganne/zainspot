@@ -319,10 +319,10 @@ export class UserService {
 	}
 
 
-	async userActivation(id: number): Promise<User>{
+	async user2FEmailActivation(id: number): Promise<User>{
 		const user = await this.findById(id);
 
-		user.activation = !user.activation;
+		user.EmailAuthentication = !user.EmailAuthentication;
 
 		await User.save(user);
 		return user;
