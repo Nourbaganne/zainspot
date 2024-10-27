@@ -56,10 +56,11 @@ const Page = ({ params }: { params: { id: number } }) => {
       });
 
       if (response.status === 200) {
-        if (data?.data.activation === true){
-          toast.success("User Activated Succeffully", {id: toastId});
+        if (data?.data.activation === true) {
+          toast.success("User Desactivated Succeffully", { id: toastId });
+        } else {
+          toast.success("User Activated Succeffully", { id: toastId });
         }
-        toast.success("User Desactivated Succeffully", {id: toastId});
         refetch()
       }
     } catch (error) {
