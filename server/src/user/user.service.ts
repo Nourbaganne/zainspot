@@ -327,4 +327,35 @@ export class UserService {
 		await User.save(user);
 		return user;
 	}
+
+	async storeTwoFactorCode(userId: number, code: string): Promise<void> {
+		const user = await this.findById(userId);
+		user.twoFactorCode = code; 
+		user.twoFactorCodeExpiresAt = new Date(Date.now() + 10 * 60 * 1000); 
+	 
+		try {
+			await User.save(user);
+			console.log('Stored 2FA Code:', user.twoFactorCode);
+			console.log('2FA Code Expiration Time:', user.twoFactorCodeExpiresAt);
+		} catch (error) {
+			console.error('Error saving user:', error);
+		}
+	 }
+	 
+	 async getTwoFactorCode(userId: number): Promise<string | null> {
+		const user = await this.findById(userId);
+		console.log('Retrieved User for 2FA:', user);
+	 
+		if (user.twoFactorCodeExpiresAt && user.twoFactorCodeExpiresAt > new Date()) {
+			return user.twoFactorCode;
+		}
+		return null; 
+	 }
+	
+	async clearTwoFactorCode(userId: number): Promise<void> {
+		const user = await this.findById(userId);
+		user.twoFactorCode = null;
+		user.twoFactorCodeExpiresAt = null;
+		await User.save(user);
+	}
 }
