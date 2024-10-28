@@ -27,7 +27,7 @@ const Footer = () => {
 						<div className='mt-4'>
 							{titleData.sections.map((section, index) => (
 								section.translationKey === 'footer_title_gotomyzainspot' ? (
-									user?.user.role.name === 'owner' ? (
+								user?.user.role.name === 'owner' || 'admin' ? (
 										<Link
 											key={index}
 											href='/owner'

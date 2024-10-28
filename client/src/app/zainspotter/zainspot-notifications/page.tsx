@@ -130,4 +130,4 @@ const Page = () => {
 	);
 };
 
-export default WithAuth(Page, 'zainspotter');
+export default WithAuth(Page, ['zainspotter']);

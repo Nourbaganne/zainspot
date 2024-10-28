@@ -5,7 +5,7 @@ import Loader from "../components/loader";
 
 export function WithAuth<P extends object>(
   WrappedComponent: React.ComponentType<P>,
-  requiredRole?: string
+  requiredRoles?: string[] // Accept an array of roles
 ) {
   return function WithAuthComponent(props: P) {
     const { user, loading, dispatch } = useContext(AuthContext);
@@ -14,14 +14,13 @@ export function WithAuth<P extends object>(
 
     // Memoized logout function
     const logoutUser = useCallback(() => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      dispatch({ type: 'LOGOUT' });
-      router.push('/login');
-    }, [dispatch, router]); // Include dispatch and router as dependencies
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      dispatch({ type: "LOGOUT" });
+      router.push("/login");
+    }, [dispatch, router]);
 
     useEffect(() => {
-      // Check if loading state is finished
       if (!loading) {
         // Check expiration
         if (user?.expires_at) {
@@ -36,24 +35,23 @@ export function WithAuth<P extends object>(
 
         // If no user, redirect to login
         if (!user) {
-          router.push('/login');
+          router.push("/login");
           return;
         }
 
         // Role-based authorization
-        if (requiredRole && user.user.role.name !== requiredRole) {
-          if (user.user.role.name === 'admin') {
-            router.push('/unauthorized');
-          } else {
-            router.push('/');
-          }
+        if (
+          requiredRoles &&
+          !requiredRoles.includes(user.user.role.name) // Check if user's role is in the required roles array
+        ) {
+          router.push("/"); // Redirect to the home page if not authorized
           return;
         }
 
         // If authorized, finish checking
         setIsCheckingAuth(false);
       }
-    }, [user, loading, router, logoutUser]); // logoutUser is now stable
+    }, [user, loading, router, logoutUser, requiredRoles]);
 
     // If still checking authorization or loading, show loader
     if (isCheckingAuth || loading) {
