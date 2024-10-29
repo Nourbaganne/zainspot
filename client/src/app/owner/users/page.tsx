@@ -350,4 +350,4 @@ const Users = () => {
   );
 };
 
-export default WithAuth(Users, 'owner');
+export default WithAuth(Users, ['owner', 'admin']);

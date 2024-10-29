@@ -31,7 +31,8 @@ export const useLoginForm = (
 					if (response.data.require2FA) {
 						// Set email and open the dialog for 2FA
 						setEmail(values.email);
-						setIsOpenDialog(true);
+						router.push('/login/Two-Factor-Authentication');
+						// setIsOpenDialog(true);
 					} else {
 						// User is logged in, proceed normally
 						dispatch({ type: 'LOGIN', payload: response.data });

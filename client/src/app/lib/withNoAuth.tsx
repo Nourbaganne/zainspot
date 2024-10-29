@@ -12,7 +12,7 @@ export function withNoAuth<P extends object>(Component: ComponentType<P>) {
 
         useEffect(() => {
             if (user) {
-                if (user.user.role.name === 'owner') {
+                if (user.user.role.name === 'owner' || user.user.role.name === 'admin') {
                     router.push('/owner');
                 } else {
                     router.push('/zainspotter');

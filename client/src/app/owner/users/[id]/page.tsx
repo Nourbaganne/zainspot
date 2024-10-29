@@ -257,4 +257,4 @@ const Page = ({ params }: { params: { id: number } }) => {
   );
 };
 
-export default WithAuth(Page, 'owner');
+export default WithAuth(Page, ['owner', 'admin']);

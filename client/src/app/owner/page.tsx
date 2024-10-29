@@ -33,4 +33,4 @@ const OwnerDashboard = () => {
   )
 }
 
-export default WithAuth(OwnerDashboard, 'owner');
+export default WithAuth(OwnerDashboard, ['owner', 'admin']);
