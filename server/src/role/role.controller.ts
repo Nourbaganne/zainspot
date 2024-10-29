@@ -12,6 +12,7 @@ import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { AddPermissionDto } from './dto/add-permission.dto';
 import { Public } from 'src/decorators/public.decorator';
+import { Permissions } from 'src/decorators/permissions.decorator';
 
 @Controller('role')
 export class RoleController {
@@ -22,6 +23,7 @@ export class RoleController {
     return this.roleService.create(createRoleDto);
   }
 
+  @Permissions({ action: 'create', subject: 'permission' })
   @Post('add-permission')
   async addPermissionToRole(@Body() addPermissionDto: AddPermissionDto) {
     const { roleId, permissionId } = addPermissionDto;
@@ -40,16 +42,19 @@ export class RoleController {
     return this.roleService.findOne(+id);
   }
 
+  @Permissions({ action: 'update', subject: 'role' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
     return this.roleService.update(+id, updateRoleDto);
   }
 
+  @Permissions({ action: 'delete', subject: 'role' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.roleService.remove(+id);
   }
 
+  @Permissions({ action: 'delete', subject: 'permissionFromRole' })
   @Delete(':roleId/permissions/:permissionId')
   async removePermissionFromRole(
     @Param('roleId') roleId: number,

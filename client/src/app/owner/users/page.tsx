@@ -139,6 +139,15 @@ const Users = () => {
       },
     },
     {
+      title: 'Owners',
+      value: initialCounts.owner.value,
+      editPermissions: false,
+      stats: {
+        increase: checkIncreasment(initialCounts.owner.increasmentValue),
+        percentage: Math.abs(initialCounts.owner.increasmentValue),
+      },
+    },
+    {
       title: 'Admins',
       value: initialCounts.admin.value,
       editPermissions: true,
@@ -146,16 +155,7 @@ const Users = () => {
         increase: checkIncreasment(initialCounts.admin.increasmentValue),
         percentage: Math.abs(initialCounts.admin.increasmentValue),
       },
-    },
-    {
-      title: 'Owners',
-      value: initialCounts.owner.value,
-      editPermissions: true,
-      stats: {
-        increase: checkIncreasment(initialCounts.owner.increasmentValue),
-        percentage: Math.abs(initialCounts.owner.increasmentValue),
-      },
-    },
+    }
   ];
 
   return (

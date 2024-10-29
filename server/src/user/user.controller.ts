@@ -23,7 +23,7 @@ import {
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { User } from 'src/entities/user.entity';
 import { RecaptchaService } from './recaptcha.service';
-import { number } from 'joi';
+import { Permissions } from 'src/decorators/permissions.decorator';
 
 @Controller('user')
 export class UserController {
@@ -90,14 +90,13 @@ export class UserController {
   }
 
 
-  // @Permissions({ action: 'update', subject: 'user' })
+  @Permissions({ action: 'update', subject: 'user' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
-  // @Permissions({ action: 'delete', subject: 'user' })
-  @Public()
+  @Permissions({ action: 'delete', subject: 'user' })
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const user = await this.userService.findUser(+id);

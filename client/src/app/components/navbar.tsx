@@ -151,7 +151,7 @@ const Navbar = () => {
 								<Translation translationKey='footer_title_gotomyzainspot' />{' '}
 							</Link>
 						) : (
-							<Link href='/zainspotter' className='text-primary capitalize'>
+							<Link href='/owner' className='text-primary capitalize'>
 								<Translation translationKey='footer_title_owner' />{' '}
 							</Link>
 						)

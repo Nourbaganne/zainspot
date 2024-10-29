@@ -15,19 +15,18 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { CityService } from './city.service';
-import { Public } from 'src/decorators/public.decorator';
 import {
 	Pagination,
 	PaginationParams,
 } from 'src/decorators/pagination-params.decorator';
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { City } from 'src/entities/city.entity';
+import { Permissions } from 'src/decorators/permissions.decorator';
 
 @Controller('city')
 export class CityController {
 	constructor(private readonly cityService: CityService) {}
 
-	@Public()
 	@Get()
 	getCities(
 		@PaginationParams() paginationParams: Pagination,
@@ -36,7 +35,6 @@ export class CityController {
 		return this.cityService.getCities(paginationParams, name);
 	}
 
-	@Public()
 	@Get(':id')
 	getOneCity(@Param('id') id: string) {
 		try {
@@ -46,6 +44,7 @@ export class CityController {
 		}
 	}
 
+  @Permissions({ action: 'create', subject: 'city' })
 	@Post()
 	@UseInterceptors(FileInterceptor('imageUrl'))
 	createCity(
@@ -55,6 +54,7 @@ export class CityController {
 		return this.cityService.createCity(createCityDto, file);
 	}
 
+  @Permissions({ action: 'update', subject: 'city' })
 	@Patch(':id')
 	@UseInterceptors(FileInterceptor('image'))
 	updateCity(
@@ -65,11 +65,13 @@ export class CityController {
 		return this.cityService.updateCity(+id, updateCityDto, file);
 	}
 
+  @Permissions({ action: 'update', subject: 'city' })
 	@Patch(':id/hide')
 	async hideCity(@Param('id') id: number) {
 		return this.cityService.hideCity(id);
 	}
 
+  @Permissions({ action: 'delete', subject: 'city' })
 	@Delete(':id')
 	removeCity(@Param('id') id: string) {
 		return this.cityService.removeCity(+id);
