@@ -69,9 +69,12 @@ const Page: React.FC = () => {
 						disabled={!(formik.isValid && formik.dirty)}
 						className={`w-full py-3 px-6 rounded-md text-white font-semibold ${formik.isValid && formik.dirty
 							? 'bg-primary hover:bg-primary-dark'
-							: 'bg-button cursor-not-allowed'
-							}`}>
-						Login to Zainspot
+							: 'bg-button cursor-not-allowed'}
+							${formik.isSubmitting && 'cursor-not-allowed opacity-70'}
+							`
+							}>
+						{formik.isSubmitting ? "Connecting..." : "Login to Zainspot"}
+						
 					</button>
 				</form>
 				{isError && <h1 className='text-center text-alert'>{isError}</h1>}

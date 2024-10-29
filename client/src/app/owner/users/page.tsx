@@ -17,21 +17,29 @@ import { WithAuth } from '@/app/lib/withAuth';
 import { useRoles } from '@/app/contexts/RoleContext';
 import Translation from '@/app/components/translation';
 
+
+interface Counts {
+  value: number;
+  increasmentValue: number;
+}
+
+
+export interface InitialCounts {
+  [roleName: string]: Counts; // This allows for dynamic keys (role names)
+}
+
 const Users = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('');
   const [searchUser, setSearchUser] = useState<string>('');
   const [debouncedSearchUser, setDebouncedSearchUser] = useState<string>(searchUser);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [initialCounts, setInitialCounts] = useState({
-    zainspotter: { value: 0, increasmentValue: 0 },
-    admin: { value: 0, increasmentValue: 0 },
-    owner: { value: 0, increasmentValue: 0 },
-  });
+  const [initialCounts, setInitialCounts] = useState<InitialCounts>({});
   const [totalUsers, setTotalUsers] = useState<number>(0);
 
-  const { user } = useContext(AuthContext);
+  
 
+  const { user } = useContext(AuthContext);
   const rolesModalRef = useRef<any>(null);
 
   // Use the useRoles hook to get roles from context
@@ -52,12 +60,11 @@ const Users = () => {
     { label: 'users' },
   ];
 
-  const FILTERING_TYPE = [
-    { title: 'View All', value: '' },
-    { title: 'Zainspotters', value: 'zainspotter' },
-    { title: 'Admins', value: 'admin' },
-    { title: 'Owners', value: 'owner' },
-  ];
+  // Generate FILTERING_TYPE dynamically from roles
+  const FILTERING_TYPE = [{ title: 'View All', value: '' }, ...roles.map(role => ({
+    title: role.name.charAt(0).toUpperCase() + role.name.slice(1) + 's',
+    value: role.name
+  }))];
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['users', currentPage, debouncedSearchUser, selectedFilter],
@@ -73,24 +80,22 @@ const Users = () => {
   });
 
   useEffect(() => {
-    if (data && !searchUser && !selectedFilter) {
-      setInitialCounts({
-        zainspotter: {
-          value: data.data.counts.zainspotter || 0,
-          increasmentValue: data.data.percentageChange.zainspotter || 0,
-        },
-        admin: {
-          value: data.data.counts.admin || 0,
-          increasmentValue: data.data.percentageChange.admin || 0,
-        },
-        owner: {
-          value: data.data.counts.owner || 0,
-          increasmentValue: data.data.percentageChange.owner || 0,
-        },
+    if (data) {
+      const counts: InitialCounts = {};
+      roles.forEach(role => {
+        counts[role.name] = {
+          value: data.data.counts[role.name] || 0,
+          increasmentValue: data.data.percentageChange[role.name] || 0,
+        };
       });
+      // Correctly update the state using setInitialCounts
+      setInitialCounts(prevCounts => ({
+        ...prevCounts,
+        ...counts
+      }));
       setTotalUsers(data?.data.totalItems || 0);
     }
-  }, [data, searchUser, selectedFilter, currentPage]);
+  }, [data, searchUser, selectedFilter, currentPage, roles]);
 
   if (isError) return <h1>{error.message}</h1>;
   if (isLoading && !searchUser && !selectedFilter) return <Loader />;
@@ -128,35 +133,15 @@ const Users = () => {
 
   const checkIncreasment = (value: number) => value >= 0;
 
-  const USERS_HEADER_DATA = [
-    {
-      title: 'ZainSpotters',
-      value: initialCounts.zainspotter.value,
-      editPermissions: false,
-      stats: {
-        increase: checkIncreasment(initialCounts.zainspotter.increasmentValue),
-        percentage: Math.abs(initialCounts.zainspotter.increasmentValue),
-      },
+  const USERS_HEADER_DATA = Object.entries(initialCounts).map(([roleName, counts]) => ({
+    title: roleName.charAt(0).toUpperCase() + roleName.slice(1) + 's',
+    value: counts.value,
+    editPermissions: roleName !== "zainspotter", 
+    stats: {
+      increase: checkIncreasment(counts.increasmentValue),
+      percentage: Math.abs(counts.increasmentValue),
     },
-    {
-      title: 'Admins',
-      value: initialCounts.admin.value,
-      editPermissions: true,
-      stats: {
-        increase: checkIncreasment(initialCounts.admin.increasmentValue),
-        percentage: Math.abs(initialCounts.admin.increasmentValue),
-      },
-    },
-    {
-      title: 'Owners',
-      value: initialCounts.owner.value,
-      editPermissions: true,
-      stats: {
-        increase: checkIncreasment(initialCounts.owner.increasmentValue),
-        percentage: Math.abs(initialCounts.owner.increasmentValue),
-      },
-    },
-  ];
+  }));
 
   return (
     <div className='flex flex-col gap-6 bg-background-foreground px-4 md:px-24 py-4 md:py-8 md:pb-20'>
@@ -194,7 +179,7 @@ const Users = () => {
                     }`}
                   onClick={() => setSelectedFilter(filter.value)}
                 >
-                  {filter.title}
+                  {filter.title as string}
                 </div>
               ))}
             </div>
