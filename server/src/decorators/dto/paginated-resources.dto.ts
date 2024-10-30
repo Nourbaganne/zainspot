@@ -6,16 +6,9 @@ export interface PaginatedResource<T> {
   totalPages: number;
   hasNextPage: boolean;
   hasPreviousPage: boolean;
-  counts?: {
-    zainspotter: number;
-    admin: number;
-    owner: number;
-  };
-  percentageChange?: {
-    zainspotter: number;
-    admin: number;
-    owner: number;
-  };
+  counts?: Record<string, number>;
+
+  percentageChange?: Record<string, number>;
   totalCities?: number,
   totalCountries?: number,
 }
