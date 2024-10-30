@@ -126,6 +126,7 @@ const Page = ({ params }: { params: { id: number } }) => {
                     access_token: user?.access_token,
                     userId: currentUser?.id,
                     updatedRole: Number(e.target.value),
+                    refetch
                   })
                 }
               >

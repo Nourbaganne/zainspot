@@ -25,7 +25,7 @@ interface Counts {
 
 
 export interface InitialCounts {
-  [roleName: string]: Counts; // This allows for dynamic keys (role names)
+  [roleName: string]: Counts; 
 }
 
 const Users = () => {
@@ -66,7 +66,7 @@ const Users = () => {
     value: role.name
   }))];
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['users', currentPage, debouncedSearchUser, selectedFilter],
     queryFn: () =>
       axiosInstance.get(
@@ -80,7 +80,7 @@ const Users = () => {
   });
 
   useEffect(() => {
-    if (data) {
+    if (data && !searchUser && !selectedFilter) {
       const counts: InitialCounts = {};
       roles.forEach(role => {
         counts[role.name] = {
@@ -281,7 +281,7 @@ const Users = () => {
                   setSelectedUsers={setSelectedUsers}
                   isLoading={isLoading}
                   access_token={user?.access_token}
-                  setInitialCounts={setInitialCounts}
+                  refetch={refetch}
                 />
               </div>
 
