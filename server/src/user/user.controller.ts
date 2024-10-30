@@ -115,4 +115,9 @@ export class UserController {
     return this.userService.user2FEmailActivation(id);
   }
 
+  @Patch(':id/activation')
+  async userActivation(@Param('id') id: number){
+    return this.userService.userActivation(id);
+  }
+
 }

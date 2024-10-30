@@ -331,4 +331,13 @@ export class UserService {
 		user.twoFactorCodeExpiresAt = null;
 		await User.save(user);
 	}
+
+
+	async userActivation(id: number): Promise<User>{
+		const user = await this.findById(id);
+		user.activation = !user.activation;
+		await User.save(user);
+
+		return user;
+	}
 }

@@ -51,23 +51,26 @@ const Page = ({ params }: { params: { id: number } }) => {
       const toastId = toast.loading('Processing...');
       const response = await axiosInstance.patch(`/user/${id}/activation`, {
         headers: {
-          Authorization: `Bearer ${user?.access_token}`
-        }
+          Authorization: `Bearer ${user?.access_token}`,
+        },
       });
-
+  
       if (response.status === 200) {
         if (data?.data.activation === true) {
-          toast.success("User Desactivated Succeffully", { id: toastId });
+          toast.success('User Deactivated Successfully', { id: toastId });
         } else {
-          toast.success("User Activated Succeffully", { id: toastId });
+          toast.success('User Activated Successfully', { id: toastId });
         }
-        refetch()
+        refetch();
       }
-    } catch (error) {
-      toast.error(error as string);
-      console.log("error: ", error)
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || error.message || 'An unexpected error occurred';
+      toast.error(errorMessage);
+      console.log('error: ', error);
     }
-  }
+  };
+  
 
 
 
