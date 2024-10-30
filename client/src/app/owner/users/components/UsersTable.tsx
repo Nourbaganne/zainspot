@@ -6,11 +6,11 @@ import upButton from '@/app/assets/owner/users/Up.svg';
 import downButton from '@/app/assets/owner/users/Down.svg';
 import Link from 'next/link';
 import User from '@/app/interfaces/User';
-import Role from '@/app/interfaces/Role';
 import Loader from '@/app/components/loader';
 import { HandleRoleChanges } from '@/app/lib/userRoleChanging';
 import { useRoles } from '@/app/contexts/RoleContext';
 import Translation from '@/app/components/translation';
+import { InitialCounts } from '../page';
 
 const USERS_LIST_HEADER = [
 	{ title: 'User', hasFiltering: true },
@@ -21,26 +21,15 @@ const USERS_LIST_HEADER = [
 	// {title: 'Actions', hasFiltering: false},
 ];
 
-interface Counts {
-	value: number;
-	increasmentValue: number;
-}
-
-interface InitialCounts {
-	zainspotter: Counts;
-	admin: Counts;
-	owner: Counts;
-}
-
 interface Props {
 	users: User[];
-	selectedUsers: string[];
+	selectedUsers: number[];
 	setSelectedUsers: (
-		selectedUsers: string[] | ((prevSelectedUsers: string[]) => string[]),
+		selectedUsers: number[] | ((prevSelectedUsers: number[]) => number[]),
 	) => void;
 	isLoading: boolean;
 	access_token: string | undefined;
-	setInitialCounts: (counts: InitialCounts | ((prevCounts: InitialCounts) => InitialCounts)) => void;
+	refetch: () => Promise<any>
 }
 const UsersTable = ({
 	users,
@@ -48,19 +37,20 @@ const UsersTable = ({
 	setSelectedUsers,
 	isLoading,
 	access_token,
-	setInitialCounts,
+	refetch
 
 }: Props) => {
 
 	const { roles } = useRoles();
 
-	const handleSelectUser = (userEmail: string) => {
-		setSelectedUsers((prevSelectedUsers: string[]) => {
-			if (prevSelectedUsers.includes(userEmail)) {
-				return prevSelectedUsers.filter((email: string) => email !== userEmail);
+	const handleSelectUser = (userId: number) => {
+		setSelectedUsers((prevSelectedUsers: number[]) => {
+			if (prevSelectedUsers.includes(userId)) {
+				return prevSelectedUsers.filter((id: number) => id !== userId);
 			} else {
-				return [...prevSelectedUsers, userEmail];
+				return [...prevSelectedUsers, userId];
 			}
+
 		});
 	};
 
@@ -118,8 +108,8 @@ const UsersTable = ({
 							<div className='flex-center'>
 								<input
 									type='checkbox'
-									checked={selectedUsers.includes(user.email)}
-									onChange={() => handleSelectUser(user.email)}
+									checked={selectedUsers.includes(user.id)}
+									onChange={() => handleSelectUser(user.id)}
 									className='accent-primary rounded-sm'
 								/>
 							</div>
@@ -177,8 +167,7 @@ const UsersTable = ({
 											access_token,
 											userId: user?.id,
 											updatedRole: Number(e.target.value),
-											previousRole: user?.role.id,
-											setInitialCounts,
+											refetch
 										})
 									}
 								>

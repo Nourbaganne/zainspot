@@ -147,11 +147,11 @@ const Navbar = () => {
 
 					{user && (
 						user.user.role.id === 3 ? (
-							<Link href='/zainspotter' className='text-primary capitalize'>
+							<Link href='/zainspotter' className='text-primary capitalize hover:underline'>
 								<Translation translationKey='footer_title_gotomyzainspot' />{' '}
 							</Link>
 						) : (
-							<Link href='/owner' className='text-primary capitalize'>
+							<Link href='/owner' className='text-primary capitalize hover:underline'>
 								<Translation translationKey='footer_title_owner' />{' '}
 							</Link>
 						)

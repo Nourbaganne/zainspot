@@ -376,5 +376,7 @@
 	"location_yearLabel": "1 Year",
 	"location_manuelPayment": "Manual Payment Tax Fee",
 	"location_editBtn": "Edit",
-	"location_deleteBtn": "Delete Permanently"
+	"location_deleteBtn": "Delete Permanently",
+
+	"navigation_Page": "dashboard"
 }

@@ -23,6 +23,7 @@ import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
 import { headers } from 'next/headers';
 import toast from 'react-hot-toast';
+import { handleUserActivation } from '@/app/lib/userActivation';
 
 const Page = ({ params }: { params: { id: number } }) => {
 
@@ -44,30 +45,6 @@ const Page = ({ params }: { params: { id: number } }) => {
         },
       }),
   });
-
-
-  const handleUserActivation = async (id: number) => {
-    try {
-      const toastId = toast.loading('Processing...');
-      const response = await axiosInstance.patch(`/user/${id}/activation`, {
-        headers: {
-          Authorization: `Bearer ${user?.access_token}`
-        }
-      });
-
-      if (response.status === 200) {
-        if (data?.data.activation === true) {
-          toast.success("User Desactivated Succeffully", { id: toastId });
-        } else {
-          toast.success("User Activated Succeffully", { id: toastId });
-        }
-        refetch()
-      }
-    } catch (error) {
-      toast.error(error as string);
-      console.log("error: ", error)
-    }
-  }
 
 
 
@@ -126,6 +103,7 @@ const Page = ({ params }: { params: { id: number } }) => {
                     access_token: user?.access_token,
                     userId: currentUser?.id,
                     updatedRole: Number(e.target.value),
+                    refetch
                   })
                 }
               >
@@ -170,22 +148,27 @@ const Page = ({ params }: { params: { id: number } }) => {
               </div>
             </div>
           </div>
-          <div className='flex gap-3 items-start justify-center text-sm font-bold'>
-            <button className='text-span flex  px-4 py-2 gap-2 items-center'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 items-start justify-center text-sm font-bold'>
+            <button className='text-span flex  px-4 py-2 gap-2 items-center text-center'>
               <Image src={downloadIcon} alt='download' />
               <Translation translationKey='userInfo_downloadBtn' />
             </button>
-            <button className='px-4 py-2 text-primary border-2 border-primary rounded-md'>
+            <button className='px-4 py-2 text-primary border-2 border-primary text-center rounded-md'>
               <Translation translationKey='userInfo_editBtn' />
             </button>
             <Link
               href={`/owner/users/${currentUser?.id}/sendMail?fullname=${fullname}&email=${currentUser?.email}&id=${currentUser?.id}`}
-              className='px-4 py-2 border-2 border-primary bg-primary text-background rounded-md'>
+              className='px-4 py-2 border-2 border-primary bg-primary text-center text-background rounded-md'>
               <Translation translationKey='userInfo_sendmailBtn' />
             </Link>
 
-            <button className='px-4 py-2 border-2 border-alert bg-alert text-background rounded-md'
-              onClick={() => handleUserActivation(data?.data.id)}
+            <button className='px-4 py-2 border-2 border-alert bg-alert text-center text-background rounded-md'
+              onClick={() => handleUserActivation({
+                id: user?.user.userId ,
+                selectedUserIds: [data?.data.id],
+                access_token: user?.access_token, 
+                refetch
+              })}
             >
               {
                 data?.data.activation ? (
