@@ -23,9 +23,9 @@ const USERS_LIST_HEADER = [
 
 interface Props {
 	users: User[];
-	selectedUsers: string[];
+	selectedUsers: number[];
 	setSelectedUsers: (
-		selectedUsers: string[] | ((prevSelectedUsers: string[]) => string[]),
+		selectedUsers: number[] | ((prevSelectedUsers: number[]) => number[]),
 	) => void;
 	isLoading: boolean;
 	access_token: string | undefined;
@@ -43,13 +43,14 @@ const UsersTable = ({
 
 	const { roles } = useRoles();
 
-	const handleSelectUser = (userEmail: string) => {
-		setSelectedUsers((prevSelectedUsers: string[]) => {
-			if (prevSelectedUsers.includes(userEmail)) {
-				return prevSelectedUsers.filter((email: string) => email !== userEmail);
+	const handleSelectUser = (userId: number) => {
+		setSelectedUsers((prevSelectedUsers: number[]) => {
+			if (prevSelectedUsers.includes(userId)) {
+				return prevSelectedUsers.filter((id: number) => id !== userId);
 			} else {
-				return [...prevSelectedUsers, userEmail];
+				return [...prevSelectedUsers, userId];
 			}
+
 		});
 	};
 
@@ -107,8 +108,8 @@ const UsersTable = ({
 							<div className='flex-center'>
 								<input
 									type='checkbox'
-									checked={selectedUsers.includes(user.email)}
-									onChange={() => handleSelectUser(user.email)}
+									checked={selectedUsers.includes(user.id)}
+									onChange={() => handleSelectUser(user.id)}
 									className='accent-primary rounded-sm'
 								/>
 							</div>

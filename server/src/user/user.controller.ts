@@ -10,6 +10,7 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  BadRequestException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -111,13 +112,26 @@ export class UserController {
   }
 
   @Patch(':id/2FactorEmailActivation')
-  async user2FEmailActivation(@Param('id') id: number){
+  async user2FEmailActivation(@Param('id') id: number) {
     return this.userService.user2FEmailActivation(id);
   }
 
   @Patch(':id/activation')
-  async userActivation(@Param('id') id: number){
-    return this.userService.userActivation(id);
+  async usersActivation(
+    @Param('id') id: number,
+    @Body('ids') ids: number[],
+  ) {
+
+    // Validate IDs in the body
+    const validIds = ids.filter(id => Number.isInteger(id) && !isNaN(id));
+
+    if (validIds.length === 0) {
+      throw new BadRequestException('No valid user IDs provided');
+    }
+
+    return this.userService.usersActivation(validIds);
   }
+
+
 
 }

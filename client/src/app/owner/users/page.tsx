@@ -16,6 +16,7 @@ import Loader from '@/app/components/loader';
 import { WithAuth } from '@/app/lib/withAuth';
 import { useRoles } from '@/app/contexts/RoleContext';
 import Translation from '@/app/components/translation';
+import { handleUserActivation } from '@/app/lib/userActivation';
 
 
 interface Counts {
@@ -32,12 +33,10 @@ const Users = () => {
   const [selectedFilter, setSelectedFilter] = useState<string>('');
   const [searchUser, setSearchUser] = useState<string>('');
   const [debouncedSearchUser, setDebouncedSearchUser] = useState<string>(searchUser);
-  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [initialCounts, setInitialCounts] = useState<InitialCounts>({});
-  const [totalUsers, setTotalUsers] = useState<number>(0);
-
-  
+  const [totalUsers, setTotalUsers] = useState<number>(0);  
 
   const { user } = useContext(AuthContext);
   const rolesModalRef = useRef<any>(null);
@@ -143,6 +142,7 @@ const Users = () => {
     },
   }));
 
+
   return (
     <div className='flex flex-col gap-6 bg-background-foreground px-4 md:px-24 py-4 md:py-8 md:pb-20'>
       <Breadcrumb items={breadcrumbItems} className='pl-2 overflow-x-auto' />
@@ -234,7 +234,15 @@ const Users = () => {
                   >
                     <Translation translationKey='select_btn' />
                   </button>
-                  <button className='py-2 px-4 bg-alert text-background rounded-md'>
+                  <button 
+                  onClick={() => handleUserActivation({
+                    id: user?.user.userId,
+                    selectedUserIds: selectedUsers,
+                    setSelectedUsers,
+                    access_token: user?.access_token,
+                    refetch
+                  })}
+                  className='py-2 px-4 bg-alert text-background rounded-md'>
                     <Translation translationKey='desactive_btn' />
                   </button>
                 </div>

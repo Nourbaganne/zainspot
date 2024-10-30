@@ -1,4 +1,5 @@
 import {
+	BadRequestException,
 	HttpException,
 	HttpStatus,
 	Injectable,
@@ -15,6 +16,7 @@ import {
 	getEndOfPreviousMonth,
 	getStartOfPreviousMonth,
 } from 'src/utils/date-utils';
+import { In } from 'typeorm';
 
 type RoleCounts = Record<string, number>;
 type PercentageChange = Record<string, number>;
@@ -333,11 +335,54 @@ export class UserService {
 	}
 
 
-	async userActivation(id: number): Promise<User>{
-		const user = await this.findById(id);
-		user.activation = !user.activation;
-		await User.save(user);
-
-		return user;
+	// Service method
+async findByIds(ids: number[]): Promise<User[]> {
+	// Log IDs to debug
+	console.log('findByIds called with IDs:', ids);
+  
+	// Filter out invalid IDs (non-numbers or NaN)
+	const validIds = ids.filter((id) => Number.isInteger(id));
+  
+	if (validIds.length === 0) {
+	  throw new NotFoundException('No valid user IDs provided');
 	}
+  
+	const users = await User.find({
+	  where: { id: In(validIds) },
+	  relations: [
+		'role',
+		'paymentHistories',
+		'subscriptions',
+		'subscriptions.city',
+	  ],
+	});
+  
+	if (users.length !== validIds.length) {
+	  const foundIds = users.map((user) => user.id);
+	  const missingIds = validIds.filter((id) => !foundIds.includes(id));
+	  throw new NotFoundException(`Users with IDs ${missingIds.join(', ')} not found`);
+	}
+  
+	users.forEach((user) => delete user.password);
+  
+	return users;
+  }  
+
+
+  async usersActivation(ids: number[]): Promise<User[]> {
+	if (!Array.isArray(ids) || ids.length === 0) {
+	  throw new BadRequestException('No user IDs provided');
+	}
+  
+	const users = await this.findByIds(ids);
+  
+	users.forEach((user) => {
+	  user.activation = !user.activation;
+	});
+  
+	await User.save(users);
+    
+	return users;
+  }
+  
 }
