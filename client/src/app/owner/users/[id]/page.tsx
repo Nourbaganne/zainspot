@@ -21,6 +21,9 @@ import { useRoles } from '@/app/contexts/RoleContext';
 import Translation from '@/app/components/translation';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
+import { headers } from 'next/headers';
+import toast from 'react-hot-toast';
+import { handleUserActivation } from '@/app/lib/userActivation';
 
 const Page = ({ params }: { params: { id: number } }) => {
 
@@ -33,7 +36,7 @@ const Page = ({ params }: { params: { id: number } }) => {
   const { roles } = useRoles();
 
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['user', params.id],
     queryFn: () =>
       axiosInstance.get(`/user/${params.id}`, {
@@ -42,6 +45,9 @@ const Page = ({ params }: { params: { id: number } }) => {
         },
       }),
   });
+
+
+
 
   if (isLoading) {
     return <Loader />;
@@ -97,6 +103,7 @@ const Page = ({ params }: { params: { id: number } }) => {
                     access_token: user?.access_token,
                     userId: currentUser?.id,
                     updatedRole: Number(e.target.value),
+                    refetch
                   })
                 }
               >
@@ -141,22 +148,36 @@ const Page = ({ params }: { params: { id: number } }) => {
               </div>
             </div>
           </div>
-          <div className='flex gap-3 items-start justify-center text-sm font-bold'>
-            <button className='text-span flex  px-4 py-2 gap-2 items-center'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 items-start justify-center text-sm font-bold'>
+            <button className='text-span flex  px-4 py-2 gap-2 items-center text-center'>
               <Image src={downloadIcon} alt='download' />
               <Translation translationKey='userInfo_downloadBtn' />
             </button>
-            <button className='px-4 py-2 text-primary border-2 border-primary rounded-md'>
+            <button className='px-4 py-2 text-primary border-2 border-primary text-center rounded-md'>
               <Translation translationKey='userInfo_editBtn' />
             </button>
             <Link
               href={`/owner/users/${currentUser?.id}/sendMail?fullname=${fullname}&email=${currentUser?.email}&id=${currentUser?.id}`}
-              className='px-4 py-2 border-2 border-primary bg-primary text-background rounded-md'>
+              className='px-4 py-2 border-2 border-primary bg-primary text-center text-background rounded-md'>
               <Translation translationKey='userInfo_sendmailBtn' />
             </Link>
 
-            <button className='px-4 py-2 border-2 border-alert bg-alert text-background rounded-md'>
-              <Translation translationKey='userInfo_desactivationBtn' />
+            <button className='px-4 py-2 border-2 border-alert bg-alert text-center text-background rounded-md'
+              onClick={() => handleUserActivation({
+                id: user?.user.userId ,
+                selectedUserIds: [data?.data.id],
+                access_token: user?.access_token, 
+                refetch
+              })}
+            >
+              {
+                data?.data.activation ? (
+                  <Translation translationKey='userInfo_desactivationBtn' />
+                ) : (
+                  <Translation translationKey='userInfo_activationBtn' />
+                )
+              }
+
             </button>
           </div>
         </div>
@@ -219,4 +240,4 @@ const Page = ({ params }: { params: { id: number } }) => {
   );
 };
 
-export default WithAuth(Page, 'owner');
+export default WithAuth(Page, ['owner', 'admin']);

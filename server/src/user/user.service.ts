@@ -1,4 +1,5 @@
 import {
+	BadRequestException,
 	HttpException,
 	HttpStatus,
 	Injectable,
@@ -15,22 +16,14 @@ import {
 	getEndOfPreviousMonth,
 	getStartOfPreviousMonth,
 } from 'src/utils/date-utils';
+import { In } from 'typeorm';
 
-type RoleCounts = {
-	zainspotter: number;
-	admin: number;
-	owner: number;
-};
-
-type PercentageChange = {
-	zainspotter: number;
-	admin: number;
-	owner: number;
-};
+type RoleCounts = Record<string, number>;
+type PercentageChange = Record<string, number>;
 
 @Injectable()
 export class UserService {
-	constructor() { }
+	constructor() {}
 
 	async hashPassword(password: string): Promise<string> {
 		const salt = await bcrypt.genSalt(8);
@@ -134,17 +127,11 @@ export class UserService {
 			.groupBy('role.name')
 			.getRawMany();
 
-		const counts: RoleCounts = {
-			zainspotter: 0,
-			admin: 0,
-			owner: 0,
-		};
+		const counts: RoleCounts = {};
 
+		// Dynamically add role counts to the object
 		roleCounts.forEach((roleCount) => {
-			if (roleCount.role === 'zainspotter')
-				counts.zainspotter = +roleCount.count;
-			if (roleCount.role === 'admin') counts.admin = +roleCount.count;
-			if (roleCount.role === 'owner') counts.owner = +roleCount.count;
+			counts[roleCount.role] = +roleCount.count;
 		});
 
 		return counts;
@@ -164,20 +151,12 @@ export class UserService {
 			})
 			.groupBy('role.name')
 			.getRawMany();
-		const previousCounts: RoleCounts = {
-			zainspotter: 0,
-			admin: 0,
-			owner: 0,
-		};
 
+		const previousCounts: RoleCounts = {};
+
+		// Dynamically add role counts to the object
 		previousRoleCounts.forEach((roleCount) => {
-			if (roleCount.role === 'zainspotter')
-				previousCounts.zainspotter = +roleCount.count;
-
-			if (roleCount.role === 'admin') previousCounts.admin = +roleCount.count;
-
-			if (roleCount.role === 'owner')
-				previousCounts.owner = +roleCount.count;
+			previousCounts[roleCount.role] = +roleCount.count;
 		});
 
 		return previousCounts;
@@ -196,23 +175,19 @@ export class UserService {
 		const currentCounts = await this.getRoleCounts();
 		const previousCounts = await this.getPreviousRoleCounts();
 
-		const percentageChange: PercentageChange = {
-			zainspotter: this.calculatePercentageChange(
-				previousCounts.zainspotter,
-				currentCounts.zainspotter,
-			),
-			admin: this.calculatePercentageChange(
-				previousCounts.admin,
-				currentCounts.admin,
-			),
-			owner: this.calculatePercentageChange(
-				previousCounts.owner,
-				currentCounts.owner,
-			),
-		};
+		const percentageChange: PercentageChange = {};
+
+		// Iterate over each role in currentCounts to dynamically calculate percentage change
+		for (const role of Object.keys(currentCounts)) {
+			const oldCount = previousCounts[role] || 0; // Default to 0 if the role didn't exist previously
+			const newCount = currentCounts[role];
+
+			percentageChange[role] = this.calculatePercentageChange(oldCount, newCount);
+		}
 
 		return percentageChange;
 	}
+	  
 
 	async findById(id: number): Promise<User> {
 		const user = await User.findOne({
@@ -317,4 +292,97 @@ export class UserService {
 			relations: ['role', 'role.permissions'],
 		});
 	}
+
+
+	async user2FEmailActivation(id: number): Promise<User>{
+		const user = await this.findById(id);
+
+		user.EmailAuthentication = !user.EmailAuthentication;
+
+		await User.save(user);
+		return user;
+	}
+
+	async storeTwoFactorCode(userId: number, code: string): Promise<void> {
+		const user = await this.findById(userId);
+		user.twoFactorCode = code; 
+		user.twoFactorCodeExpiresAt = new Date(Date.now() + 10 * 60 * 1000); 
+	 
+		try {
+			await User.save(user);
+			console.log('Stored 2FA Code:', user.twoFactorCode);
+			console.log('2FA Code Expiration Time:', user.twoFactorCodeExpiresAt);
+		} catch (error) {
+			console.error('Error saving user:', error);
+		}
+	 }
+	 
+	 async getTwoFactorCode(userId: number): Promise<string | null> {
+		const user = await this.findById(userId);
+		console.log('Retrieved User for 2FA:', user);
+	 
+		if (user.twoFactorCodeExpiresAt && user.twoFactorCodeExpiresAt > new Date()) {
+			return user.twoFactorCode;
+		}
+		return null; 
+	 }
+	
+	async clearTwoFactorCode(userId: number): Promise<void> {
+		const user = await this.findById(userId);
+		user.twoFactorCode = null;
+		user.twoFactorCodeExpiresAt = null;
+		await User.save(user);
+	}
+
+
+	// Service method
+async findByIds(ids: number[]): Promise<User[]> {
+	// Log IDs to debug
+	console.log('findByIds called with IDs:', ids);
+  
+	// Filter out invalid IDs (non-numbers or NaN)
+	const validIds = ids.filter((id) => Number.isInteger(id));
+  
+	if (validIds.length === 0) {
+	  throw new NotFoundException('No valid user IDs provided');
+	}
+  
+	const users = await User.find({
+	  where: { id: In(validIds) },
+	  relations: [
+		'role',
+		'paymentHistories',
+		'subscriptions',
+		'subscriptions.city',
+	  ],
+	});
+  
+	if (users.length !== validIds.length) {
+	  const foundIds = users.map((user) => user.id);
+	  const missingIds = validIds.filter((id) => !foundIds.includes(id));
+	  throw new NotFoundException(`Users with IDs ${missingIds.join(', ')} not found`);
+	}
+  
+	users.forEach((user) => delete user.password);
+  
+	return users;
+  }  
+
+
+  async usersActivation(ids: number[]): Promise<User[]> {
+	if (!Array.isArray(ids) || ids.length === 0) {
+	  throw new BadRequestException('No user IDs provided');
+	}
+  
+	const users = await this.findByIds(ids);
+  
+	users.forEach((user) => {
+	  user.activation = !user.activation;
+	});
+  
+	await User.save(users);
+    
+	return users;
+  }
+  
 }

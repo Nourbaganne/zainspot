@@ -53,7 +53,7 @@ const Page = () => {
             <LoginSecurityForm formik={formik} />
           </form>
           <Authentification
-            isEmailConfirmed={data?.isEmailConfirmed}
+            isEmailAuthenticated={data?.EmailAuthentication}
             userId={user?.user.userId}
             access_token={user?.access_token}
             refetch={refetch}
@@ -74,4 +74,4 @@ const Page = () => {
   );
 };
 
-export default WithAuth(Page, 'zainspotter');
+export default WithAuth(Page, ['zainspotter']);

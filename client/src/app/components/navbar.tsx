@@ -146,9 +146,15 @@ const Navbar = () => {
 					)}
 
 					{user && (
-						<Link href='/zainspotter' className='text-primary capitalize'>
-							<Translation translationKey='go_to_my_zainspot' />{' '}
-						</Link>
+						user.user.role.id === 3 ? (
+							<Link href='/zainspotter' className='text-primary capitalize hover:underline'>
+								<Translation translationKey='footer_title_gotomyzainspot' />{' '}
+							</Link>
+						) : (
+							<Link href='/owner' className='text-primary capitalize hover:underline'>
+								<Translation translationKey='footer_title_owner' />{' '}
+							</Link>
+						)
 					)}
 				</div>
 			</div>

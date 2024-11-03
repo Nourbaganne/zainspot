@@ -96,7 +96,7 @@ export class User extends BaseEntity {
 	@JoinColumn({ name: 'roleId' })
 	role: Role;
 
-	
+
 	@OneToMany(() => PaymentHistory, (paymentHistory) => paymentHistory.user, {
 		cascade: ['remove'],  // Cascade delete when user is deleted
 	})
@@ -106,4 +106,17 @@ export class User extends BaseEntity {
 		cascade: ['remove'],  // Cascade delete when user is deleted
 	})
 	subscriptions: Subscription[];
+
+	@Column({ default: true })
+	activation: boolean;
+
+	@Column({ default: false })
+	EmailAuthentication: boolean;
+
+	@Column({ nullable: true })
+    twoFactorCode: string;
+
+    @Column({ type: 'timestamp', nullable: true })
+    twoFactorCodeExpiresAt: Date;
+
 }

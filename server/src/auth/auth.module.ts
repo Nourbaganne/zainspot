@@ -10,6 +10,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { PoliciesGuard } from 'src/casl/policiesGuard.guard';
 import { CaslAbilityFactory } from 'src/casl/casl-ability.factory/casl-ability.factory';
+import EmailService from 'src/email/email.service';
 
 @Module({
 	imports: [
@@ -36,6 +37,7 @@ import { CaslAbilityFactory } from 'src/casl/casl-ability.factory/casl-ability.f
 			provide: APP_GUARD,
 			useClass: PoliciesGuard,
 		},
+		EmailService
 	],
 	exports: [JwtModule],
 })

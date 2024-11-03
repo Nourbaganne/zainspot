@@ -10,6 +10,7 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  BadRequestException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,6 +24,7 @@ import {
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { User } from 'src/entities/user.entity';
 import { RecaptchaService } from './recaptcha.service';
+import { number } from 'joi';
 
 @Controller('user')
 export class UserController {
@@ -108,5 +110,28 @@ export class UserController {
     // Cascade delete will automatically handle the deletion of subscriptions and payment history
     return this.userService.remove(+id);
   }
+
+  @Patch(':id/2FactorEmailActivation')
+  async user2FEmailActivation(@Param('id') id: number) {
+    return this.userService.user2FEmailActivation(id);
+  }
+
+  @Patch(':id/activation')
+  async usersActivation(
+    @Param('id') id: number,
+    @Body('ids') ids: number[],
+  ) {
+
+    // Validate IDs in the body
+    const validIds = ids.filter(id => Number.isInteger(id) && !isNaN(id));
+
+    if (validIds.length === 0) {
+      throw new BadRequestException('No valid user IDs provided');
+    }
+
+    return this.userService.usersActivation(validIds);
+  }
+
+
 
 }
