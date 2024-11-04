@@ -90,8 +90,8 @@ const Page = ({ params }: { params: { id: number } }) => {
     <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
       <Breadcrumb items={breadcrumbItems} />
       <div className='card flex flex-col gap-10 md:py-10'>
-        <div className='flex justify-between'>
-          <div className='flex flex-col gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+          <div className=' col-span-2 flex flex-col gap-4'>
             <div className='flex gap-2 items-center'>
               <h1 className='text-4xl font-semibold'>{fullname}</h1>
               <select
@@ -148,20 +148,12 @@ const Page = ({ params }: { params: { id: number } }) => {
               </div>
             </div>
           </div>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 items-start justify-center text-sm font-bold'>
-            <button className='text-span flex  px-4 py-2 gap-2 items-center text-center'>
-              <Image src={downloadIcon} alt='download' />
-              <Translation translationKey='userInfo_downloadBtn' />
-            </button>
-            <button className='px-4 py-2 text-primary border-2 border-primary text-center rounded-md'>
-              <Translation translationKey='userInfo_editBtn' />
-            </button>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-3 items-start justify-center text-sm font-bold'>
             <Link
               href={`/owner/users/${currentUser?.id}/sendMail?fullname=${fullname}&email=${currentUser?.email}&id=${currentUser?.id}`}
               className='px-4 py-2 border-2 border-primary bg-primary text-center text-background rounded-md'>
               <Translation translationKey='userInfo_sendmailBtn' />
             </Link>
-
             <button className='px-4 py-2 border-2 border-alert bg-alert text-center text-background rounded-md'
               onClick={() => handleUserActivation({
                 id: user?.user.userId ,

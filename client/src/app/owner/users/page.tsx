@@ -26,7 +26,7 @@ interface Counts {
 
 
 export interface InitialCounts {
-  [roleName: string]: Counts; 
+  [roleName: string]: Counts;
 }
 
 const Users = () => {
@@ -36,7 +36,7 @@ const Users = () => {
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [initialCounts, setInitialCounts] = useState<InitialCounts>({});
-  const [totalUsers, setTotalUsers] = useState<number>(0);  
+  const [totalUsers, setTotalUsers] = useState<number>(0);
 
   const { user } = useContext(AuthContext);
   const rolesModalRef = useRef<any>(null);
@@ -135,7 +135,7 @@ const Users = () => {
   const USERS_HEADER_DATA = Object.entries(initialCounts).map(([roleName, counts]) => ({
     title: roleName.charAt(0).toUpperCase() + roleName.slice(1) + 's',
     value: counts.value,
-    editPermissions: roleName !== "zainspotter", 
+    editPermissions: roleName !== "zainspotter" && roleName !== "owner",
     stats: {
       increase: checkIncreasment(counts.increasmentValue),
       percentage: Math.abs(counts.increasmentValue),
@@ -234,15 +234,15 @@ const Users = () => {
                   >
                     <Translation translationKey='select_btn' />
                   </button>
-                  <button 
-                  onClick={() => handleUserActivation({
-                    id: user?.user.userId,
-                    selectedUserIds: selectedUsers,
-                    setSelectedUsers,
-                    access_token: user?.access_token,
-                    refetch
-                  })}
-                  className='py-2 px-4 bg-alert text-background rounded-md'>
+                  <button
+                    onClick={() => handleUserActivation({
+                      id: user?.user.userId,
+                      selectedUserIds: selectedUsers,
+                      setSelectedUsers,
+                      access_token: user?.access_token,
+                      refetch
+                    })}
+                    className='py-2 px-4 bg-alert text-background rounded-md'>
                     <Translation translationKey='desactive_btn' />
                   </button>
                 </div>
