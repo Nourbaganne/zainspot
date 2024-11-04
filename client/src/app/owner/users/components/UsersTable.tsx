@@ -16,7 +16,7 @@ const USERS_LIST_HEADER = [
 	{ title: 'User', hasFiltering: true },
 	{ title: 'Email & Number', hasFiltering: false },
 	{ title: 'Subscriptions', hasFiltering: false },
-	{ title: 'Renewals', hasFiltering: true },
+	// { title: 'Renewals', hasFiltering: true },
 	{ title: 'Role', hasFiltering: false },
 	// {title: 'Actions', hasFiltering: false},
 ];
@@ -149,10 +149,10 @@ const UsersTable = ({
 							)}
 						</td>
 
-						<td className={`p-4 ${false ? 'text-primary' : 'text-alert-dark'}`}>
+						{/* <td className={`p-4 ${false ? 'text-primary' : 'text-alert-dark'}`}>
 							<span className='font-semibold'>Failed</span>{' '}
 							<span className='font-light'>(N/A)</span>
-						</td>
+						</td> */}
 						<td className='p-4'>
 							<div className="relative inline-block w-full">
 								<select
