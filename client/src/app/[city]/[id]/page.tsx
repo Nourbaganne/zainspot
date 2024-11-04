@@ -14,6 +14,7 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
 import City from '@/app/interfaces/City';
 import { FiArrowLeft, FiArrowRight, FiChevronLeft } from 'react-icons/fi';
+import React from 'react';
 
 export interface SelectedItem {
 	duration: number;
@@ -95,6 +96,16 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
 	const city: City = data?.data;
 
+	const formatDescription = (text: string) => {
+		return text.split('.').map((sentence, index) => (
+			<React.Fragment key={index}>
+				{sentence.trim()}
+				{index < text.split('.').length - 1 && <span>.</span>}
+				{index < text.split('.').length - 1 && <br />} 
+			</React.Fragment>
+		));
+	};
+
 	return (
 		city && (
 			<div className='flex flex-col md:grid md:grid-cols-2 font-sans md:pt-5 text-text-foreground '>
@@ -125,7 +136,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 								className='font-sans font-semibold text-lg md:text-[18px] leading-[27px]  tracking-wide'
 								style={{ wordSpacing: '0.2em', textAlign: 'justify' }}
 							>
-								{city?.description}
+								{city?.description && formatDescription(city.description)}
 							</p>
 							<h1 className='text-center font-sans font-extrabold text-xl md:text-2xl'>
 								Get the global edge from this rich heritage with your{' '}
