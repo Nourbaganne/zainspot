@@ -63,8 +63,14 @@ export class UserService {
 		//find users in the same company
 		const existingUsers = await User.find({
 			where: [
-				{ tradeName: user.tradeName },
-				{ businessName: user.businessName }
+				{
+					tradeName: user.tradeName,
+					zipCode: user.zipCode
+				},
+				{
+					businessName: user.businessName,
+					zipCode: user.zipCode
+				}
 			],
 			order: { suiteNumber: 'DESC' } // sort to get the highest suite number
 		});
