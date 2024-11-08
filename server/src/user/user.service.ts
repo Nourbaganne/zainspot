@@ -51,6 +51,8 @@ export class UserService {
 		});
 
 		const verifiedUser = await this.suiteNumberVerification(user);
+		user.tradeName = this.normalizeName(user.tradeName);
+		user.businessName = this.normalizeName(user.businessName);
 
 		await User.save(verifiedUser);
 
@@ -86,6 +88,32 @@ export class UserService {
 
 		return user;
 
+	}
+
+	normalizeName(name: string): string {
+
+		const abbreviations: { [key: string]: string } = {
+			"co": "company",
+			"inc": "incorporated",
+			"ltd": "limited",
+			"corp": "corporation",
+			"llc": "limited liability company",
+		};
+
+		// Remove special characters and extra spaces
+		let normalized = name
+			.replace(/[^\w\s]/g, '')
+			.replace(/\s+/g, ' ')
+			.trim()
+			.toLowerCase();
+
+		// check for words abbreviations
+		const words = normalized.split(' ');
+		normalized = words
+			.map((word => abbreviations[word] || word))
+			.join(' ');
+
+		return normalized;
 	}
 
 
