@@ -11,7 +11,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly userService: UserService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   @Public()
   @Post()
@@ -26,27 +26,29 @@ export class AuthController {
   @Public()
   @Post('verify-2fa')
   async verifyTwoFactor(@Body() body: { email: string; code: string }) {
-      const { email, code } = body;
-      try {
-          await this.authService.verifyTwoFactorCode(email, code);
-          // Generate a JWT token or any other success response
-          const user = await this.userService.findByEmail(email); // Get user details
-          const payload = {
-              userId: user.id,
-              email: user.email,
-              role: user.role,
-          };
-          const token = this.jwtService.sign(payload, { expiresIn: '14400s' });
-          const decodedToken = this.jwtService.decode(token) as { exp: number };
-          return {
-            user: payload,
-            access_token: token,
-            expires_at: new Date(decodedToken.exp * 1000),
-          };
-      } catch (error) {
-          console.log('2FA verification error:', error);
-          throw new HttpException('Invalid 2FA code. Please try again.', HttpStatus.UNAUTHORIZED);
-      }
+    const { email, code } = body;
+    try {
+      await this.authService.verifyTwoFactorCode(email, code);
+      // Generate a JWT token or any other success response
+      const user = await this.userService.findByEmail(email); // Get user details
+      const payload = {
+        userId: user.id,
+        email: user.email,
+        role: user.role,
+        preferedLanguage: user.preferedLanguage,
+        preferedCurrency: user.preferedCurrency,
+      };
+      const token = this.jwtService.sign(payload, { expiresIn: '14400s' });
+      const decodedToken = this.jwtService.decode(token) as { exp: number };
+      return {
+        user: payload,
+        access_token: token,
+        expires_at: new Date(decodedToken.exp * 1000),
+      };
+    } catch (error) {
+      console.log('2FA verification error:', error);
+      throw new HttpException('Invalid 2FA code. Please try again.', HttpStatus.UNAUTHORIZED);
+    }
   }
 
 

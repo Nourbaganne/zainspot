@@ -4,12 +4,12 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/authContext";
 import axiosInstance from "./axios/axiosInstance";
 import toast from "react-hot-toast";
+import { useCurrency } from "../contexts/CurrencyContext";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export interface UserData {
     isEmailConfirmed: boolean;
     email?: string;
-    password?: string;
-    confirmPassword?: string;
     businessNumber?: string;
     businessName?: string;
     tradeName?: string;
@@ -30,17 +30,17 @@ export interface UserData {
     mediaProfile?: string;
     preferedLanguage?: string;
     preferedCurrency?: string;
-    imageUrl?: string; 
+    imageUrl?: string;
 }
 
 export const useUpdateForm = (userData: UserData) => {
     const { user } = useContext(AuthContext);
+    const { setCurrency } = useCurrency();
+    const { setLanguage } = useLanguage();
 
     const initialValues: UserData = {
         email: userData?.email || "",
         isEmailConfirmed: userData?.isEmailConfirmed || false,
-        password: "",
-        confirmPassword: "",
         businessNumber: userData?.businessNumber || "",
         businessName: userData?.businessName || "",
         tradeName: userData?.tradeName || "",
@@ -69,18 +69,8 @@ export const useUpdateForm = (userData: UserData) => {
         enableReinitialize: true,
         validationSchema: Yup.object({
             email: Yup.string().email("Invalid email address"),
-            password: Yup.string()
-                .min(8, "8 characters minimum")
-                .matches(/[A-Z]/, "1 uppercase letter")
-                .matches(/[a-z]/, "1 lowercase letter")
-                .matches(/[0-9]/, "Password requires a number")
-                .matches(/[^\w]/, "1 special character, e.g.: !@#%&*^°"),
-            confirmPassword: Yup.string().oneOf(
-                [Yup.ref("password")],
-                "Passwords must match"
-            ),
         }),
-        onSubmit: async (values, { resetForm }: FormikHelpers<UserData>) => {
+        onSubmit: async (values) => {
             const toastId = toast.loading('Updating User Info...');
 
             try {
@@ -103,12 +93,13 @@ export const useUpdateForm = (userData: UserData) => {
 
                 if (response.status === 200) {
                     toast.success("User updated successfully!", { id: toastId });
-                    resetForm();
+                    setCurrency(response.data.preferedCurrency);
+                    setLanguage(response.data.preferedLanguage);
                 }
             } catch (error) {
                 toast.error("Error submitting form. Please try again.", { id: toastId });
                 console.error("Error submitting form:", error);
-                toast.dismiss(); 
+                toast.dismiss();
             }
         },
     });

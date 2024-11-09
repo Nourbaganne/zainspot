@@ -5,6 +5,8 @@ import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../contexts/useAuth';
 import axiosInstance from './axios/axiosInstance';
+import { useLanguage } from '../contexts/LanguageContext';
+import { useCurrency } from '../contexts/CurrencyContext';
 
 export const useLoginForm = (
 	setIsError: (error: string) => void,
@@ -13,6 +15,8 @@ export const useLoginForm = (
 ) => {
 	const router = useRouter();
 	const { dispatch } = useAuth();
+	const { setLanguage } = useLanguage();
+	const { setCurrency } = useCurrency();
 
 	return useFormik({
 		initialValues: {
@@ -34,9 +38,12 @@ export const useLoginForm = (
 						router.push(`/login/Two-Factor-Authentication?email=${values.email}`);
 					} else {
 						// User is logged in, proceed normally
+						setCurrency(response.data.user.preferedCurrency);
+						setLanguage(response.data.user.preferedLanguage);
 						dispatch({ type: 'LOGIN', payload: response.data });
 						localStorage.setItem('token', response.data.access_token);
 						router.push('/zainspotter');
+
 					}
 				}
 			} catch (error) {

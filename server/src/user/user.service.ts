@@ -50,9 +50,10 @@ export class UserService {
 			role: defaultRole,
 		});
 
-		const verifiedUser = await this.suiteNumberVerification(user);
 		user.tradeName = this.normalizeName(user.tradeName);
 		user.businessName = this.normalizeName(user.businessName);
+
+		const verifiedUser = await this.suiteNumberVerification(user);
 
 		await User.save(verifiedUser);
 
@@ -61,7 +62,6 @@ export class UserService {
 	}
 
 	async suiteNumberVerification(user: User): Promise<User> {
-
 		//find users in the same company
 		const existingUsers = await User.find({
 			where: [
@@ -115,6 +115,8 @@ export class UserService {
 
 		return normalized;
 	}
+
+
 
 
 
