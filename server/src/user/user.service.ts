@@ -17,6 +17,7 @@ import {
 	getStartOfPreviousMonth,
 } from 'src/utils/date-utils';
 import { In } from 'typeorm';
+import * as fuzzy from 'fuzzy';
 
 type RoleCounts = Record<string, number>;
 type PercentageChange = Record<string, number>;
@@ -60,16 +61,16 @@ export class UserService {
 	}
 
 	async suiteNumberVerification(user: User) {
-
-		//find users in the same company
+		// Find users in the same company
 		const existingUsers = await User
 			.createQueryBuilder('user')
 			.leftJoin('user.subscriptions', 'subscription')
-			.where('user.tradeName = :tradeName', { tradeName: user.tradeName })
-			.andWhere('user.zipCode = :zipCode', { zipCode: user.zipCode })
+			.where('user.zipCode = :zipCode', { zipCode: user.zipCode })
 			.andWhere('subscription.id IS NOT NULL')
-			.orderBy('user.suiteNumber', 'DESC')
 			.getMany();
+
+		// Initialize default suite number
+		user.suiteNumber = 'Z01';
 
 		if (existingUsers.length > 0) {
 			const lastSuiteNumber = existingUsers[0].suiteNumber;
@@ -79,16 +80,28 @@ export class UserService {
 				const numericPart = parseInt(lastSuiteNumber.slice(1), 10);
 				const newSuiteNumber = (numericPart + 1).toString().padStart(2, '0');
 				user.suiteNumber = `Z${newSuiteNumber}`;
-			} else {
-				// If suiteNumber is null, set it to the default "Z01"
-				user.suiteNumber = 'Z01';
 			}
-		} else {
-			user.suiteNumber = 'Z01';
+
+			// Fuzzy matching check for tradeName
+			const tradeNames = existingUsers.map(existingUser => existingUser.tradeName);
+			const results = fuzzy.filter(user.tradeName, tradeNames);
+
+			// If there's a close match, log or handle it
+			if (results.length > 0) {
+				const closestMatch = results[0];
+				const matchScore = closestMatch.score; // Get the score of the closest match
+
+				// Define a threshold for fuzzy matching (e.g., 0.5 for 50% similarity)
+				const threshold = 0.9; // Adjust as necessary
+
+				if (matchScore >= threshold) {
+					console.log(`Fuzzy match found: ${closestMatch.string} with score ${matchScore}`);
+					// Additional logic can be placed here, like notifying the user or logging
+				}
+			}
 		}
 
 		await User.save(user);
-
 	}
 
 	normalizeName(name: string): string {

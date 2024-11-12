@@ -51,7 +51,9 @@ export class SubscriptionService {
 		});
 
 		// update the user's suite number
-		this.userService.suiteNumberVerification(user);
+		if (!user.suiteNumber){
+			this.userService.suiteNumberVerification(user);
+		}
 
 		return this.subscriptionRepository.save(subscription);
 	}
