@@ -44,7 +44,7 @@ const TwoFactorAuthentication = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex px-5 md:px-0 items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-2 text-center">Two-Factor Authentication</h2>
         <p className="text-gray-600 mb-6 text-center">

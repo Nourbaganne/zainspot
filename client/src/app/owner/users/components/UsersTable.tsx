@@ -148,17 +148,12 @@ const UsersTable = ({
 								<span>N/A</span>
 							)}
 						</td>
-
-						{/* <td className={`p-4 ${false ? 'text-primary' : 'text-alert-dark'}`}>
-							<span className='font-semibold'>Failed</span>{' '}
-							<span className='font-light'>(N/A)</span>
-						</td> */}
 						<td className='p-4'>
 							<div className="relative inline-block w-full">
 								<select
 									name="selectRole"
 									id="selectRole"
-									className={`appearance-none bg-background-foreground border-none rounded-md px-2 py-1 pr-5 w-full
+									className={`appearance-none w-fit pr-7 md:pr-0 md:w-full bg-background-foreground border-none rounded-md px-2 py-1 
 											${user?.role.id === 2 && 'bg-secondary-foreground text-primary'}
 											${user?.role.id == 1 && 'text-secondary bg-secondary-background'}
 											`}

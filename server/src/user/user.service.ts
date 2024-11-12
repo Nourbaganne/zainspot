@@ -53,40 +53,41 @@ export class UserService {
 		user.tradeName = this.normalizeName(user.tradeName);
 		user.businessName = this.normalizeName(user.businessName);
 
-		const verifiedUser = await this.suiteNumberVerification(user);
-
-		await User.save(verifiedUser);
+		await User.save(user);
 
 		delete user.password;
 		return user;
 	}
 
-	async suiteNumberVerification(user: User): Promise<User> {
+	async suiteNumberVerification(user: User) {
+
 		//find users in the same company
-		const existingUsers = await User.find({
-			where: [
-				{
-					tradeName: user.tradeName,
-					zipCode: user.zipCode
-				},
-				{
-					businessName: user.businessName,
-					zipCode: user.zipCode
-				}
-			],
-			order: { suiteNumber: 'DESC' } // sort to get the highest suite number
-		});
+		const existingUsers = await User
+			.createQueryBuilder('user')
+			.leftJoin('user.subscriptions', 'subscription')
+			.where('user.tradeName = :tradeName', { tradeName: user.tradeName })
+			.andWhere('user.zipCode = :zipCode', { zipCode: user.zipCode })
+			.andWhere('subscription.id IS NOT NULL')
+			.orderBy('user.suiteNumber', 'DESC')
+			.getMany();
 
 		if (existingUsers.length > 0) {
 			const lastSuiteNumber = existingUsers[0].suiteNumber;
-			const numericPart = parseInt(lastSuiteNumber.slice(1), 10);
-			const newSuiteNumber = (numericPart + 1).toString().padStart(2, '0');
-			user.suiteNumber = `Z${newSuiteNumber}`;
+
+			// Check if lastSuiteNumber is not null before parsing
+			if (lastSuiteNumber) {
+				const numericPart = parseInt(lastSuiteNumber.slice(1), 10);
+				const newSuiteNumber = (numericPart + 1).toString().padStart(2, '0');
+				user.suiteNumber = `Z${newSuiteNumber}`;
+			} else {
+				// If suiteNumber is null, set it to the default "Z01"
+				user.suiteNumber = 'Z01';
+			}
 		} else {
 			user.suiteNumber = 'Z01';
 		}
 
-		return user;
+		await User.save(user);
 
 	}
 
@@ -115,9 +116,6 @@ export class UserService {
 
 		return normalized;
 	}
-
-
-
 
 
 	async findAll(

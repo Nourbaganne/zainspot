@@ -120,7 +120,7 @@ export class User extends BaseEntity {
 	@Column({ type: 'timestamp', nullable: true })
 	twoFactorCodeExpiresAt: Date;
 
-	@Column({ default: 'Z01' })
+	@Column({ default: null })
 	suiteNumber: string;
 
 	@Column({ default: 'AR' })
