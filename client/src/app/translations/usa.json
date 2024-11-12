@@ -3,7 +3,11 @@
 	"join": "JOIN",
 	"logout": "LOGOUT",
 	"secure_checkout": "Secure Checkout",
-	"navbar_titles": ["HOW IT WORKS", "SWITCH CUTTENCY", "SWITCH LANGUAGE"],
+	"navbar_titles": [
+		"HOW IT WORKS",
+		"SWITCH CUTTENCY",
+		"SWITCH LANGUAGE"
+	],
 	"homepage_header_title": "Your Overseas Offices from ",
 	"homepage_header_span": "30¢ a day",
 	"homepage_header_features": [
@@ -84,6 +88,7 @@
 	"register_gender_female_label": "Female",
 	"register_birthday_label": "Your Date of Birth",
 	"register_media_profile_label": "Your Social Media Profiles",
+	"register_zipCode": "Zip code",
 	"register_submit_button": "Join Zainspot",
 	"prefered_language": "Language",
 	"prefered_currency": "Currency",
@@ -371,12 +376,10 @@
 	"locationHeader_locations": "Locations",
 	"locationHeader_createBtn": "Create New",
 	"locationHeader_emptyTable": "No cities found",
-
 	"location_yearPayment": "1 Year Single Payment",
 	"location_yearLabel": "1 Year",
 	"location_manuelPayment": "Manual Payment Tax Fee",
 	"location_editBtn": "Edit",
 	"location_deleteBtn": "Delete Permanently",
-
 	"navigation_Page": "dashboard"
 }
