@@ -48,10 +48,10 @@ export default function MissionPage() {
         >
             <div className='flex flex-col gap-12'>
                 <div className='flex flex-col justify-center items-center gap-5'>
-                    <h1 className='font-bold text-3xl'>
+                    <h1 className='font-bold text-3xl text-primary'>
                         <Translation translationKey='zainspotMissions_title' />
                     </h1>
-                    <p className='text-span font-light md:max-w-[716px] font-regular md:text-lg text-center'>
+                    <p className='text-span font-light md:max-w-[692px] font-regular text-center'>
                         <Translation translationKey='zainspotMissions_desc' />
                     </p>
                 </div>

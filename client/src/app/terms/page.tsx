@@ -85,7 +85,7 @@ export default function TermsOfUse() {
         >
             <div className='flex flex-col gap-12'>
                 <div className='flex flex-col justify-center items-center gap-3'>
-                    <h1 className='font-bold text-3xl'>Terms of Use</h1>
+                    <h1 className='font-bold text-3xl text-primary'>Terms of Use</h1>
                     <p className='text-span font-light text-sm font-regular text-center'>
                         Effective: January 31, 2024
                     </p>
@@ -107,10 +107,10 @@ export default function TermsOfUse() {
                                 ) : (
                                     <ul className='list-disc list-inside flex flex-col gap-2 text-sm'>
                                         {term.description.map((item, itemIndex) => (
-                                            <li key={itemIndex} className='text-text'>
-                                                <strong>
-                                                    <Translation translationKey={item.item} />
-                                                </strong>
+                                            <li key={itemIndex} className='text-span'>
+                                                <span >
+                                                    <Translation translationKey={item.item} />{" "}
+                                                </span>
                                                 <span className='font-light text-span leading-[27px]' style={{ wordSpacing: '0.1em', textAlign: 'justify' }}>
                                                     <Translation translationKey={item.desc} />
                                                 </span>
