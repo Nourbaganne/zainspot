@@ -5,13 +5,14 @@ import { AuthContext } from "../contexts/authContext";
 import toast from "react-hot-toast";
 import axiosInstance from "./axios/axiosInstance";
 
-export const updateUserPassword = () => {
+// Renamed to useUpdateUserPassword to follow the hook naming convention
+export const useUpdateUserPassword = () => {
     const { user } = useContext(AuthContext);
 
     const initialValues = {
-        passowrd: "",
+        password: "",  // Fixed typo in 'password'
         confirmPassword: ""
-    }
+    };
 
     return useFormik({
         initialValues,
@@ -29,7 +30,7 @@ export const updateUserPassword = () => {
             ),
         }),
         onSubmit: async (values, { resetForm }) => {
-            const toastId = toast.loading('Updating password....')
+            const toastId = toast.loading('Updating password....');
             try {
                 const response = await axiosInstance.patch(`/user/${user?.user.userId}`, values, {
                     headers: {
@@ -42,9 +43,9 @@ export const updateUserPassword = () => {
                     resetForm();
                 }
             } catch (error) {
-                toast.error("Error submiting form. Please try again", { id: toastId });
+                toast.error("Error submitting form. Please try again", { id: toastId });
                 console.log("error submitting form :", error);
-                toast.dismiss()
+                toast.dismiss();
             }
         }
     });

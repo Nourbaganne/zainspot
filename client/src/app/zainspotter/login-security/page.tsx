@@ -14,7 +14,7 @@ import Loader from '@/app/components/loader';
 import Authentification from '../components/authentification';
 import LoginSecurityForm from '../components/loginSecurityForm';
 import { WithAuth } from '@/app/lib/withAuth';
-import { updateUserPassword } from '@/app/lib/updatePassword';
+import { useUpdateUserPassword } from '@/app/lib/updatePassword';
 
 const Page = () => {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
@@ -26,7 +26,7 @@ const Page = () => {
     enabled: !!user?.user.userId && !!user?.access_token,
   });
 
-  const formik = updateUserPassword();
+  const formik = useUpdateUserPassword();
 
   if (isLoading) {
     return <Loader />;
