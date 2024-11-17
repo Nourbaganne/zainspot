@@ -212,7 +212,7 @@ export default function FaqPage() {
 									</div>
 
 									{openAnswers[`${index}-${faqIndex}`] && (
-										<p className="mt-4 text-gray-400 transition-all duration-300 ease-in-out">
+										<p className="mt-2 text-sm text-gray-400 transition-all duration-300 ease-in-out">
 											<Translation translationKey={faq.answer} />
 										</p>
 									)}
