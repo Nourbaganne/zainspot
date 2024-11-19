@@ -4,6 +4,8 @@ import arrowRight from '@/app/assets/owner/arrow-right.svg'
 import Image from 'next/image'
 import { FiArrowUp } from 'react-icons/fi'
 import Translation from '@/app/components/translation'
+import { useQuery } from '@tanstack/react-query'
+import axiosInstance from '@/app/lib/axios/axiosInstance'
 
 interface RoleCardProps {
   title: string;
@@ -13,10 +15,15 @@ interface RoleCardProps {
     increase: boolean;
     percentage: number;
   };
+  rolesModalRef: any;
+  setExistingRole: (existingRole: any) => void;
+  roleId: number;
 }
 
-const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
+const RoleCard = ({ title, value, editPermissions, stats, rolesModalRef, setExistingRole, roleId }: RoleCardProps) => {
   const [displayValue, setDisplayValue] = useState(0);
+
+
 
   useEffect(() => {
     let startValue = displayValue;
@@ -44,6 +51,17 @@ const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
     return () => clearInterval(timer);
   }, [value, displayValue]);
 
+  const handleOpenEditDialog = async () => {
+    try {
+      const { data } = await axiosInstance.get(`/role/${roleId}`);
+      setExistingRole(data);
+      rolesModalRef.current.open();
+    } catch (error) {
+      console.error('Failed to fetch role:', error);
+    }
+  };
+
+
   return (
     <div className='card flex flex-col w-full'>
       <div className='flex flex-row mb-8 justify-between items-center'>
@@ -51,12 +69,12 @@ const RoleCard = ({ title, value, editPermissions, stats }: RoleCardProps) => {
           {title}
         </p>
         {editPermissions && (
-          <Link href='' className='text-primary font-semibold flex flex-row hover:underline text-sm'>
+          <button onClick={handleOpenEditDialog} className='text-primary font-semibold flex flex-row hover:underline text-sm'>
             <span className='pr-1 text-base sm:text-xs lg:text-base'>
               <Translation translationKey='roleCard_edit' />
             </span>
             <Image src={arrowRight} alt='arrow-right-icon' />
-          </Link>
+          </button>
         )}
       </div>
       <div className='flex justify-between'>

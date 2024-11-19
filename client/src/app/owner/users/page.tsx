@@ -22,6 +22,7 @@ import { handleUserActivation } from '@/app/lib/userActivation';
 interface Counts {
   value: number;
   increasmentValue: number;
+  id: number;
 }
 
 
@@ -37,6 +38,7 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [initialCounts, setInitialCounts] = useState<InitialCounts>({});
   const [totalUsers, setTotalUsers] = useState<number>(0);
+  const [existingRole, setExistingRole] = useState<any| null>();
 
   const { user } = useContext(AuthContext);
   const rolesModalRef = useRef<any>(null);
@@ -85,6 +87,7 @@ const Users = () => {
         counts[role.name] = {
           value: data.data.counts[role.name] || 0,
           increasmentValue: data.data.percentageChange[role.name] || 0,
+          id: role.id,
         };
       });
       // Correctly update the state using setInitialCounts
@@ -140,6 +143,7 @@ const Users = () => {
       increase: checkIncreasment(counts.increasmentValue),
       percentage: Math.abs(counts.increasmentValue),
     },
+    id: counts.id,
   }));
 
 
@@ -148,7 +152,7 @@ const Users = () => {
       <Breadcrumb items={breadcrumbItems} className='pl-2 overflow-x-auto' />
 
       {/* Pass roles from context to RolesModal */}
-      <RolesModal rolesModalRef={rolesModalRef} />
+      <RolesModal rolesModalRef={rolesModalRef} existingRole={existingRole} />
 
       <div className='grid gap-x-8 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3'>
         {USERS_HEADER_DATA.map((data, index) => (
@@ -158,6 +162,9 @@ const Users = () => {
             value={data?.value}
             editPermissions={data?.editPermissions}
             stats={data?.stats}
+            rolesModalRef={rolesModalRef}
+            setExistingRole={setExistingRole}
+            roleId={data?.id}
           />
         ))}
       </div>
