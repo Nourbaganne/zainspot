@@ -4,6 +4,7 @@ import Permission from '@/app/interfaces/Permission';
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import Translation from '@/app/components/translation';
+import toast from 'react-hot-toast';
 
 interface Props {
 	rolesModalRef: any;
@@ -15,14 +16,12 @@ const RolesModal = ({ rolesModalRef, existingRole }: Props) => {
 	const [newRoleName, setNewRoleName] = useState<string>('');
 	const [newRolePermissions, setNewRolePermissions] = useState<Permission[]>([]);
 
-	// Fetch permissions
 	useEffect(() => {
 		axiosInstance.get('/permission').then((res) => {
 			setPermissions(res.data);
 		});
 	}, []);
 
-	// Initialize state when editing
 	useEffect(() => {
 		if (existingRole) {
 			setNewRoleName(existingRole.name);
@@ -30,40 +29,44 @@ const RolesModal = ({ rolesModalRef, existingRole }: Props) => {
 		}
 	}, [existingRole]);
 
-	// Handle checkbox changes
 	const handleCheckboxChange = (currPermission: Permission) => {
 		setNewRolePermissions((prevPermissions) => {
-			if (prevPermissions.includes(currPermission)) {
-				return prevPermissions.filter((perm) => perm !== currPermission);
+			if (prevPermissions.some((perm) => perm.id === currPermission.id)) {
+			  return prevPermissions.filter((perm) => perm.id !== currPermission.id);
 			} else {
-				return [...prevPermissions, currPermission];
+			  return [...prevPermissions, currPermission];
 			}
-		});
+		  });
 	};
 
-	// Handle submit (create or update)
 	const handleSubmit = () => {
+		const toastId = toast.loading("loading ...");
 		const roleData = {
 			name: newRoleName,
-			permissions: newRolePermissions.map((perm) => perm.id),
-		};
+			permissions: newRolePermissions.map((perm) => perm.id), 
+		  };
 
-		if (existingRole) {
-			// Update role
-			axiosInstance.patch(`/role/${existingRole.id}`, roleData).then((res) => {
-				if (res.status === 200) {
-					alert('Role updated successfully');
-					rolesModalRef.current.close();
-				}
-			});
-		} else {
-			// Create role
-			axiosInstance.post('/role', roleData).then((res) => {
-				if (res.status === 201) {
-					alert('Role created successfully');
-					rolesModalRef.current.close();
-				}
-			});
+		try {
+
+
+			if (existingRole) {
+				axiosInstance.patch(`/role/${existingRole.id}`, roleData).then((res) => {
+					if (res.status === 200) {
+						toast.success('Role updated successfully', { id: toastId });
+						rolesModalRef.current.close();
+					}
+				});
+			} else {
+				axiosInstance.post('/role', roleData).then((res) => {
+					if (res.status === 201) {
+						toast.success('Role created successfully', { id: toastId });
+						rolesModalRef.current.close();
+					}
+				});
+			}
+		} catch (error) {
+			console.log("error", error)
+			toast.error("An unknown error occurred", { id: toastId });
 		}
 	};
 

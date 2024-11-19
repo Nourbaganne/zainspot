@@ -6,7 +6,7 @@ import { Permission } from 'src/entities/permission.entity';
 
 @Injectable()
 export class RoleService {
-  constructor() {}
+  constructor() { }
 
   async create(createRoleDto: CreateRoleDto): Promise<Role> {
     const newRole = Role.create({
@@ -31,21 +31,20 @@ export class RoleService {
     return role;
   }
 
-  async addPermissionToRole(
-    roleId: number,
-    permissionId: number,
-  ): Promise<Role> {
+  async addPermissionToRole(roleId: number, permissionId: number): Promise<Role> {
     const role = await this.findOne(roleId);
 
-    const permission = await Permission.findOne({
-      where: { id: permissionId },
-    });
+    const permission = await Permission.findOne({ where: { id: permissionId } });
     if (!permission) {
       throw new Error('Permission not found');
     }
-    role.permissions.push(permission);
-    await Role.save(role);
-    return role;
+
+    // Avoid duplicates
+    if (!role.permissions.some((perm) => perm.id === permission.id)) {
+      role.permissions.push(permission);
+    }
+
+    return Role.save(role);
   }
 
   async removePermissionFromRole(
@@ -81,15 +80,22 @@ export class RoleService {
   }
 
   async update(id: number, updateRoleDto: UpdateRoleDto): Promise<Role> {
-    const role = await Role.preload({
-      id,
-      ...updateRoleDto,
-    });
-    if (!role) {
-      throw new NotFoundException(`Role with ID ${id} not found`);
+    const role = await this.findOne(id);
+
+    // Update role name
+    if (updateRoleDto.name) {
+      role.name = updateRoleDto.name;
     }
+
+    // Update permissions
+    if (updateRoleDto.permissions) {
+      const newPermissions = await Permission.findByIds(updateRoleDto.permissions);
+      role.permissions = newPermissions; // Replace with the new permissions
+    }
+
     return Role.save(role);
   }
+
 
   async remove(id: number): Promise<void> {
     const result = await Role.delete(id);
