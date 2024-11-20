@@ -75,11 +75,11 @@ export class UserController {
     }
   }
 
-
   @Get(':id')
   async findUserById(@Param('id') id: number) {
     return this.userService.findUser(id);
   }
+
 
   @Get()
   async findAll(
@@ -98,7 +98,6 @@ export class UserController {
   }
 
   // @Permissions({ action: 'delete', subject: 'user' })
-  @Public()
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const user = await this.userService.findUser(+id);

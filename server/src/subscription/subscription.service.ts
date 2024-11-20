@@ -8,6 +8,7 @@ import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { SubscriptionResponseDto } from './dto/subscription-response.dto';
 import { PaymentHistory } from 'src/entities/payment-history.entity';
 import { updateSubscriptionDto } from './dto/update-subscription.dto';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class SubscriptionService {
@@ -20,7 +21,8 @@ export class SubscriptionService {
 		private readonly cityRepository: Repository<City>,
 		@InjectRepository(PaymentHistory)
 		private readonly paymentHistoryRepository: Repository<PaymentHistory>,
-	) {}
+		private readonly userService: UserService,
+	) { }
 
 	async createSubscription(
 		createSubscriptionDto: CreateSubscriptionDto,
@@ -48,9 +50,15 @@ export class SubscriptionService {
 			city,
 		});
 
+		// update the user's suite number
+		if (!user.suiteNumber){
+			this.userService.suiteNumberVerification(user);
+		}
+
 		return this.subscriptionRepository.save(subscription);
 	}
 
+	
 	async createMany(subscriptions: any): Promise<Subscription[]> {
 		return new Promise(async (resolve, reject) => {
 			try {

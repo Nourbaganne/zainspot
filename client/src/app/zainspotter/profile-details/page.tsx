@@ -210,9 +210,8 @@ const Page = () => {
 												value={formik.values.birthday}
 												onChange={formik.handleChange}
 												className={classNames(
-													`border text-span w-full px-2 py-3 rounded-md peer focus:outline-none focus:ring-0`,
+													`border border-button text-span w-full px-2 py-3 rounded-md peer focus:outline-none focus:ring-0`,
 													{
-														'border-primary': formik.values.birthday,
 														'border-alert': formik.errors.birthday && formik.touched.birthday,
 														'border-button focus:border-primary': !(formik.errors.birthday && formik.touched.birthday) && !formik.values.birthday,
 													}
@@ -406,6 +405,16 @@ const Page = () => {
 										name="state"
 									/>
 
+									<Input
+										type='number'
+										labelKey='register_zipCode'
+										value={formik.values.zipCode || ''}
+										name='zipCode'
+										handleChange={formik.handleChange}
+										touched={formik.touched.zipCode}
+										errors={formik.errors.zipCode}
+										formik={formik}
+									/>
 								</div>
 
 								<div>

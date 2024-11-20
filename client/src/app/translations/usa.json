@@ -3,7 +3,11 @@
 	"join": "JOIN",
 	"logout": "LOGOUT",
 	"secure_checkout": "Secure Checkout",
-	"navbar_titles": ["HOW IT WORKS", "SWITCH CUTTENCY", "SWITCH LANGUAGE"],
+	"navbar_titles": [
+		"HOW IT WORKS",
+		"SWITCH CUTTENCY",
+		"SWITCH LANGUAGE"
+	],
 	"homepage_header_title": "Your Overseas Offices from ",
 	"homepage_header_span": "30¢ a day",
 	"homepage_header_features": [
@@ -84,6 +88,7 @@
 	"register_gender_female_label": "Female",
 	"register_birthday_label": "Your Date of Birth",
 	"register_media_profile_label": "Your Social Media Profiles",
+	"register_zipCode": "Zip code",
 	"register_submit_button": "Join Zainspot",
 	"prefered_language": "Language",
 	"prefered_currency": "Currency",
@@ -202,7 +207,7 @@
 	"tax": "Tax",
 	"continue_shopping": "Continue Shopping",
 	"zainspotMissions_title": "Zainspot Mission",
-	"zainspotMissions_desc": "Get to know ZainSpot's values and goals, how we connect with our customers on a deeper level by emphasizing the company&apos;s dedication to empowerment, inclusivity, and innovation.",
+	"zainspotMissions_desc": "Get to know ZainSpot's values and goals, how we connect with our customers on a deeper level by emphasizing the company's dedication to empowerment, inclusivity, and innovation.",
 	"missions_globalBusiness_title": "Empowering Global Business Expansion",
 	"missions_globalBusiness_desc": "At ZainSpot, our mission is to empower businesses of all sizes to expand their presence on a global scale without the traditional costs and complexities. We believe that every business, regardless of its size or location, deserves the opportunity to establish a prestigious international presence.",
 	"missions_innovating_title": "Innovating for Efficiency",
@@ -225,7 +230,7 @@
 	"contact_call_availability": "Available Mon-Fri from 8:00 AM to 5:00 PM",
 	"contact_visit": "Visit us",
 	"contact_visit_desc": "Chat with us in person at our ZainSpot HQ",
-	"faqPage_header": "Frequently Asked Questions",
+	"faqPage_header": "Answers to Your Frequently Asked Questions",
 	"faqPage_desc": "Stuck on something? We're here to help with all your questions and answers in one place.",
 	"faqPage_billing_question": "How does billing work?",
 	"faqPage_billing_answer": "Plans are per city and per subscriptions type: Zs Gold or ZS Silver",
@@ -371,12 +376,55 @@
 	"locationHeader_locations": "Locations",
 	"locationHeader_createBtn": "Create New",
 	"locationHeader_emptyTable": "No cities found",
-
 	"location_yearPayment": "1 Year Single Payment",
 	"location_yearLabel": "1 Year",
 	"location_manuelPayment": "Manual Payment Tax Fee",
 	"location_editBtn": "Edit",
 	"location_deleteBtn": "Delete Permanently",
+	"navigation_Page": "dashboard",
 
-	"navigation_Page": "dashboard"
+	"faq_gettingStarted": "Getting Started",
+	"faq_gettingStarted_benefitsQuestion": "ZainSpot benefits for me and my Business",
+	"faq_gettingStarted_benefitsAnswer": "With offices all around the world, your Business is now an Enterprise with an International Network and a brand new image, taking on the dimensions of a Global Company, standing shoulder to shoulder with your larger competitors. The best CBD addresses, the ZainSpot Team working for you, processing your mail and answering your own local telephone numbers in your Business Name, give your Business credibility and give you the momentum to soar! Staffed and working for you, and your own local telephone number answered in your Business Name, give you credibility and performance. Now there’s nothing to hold you back from exponential expansion. Business without borders! Business without limits! Go Global!",
+	"faq_gettingStarted_citiesQuestion": "Tell me about all the ZainSpot Cities",
+	"faq_gettingStarted_citiesAnswer": "Business Hotspots, New York, London, Mumbai, Dhaka, Dubai and Singapore are yours for just cents a day! Toronto, Hong Kong, Tokyo, Amsterdam, Luxembourg and Kuala Lumpur are opening soon, plus other Business Hotspots on the way. Tell us Cities where you’d like to do Business. Let us know at ZainSpot through the Contact link. We’re listening to you and we’re dedicated to your success for your Business to Go Global!",
+	"faq_gettingStarted_membersQuestion": "ZainSpot is for everybody, individuals as well as Businesses",
+	"faq_gettingStarted_membersAnswer": "ZainSpot is for everyone everywhere. Access to the world by the world is the very heart of our Mission. Are you a Business, an independent professional or a private person? ZainSpot takes you to the world to Go Global!",
+	"faq_gettingStarted_zainspotQuestion": "Getting started with ZainSpot",
+	"faq_gettingStarted_zainspotAnswer": "Choose your Cities, Choose your Plan, Join, Now you’re ready to Go Global!",
+	"faq_gettingStarted_zainspotterQuestion": "It’s free to become a ZainSpotter",
+	"faq_gettingStarted_zainspotterAnswer": "At ZainSpot, there are no joining fees and no membership fees. You pay only for the services you use. We support your Business expansion so you can Go Global!",
+	"faq_gettingStarted_internationLocationQuestion": "Simple Plans for all ZainSpot International Locations",
+	"faq_gettingStarted_internationLocationAnswer": "Yes, all services and Plans are easy to understand and itemised. Just click on the Cities that interest you. On the City Pages, you’ll find prices clearly displayed. One click takes you to Secure Checkout for payment. It’s so easy to Go Global!",
+	
+	
+	"faq_zainspotServices": "Using ZainSpot Services",
+	"faq_zainpsotServices_workingQuestion": "How ZainSpot works for me",
+	"faq_zainpsotServices_workingAnswer": "Growing your business into an international enterprise is easy with ZainSpot and you can do it now, right from where you are!  ZainSpot offers business services in major world cities, all dedicated to you. For a low monthly or yearly fee, you have all the benefits and appearances of a global presence plus a team working for you. All you have to do is select your favourite Cities, your Plans and Join. It’s that easy! And you are totally in control! You choose your language. You choose your currency. You choose your payment method. Now that’s how easy it is to Go Global!",
+	"faq_zainspotServices_outZainspotQuestion": "Getting the most out of my ZainSpot",
+	"faq_zainspotServices_outZainspotAnswer": "Choosing multiple ZainSpot business addresses creates your own global network. A couple of clicks and instantly your company expands to New York, London, Mumbai and the world's best cities, in prime CBD locations. Goodbye to local statutory charges, extra work and responsibilities associated with running distant offices. Hello to support staff working for you, processing your mail plus your own local telephone numbers answered in your name. ZainSpot gives you every reason in the world to Go Global!",
+	"faq_zainspotServices_mailsQuestion": "Wow! Unlimited mail reception for me",
+	"faq_zainspotServices_mailsAnswer": "Every ZainSpot plan gives you free and unlimited mail scanning. We’re here to help your business. Your  letters are scanned to your cloud account where you can read and answer them at your leisure. Business without borders! Business without limits! Go Global!",
+	"faq_zainspotServices_phoneQuestion": "My own local telephone number in my cities! Now that’s great!",
+	"faq_zainspotServices_phoneAnswer": "Telephone numbers, local to your international addresses, are answered in your name, in the language of your choice and saved. Your own business telephone numbers give substance and credibility to your business, reassuring your local clients and completing the image of your global network enterprise. Now there is nothing to hold you back! Go Global!",
+	"faq_zainspotServices_renewQuestion": "I can relax, my ZainSpot plans renew automatically",
+	"faq_zainspotServices_renewAnwser": "Yes, you don’t have to think about them. We want you to concentrate on your business without distractions. Now you've got the power to Go Global!",
+	"faq_zainspotServices_cityQuestion": "I want ZainSpot in the cities where I do business",
+	"faq_zainspotServices_cityAnswer": "Using the Contact link, tell us the cities where you dream of expanding your business. We’re listening to you and we’re dedicated to helping your business Go Global!",
+	
+	"faq_security": "Security and Privacy",
+	"faq_security_zainspotQuestion": "ZainSpot takes security very, very seriously",
+	"faq_security_zainspotAnswer": "Security is our top priority. You are in good and safe hands. We follow strict protocols to protect you and your business. ZainSpotter personal information is password-protected and encrypted.  For your added security, ZainSpot never stores your payment details. ZainSpot will never divulge your personal data to commercial third-parties for any reason. Read more in our Privacy Policy. Privacy is freedom! Your peace of mind sets you free to expand internationally in confidence, feeling safe and secure with ZainSpot to  Go Global!",
+	
+	
+	"faq_fees": "Fees and Cancellation",
+	"faq_fees_zainspotQuestion": "It’s true! ZainSpot has zero setup fees",
+	"faq_fees_zainspotAnswer": "ZainSpot is free to join and there are no setup fees. We want nothing to stand in the way of your expansion to Go Global!",
+	"faq_fees_extraFeesQuestion": "Extra or hidden fees? ZainSpot has never heard of them and neither will you!",
+	"faq_fees_extraFeesAnswer": "There are no extra fees added to your ZainSpot plans. There may be local taxes or charges, where applicable, which we are obliged by law to collect.",
+	"faq_fees_cancellationQuestion": "Free cancellation",
+	"faq_fees_cancellationAnswer": "At ZainSpot, there are no cancellation fees or penalties. Cancellation Policy is explained in our Terms of Use.",
+	"faq_fees_helpsQuestion": "All the ways ZainSpot helps me",
+	"faq_fees_helpsAnswer": "ZainSpot is your Business Without Borders. Until ZainSpot, small, medium, startup business owners and independent professionals could only dream of equal opportunities with foreign competitors. ZainSpot to the rescue! Just cents a day gives you that global image with prestige CBD addresses in the world’s top Cities. The on-the-spot ZainSpot Team processes unlimited mail for you and, together with your own local telephone numbers answered in your Business Name, gives your Business that International Presence with the power of authenticity. Now there’s nothing to hold you back! Go Global!"
+	
 }

@@ -4,100 +4,118 @@ import Permission from '@/app/interfaces/Permission';
 import { useEffect, useState } from 'react';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import Translation from '@/app/components/translation';
+import toast from 'react-hot-toast';
 
 interface Props {
 	rolesModalRef: any;
+	existingRole?: any;
 }
 
-const RolesModal = ({ rolesModalRef }: Props) => {
+const RolesModal = ({ rolesModalRef, existingRole }: Props) => {
 	const [permissions, setPermissions] = useState<Permission[]>([]);
-	function getPermissions() {
-		axiosInstance.get('/permission').then((res) => {
-			console.log('permissions', res.data);
-			setPermissions(res.data);
-		});
-	}
+	const [newRoleName, setNewRoleName] = useState<string>('');
+	const [newRolePermissions, setNewRolePermissions] = useState<Permission[]>([]);
 
 	useEffect(() => {
-		getPermissions();
+		axiosInstance.get('/permission').then((res) => {
+			setPermissions(res.data);
+		});
 	}, []);
 
-	const [newRoleName, setNewRoleName] = useState<string>('');
-	const [newRolePermissions, setNewRolePermissions] = useState<Permission[]>(
-		[],
-	);
+	useEffect(() => {
+		if (existingRole) {
+			setNewRoleName(existingRole.name);
+			setNewRolePermissions(existingRole.permissions || []);
+		}
+	}, [existingRole]);
 
 	const handleCheckboxChange = (currPermission: Permission) => {
 		setNewRolePermissions((prevPermissions) => {
-			if (prevPermissions.includes(currPermission)) {
-				// Remove permission if already checked
-				return prevPermissions.filter((id) => id !== currPermission);
+			if (prevPermissions.some((perm) => perm.id === currPermission.id)) {
+			  return prevPermissions.filter((perm) => perm.id !== currPermission.id);
 			} else {
-				// Add permission if not checked
-				return [...prevPermissions, currPermission];
+			  return [...prevPermissions, currPermission];
 			}
-		});
+		  });
 	};
 
-	function createRole() {
-		let newRole = {
+	const handleSubmit = () => {
+		const toastId = toast.loading("loading ...");
+		const roleData = {
 			name: newRoleName,
-			permissions: newRolePermissions,
-		};
+			permissions: newRolePermissions.map((perm) => perm.id), 
+		  };
 
-		axiosInstance.post('/role', newRole).then((res) => {
-			if (res.status == 201) {
-				alert('Role created successfully');
-				rolesModalRef.current.close();
+		try {
+
+
+			if (existingRole) {
+				axiosInstance.patch(`/role/${existingRole.id}`, roleData).then((res) => {
+					if (res.status === 200) {
+						toast.success('Role updated successfully', { id: toastId });
+						rolesModalRef.current.close();
+					}
+				});
+			} else {
+				axiosInstance.post('/role', roleData).then((res) => {
+					if (res.status === 201) {
+						toast.success('Role created successfully', { id: toastId });
+						rolesModalRef.current.close();
+					}
+				});
 			}
-		});
-	}
+		} catch (error) {
+			console.log("error", error)
+			toast.error("An unknown error occurred", { id: toastId });
+		}
+	};
 
 	return (
 		<Modal
 			ref={rolesModalRef}
-			title='Create New Role'
-			subtitle='Create a new role, give it a name, and check its permissions.'
-			onButtonClick={createRole}
-			buttonText='Create Role'
+			title={existingRole ? 'Edit Role' : 'Create New Role'}
+			subtitle={
+				existingRole
+					? 'Edit the role name and update its permissions.'
+					: 'Create a new role, give it a name, and check its permissions.'
+			}
+			onButtonClick={handleSubmit}
+			buttonText={existingRole ? 'Update Role' : 'Create Role'}
 		>
-				<div className='form-group'>
-					<label
-						htmlFor='roleName'
-						className='text-sm font-medium !text-gray-400'
-					>
-						<Translation translationKey='roleName_label' />
-					</label>
-					<input
-						type='text'
-						name='roleName'
-						id='roleName'
-						className='form-control'
-						placeholder='e.g Admin'
-						value={newRoleName}
-						onChange={(e) => setNewRoleName(e.target.value)}
-					/>
+			<div className='form-group'>
+				<label htmlFor='roleName' className='text-sm font-medium !text-gray-400'>
+					<Translation translationKey='roleName_label' />
+				</label>
+				<input
+					type='text'
+					name='roleName'
+					id='roleName'
+					className='form-control'
+					placeholder='e.g Admin'
+					value={existingRole ? existingRole.name : newRoleName}
+					onChange={(e) => setNewRoleName(e.target.value)}
+				/>
+			</div>
+			<div className='mt-6'>
+				<h1 className='text-gray-400 font-medium'>Permissions</h1>
+				<div className='mt-2 grid grid-cols-1 md:grid-cols-2'>
+					{permissions.map((p) => (
+						<div key={p.id} className='p-2 text-sm flex items-center gap-2'>
+							<input
+								type='checkbox'
+								name={'selectPermission' + p.id}
+								id={'selectPermission' + p.id}
+								className='form-control'
+								checked={newRolePermissions.some((perm) => perm.id === p.id)}
+								onChange={() => handleCheckboxChange(p)}
+							/>
+							<label htmlFor={'selectPermission' + p.id}>
+								{p.action} {p.resource}
+							</label>
+						</div>
+					))}
 				</div>
-				<div className='mt-6'>
-					<h1 className='text-gray-400 font-medium'>Permissions</h1>
-					<div className='mt-2 grid grid-cols-1 md:grid-cols-2'>
-						{permissions.map((p) => (
-							<div key={p.id} className='p-2 text-sm flex items-center gap-2'>
-								<input
-									type='checkbox'
-									name={'selectPermission' + p.id}
-									id={'selectPermission' + p.id}
-									className='form-control'
-									checked={newRolePermissions.includes(p)}
-									onChange={() => handleCheckboxChange(p)}
-								/>
-								<label htmlFor={'selectPermission' + p.id}>
-									{p.action} {p.resource}
-								</label>
-							</div>
-						))}
-					</div>
-				</div>
+			</div>
 		</Modal>
 	);
 };

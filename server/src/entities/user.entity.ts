@@ -3,6 +3,7 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	Generated,
 	JoinColumn,
 	ManyToOne,
 	OneToMany,
@@ -114,9 +115,17 @@ export class User extends BaseEntity {
 	EmailAuthentication: boolean;
 
 	@Column({ nullable: true })
-    twoFactorCode: string;
+	twoFactorCode: string;
 
-    @Column({ type: 'timestamp', nullable: true })
-    twoFactorCodeExpiresAt: Date;
+	@Column({ type: 'timestamp', nullable: true })
+	twoFactorCodeExpiresAt: Date;
 
+	@Column({ default: null })
+	suiteNumber: string;
+
+	@Column({ default: 'AR' })
+	preferedLanguage: string;
+
+	@Column({ default: 'USD' })
+	preferedCurrency: string;
 }

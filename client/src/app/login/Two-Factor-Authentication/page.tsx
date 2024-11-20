@@ -1,5 +1,7 @@
 'use client';
 
+import { useCurrency } from '@/app/contexts/CurrencyContext';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 import { useAuth } from '@/app/contexts/useAuth';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -18,6 +20,8 @@ const TwoFactorAuthentication = () => {
   const [loading, setLoading] = useState<boolean>(false); // Added loading state
   const router = useRouter();
   const { dispatch } = useAuth();
+  const { setLanguage } = useLanguage();
+  const { setCurrency } = useCurrency();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +30,8 @@ const TwoFactorAuthentication = () => {
     try {
       const response = await axiosInstance.post('/auth/verify-2fa', { email, code });
       if (response.status === 201) {
+        setCurrency(response.data.user.preferedCurrency);
+        setLanguage(response.data.user.preferedLanguage);
         dispatch({ type: 'LOGIN', payload: response.data });
         localStorage.setItem('token', response.data.access_token);
         router.push('/');
@@ -38,7 +44,7 @@ const TwoFactorAuthentication = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex px-5 md:px-0 items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-2 text-center">Two-Factor Authentication</h2>
         <p className="text-gray-600 mb-6 text-center">

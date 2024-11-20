@@ -11,8 +11,8 @@ import { RecaptchaService } from './recaptcha.service';
     TypeOrmModule.forFeature([User]),
     forwardRef(() => EmailConfirmationModule),
   ],
-  providers: [UserService, RecaptchaService],
   exports: [UserService],
+  providers: [UserService, RecaptchaService],
   controllers: [UserController],
 })
 export class UserModule { }

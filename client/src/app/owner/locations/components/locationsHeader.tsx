@@ -30,7 +30,7 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
 }) => {
     return (
         <div className='grid grid-cols-1 gap-4 md:grid-cols-4 text-span'>
-            <div className='flex items-center justify-center gap-4 text-sm flex-wrap'>
+            <div className='flex items-center justify-start md:justify-center gap-4 text-sm flex-wrap'>
                 <h1 className='flex items-end gap-1'>
                     <span className='font-bold text-2xl'>
                         {countries}
@@ -66,18 +66,20 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                         onChange={(e) => setSearchCity(e.target.value)}
                     />
                 </div>
-                <div className='flex col-span-2 justify-between md:justify-end gap-4 items-center flex-wrap'>
-                    <button onClick={() => setIsHidden(!isHidden)} className='w-full md:w-auto flex justify-end items-center'>
-                        <div className={`border-2 border-primary text-primary rounded-lg px-3 py-2 flex items-center gap-2`}>
+                <div className='col-span-2 grid grid-cols-1 lg:grid-cols-2 gap-4 '>
+                    <button
+                        className='max-w-sm'
+                        onClick={() => setIsHidden(!isHidden)} >
+                        <div className={`border-2 border-primary text-primary rounded-lg px-3 py-2 flex justify-center items-center gap-2`}>
                             <Image src={isHidden ? visibleLogo : eyeOffIcon} alt={isHidden ? 'visible-cities' : 'eye off icon'} />
                             <h1 className='text-sm md:text-base'>{isHidden ? 'View Visible' : 'View Hidden'}</h1>
                         </div>
                     </button>
                     <button
-                        className='flex justify-end items-center w-full md:w-auto'
+                        className='max-w-sm'
                         onClick={() => setIsDialogOpen(true)}
                     >
-                        <div className='bg-primary border-2 border-primary rounded-lg text-white px-3 py-2 flex gap-2  '>
+                        <div className='bg-primary border-2 border-primary rounded-lg text-white px-3 py-2 flex justify-center items-center gap-2  '>
                             <Image src={plusIcon} alt='plus icon' />
                             <span className='text-sm md:text-base'>
                                 <Translation translationKey='locationHeader_createBtn' />

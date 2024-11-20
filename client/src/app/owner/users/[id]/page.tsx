@@ -21,9 +21,8 @@ import { useRoles } from '@/app/contexts/RoleContext';
 import Translation from '@/app/components/translation';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
-import { headers } from 'next/headers';
-import toast from 'react-hot-toast';
 import { handleUserActivation } from '@/app/lib/userActivation';
+import Container from '@/app/components/Container';
 
 const Page = ({ params }: { params: { id: number } }) => {
 
@@ -87,11 +86,13 @@ const Page = ({ params }: { params: { id: number } }) => {
 
 
   return (
-    <div className='flex flex-col gap-6 bg-background-foreground md:px-24 md:py-8 md:pb-20'>
-      <Breadcrumb items={breadcrumbItems} />
+    <Container
+      className='md:px-16 w-full '
+      breadcrumbItems={breadcrumbItems}
+    >
       <div className='card flex flex-col gap-10 md:py-10'>
-        <div className='flex justify-between'>
-          <div className='flex flex-col gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+          <div className=' col-span-2 flex flex-col gap-4'>
             <div className='flex gap-2 items-center'>
               <h1 className='text-4xl font-semibold'>{fullname}</h1>
               <select
@@ -148,25 +149,17 @@ const Page = ({ params }: { params: { id: number } }) => {
               </div>
             </div>
           </div>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 items-start justify-center text-sm font-bold'>
-            <button className='text-span flex  px-4 py-2 gap-2 items-center text-center'>
-              <Image src={downloadIcon} alt='download' />
-              <Translation translationKey='userInfo_downloadBtn' />
-            </button>
-            <button className='px-4 py-2 text-primary border-2 border-primary text-center rounded-md'>
-              <Translation translationKey='userInfo_editBtn' />
-            </button>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-3 items-start justify-center text-sm font-bold'>
             <Link
               href={`/owner/users/${currentUser?.id}/sendMail?fullname=${fullname}&email=${currentUser?.email}&id=${currentUser?.id}`}
               className='px-4 py-2 border-2 border-primary bg-primary text-center text-background rounded-md'>
               <Translation translationKey='userInfo_sendmailBtn' />
             </Link>
-
             <button className='px-4 py-2 border-2 border-alert bg-alert text-center text-background rounded-md'
               onClick={() => handleUserActivation({
-                id: user?.user.userId ,
+                id: user?.user.userId,
                 selectedUserIds: [data?.data.id],
-                access_token: user?.access_token, 
+                access_token: user?.access_token,
                 refetch
               })}
             >
@@ -181,7 +174,7 @@ const Page = ({ params }: { params: { id: number } }) => {
             </button>
           </div>
         </div>
-        <div className='grid grid-cols-2 gap-7'>
+        <div className='grid md:grid-cols-2 gap-7'>
           <div className='flex flex-col gap-5'>
             <h1 className='text-lg font-semibold'>
               <Translation translationKey='userInfo_businessInfo' />
@@ -229,6 +222,7 @@ const Page = ({ params }: { params: { id: number } }) => {
           }
 
         </div>
+
         <SubscriptionList
           userId={params?.id}
           access_token={user?.access_token}
@@ -236,7 +230,7 @@ const Page = ({ params }: { params: { id: number } }) => {
           setTotal={setTotal}
         />
       </div>
-    </div >
+    </Container >
   );
 };
 

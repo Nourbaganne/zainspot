@@ -7,6 +7,7 @@ import Loader from '@/app/components/loader';
 import Translation from '@/app/components/translation';
 import { useEffect } from 'react';
 
+
 interface SubscriptionItemProps {
     city: {
         locationTitle: string,
@@ -24,15 +25,13 @@ interface SubscriptionItemProps {
 }
 
 
-
 const SubscriptionItem = ({
     city,
     optionType,
     price,
     duration,
     startDate,
-    renewal
-
+    renewal,
 }: SubscriptionItemProps) => {
     const formattedDate = new Date(startDate).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -44,48 +43,66 @@ const SubscriptionItem = ({
         hour: '2-digit',
         minute: '2-digit',
     });
+
     return (
-        <div className='grid grid-cols-6 text-sm gap-6 items-center py-4'>
-            <p className='font-light max-w-40'>{city.locationTitle}</p>
-            <div className='flex flex-col gap-1'>
-                <h1 className='font-semibold'>{city.city}</h1>
-                <p className='text-span'>{city.country}</p>
+        <div className="flex flex-wrap gap-2 md:gap-0 md:grid md:grid-cols-6 text-sm w-full sticky top-0 border-b text-span pb-4 pt-6 px-2 md:px-4">
+            <p className="font-medium max-w-[30%] md:max-w-[100%]">{city.locationTitle}</p>
+
+            <div className="flex flex-col">
+                <h1 className="font-semibold">{city.city}</h1>
+                <p className="text-xs text-span">{city.country}</p>
             </div>
-            <div className='flex flex-col gap-1'>
+
+            <div className="flex flex-col">
                 <h1>{optionType}</h1>
-                <p className='font-semibold'>{price} <span className='text-span font-light '>/Month</span></p>
+                <p className="font-semibold">
+                    {price} <span className="text-span font-light">/Month</span>
+                </p>
             </div>
-            <div className='font-light flex flex-col gap-1 '>
-                {formattedDate}
-                <span>
-                    at {formattedTime}
-                </span>
+
+            <div className="flex flex-col">
+                <span>{formattedDate}</span>
+                <span className="text-xs text-span">at {formattedTime}</span>
             </div>
 
             <div>
                 {renewal.date ? (
                     <p>
-                        {new Date(renewal?.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                        {new Date(renewal.date).toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: 'long',
+                            year: 'numeric',
+                        })}
                     </p>
                 ) : (
-                    <p>no</p>
+                    <p>No renewal date</p>
                 )}
-
             </div>
-            <div className=' font-medium'>
+
+            <div>
                 {renewal?.status === 'Upcoming' ? (
-                    <p className='text-primary'>{renewal.status}</p>
+                    <p className="text-primary">{renewal.status}</p>
                 ) : (
-                    <p className='text-alert'>{renewal.status}</p>
+                    <p className="text-alert">{renewal.status}</p>
                 )}
             </div>
-
         </div>
-    )
-}
+
+    );
+};
 
 
-const SubscriptionList = ({ userId, access_token, setSubscriptions, setTotal }: { userId: number, access_token: string | undefined, setSubscriptions: (subscriptions: any[]) => void , setTotal: (total: number) => void}) => {
+const SubscriptionList = ({
+    userId,
+    access_token,
+    setSubscriptions,
+    setTotal,
+}: {
+    userId: number;
+    access_token: string | undefined;
+    setSubscriptions: (subscriptions: any[]) => void;
+    setTotal: (total: number) => void;
+}) => {
     const USER_LIST_HEADER = [
         { title: 'Location', hasFiltering: true },
         { title: 'City & Country', hasFiltering: true },
@@ -93,22 +110,20 @@ const SubscriptionList = ({ userId, access_token, setSubscriptions, setTotal }: 
         { title: 'Subscription Date', hasFiltering: true },
         { title: 'Renewal Date', hasFiltering: true },
         { title: 'Renewal Status', hasFiltering: true },
-    ]
-
+    ];
 
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ['subscriptions', userId],
-        queryFn: () => axiosInstance.get(`/subscriptions/${userId}`, {
-            headers: {
-                Authorization: `Bearer ${access_token}`
-            }
-        })
+        queryFn: () =>
+            axiosInstance.get(`/subscriptions/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            }),
     });
-
 
     useEffect(() => {
         if (data?.data) {
-            // Extract subscription stats and update the parent state
             const subscriptionStats = data?.data.map((sub: SubscriptionItemProps) => ({
                 locationTitle: sub.city.locationTitle,
                 city: sub.city.city,
@@ -117,64 +132,72 @@ const SubscriptionList = ({ userId, access_token, setSubscriptions, setTotal }: 
                 renewalStatus: sub.renewal.status,
             }));
 
-            const totalAmount = subscriptionStats.reduce((total: number, subscription: SubscriptionItemProps) => total + subscription.price, 0);
+            const totalAmount = subscriptionStats.reduce(
+                (total: number, subscription: SubscriptionItemProps) =>
+                    total + subscription.price,
+                0
+            );
 
-            setTotal(totalAmount)
-
+            setTotal(totalAmount);
             setSubscriptions(subscriptionStats);
-
         }
     }, [data?.data, setSubscriptions, setTotal]);
 
-
-    if (isLoading) return <Loader />
-    if (isError) return <h1>{error.message}</h1>
-
-
+    if (isLoading) return <Loader />;
+    if (isError) return <h1>{error.message}</h1>;
 
     return (
-        <div className='flex flex-col gap-4'>
-            <h1 className='text-lg font-semibold'>
-                <Translation translationKey='userDetails_subscriptions' />
+        <div className="flex flex-col gap-4 w-full">
+            <h1 className="text-lg font-semibold">
+                <Translation translationKey="userDetails_subscriptions" />
             </h1>
+
             {data?.data.length > 0 ? (
-                <div className='flex flex-col py-6 bg-background pl-6 border rounded-md'>
-                    <div className=' grid grid-cols-6 text-sm  w-full border-b-2 text-span pb-4 pt-6   pl-4'>
-                        {USER_LIST_HEADER.map((item, index) => (
-                            <div key={index} className={`${item.hasFiltering && 'flex items-center gap-2'}`}>
-                                {item.hasFiltering && (
-                                    <div className='flex flex-col gap-1'>
-                                        <button>
-                                            <Image src={upButton} alt='up-users' />
-                                        </button>
-                                        <button>
-                                            <Image src={downButton} alt='down-users' />
-                                        </button>
-                                    </div>
-                                )}
-                                {item.title}
-                            </div>
+                <div className="bg-background border rounded-md w-full overflow-auto">
+                    <div className="min-w-[600px] md:min-w-[900px]">
+                        {/* Table Header */}
+                        <div className="flex flex-wrap gap-2 md:gap-0 md:grid md:grid-cols-6 text-sm w-full sticky top-0 bg-background border-b-2 text-span pb-2 pt-4 px-2 md:px-4">
+                            {USER_LIST_HEADER.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className={`${item.hasFiltering && 'flex items-center gap-1'}`}
+                                >
+                                    {item.hasFiltering && (
+                                        <div className="flex flex-col gap-1">
+                                            <button>
+                                                <Image src={upButton} alt="up-users" />
+                                            </button>
+                                            <button>
+                                                <Image src={downButton} alt="down-users" />
+                                            </button>
+                                        </div>
+                                    )}
+                                    {item.title}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Subscription Items */}
+                        {data?.data.map((sub: SubscriptionItemProps, index: number) => (
+                            <SubscriptionItem
+                                key={index}
+                                city={sub.city}
+                                optionType={sub.optionType}
+                                price={sub.price}
+                                duration={sub.duration}
+                                startDate={sub.startDate}
+                                renewal={sub.renewal}
+                            />
                         ))}
                     </div>
-
-                    {data?.data.map((sub: SubscriptionItemProps, index: number) => (
-                        <SubscriptionItem
-                            key={index}
-                            city={sub.city}
-                            optionType={sub.optionType}
-                            price={sub.price}
-                            duration={sub.duration}
-                            startDate={sub.startDate}
-                            renewal={sub.renewal} />
-                    ))}
-
-
                 </div>
+
             ) : (
                 <div>No Subscription yet</div>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default SubscriptionList
+
+export default SubscriptionList;

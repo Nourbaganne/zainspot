@@ -27,21 +27,21 @@ const Footer = () => {
 						<div className='mt-4'>
 							{titleData.sections.map((section, index) => (
 								section.translationKey === 'footer_title_gotomyzainspot' ? (
-								user?.user.role.name === 'owner' || 'admin' ? (
+									user?.user.role.id === 3 ? (
+										<Link
+											key={index}
+											href='/zainspotter'
+											className='block mt-3 text-secondary-foreground cursor-pointer hover:underline'
+										>
+											<Translation translationKey={section.translationKey} />
+										</Link>
+									) : (
 										<Link
 											key={index}
 											href='/owner'
 											className='block mt-3 text-secondary-foreground cursor-pointer hover:underline'
 										>
 											<Translation translationKey='footer_title_owner' />
-										</Link>
-									) : (
-										<Link
-											key={index}
-											href={section.link}
-											className='block mt-3 text-secondary-foreground cursor-pointer hover:underline'
-										>
-											<Translation translationKey={section.translationKey} />
 										</Link>
 									)
 

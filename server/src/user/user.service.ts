@@ -17,13 +17,14 @@ import {
 	getStartOfPreviousMonth,
 } from 'src/utils/date-utils';
 import { In } from 'typeorm';
+import * as fuzzy from 'fuzzy';
 
 type RoleCounts = Record<string, number>;
 type PercentageChange = Record<string, number>;
 
 @Injectable()
 export class UserService {
-	constructor() {}
+	constructor() { }
 
 	async hashPassword(password: string): Promise<string> {
 		const salt = await bcrypt.genSalt(8);
@@ -41,6 +42,8 @@ export class UserService {
 			throw new HttpException('Email already exists!', HttpStatus.BAD_REQUEST);
 		}
 
+
+
 		const user = User.create({
 			...createUserDto,
 			password: hashedPassword,
@@ -48,11 +51,85 @@ export class UserService {
 			role: defaultRole,
 		});
 
+		user.tradeName = this.normalizeName(user.tradeName);
+		user.businessName = this.normalizeName(user.businessName);
+
 		await User.save(user);
 
 		delete user.password;
 		return user;
 	}
+
+	async suiteNumberVerification(user: User) {
+		// Find users in the same company
+		const existingUsers = await User
+			.createQueryBuilder('user')
+			.leftJoin('user.subscriptions', 'subscription')
+			.where('user.zipCode = :zipCode', { zipCode: user.zipCode })
+			.andWhere('subscription.id IS NOT NULL')
+			.getMany();
+
+		// Initialize default suite number
+		user.suiteNumber = 'Z01';
+
+		if (existingUsers.length > 0) {
+			const lastSuiteNumber = existingUsers[0].suiteNumber;
+
+			// Check if lastSuiteNumber is not null before parsing
+			if (lastSuiteNumber) {
+				const numericPart = parseInt(lastSuiteNumber.slice(1), 10);
+				const newSuiteNumber = (numericPart + 1).toString().padStart(2, '0');
+				user.suiteNumber = `Z${newSuiteNumber}`;
+			}
+
+			// Fuzzy matching check for tradeName
+			const tradeNames = existingUsers.map(existingUser => existingUser.tradeName);
+			const results = fuzzy.filter(user.tradeName, tradeNames);
+
+			// If there's a close match, log or handle it
+			if (results.length > 0) {
+				const closestMatch = results[0];
+				const matchScore = closestMatch.score; // Get the score of the closest match
+
+				// Define a threshold for fuzzy matching (e.g., 0.5 for 50% similarity)
+				const threshold = 0.9; // Adjust as necessary
+
+				if (matchScore >= threshold) {
+					console.log(`Fuzzy match found: ${closestMatch.string} with score ${matchScore}`);
+					// Additional logic can be placed here, like notifying the user or logging
+				}
+			}
+		}
+
+		await User.save(user);
+	}
+
+	normalizeName(name: string): string {
+
+		const abbreviations: { [key: string]: string } = {
+			"co": "company",
+			"inc": "incorporated",
+			"ltd": "limited",
+			"corp": "corporation",
+			"llc": "limited liability company",
+		};
+
+		// Remove special characters and extra spaces
+		let normalized = name
+			.replace(/[^\w\s]/g, '')
+			.replace(/\s+/g, ' ')
+			.trim()
+			.toLowerCase();
+
+		// check for words abbreviations
+		const words = normalized.split(' ');
+		normalized = words
+			.map((word => abbreviations[word] || word))
+			.join(' ');
+
+		return normalized;
+	}
+
 
 	async findAll(
 		{ page, limit = 1 }: Pagination,
@@ -187,7 +264,7 @@ export class UserService {
 
 		return percentageChange;
 	}
-	  
+
 
 	async findById(id: number): Promise<User> {
 		const user = await User.findOne({
@@ -263,7 +340,7 @@ export class UserService {
 	}
 
 	async remove(id: number): Promise<string> {
-		const user = await User.findOne({ 
+		const user = await User.findOne({
 			where: { id },
 			relations: ['paymentHistories', 'subscriptions']
 		});
@@ -294,7 +371,7 @@ export class UserService {
 	}
 
 
-	async user2FEmailActivation(id: number): Promise<User>{
+	async user2FEmailActivation(id: number): Promise<User> {
 		const user = await this.findById(id);
 
 		user.EmailAuthentication = !user.EmailAuthentication;
@@ -305,9 +382,9 @@ export class UserService {
 
 	async storeTwoFactorCode(userId: number, code: string): Promise<void> {
 		const user = await this.findById(userId);
-		user.twoFactorCode = code; 
-		user.twoFactorCodeExpiresAt = new Date(Date.now() + 10 * 60 * 1000); 
-	 
+		user.twoFactorCode = code;
+		user.twoFactorCodeExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
 		try {
 			await User.save(user);
 			console.log('Stored 2FA Code:', user.twoFactorCode);
@@ -315,18 +392,18 @@ export class UserService {
 		} catch (error) {
 			console.error('Error saving user:', error);
 		}
-	 }
-	 
-	 async getTwoFactorCode(userId: number): Promise<string | null> {
+	}
+
+	async getTwoFactorCode(userId: number): Promise<string | null> {
 		const user = await this.findById(userId);
 		console.log('Retrieved User for 2FA:', user);
-	 
+
 		if (user.twoFactorCodeExpiresAt && user.twoFactorCodeExpiresAt > new Date()) {
 			return user.twoFactorCode;
 		}
-		return null; 
-	 }
-	
+		return null;
+	}
+
 	async clearTwoFactorCode(userId: number): Promise<void> {
 		const user = await this.findById(userId);
 		user.twoFactorCode = null;
@@ -336,53 +413,53 @@ export class UserService {
 
 
 	// Service method
-async findByIds(ids: number[]): Promise<User[]> {
-	// Log IDs to debug
-	console.log('findByIds called with IDs:', ids);
-  
-	// Filter out invalid IDs (non-numbers or NaN)
-	const validIds = ids.filter((id) => Number.isInteger(id));
-  
-	if (validIds.length === 0) {
-	  throw new NotFoundException('No valid user IDs provided');
+	async findByIds(ids: number[]): Promise<User[]> {
+		// Log IDs to debug
+		console.log('findByIds called with IDs:', ids);
+
+		// Filter out invalid IDs (non-numbers or NaN)
+		const validIds = ids.filter((id) => Number.isInteger(id));
+
+		if (validIds.length === 0) {
+			throw new NotFoundException('No valid user IDs provided');
+		}
+
+		const users = await User.find({
+			where: { id: In(validIds) },
+			relations: [
+				'role',
+				'paymentHistories',
+				'subscriptions',
+				'subscriptions.city',
+			],
+		});
+
+		if (users.length !== validIds.length) {
+			const foundIds = users.map((user) => user.id);
+			const missingIds = validIds.filter((id) => !foundIds.includes(id));
+			throw new NotFoundException(`Users with IDs ${missingIds.join(', ')} not found`);
+		}
+
+		users.forEach((user) => delete user.password);
+
+		return users;
 	}
-  
-	const users = await User.find({
-	  where: { id: In(validIds) },
-	  relations: [
-		'role',
-		'paymentHistories',
-		'subscriptions',
-		'subscriptions.city',
-	  ],
-	});
-  
-	if (users.length !== validIds.length) {
-	  const foundIds = users.map((user) => user.id);
-	  const missingIds = validIds.filter((id) => !foundIds.includes(id));
-	  throw new NotFoundException(`Users with IDs ${missingIds.join(', ')} not found`);
-	}
-  
-	users.forEach((user) => delete user.password);
-  
-	return users;
-  }  
 
 
-  async usersActivation(ids: number[]): Promise<User[]> {
-	if (!Array.isArray(ids) || ids.length === 0) {
-	  throw new BadRequestException('No user IDs provided');
+	async usersActivation(ids: number[]): Promise<User[]> {
+		if (!Array.isArray(ids) || ids.length === 0) {
+			throw new BadRequestException('No user IDs provided');
+		}
+
+		const users = await this.findByIds(ids);
+
+		users.forEach((user) => {
+			user.activation = !user.activation;
+		});
+
+		await User.save(users);
+
+		return users;
 	}
-  
-	const users = await this.findByIds(ids);
-  
-	users.forEach((user) => {
-	  user.activation = !user.activation;
-	});
-  
-	await User.save(users);
-    
-	return users;
-  }
-  
+
 }

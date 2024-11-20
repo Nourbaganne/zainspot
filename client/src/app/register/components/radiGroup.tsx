@@ -29,7 +29,6 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
     return (
         <div className="flex flex-col gap-2">
             <div className={`relative flex flex-col border rounded-md pl-4 pr-14 py-3 
-                ${value && 'border-primary'}
                 ${hasError ? 'border-alert' : 'border-button'}`}>
                 <label className="absolute px-1 bottom-[40px] left-2 text-primary text-xs bg-white">
                     <Translation translationKey={labelKey} />

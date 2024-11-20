@@ -32,6 +32,8 @@ export class AuthService {
 			userId: user.id,
 			email: user.email,
 			role: user.role,
+			preferedLanguage: user.preferedLanguage,
+			preferedCurrency: user.preferedCurrency,
 		};
 
 		const token = this.jwtService.sign(payload, { expiresIn: '14400s' });
