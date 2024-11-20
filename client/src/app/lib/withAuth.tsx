@@ -5,7 +5,7 @@ import Loader from "../components/loader";
 
 export function WithAuth<P extends object>(
   WrappedComponent: React.ComponentType<P>,
-  requiredRoles?: string[] // Accept an array of roles
+  requiredRoles?: string[] 
 ) {
   return function WithAuthComponent(props: P) {
     const { user, loading, dispatch } = useContext(AuthContext);

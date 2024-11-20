@@ -69,7 +69,7 @@ const RoleCard = ({ title, value, editPermissions, stats, rolesModalRef, setExis
           {title}
         </p>
         {editPermissions && (
-          <button onClick={handleOpenEditDialog} className='text-primary font-semibold flex flex-row hover:underline text-sm'>
+          <button onClick={handleOpenEditDialog} className='text-primary font-semibold flex flex-row justify-center items-center hover:underline text-sm'>
             <span className='pr-1 text-base sm:text-xs lg:text-base'>
               <Translation translationKey='roleCard_edit' />
             </span>
