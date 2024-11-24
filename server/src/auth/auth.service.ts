@@ -35,7 +35,6 @@ export class AuthService {
 			preferedLanguage: user.preferedLanguage,
 			preferedCurrency: user.preferedCurrency,
 		};
-
 		const token = this.jwtService.sign(payload, { expiresIn: '14400s' });
 		const decodedToken = this.jwtService.decode(token) as { exp: number };
 
@@ -68,7 +67,7 @@ export class AuthService {
 	}
 
 	private generateRandomCode(): string {
-		return crypto.randomInt(100000, 999999).toString(); 
+		return crypto.randomInt(100000, 999999).toString();
 	}
 
 	private async sendTwoFactorCode(email: string, code: string) {
@@ -92,16 +91,16 @@ export class AuthService {
 		if (!user) {
 			throw new UnauthorizedException('User not found');
 		}
-	
+
 		const storedCode = await this.userService.getTwoFactorCode(user.id);
 		console.log('Stored Code:', storedCode);
 		console.log('Input Code:', code);
 		console.log('Code Expiration:', user.twoFactorCodeExpiresAt);
-	
+
 		if (!storedCode || storedCode !== code) {
 			throw new UnauthorizedException('Invalid 2FA code. Please try again.');
 		}
-	
+
 		// Clear the code after successful verification
 		await this.userService.clearTwoFactorCode(user.id);
 		return true;

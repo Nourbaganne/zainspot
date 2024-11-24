@@ -46,7 +46,7 @@ const Locations = () => {
       axiosInstance.get(`/city`, {
         params: {
           page: currentPage,
-          limit: 5, // Ensure limit is consistent with backend default
+          limit: 5, 
           name: debouncedSearchCity,
           hidden: isHidden,
         },

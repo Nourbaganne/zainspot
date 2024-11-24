@@ -22,10 +22,11 @@ import {
 } from 'src/decorators/pagination-params.decorator';
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { City } from 'src/entities/city.entity';
+import { Permissions } from 'src/decorators/permissions.decorator';
 
 @Controller('city')
 export class CityController {
-	constructor(private readonly cityService: CityService) {}
+	constructor(private readonly cityService: CityService) { }
 
 	@Public()
 	@Get()
@@ -55,6 +56,7 @@ export class CityController {
 		return this.cityService.createCity(createCityDto, file);
 	}
 
+	@Permissions({ action: 'update', subject: 'city' })
 	@Patch(':id')
 	@UseInterceptors(FileInterceptor('image'))
 	updateCity(
@@ -65,6 +67,7 @@ export class CityController {
 		return this.cityService.updateCity(+id, updateCityDto, file);
 	}
 
+	@Permissions({ action: 'update', subject: 'city' })
 	@Patch(':id/hide')
 	async hideCity(@Param('id') id: number) {
 		return this.cityService.hideCity(id);

@@ -288,6 +288,7 @@ export class UserService {
 			where: { email },
 			relations: [
 				'role',
+				'role.permissions',
 				'paymentHistories',
 				'subscriptions',
 				'subscriptions.city',
@@ -396,7 +397,6 @@ export class UserService {
 
 	async getTwoFactorCode(userId: number): Promise<string | null> {
 		const user = await this.findById(userId);
-		console.log('Retrieved User for 2FA:', user);
 
 		if (user.twoFactorCodeExpiresAt && user.twoFactorCodeExpiresAt > new Date()) {
 			return user.twoFactorCode;

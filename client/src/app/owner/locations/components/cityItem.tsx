@@ -7,10 +7,13 @@ import Image from 'next/image';
 import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
 import { useHideCity } from '@/app/lib/useHideCity';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import DeleteDialog from './deleteDialog';
 import Dialog from './dialog';
 import Translation from '@/app/components/translation';
+import { AuthContext } from '@/app/contexts/authContext';
+import toast from 'react-hot-toast';
+import { hasAccess } from '@/app/lib/hasAccess';
 
 const CityItem = ({
 	id,
@@ -21,6 +24,7 @@ const CityItem = ({
 	classicPrice,
 	hidden,
 }: CityProps) => {
+	const { user } = useContext(AuthContext);
 	const { currency } = useCurrency();
 	const { mutate: hideCity } = useHideCity();
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -30,6 +34,13 @@ const CityItem = ({
 		hideCity({ id, hidden });
 	};
 
+	const handleDialogOpening = async () => {
+		if (hasAccess(user?.user.role.permissions, 'update:city')) {
+			setIsEditDialogOpen(true);
+			return;
+		}
+		toast.error('Access Denied!');
+	};
 	return (
 		<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-6 py-4 px-2 border-b'>
 			<div className='col-span-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-9 text-sm gap-4'>
@@ -122,7 +133,7 @@ const CityItem = ({
 			<div className=' col-span-10 mt-5 lg:mt-0 lg:-col-start-1 flex flex-col gap-3 items-end text-xs font-semibold'>
 				<div className='flex flex-row gap-1'>
 					<button
-						onClick={() => setIsEditDialogOpen(true)}
+						onClick={() => handleDialogOpening()}
 						className='flex items-center gap-2 text-span py-2 px-4 border-2 border-span rounded-md'
 					>
 						<Image src={editLogo} alt="edit-city" />

@@ -1,11 +1,14 @@
 
-import React from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image';
 import searchIcon from '@/app/assets/owner/users/search-outline.svg';
 import visibleLogo from '@/app/assets/owner/locations/visibleCitiesLogo.svg';
 import eyeOffIcon from '@/app/assets/owner/locations/eye-off-outline.svg';
 import plusIcon from '@/app/assets/owner/locations/plus.svg';
 import Translation from '@/app/components/translation';
+import { AuthContext } from '@/app/contexts/authContext';
+import { hasAccess } from '@/app/lib/hasAccess';
+import toast from 'react-hot-toast';
 
 interface LocationsHeaderProps {
     searchCity: string;
@@ -28,6 +31,16 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
     cities,
     countries
 }) => {
+
+    const { user } = useContext(AuthContext)
+
+    const handleDialogOpening = () => {
+        if (hasAccess(user?.user.role.permissions, 'add:city')) {
+            setIsDialogOpen(true)
+        } else {
+            toast.error("Access Denied!")
+        }
+    }
     return (
         <div className='grid grid-cols-1 gap-4 md:grid-cols-4 text-span'>
             <div className='flex items-center justify-start md:justify-center gap-4 text-sm flex-wrap'>
@@ -77,7 +90,7 @@ const LocationsHeader: React.FC<LocationsHeaderProps> = ({
                     </button>
                     <button
                         className='max-w-sm'
-                        onClick={() => setIsDialogOpen(true)}
+                        onClick={handleDialogOpening}
                     >
                         <div className='bg-primary border-2 border-primary rounded-lg text-white px-3 py-2 flex justify-center items-center gap-2  '>
                             <Image src={plusIcon} alt='plus icon' />

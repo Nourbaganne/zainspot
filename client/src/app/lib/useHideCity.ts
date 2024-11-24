@@ -21,9 +21,14 @@ export const useHideCity = () => {
           toast.success(hidden ? 'City Unhidden successfully' : 'City hidden successfully', { id: toastId });
           return response;
         })
-        .catch((error) => {
-          toast.error(hidden ? 'Error Unhiding city' : 'Error hiding city', { id: toastId });
-          throw error;
+        .catch((error: any) => {
+          toast.dismiss(toastId);
+          if (error?.response.status === 403) {
+            toast.error("Access Denied!");
+          } else {
+            toast.error(hidden ? 'Error Unhiding city' : 'Error hiding city');
+            throw error;
+          }
         });
     },
     onSuccess: () => {

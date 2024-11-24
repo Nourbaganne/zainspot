@@ -11,6 +11,10 @@ import { HandleRoleChanges } from '@/app/lib/userRoleChanging';
 import { useRoles } from '@/app/contexts/RoleContext';
 import Translation from '@/app/components/translation';
 import { InitialCounts } from '../page';
+import { useContext } from 'react';
+import { AuthContext } from '@/app/contexts/authContext';
+import { hasAccess } from '@/app/lib/hasAccess';
+import toast from 'react-hot-toast';
 
 const USERS_LIST_HEADER = [
 	{ title: 'User', hasFiltering: true },
@@ -42,16 +46,21 @@ const UsersTable = ({
 }: Props) => {
 
 	const { roles } = useRoles();
+	const { user } = useContext(AuthContext);
 
 	const handleSelectUser = (userId: number) => {
-		setSelectedUsers((prevSelectedUsers: number[]) => {
-			if (prevSelectedUsers.includes(userId)) {
-				return prevSelectedUsers.filter((id: number) => id !== userId);
-			} else {
-				return [...prevSelectedUsers, userId];
-			}
+		if (hasAccess(user?.user.role.permissions, 'update:user')) {
+			setSelectedUsers((prevSelectedUsers: number[]) => {
+				if (prevSelectedUsers.includes(userId)) {
+					return prevSelectedUsers.filter((id: number) => id !== userId);
+				} else {
+					return [...prevSelectedUsers, userId];
+				}
 
-		});
+			});
+		} else {
+			toast.error("Access Denied!")
+		}
 	};
 
 	if (isLoading) {
