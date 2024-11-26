@@ -30,17 +30,14 @@ const CityItem = ({
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
-	const handleHideCity = () => {
-		hideCity({ id, hidden });
-	};
-
-	const handleDialogOpening = async () => {
+	const handleEditAction = (action: () => void) => {
 		if (hasAccess(user?.user.role.permissions, 'update:city')) {
-			setIsEditDialogOpen(true);
+			action();
 			return;
 		}
-		toast.error('Access Denied!');
-	};
+		toast.error("Access Denied!");
+	}
+	
 	return (
 		<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-6 py-4 px-2 border-b'>
 			<div className='col-span-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-9 text-sm gap-4'>
@@ -133,13 +130,13 @@ const CityItem = ({
 			<div className=' col-span-10 mt-5 lg:mt-0 lg:-col-start-1 flex flex-col gap-3 items-end text-xs font-semibold'>
 				<div className='flex flex-row gap-1'>
 					<button
-						onClick={() => handleDialogOpening()}
+						onClick={() => handleEditAction(() => setIsEditDialogOpen(true))}
 						className='flex items-center gap-2 text-span py-2 px-4 border-2 border-span rounded-md'
 					>
 						<Image src={editLogo} alt="edit-city" />
 						<Translation translationKey='location_editBtn' />
 					</button>
-					<button onClick={handleHideCity}>
+					<button onClick={() => handleEditAction(() => hideCity({ id, hidden }))}>
 						<div className='flex items-center gap-2 text-span py-2 px-4 border-2 border-span rounded-md'>
 							<Image
 								src={hidden ? unhiddenLogo : hiddenLogo}
@@ -151,7 +148,7 @@ const CityItem = ({
 					</button>
 				</div>
 				<button
-					onClick={() => setIsDialogOpen(true)}
+					onClick={() => handleEditAction(() => setIsDialogOpen(true))}
 					className='flex items-center gap-2 text-alert-dark'
 				>
 					<Image src={deleteLogo} alt="delete-city" />

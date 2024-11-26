@@ -255,7 +255,8 @@ const Users = () => {
                       selectedUserIds: selectedUsers,
                       setSelectedUsers,
                       access_token: user?.access_token,
-                      refetch
+                      refetch,
+                      userPermissions: user?.user.role.permissions
                     })}
                     className='py-2 px-4 bg-alert text-background rounded-md'>
                     <Translation translationKey='desactive_btn' />
