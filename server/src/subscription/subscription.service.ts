@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, MoreThanOrEqual, Repository } from 'typeorm';
 import { Subscription } from '../entities/subscription.entity';
 import { User } from '../entities/user.entity';
 import { City } from '../entities/city.entity';
@@ -51,14 +51,100 @@ export class SubscriptionService {
 		});
 
 		// update the user's suite number
-		if (!user.suiteNumber){
+		if (!user.suiteNumber) {
 			this.userService.suiteNumberVerification(user);
 		}
 
 		return this.subscriptionRepository.save(subscription);
 	}
 
-	
+	async getRevenue() {
+		const currentMonth = new Date();
+		const firstDayOfCurrentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+
+		const subscriptions = await this.subscriptionRepository.find({
+			where: { createdAt: MoreThanOrEqual(firstDayOfCurrentMonth) },
+			relations: ['city'],
+		});
+
+		const totalRevenue = subscriptions.reduce((sum, sub) => sum + sub.price, 0);
+
+		// Calculate the total revenue for the last month
+		const firstDayOfLastMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+		const lastDayOfLastMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 0);
+
+		const lastMonthSubscriptions = await this.subscriptionRepository.find({
+			where: {
+				createdAt: Between(firstDayOfLastMonth, lastDayOfLastMonth),
+			},
+			relations: ['city'],
+		});
+
+		const lastMonthRevenue = lastMonthSubscriptions.reduce((sum, sub) => sum + sub.price, 0);
+
+		const percentageIncrease = lastMonthRevenue
+			? ((totalRevenue - lastMonthRevenue) / lastMonthRevenue) * 100
+			: 0;
+
+		// Group revenue and subscription count by country
+		const countryStatsMap = subscriptions.reduce((acc, sub) => {
+			const country = sub.city.country;
+
+			if (!acc[country]) {
+				acc[country] = { revenue: 0, count: 0 };
+			}
+
+			acc[country].revenue += sub.price;
+			acc[country].count += 1;
+
+			return acc;
+		}, {} as Record<string, { revenue: number; count: number }>);
+
+		const sortedCountries = Object.entries(countryStatsMap)
+			.map(([country, stats]) => ({ country, revenue: stats.revenue, count: stats.count }))
+			.sort((a, b) => b.revenue - a.revenue);
+
+		// Extract the top 2 countries and group the rest as "Others"
+		const [topTwoCountries, others] = sortedCountries.reduce(
+			(acc, item, index) => {
+				if (index < 2) {
+					acc[0].push(item);
+				} else {
+					acc[1].push(item);
+				}
+				return acc;
+			},
+			[[], []] as [Array<{ country: string; revenue: number; count: number }>, Array<{ country: string; revenue: number; count: number }>]
+		);
+
+		const othersTotalRevenue = others.reduce((sum, country) => sum + country.revenue, 0);
+		const othersTotalCount = others.reduce((sum, country) => sum + country.count, 0);
+
+		const result = {
+			totalRevenue,
+			percentageIncrease: percentageIncrease.toFixed(2),
+			topCountries: [
+				...topTwoCountries.map((country) => ({
+					name: country.country,
+					value: country.revenue,
+					percentage: ((country.revenue / totalRevenue) * 100).toFixed(2),
+				})),
+				{
+					name: 'Others',
+					value: othersTotalRevenue,
+					percentage: ((othersTotalRevenue / totalRevenue) * 100).toFixed(2),
+				},
+			],
+			allCountries: sortedCountries.map((country) => ({
+				name: country.country,
+				value: country.revenue,
+				subscribers: country.count,
+			})),
+		};
+
+		return result;
+	}
+
 	async createMany(subscriptions: any): Promise<Subscription[]> {
 		return new Promise(async (resolve, reject) => {
 			try {

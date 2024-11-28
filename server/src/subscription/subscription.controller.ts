@@ -23,6 +23,11 @@ export class SubscriptionController {
 		return this.subscriptionService.createSubscription(createSubscriptionDto);
 	}
 
+	@Get('/revenue')
+	async getRevenue(){
+		return this.subscriptionService.getRevenue();
+	}
+
 	@Get(':userId')
 	async getSubscriptionsByUser(
 		@Param('userId', ParseIntPipe) userId: number,
