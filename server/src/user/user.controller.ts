@@ -75,6 +75,15 @@ export class UserController {
     }
   }
 
+  @Get('userStats')
+  async getUsersStats(): Promise<{
+    totalUsers: number;
+    yearlyCounts: { year: number; count: number; incrementPercentage: number };
+    monthlyCounts: { month: number; count: number; incrementPercentage: number };
+  }> {
+    return this.userService.getUsersStats();
+  }
+
   @Get(':id')
   async findUserById(@Param('id') id: number) {
     return this.userService.findUser(id);
@@ -89,6 +98,8 @@ export class UserController {
   ): Promise<PaginatedResource<Partial<User>>> {
     return await this.userService.findAll(paginationParams, name, filter);
   }
+
+
 
 
   // @Permissions({ action: 'update', subject: 'user' })

@@ -17,6 +17,7 @@ import { MoneyValue } from '@/app/components/MoneyValue';
 import Loader from '@/app/components/loader';
 import { Currency } from '@/app/lib/currencyConvert';
 import { UseVisitorCounts } from '@/app/lib/useVisitorCounts';
+import { UseUSerStats } from '@/app/lib/useUserStats';
 
 interface CardProps {
   title: string;
@@ -335,6 +336,7 @@ const Reports = () => {
   const { user } = useContext(AuthContext);
   const { currency } = useCurrency();
   const visitors = UseVisitorCounts();
+  const userStats = UseUSerStats();
 
   const { data, isLoading } = useQuery({
     queryKey: ['revenue'],
@@ -348,6 +350,7 @@ const Reports = () => {
 
   if (isLoading) return <Loader />
 
+  console.log(userStats.monthlyCounts.incrementPercentage)
   return (
     <Container breadcrumbItems={breadcrumbItems}>
       <style>{'.card { height: 100%; }'}</style>
@@ -356,7 +359,7 @@ const Reports = () => {
           <HeaderCard title="Visitors" value={visitors.totalVisitors} increasment={visitors.increasment} />
         </div>
         <div className="col-span-12 md:col-span-6 xl:col-span-4">
-          <HeaderCard title="Subscribers" value={9065} increasment={1.15} navigation="/owner/users" />
+          <HeaderCard title="Subscribers" value={userStats.totalUsers} increasment={userStats.monthlyCounts.incrementPercentage} navigation="/owner/users" />
         </div>
         <div className="col-span-12 xl:col-span-8">
           <CardUsers />
