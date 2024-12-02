@@ -16,14 +16,12 @@ import { useCurrency } from '@/app/contexts/CurrencyContext';
 import { MoneyValue } from '@/app/components/MoneyValue';
 import Loader from '@/app/components/loader';
 import { Currency } from '@/app/lib/currencyConvert';
+import { UseVisitorCounts } from '@/app/lib/useVisitorCounts';
 
 interface CardProps {
   title: string;
   value: number;
-  increasment: {
-    value: number;
-    isIncreased: boolean;
-  }
+  increasment: number;
   navigation?: string;
 }
 
@@ -60,9 +58,9 @@ const HeaderCard = ({ title, value, increasment, navigation }: CardProps) => {
           <span className='text-3xl font-bold'>{value.toLocaleString()}</span>
         </div>
         <div className='text-center'>
-          <span className={`${increasment.isIncreased ? 'badge-success' : 'badge-danger'}`} >
-            {increasment.isIncreased ? <FiArrowUp className='inline' /> : <FiArrowDown className='inline' />}
-            <span className='text-sm'>{increasment.value}%</span>
+          <span className={`${increasment < 0 ? 'badge-danger' : 'badge-success'}`} >
+            {increasment < 0 ? <FiArrowDown className='inline' /> : <FiArrowUp className='inline' />}
+            <span className='text-sm'>{increasment}%</span>
           </span>
           <div>
             <span className='text-gray-400 text-xs'>vs. last month</span>
@@ -276,12 +274,14 @@ const CardLocations = ({ countries, currency }: { countries: CountyProps[], curr
       </div>
       <div className="mt-4">
         <div>
-          <div><span className="card-number">6</span></div>
+          <div><span className="card-number">
+            {countries && `${countries.length}`}
+          </span></div>
           <div className="mt-2"><span className="card-title">ZainSpot Countries Worldwide</span></div>
         </div>
         <div className="mt-2">
-          <div className="overflow-x-auto"> 
-            <table className="min-w-[480px] text-left bg-background rounded-lg">
+          <div className="overflow-x-auto">
+            <table className="min-w-[480px] md:min-w-[600px] text-left bg-background rounded-lg">
               <thead>
                 <tr className="border-b-2">
                   <th className="text-gray-400 font-medium px-4 py-2">Country</th>
@@ -334,6 +334,7 @@ const Reports = () => {
 
   const { user } = useContext(AuthContext);
   const { currency } = useCurrency();
+  const visitors = UseVisitorCounts();
 
   const { data, isLoading } = useQuery({
     queryKey: ['revenue'],
@@ -352,10 +353,10 @@ const Reports = () => {
       <style>{'.card { height: 100%; }'}</style>
       <div className="bg-gray-100 grid grid-cols-12 gap-4 p-4">
         <div className="col-span-12 md:col-span-6 xl:col-span-4">
-          <HeaderCard title="Visitors" value={11450} increasment={{ value: 2.15, isIncreased: true }} />
+          <HeaderCard title="Visitors" value={visitors.totalVisitors} increasment={visitors.increasment} />
         </div>
         <div className="col-span-12 md:col-span-6 xl:col-span-4">
-          <HeaderCard title="Subscribers" value={9065} increasment={{ value: 1.15, isIncreased: false }} navigation="/owner/users" />
+          <HeaderCard title="Subscribers" value={9065} increasment={1.15} navigation="/owner/users" />
         </div>
         <div className="col-span-12 xl:col-span-8">
           <CardUsers />

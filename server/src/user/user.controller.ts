@@ -91,7 +91,7 @@ export class UserController {
   }
 
 
-  @Permissions({ action: 'update', subject: 'user' })
+  // @Permissions({ action: 'update', subject: 'user' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);

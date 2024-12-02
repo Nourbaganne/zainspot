@@ -28,6 +28,7 @@ export class SubscriptionController {
 		return this.subscriptionService.getRevenue();
 	}
 
+
 	@Get(':userId')
 	async getSubscriptionsByUser(
 		@Param('userId', ParseIntPipe) userId: number,

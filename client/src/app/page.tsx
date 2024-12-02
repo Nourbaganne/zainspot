@@ -14,7 +14,8 @@ import {
 import Cities from './components/cities';
 import { getCities } from './lib/getCitites';
 
-export default function Home() {
+function Home() {
+
 	const queryClient = new QueryClient();
 	queryClient.prefetchQuery({
 		queryKey: ['cities'],
@@ -92,3 +93,5 @@ export default function Home() {
 		</div>
 	);
 }
+
+export default Home;
