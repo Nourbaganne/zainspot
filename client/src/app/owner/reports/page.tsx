@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { FaArrowRight } from 'react-icons/fa';
 import { FiArrowDown, FiArrowUp } from "react-icons/fi";
 import { AreaChart, DonutChart } from '@tremor/react';
@@ -18,6 +18,7 @@ import Loader from '@/app/components/loader';
 import { Currency } from '@/app/lib/currencyConvert';
 import { UseVisitorCounts } from '@/app/lib/useVisitorCounts';
 import { UseUSerStats } from '@/app/lib/useUserStats';
+import Link from 'next/link';
 
 interface CardProps {
   title: string;
@@ -39,6 +40,38 @@ interface RevenueProps {
   percentageIncrease: number;
   topCountries: CountyProps[];
   allCountries: CountyProps[];
+}
+
+interface CardUsersProps {
+  userStats: {
+    totalUsers: number,
+    yearlyCounts: {
+      year: number,
+      count: number,
+      incrementPercentage: number,
+      monthlyBreakdown: [
+        {
+          month: string,
+          count: number
+        }
+      ]
+    },
+    monthlyCounts: {
+      month: number,
+      count: number,
+      incrementPercentage: number
+    }
+  };
+  visitorStats: {
+    totalVisitors: number,
+    increasment: number,
+    yearlyData: [
+      {
+        month: string,
+        visitors: number
+      }
+    ]
+  }
 }
 
 const HeaderCard = ({ title, value, increasment, navigation }: CardProps) => {
@@ -73,127 +106,85 @@ const HeaderCard = ({ title, value, increasment, navigation }: CardProps) => {
 }
 
 
-const valueFormatter = (number: number) =>
-  `$ ${Intl.NumberFormat('us').format(number).toString()}`;
+const valueFormatter = (number: number) => `$ ${Intl.NumberFormat('us').format(number).toString()}`;
 
-const CardUsers = () => {
-  const chartdata = [
-    {
-      date: 'Jan',
-      subscribers: 20,
-      visitors: 78,
-    },
-    {
-      date: 'Feb',
-      subscribers: 300,
-      visitors: 200,
-    },
-    {
-      date: 'Mar',
-      subscribers: 500,
-      visitors: 60,
-    },
-    {
-      date: 'Apr',
-      subscribers: 480,
-      visitors: 800,
-    },
-    {
-      date: 'May',
-      subscribers: 66,
-      visitors: 400,
-    },
-    {
-      date: 'Jun',
-      subscribers: 77,
-      visitors: 420,
-    },
-    {
-      date: 'Jul',
-      subscribers: 300,
-      visitors: 54,
-    },
-    {
-      date: 'Aug',
-      subscribers: 600,
-      visitors: 0,
-    },
-    {
-      date: 'Sep',
-      subscribers: -200,
-      visitors: 2,
-    },
-    {
-      date: 'Oct',
-      subscribers: 100,
-      visitors: 755,
-    },
-    {
-      date: 'Nov',
-      subscribers: 400,
-      visitors: 200,
-    },
-    {
-      date: 'Dec',
-      subscribers: 420,
-      visitors: 100,
-    },
-  ];
+const CardUsers = ({ userStats, visitorStats }: CardUsersProps) => {
+  const chartdata = userStats?.yearlyCounts.monthlyBreakdown.map((userMonth) => {
+    const visitorMonth = visitorStats.yearlyData.find(
+      (visitorMonth) => visitorMonth.month === userMonth.month
+    );
 
+    return {
+      date: userMonth.month, 
+      subscribers: userMonth.count,
+      visitors: visitorMonth ? visitorMonth.visitors : 0,
+    };
+  });
 
-  return <div className='card'>
-    <div className='flex flex-col md:flex-row md:justify-between items-center gap-x-6'>
-      {/* Card Header */}
-      <div className='w-full md:w-5/12 flex-between'>
-        <div className='flex-center'>
-          <span className='text-3xl font-bold'>11,650</span>
-          <span className='text-md font-light ml-3'>Users</span>
-        </div>
-        <div className='text-center md:flex md:items-center md:gap-2'>
-          <span className='badge-danger'>
-            <FiArrowDown className='inline' />
-            <span className='text-sm'>1.15%</span>
-          </span>
-          <div>
-            <span className='text-gray-400 text-xs'>vs. 2023</span>
+  return (
+    <div className="card">
+      <div className="flex flex-col md:flex-row md:justify-between items-center gap-x-6">
+        {/* Card Header */}
+        <div className="w-full md:w-5/12 flex-between">
+          <div className="flex-center">
+            <span className="text-3xl font-bold">{userStats?.totalUsers}</span>
+            <span className="text-md font-light ml-3">Users</span>
+          </div>
+          <div className="text-center md:flex md:items-center md:gap-2">
+            <span
+              className={`${userStats.yearlyCounts.incrementPercentage < 0 ? 'badge-danger' : 'badge-success'
+                }`}
+            >
+              {userStats?.yearlyCounts.incrementPercentage < 0 ? (
+                <FiArrowDown className="inline" />
+              ) : (
+                <FiArrowUp className="inline" />
+              )}
+              <span className="text-sm">{userStats?.yearlyCounts.incrementPercentage}%</span>
+            </span>
+            <div>
+              <span className="text-gray-400 text-xs">vs. {userStats?.yearlyCounts.year - 1}</span>
+            </div>
           </div>
         </div>
+
+        {/* Year Selector */}
+        <div className="mt-4 md:mt-0 grid grid-cols-2 gap-4 w-full md:w-6/12 md:pl-6">
+          <select name="year" id="selectYear" className="form-control form-control-lg">
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+          </select>
+          <Link href="/owner/users" className="btn btn-lg btn-primary">
+            <span>View Details</span>
+            <FaArrowRight className="inline ml-2" />
+          </Link>
+        </div>
       </div>
-      {/* Year Selector */}
-      <div className='mt-4 md:mt-0 grid grid-cols-2 gap-4 w-full md:w-6/12 md:pl-6'>
-        <select name="year" id="selectYear" className='form-control form-control-lg'>
-          <option value="2023">2023</option>
-          <option value="2022">2022</option>
-          <option value="2021">2021</option>
-        </select>
-        <button className='btn btn-lg btn-primary'>
-          <span>View Details</span>
-          <FaArrowRight className='inline ml-2' />
-        </button>
-      </div>
-    </div>
-    <div className='mt-4'>
+
       {/* Graph */}
-      <AreaChart
-        className='my-12'
-        data={chartdata}
-        index="date"
-        categories={['subscribers', 'visitors']}
-        colors={['yellow-600', 'green-600']}
-        showLegend={false}
-        showTooltip={false}
-        connectNulls={true}
-      />
-      {/* Legend */}
-      <div className='flex items-center'>
-        <div className='circle-xs bg-yellow-600'></div>
-        <span className='ml-2 text-gray-800'>Subscribers</span>
-        <div className='ml-8 circle-xs bg-green-600'></div>
-        <span className='ml-2 text-gray-800'>Visitors</span>
+      <div className="mt-4">
+        <AreaChart
+          className="my-12"
+          data={chartdata}
+          index="date"
+          categories={['subscribers', 'visitors']}
+          colors={['yellow-600', 'green-600']}
+          showLegend={false}
+          showTooltip={false}
+          connectNulls={true}
+        />
+        {/* Legend */}
+        <div className="flex items-center">
+          <div className="circle-xs bg-yellow-600"></div>
+          <span className="ml-2 text-gray-800">Subscribers</span>
+          <div className="ml-8 circle-xs bg-green-600"></div>
+          <span className="ml-2 text-gray-800">Visitors</span>
+        </div>
       </div>
     </div>
-  </div>
-}
+  );
+};
 
 const CardRevenue = ({ revenue, currency }: { revenue: RevenueProps, currency: Currency }) => {
 
@@ -350,7 +341,6 @@ const Reports = () => {
 
   if (isLoading) return <Loader />
 
-  console.log(userStats.monthlyCounts.incrementPercentage)
   return (
     <Container breadcrumbItems={breadcrumbItems}>
       <style>{'.card { height: 100%; }'}</style>
@@ -362,7 +352,7 @@ const Reports = () => {
           <HeaderCard title="Subscribers" value={userStats.totalUsers} increasment={userStats.monthlyCounts.incrementPercentage} navigation="/owner/users" />
         </div>
         <div className="col-span-12 xl:col-span-8">
-          <CardUsers />
+          <CardUsers userStats={userStats} visitorStats={visitors} />
         </div>
         <div className="col-span-12 xl:row-start-1 xl:row-end-3 xl:col-span-4 xl:col-start-9 xl:row-span-3">
           <CardRevenue revenue={data?.data} currency={currency} />

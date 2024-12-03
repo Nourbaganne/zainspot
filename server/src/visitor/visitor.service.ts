@@ -17,8 +17,11 @@ export class VisitorService {
         return visitorId;
     }
 
-    async getVisitorStats(): Promise<{ totalVisitors: number; increasment: number }> {
-
+    async getVisitorStats(): Promise<{
+        totalVisitors: number;
+        increasment: number;
+        yearlyData: { month: string; visitors: number }[];
+    }> {
         const totalVisitors = await this.visitorRepository.count();
 
         // Get the first day of the current month
@@ -50,9 +53,37 @@ export class VisitorService {
         // Calculate increment
         const increasment = currentMonthVisitors - previousMonthVisitors;
 
+        // Get the current year
+        const currentYear = new Date().getFullYear();
+
+        // Fetch visitor counts grouped by months for the current year
+        const rawYearlyData = await this.visitorRepository
+            .createQueryBuilder('visitor')
+            .select('MONTH(visitor.createdAt)', 'month')
+            .addSelect('COUNT(visitor.id)', 'count')
+            .where('YEAR(visitor.createdAt) = :currentYear', { currentYear })
+            .groupBy('MONTH(visitor.createdAt)')
+            .orderBy('MONTH(visitor.createdAt)', 'ASC')
+            .getRawMany<{ month: number; count: number }>();
+
+        // Map raw data to include month names
+        const months = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+        ];
+        const yearlyData = Array.from({ length: 12 }).map((_, index) => {
+            const monthData = rawYearlyData.find((data) => data.month === index + 1);
+            return {
+                month: months[index],
+                visitors: monthData ? monthData.count : 0,
+            };
+        });
+
         return {
             totalVisitors,
             increasment,
+            yearlyData,
         };
     }
+
 }

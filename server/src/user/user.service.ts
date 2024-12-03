@@ -198,7 +198,12 @@ export class UserService {
 
 	async getUsersStats(): Promise<{
 		totalUsers: number;
-		yearlyCounts: { year: number; count: number; incrementPercentage: number };
+		yearlyCounts: {
+		  year: number;
+		  count: number;
+		  incrementPercentage: number;
+		  monthlyBreakdown: { month: string; count: number }[];
+		};
 		monthlyCounts: { month: number; count: number; incrementPercentage: number };
 	  }> {
 		const totalUsers = await User.createQueryBuilder('user').getCount();
@@ -206,7 +211,7 @@ export class UserService {
 		// Get current year and month
 		const currentDate = new Date();
 		const currentYear = currentDate.getFullYear();
-		const currentMonth = currentDate.getMonth() + 1; // Months are 0-indexed in JavaScript
+		const currentMonth = currentDate.getMonth() + 1;
 		const previousMonth = currentMonth === 1 ? 12 : currentMonth - 1;
 		const previousYear = currentMonth === 1 ? currentYear - 1 : currentYear;
 	  
@@ -225,10 +230,42 @@ export class UserService {
 	  
 		const yearlyIncrementPercentage =
 		  totalUsersLastYear?.count > 0
-			? ((yearlyData.count - totalUsersLastYear.count) /
+			? ((yearlyData?.count || 0 - totalUsersLastYear.count) /
 				totalUsersLastYear.count) *
 			  100
 			: 0;
+	  
+		// Monthly breakdown for the current year
+		const rawYearlyData = await User.createQueryBuilder('user')
+		  .select('MONTH(user.createdAt)', 'month')
+		  .addSelect('COUNT(user.id)', 'count')
+		  .where('YEAR(user.createdAt) = :currentYear', { currentYear })
+		  .groupBy('MONTH(user.createdAt)')
+		  .orderBy('MONTH(user.createdAt)', 'ASC')
+		  .getRawMany<{ month: number; count: number }>();
+	  
+		const months = [
+		  'Jan',
+		  'Feb',
+		  'Mar',
+		  'Apr',
+		  'May',
+		  'Jun',
+		  'Jul',
+		  'Aug',
+		  'Sep',
+		  'Oct',
+		  'Nov',
+		  'Dec',
+		];
+	  
+		const monthlyBreakdown = Array.from({ length: 12 }).map((_, index) => {
+		  const monthData = rawYearlyData.find((data) => data.month === index + 1);
+		  return {
+			month: months[index],
+			count: monthData ? monthData.count : 0,
+		  };
+		});
 	  
 		// Get monthly data for current and previous month
 		const monthlyData = await User.createQueryBuilder('user')
@@ -236,18 +273,18 @@ export class UserService {
 		  .addSelect('COUNT(user.id)', 'count')
 		  .where(
 			`(YEAR(user.createdAt) = :currentYear AND MONTH(user.createdAt) = :currentMonth)
-			 OR (YEAR(user.createdAt) = :previousYear AND MONTH(user.createdAt) = :previousMonth)`,
-			{ currentYear, currentMonth, previousYear, previousMonth }
+			   OR (YEAR(user.createdAt) = :previousYear AND MONTH(user.createdAt) = :previousMonth)`,
+			{ currentYear, currentMonth, previousYear, previousMonth },
 		  )
 		  .groupBy('MONTH(user.createdAt)')
 		  .orderBy('MONTH(user.createdAt)', 'ASC')
 		  .getRawMany<{ month: number; count: number }>();
 	  
 		const currentMonthData = monthlyData.find(
-		  (data) => data.month === currentMonth
+		  (data) => data.month === currentMonth,
 		);
 		const previousMonthData = monthlyData.find(
-		  (data) => data.month === previousMonth
+		  (data) => data.month === previousMonth,
 		);
 	  
 		const monthlyIncrementPercentage =
@@ -263,6 +300,7 @@ export class UserService {
 			year: currentYear,
 			count: yearlyData?.count || 0,
 			incrementPercentage: parseFloat(yearlyIncrementPercentage.toFixed(2)),
+			monthlyBreakdown,
 		  },
 		  monthlyCounts: {
 			month: currentMonth,
@@ -271,6 +309,7 @@ export class UserService {
 		  },
 		};
 	  }
+	  
 	  
 
 
