@@ -46,7 +46,10 @@ const CardRevenue = ({ revenue, currency }: { revenue: RevenueProps, currency: C
                 </div>
                 <div className="text-center">
                     <span className={`${revenue.percentageIncrease < 0 ? 'badge-danger' : 'badge-success'}`}>
-                        <FiArrowUp className="inline" />
+                        {revenue.percentageIncrease < 0
+                            ? <FiArrowDown className="inline" />
+                            : <FiArrowUp className="inline" />
+                        }
                         <span className="text-sm">{revenue.percentageIncrease}%</span>
                     </span>
                     <div>

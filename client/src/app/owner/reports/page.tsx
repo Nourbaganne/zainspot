@@ -38,7 +38,7 @@ const HeaderCard = ({ title, value, increasment, navigation }: CardProps) => {
       </div>
       <div className='mt-4 flex items-center justify-between'>
         <div>
-          <span className='text-3xl font-bold'>{value.toLocaleString()}</span>
+          <span className='text-3xl font-bold'>{value?.toLocaleString()}</span>
         </div>
         <div className='text-center'>
           <span className={`${increasment < 0 ? 'badge-danger' : 'badge-success'}`} >
@@ -82,10 +82,10 @@ const Reports = () => {
       <style>{'.card { height: 100%; }'}</style>
       <div className="bg-gray-100 grid grid-cols-12 gap-4 p-4">
         <div className="col-span-12 md:col-span-6 xl:col-span-4">
-          <HeaderCard title="Visitors" value={visitors.totalVisitors} increasment={visitors.increasment} />
+          <HeaderCard title="Visitors" value={visitors?.totalVisitors} increasment={visitors?.increasment} />
         </div>
         <div className="col-span-12 md:col-span-6 xl:col-span-4">
-          <HeaderCard title="Subscribers" value={userStats.totalUsers} increasment={userStats.monthlyCounts.incrementPercentage} navigation="/owner/users" />
+          <HeaderCard title="Subscribers" value={userStats?.totalUsers} increasment={userStats?.monthlyCounts.incrementPercentage} navigation="/owner/users" />
         </div>
         <div className="col-span-12 xl:col-span-8">
           <CardUsers userStats={userStats} visitorStats={visitors} />

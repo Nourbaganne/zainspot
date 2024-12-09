@@ -59,7 +59,7 @@ const CardUsers = ({ userStats, visitorStats }: CardUsersProps) => {
                     </div>
                     <div className="text-center md:flex md:items-center md:gap-2">
                         <span
-                            className={`${userStats.yearlyCounts.incrementPercentage < 0 ? 'badge-danger' : 'badge-success'
+                            className={`${userStats?.yearlyCounts.incrementPercentage < 0 ? 'badge-danger' : 'badge-success'
                                 }`}
                         >
                             {userStats?.yearlyCounts.incrementPercentage < 0 ? (
