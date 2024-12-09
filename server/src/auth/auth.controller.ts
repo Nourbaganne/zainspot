@@ -31,6 +31,7 @@ export class AuthController {
       await this.authService.verifyTwoFactorCode(email, code);
       // Generate a JWT token or any other success response
       const user = await this.userService.findByEmail(email); // Get user details
+
       const payload = {
         userId: user.id,
         email: user.email,
@@ -38,6 +39,7 @@ export class AuthController {
         preferedLanguage: user.preferedLanguage,
         preferedCurrency: user.preferedCurrency,
       };
+
       const token = this.jwtService.sign(payload, { expiresIn: '14400s' });
       const decodedToken = this.jwtService.decode(token) as { exp: number };
       return {

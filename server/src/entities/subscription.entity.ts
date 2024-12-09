@@ -42,6 +42,9 @@ export class Subscription extends BaseEntity {
 
 	@Column({ nullable: true })
 	renewalStatus: string;
+
+	@CreateDateColumn()
+	createdAt: Date;
 }
 
 // ? You can get the stripePriceId using cityId, optionType, and duration

@@ -17,6 +17,8 @@ import { WithAuth } from '@/app/lib/withAuth';
 import { useRoles } from '@/app/contexts/RoleContext';
 import Translation from '@/app/components/translation';
 import { handleUserActivation } from '@/app/lib/userActivation';
+import { hasAccess } from '@/app/lib/hasAccess';
+import toast from 'react-hot-toast';
 
 
 interface Counts {
@@ -38,7 +40,7 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [initialCounts, setInitialCounts] = useState<InitialCounts>({});
   const [totalUsers, setTotalUsers] = useState<number>(0);
-  const [existingRole, setExistingRole] = useState<any| null>();
+  const [existingRole, setExistingRole] = useState<any | null>();
 
   const { user } = useContext(AuthContext);
   const rolesModalRef = useRef<any>(null);
@@ -147,6 +149,14 @@ const Users = () => {
   }));
 
 
+  const handleAddRole = () => {
+    if (hasAccess(user?.user.role.permissions, 'add:role')) {
+      rolesModalRef.current.open(true);
+    } else {
+      toast.error("Access Denied!")
+    }
+  }
+
   return (
     <div className='flex flex-col gap-6 bg-background-foreground px-4 md:px-24 py-4 md:py-8 md:pb-20'>
       <Breadcrumb items={breadcrumbItems} className='pl-2 overflow-x-auto' />
@@ -194,9 +204,7 @@ const Users = () => {
             <button
               className="border-l border-gray-300 text-xl px-4 flex-shrink-0"
               type="button"
-              onClick={() => {
-                rolesModalRef.current.open(true);
-              }}
+              onClick={handleAddRole}
             >
               +
             </button>
@@ -247,7 +255,8 @@ const Users = () => {
                       selectedUserIds: selectedUsers,
                       setSelectedUsers,
                       access_token: user?.access_token,
-                      refetch
+                      refetch,
+                      userPermissions: user?.user.role.permissions
                     })}
                     className='py-2 px-4 bg-alert text-background rounded-md'>
                     <Translation translationKey='desactive_btn' />

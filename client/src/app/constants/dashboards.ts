@@ -88,6 +88,7 @@ export const OWNER_DASHBOARD = [
 		link: 'reports',
 		title: 'ownerDashboard_reports',
 		description: 'ownerDashboard_reports_desc',
+		resource: 'reports'
 	},
 	{
 		logo: userIcon,
@@ -95,6 +96,7 @@ export const OWNER_DASHBOARD = [
 		link: 'users',
 		title: 'ownerDashboard_users',
 		description: 'ownerDashboard_users_desc',
+		resource: 'user'
 	},
 	{
 		logo: locationLogo,
@@ -102,5 +104,6 @@ export const OWNER_DASHBOARD = [
 		link: 'locations',
 		title: 'ownerDashboard_location',
 		description: 'ownerDashboard_location_desc',
+		resource: 'city'
 	},
 ];

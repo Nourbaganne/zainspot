@@ -14,7 +14,8 @@ import {
 import Cities from './components/cities';
 import { getCities } from './lib/getCitites';
 
-export default function Home() {
+function Home() {
+
 	const queryClient = new QueryClient();
 	queryClient.prefetchQuery({
 		queryKey: ['cities'],
@@ -74,7 +75,7 @@ export default function Home() {
 			</div>
 
 			<div className='flex flex-col py-12 md:px-14 px-5 gap-9 '>
-				<p className='font-sans font-semibold text-text-foreground text-xl md:text-2xl '>
+				<p className='font-sans font-[590px] text-text-foreground text-xl md:text-2xl '>
 					<Translation translationKey='homepage_cities_description' />
 				</p>
 				<div className='flex flex-col md:pl-12 gap-5'>
@@ -92,3 +93,5 @@ export default function Home() {
 		</div>
 	);
 }
+
+export default Home;

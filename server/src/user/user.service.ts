@@ -193,6 +193,127 @@ export class UserService {
 		};
 	}
 
+	async getUsersStats(): Promise<{
+		totalUsers: number;
+		yearlyCounts: {
+		  year: number;
+		  count: number;
+		  incrementPercentage: number;
+		  monthlyBreakdown: { month: string; count: number }[];
+		};
+		monthlyCounts: { month: number; count: number; incrementPercentage: number };
+	  }> {
+		const totalUsers = await User.createQueryBuilder('user').getCount();
+	  
+		// Get current year and month
+		const currentDate = new Date();
+		const currentYear = currentDate.getFullYear();
+		const currentMonth = currentDate.getMonth() + 1;
+		const previousMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+		const previousYear = currentMonth === 1 ? currentYear - 1 : currentYear;
+	  
+		// Get yearly data for the current year
+		const yearlyData = await User.createQueryBuilder('user')
+		  .select('YEAR(user.createdAt)', 'year')
+		  .addSelect('COUNT(user.id)', 'count')
+		  .where('YEAR(user.createdAt) = :currentYear', { currentYear })
+		  .groupBy('YEAR(user.createdAt)')
+		  .getRawOne<{ year: number; count: number }>();
+	  
+		const totalUsersLastYear = await User.createQueryBuilder('user')
+		  .select('COUNT(user.id)', 'count')
+		  .where('YEAR(user.createdAt) = :lastYear', { lastYear: currentYear - 1 })
+		  .getRawOne<{ count: number }>();
+	  
+		const yearlyIncrementPercentage =
+		  totalUsersLastYear?.count > 0
+			? ((yearlyData?.count || 0 - totalUsersLastYear.count) /
+				totalUsersLastYear.count) *
+			  100
+			: 0;
+	  
+		// Monthly breakdown for the current year
+		const rawYearlyData = await User.createQueryBuilder('user')
+		  .select('MONTH(user.createdAt)', 'month')
+		  .addSelect('COUNT(user.id)', 'count')
+		  .where('YEAR(user.createdAt) = :currentYear', { currentYear })
+		  .groupBy('MONTH(user.createdAt)')
+		  .orderBy('MONTH(user.createdAt)', 'ASC')
+		  .getRawMany<{ month: number; count: number }>();
+	  
+		const months = [
+		  'Jan',
+		  'Feb',
+		  'Mar',
+		  'Apr',
+		  'May',
+		  'Jun',
+		  'Jul',
+		  'Aug',
+		  'Sep',
+		  'Oct',
+		  'Nov',
+		  'Dec',
+		];
+	  
+		const monthlyBreakdown = Array.from({ length: 12 }).map((_, index) => {
+		  const monthData = rawYearlyData.find((data) => data.month === index + 1);
+		  return {
+			month: months[index],
+			count: monthData ? monthData.count : 0,
+		  };
+		});
+	  
+		// Get monthly data for current and previous month
+		const monthlyData = await User.createQueryBuilder('user')
+		  .select('MONTH(user.createdAt)', 'month')
+		  .addSelect('COUNT(user.id)', 'count')
+		  .where(
+			`(YEAR(user.createdAt) = :currentYear AND MONTH(user.createdAt) = :currentMonth)
+			   OR (YEAR(user.createdAt) = :previousYear AND MONTH(user.createdAt) = :previousMonth)`,
+			{ currentYear, currentMonth, previousYear, previousMonth },
+		  )
+		  .groupBy('MONTH(user.createdAt)')
+		  .orderBy('MONTH(user.createdAt)', 'ASC')
+		  .getRawMany<{ month: number; count: number }>();
+	  
+		const currentMonthData = monthlyData.find(
+		  (data) => data.month === currentMonth,
+		);
+		const previousMonthData = monthlyData.find(
+		  (data) => data.month === previousMonth,
+		);
+	  
+		const monthlyIncrementPercentage =
+		  previousMonthData?.count > 0
+			? ((currentMonthData?.count || 0 - previousMonthData.count) /
+				previousMonthData.count) *
+			  100
+			: 0;
+	  
+		return {
+		  totalUsers,
+		  yearlyCounts: {
+			year: currentYear,
+			count: yearlyData?.count || 0,
+			incrementPercentage: parseFloat(yearlyIncrementPercentage.toFixed(2)),
+			monthlyBreakdown,
+		  },
+		  monthlyCounts: {
+			month: currentMonth,
+			count: currentMonthData?.count || 0,
+			incrementPercentage: parseFloat(monthlyIncrementPercentage.toFixed(2)),
+		  },
+		};
+	  }
+	  
+	  
+
+
+
+
+
+
 	async getRoleCounts(): Promise<RoleCounts> {
 		const roleCounts = await User.createQueryBuilder('user')
 			.select('role.name AS role')
@@ -287,6 +408,7 @@ export class UserService {
 			where: { email },
 			relations: [
 				'role',
+				'role.permissions',
 				'paymentHistories',
 				'subscriptions',
 				'subscriptions.city',
@@ -297,7 +419,6 @@ export class UserService {
 		}
 		return user;
 	}
-
 	async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
 		const user = await User.findOne({
 			where: { id },
@@ -394,7 +515,6 @@ export class UserService {
 
 	async getTwoFactorCode(userId: number): Promise<string | null> {
 		const user = await this.findById(userId);
-		console.log('Retrieved User for 2FA:', user);
 
 		if (
 			user.twoFactorCodeExpiresAt &&

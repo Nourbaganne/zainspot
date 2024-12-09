@@ -1,13 +1,11 @@
 'use client';
 import { AuthContext } from '@/app/contexts/authContext';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
-import Breadcrumb from '@/app/zainspotter/components/breadcrumb';
 import { useQuery } from '@tanstack/react-query';
 import { useContext, useState } from 'react';
 import genreIcon from '@/app/assets/owner/users/genreIcon.svg';
 import birthdayIcon from '@/app/assets/owner/users/birthdayIcon.svg';
 import pointIc from '@/app/assets/owner/users/pointIc.svg';
-import downloadIcon from '@/app/assets/owner/users/download-outline.svg';
 import revenueIcon from '@/app/assets/owner/users/information-circle-outline.svg';
 import Image from 'next/image';
 import CustomStackedBarChart from '../../components/barChart';
@@ -160,7 +158,8 @@ const Page = ({ params }: { params: { id: number } }) => {
                 id: user?.user.userId,
                 selectedUserIds: [data?.data.id],
                 access_token: user?.access_token,
-                refetch
+                refetch,
+                userPermissions: user?.user.role.permissions
               })}
             >
               {

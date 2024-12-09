@@ -1,4 +1,5 @@
-import type { Metadata } from 'next';
+'use client'
+// import type { Metadata } from 'next';
 import { Work_Sans } from 'next/font/google';
 import './globals.css';
 import Navbar from './components/navbar';
@@ -9,19 +10,22 @@ import { QueryProvider } from './queryProvider';
 import { AuthContextProvider } from './contexts/authContext';
 import { Toaster } from 'react-hot-toast';
 import { RolesProvider } from './contexts/RoleContext';
+import CookieBanner from './components/cookieBanner';
+
 
 const workSans = Work_Sans({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-	title: 'Zainspot',
-	description: 'E-commerce website to help business',
-};
+// export const metadata: Metadata = {
+// 	title: 'Zainspot',
+// 	description: 'E-commerce website to help business',
+// };
 
 export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
+
 	return (
 		<html lang='en'>
 			<body className={workSans.className}>
@@ -32,7 +36,10 @@ export default function RootLayout({
 								<RolesProvider>
 									<Navbar />
 									<Toaster position='top-right' />
-									<main>{children}</main>
+									<CookieBanner />
+									<main>
+										{children}
+									</main>
 									<Footer />
 								</RolesProvider>
 							</CurrencyProvider>

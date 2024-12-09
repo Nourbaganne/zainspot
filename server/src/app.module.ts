@@ -26,6 +26,7 @@ import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { StripeModule } from './stripe/stripe.module';
 import { SendMailModule } from './send-mail/send-mail.module';
 import { GoldMemberEmailModule } from './gold-member-email/gold-member-email.module';
+import { VisitorModule } from './visitor/visitor.module';
 
 @Module({
 	imports: [
@@ -64,6 +65,7 @@ import { GoldMemberEmailModule } from './gold-member-email/gold-member-email.mod
 		StripeModule,
 		SendMailModule,
 		GoldMemberEmailModule,
+		VisitorModule,
 	],
 	controllers: [AppController],
 	providers: [

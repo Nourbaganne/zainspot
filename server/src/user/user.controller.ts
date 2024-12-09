@@ -23,6 +23,7 @@ import {
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { User } from 'src/entities/user.entity';
 import { RecaptchaService } from './recaptcha.service';
+// import { Permissions } from 'src/decorators/permissions.decorator';
 
 @Controller('user')
 export class UserController {
@@ -84,6 +85,20 @@ export class UserController {
 		return this.userService.findUser(id);
 	}
 
+	@Get('userStats')
+	async getUsersStats(): Promise<{
+		totalUsers: number;
+		yearlyCounts: { year: number; count: number; incrementPercentage: number };
+		monthlyCounts: {
+			month: number;
+			count: number;
+			incrementPercentage: number;
+		};
+	}> {
+		return this.userService.getUsersStats();
+	}
+
+	// @Permissions({ action: 'read', subject: 'user' })
 	@Get()
 	async findAll(
 		@PaginationParams() paginationParams: Pagination,

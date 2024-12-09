@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import Translation from '@/app/components/translation';
 import toast from 'react-hot-toast';
+import AddPermission from './addPermission';
 
 interface Props {
 	rolesModalRef: any;
@@ -15,6 +16,7 @@ const RolesModal = ({ rolesModalRef, existingRole }: Props) => {
 	const [permissions, setPermissions] = useState<Permission[]>([]);
 	const [newRoleName, setNewRoleName] = useState<string>('');
 	const [newRolePermissions, setNewRolePermissions] = useState<Permission[]>([]);
+	const [openFields, setOpenFields] = useState<boolean>(false);
 
 	useEffect(() => {
 		axiosInstance.get('/permission').then((res) => {
@@ -32,19 +34,19 @@ const RolesModal = ({ rolesModalRef, existingRole }: Props) => {
 	const handleCheckboxChange = (currPermission: Permission) => {
 		setNewRolePermissions((prevPermissions) => {
 			if (prevPermissions.some((perm) => perm.id === currPermission.id)) {
-			  return prevPermissions.filter((perm) => perm.id !== currPermission.id);
+				return prevPermissions.filter((perm) => perm.id !== currPermission.id);
 			} else {
-			  return [...prevPermissions, currPermission];
+				return [...prevPermissions, currPermission];
 			}
-		  });
+		});
 	};
 
 	const handleSubmit = () => {
 		const toastId = toast.loading("loading ...");
 		const roleData = {
 			name: newRoleName,
-			permissions: newRolePermissions.map((perm) => perm.id), 
-		  };
+			permissions: newRolePermissions.map((perm) => perm.id),
+		};
 
 		try {
 
@@ -97,7 +99,17 @@ const RolesModal = ({ rolesModalRef, existingRole }: Props) => {
 				/>
 			</div>
 			<div className='mt-6'>
-				<h1 className='text-gray-400 font-medium'>Permissions</h1>
+				<div className='text-gray-400 font-medium flex gap-2 items-center'>
+					<h1>Permissions</h1>
+					<button className='text-lg' onClick={() => setOpenFields(!openFields)}>
+						{openFields ? '-' : '+'}
+					</button>
+				</div>
+				{
+					openFields && (
+						<AddPermission />
+					)
+				}
 				<div className='mt-2 grid grid-cols-1 md:grid-cols-2'>
 					{permissions.map((p) => (
 						<div key={p.id} className='p-2 text-sm flex items-center gap-2'>

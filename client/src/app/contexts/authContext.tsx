@@ -8,9 +8,16 @@ import React, {
     useState,
 } from 'react';
 
+interface Permission {
+    id: number;
+    action: string;
+    resource: string
+}
+
 interface RoleProps {
     id: number;
     name: string;
+    permissions: Permission[];
 }
 
 interface User {

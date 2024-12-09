@@ -18,7 +18,7 @@ export class Role extends BaseEntity {
 
   @ManyToMany(() => Permission, { cascade: true })
   @JoinTable({
-    name: 'role_permission', // Custom join table name
+    name: 'role_permission', 
     joinColumn: { name: 'roleId', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'permissionId', referencedColumnName: 'id' },
   })

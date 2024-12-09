@@ -1,11 +1,14 @@
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import arrowRight from '@/app/assets/owner/arrow-right.svg'
 import Image from 'next/image'
 import { FiArrowUp } from 'react-icons/fi'
 import Translation from '@/app/components/translation'
 import { useQuery } from '@tanstack/react-query'
 import axiosInstance from '@/app/lib/axios/axiosInstance'
+import { hasAccess } from '@/app/lib/hasAccess'
+import { AuthContext } from '@/app/contexts/authContext'
+import toast from 'react-hot-toast'
 
 interface RoleCardProps {
   title: string;
@@ -22,7 +25,7 @@ interface RoleCardProps {
 
 const RoleCard = ({ title, value, editPermissions, stats, rolesModalRef, setExistingRole, roleId }: RoleCardProps) => {
   const [displayValue, setDisplayValue] = useState(0);
-
+  const { user } = useContext(AuthContext);
 
 
   useEffect(() => {
@@ -52,12 +55,16 @@ const RoleCard = ({ title, value, editPermissions, stats, rolesModalRef, setExis
   }, [value, displayValue]);
 
   const handleOpenEditDialog = async () => {
-    try {
-      const { data } = await axiosInstance.get(`/role/${roleId}`);
-      setExistingRole(data);
-      rolesModalRef.current.open();
-    } catch (error) {
-      console.error('Failed to fetch role:', error);
+    if (hasAccess(user?.user.role.permissions, 'update:permission')) {
+      try {
+        const { data } = await axiosInstance.get(`/role/${roleId}`);
+        setExistingRole(data);
+        rolesModalRef.current.open();
+      } catch (error) {
+        console.error('Failed to fetch role:', error);
+      }
+    } else {
+      toast.error("Access Denied!")
     }
   };
 
@@ -69,7 +76,7 @@ const RoleCard = ({ title, value, editPermissions, stats, rolesModalRef, setExis
           {title}
         </p>
         {editPermissions && (
-          <button onClick={handleOpenEditDialog} className='text-primary font-semibold flex flex-row hover:underline text-sm'>
+          <button onClick={handleOpenEditDialog} className='text-primary font-semibold flex flex-row justify-center items-center hover:underline text-sm'>
             <span className='pr-1 text-base sm:text-xs lg:text-base'>
               <Translation translationKey='roleCard_edit' />
             </span>
