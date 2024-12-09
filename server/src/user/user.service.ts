@@ -24,7 +24,7 @@ type PercentageChange = Record<string, number>;
 
 @Injectable()
 export class UserService {
-	constructor() { }
+	constructor() {}
 
 	async hashPassword(password: string): Promise<string> {
 		const salt = await bcrypt.genSalt(8);
@@ -41,8 +41,6 @@ export class UserService {
 		if (existEmail) {
 			throw new HttpException('Email already exists!', HttpStatus.BAD_REQUEST);
 		}
-
-
 
 		const user = User.create({
 			...createUserDto,
@@ -62,8 +60,7 @@ export class UserService {
 
 	async suiteNumberVerification(user: User) {
 		// Find users in the same company
-		const existingUsers = await User
-			.createQueryBuilder('user')
+		const existingUsers = await User.createQueryBuilder('user')
 			.leftJoin('user.subscriptions', 'subscription')
 			.where('user.zipCode = :zipCode', { zipCode: user.zipCode })
 			.andWhere('subscription.id IS NOT NULL')
@@ -83,7 +80,9 @@ export class UserService {
 			}
 
 			// Fuzzy matching check for tradeName
-			const tradeNames = existingUsers.map(existingUser => existingUser.tradeName);
+			const tradeNames = existingUsers.map(
+				(existingUser) => existingUser.tradeName,
+			);
 			const results = fuzzy.filter(user.tradeName, tradeNames);
 
 			// If there's a close match, log or handle it
@@ -95,7 +94,9 @@ export class UserService {
 				const threshold = 0.9; // Adjust as necessary
 
 				if (matchScore >= threshold) {
-					console.log(`Fuzzy match found: ${closestMatch.string} with score ${matchScore}`);
+					console.log(
+						`Fuzzy match found: ${closestMatch.string} with score ${matchScore}`,
+					);
 					// Additional logic can be placed here, like notifying the user or logging
 				}
 			}
@@ -105,13 +106,12 @@ export class UserService {
 	}
 
 	normalizeName(name: string): string {
-
 		const abbreviations: { [key: string]: string } = {
-			"co": "company",
-			"inc": "incorporated",
-			"ltd": "limited",
-			"corp": "corporation",
-			"llc": "limited liability company",
+			co: 'company',
+			inc: 'incorporated',
+			ltd: 'limited',
+			corp: 'corporation',
+			llc: 'limited liability company',
 		};
 
 		// Remove special characters and extra spaces
@@ -123,13 +123,10 @@ export class UserService {
 
 		// check for words abbreviations
 		const words = normalized.split(' ');
-		normalized = words
-			.map((word => abbreviations[word] || word))
-			.join(' ');
+		normalized = words.map((word) => abbreviations[word] || word).join(' ');
 
 		return normalized;
 	}
-
 
 	async findAll(
 		{ page, limit = 1 }: Pagination,
@@ -259,12 +256,14 @@ export class UserService {
 			const oldCount = previousCounts[role] || 0; // Default to 0 if the role didn't exist previously
 			const newCount = currentCounts[role];
 
-			percentageChange[role] = this.calculatePercentageChange(oldCount, newCount);
+			percentageChange[role] = this.calculatePercentageChange(
+				oldCount,
+				newCount,
+			);
 		}
 
 		return percentageChange;
 	}
-
 
 	async findById(id: number): Promise<User> {
 		const user = await User.findOne({
@@ -342,7 +341,7 @@ export class UserService {
 	async remove(id: number): Promise<string> {
 		const user = await User.findOne({
 			where: { id },
-			relations: ['paymentHistories', 'subscriptions']
+			relations: ['paymentHistories', 'subscriptions'],
 		});
 
 		if (!user) {
@@ -369,7 +368,6 @@ export class UserService {
 			relations: ['role', 'role.permissions'],
 		});
 	}
-
 
 	async user2FEmailActivation(id: number): Promise<User> {
 		const user = await this.findById(id);
@@ -398,7 +396,10 @@ export class UserService {
 		const user = await this.findById(userId);
 		console.log('Retrieved User for 2FA:', user);
 
-		if (user.twoFactorCodeExpiresAt && user.twoFactorCodeExpiresAt > new Date()) {
+		if (
+			user.twoFactorCodeExpiresAt &&
+			user.twoFactorCodeExpiresAt > new Date()
+		) {
 			return user.twoFactorCode;
 		}
 		return null;
@@ -410,7 +411,6 @@ export class UserService {
 		user.twoFactorCodeExpiresAt = null;
 		await User.save(user);
 	}
-
 
 	// Service method
 	async findByIds(ids: number[]): Promise<User[]> {
@@ -437,14 +437,15 @@ export class UserService {
 		if (users.length !== validIds.length) {
 			const foundIds = users.map((user) => user.id);
 			const missingIds = validIds.filter((id) => !foundIds.includes(id));
-			throw new NotFoundException(`Users with IDs ${missingIds.join(', ')} not found`);
+			throw new NotFoundException(
+				`Users with IDs ${missingIds.join(', ')} not found`,
+			);
 		}
 
 		users.forEach((user) => delete user.password);
 
 		return users;
 	}
-
 
 	async usersActivation(ids: number[]): Promise<User[]> {
 		if (!Array.isArray(ids) || ids.length === 0) {
@@ -461,5 +462,4 @@ export class UserService {
 
 		return users;
 	}
-
 }

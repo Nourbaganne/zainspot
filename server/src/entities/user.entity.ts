@@ -93,18 +93,20 @@ export class User extends BaseEntity {
 	@Column({ default: '' })
 	recaptcha: string;
 
+	@Column({ default: null })
+	stripeCustomerId: string;
+
 	@ManyToOne(() => Role, { cascade: true })
 	@JoinColumn({ name: 'roleId' })
 	role: Role;
 
-
 	@OneToMany(() => PaymentHistory, (paymentHistory) => paymentHistory.user, {
-		cascade: ['remove'],  // Cascade delete when user is deleted
+		cascade: ['remove'], // Cascade delete when user is deleted
 	})
 	paymentHistories: PaymentHistory[];
 
 	@OneToMany(() => Subscription, (subscription) => subscription.user, {
-		cascade: ['remove'],  // Cascade delete when user is deleted
+		cascade: ['remove'], // Cascade delete when user is deleted
 	})
 	subscriptions: Subscription[];
 

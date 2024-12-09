@@ -71,15 +71,17 @@ export class CreateUserDto {
 
 	roleId: number;
 
-
 	@IsNotEmpty()
 	@IsString()
 	recaptcha: string;
 
 	activation: boolean;
 
-
 	@IsNotEmpty()
 	@IsBoolean()
 	EmailAuthentication: boolean;
+
+	@IsOptional()
+	@IsString()
+	stripeCustomerId: string;
 }

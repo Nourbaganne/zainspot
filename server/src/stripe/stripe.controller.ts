@@ -1,9 +1,10 @@
-import { Body, Controller, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { StripeService } from './stripe.service';
 import { Response } from 'express';
 import { PaymentHistoryService } from 'src/payment-history/payment-history.service';
 import { SubscriptionService } from 'src/subscription/subscription.service';
 import { CreateSubscriptionDto } from 'src/subscription/dto/create-subscription.dto';
+import { User } from 'src/entities/user.entity';
 
 interface CreateCheckoutSessionBodyInterface {
 	stripePriceId: string;
@@ -45,7 +46,7 @@ export class StripeController {
 
 		// create payment history record
 		try {
-			const newPaymentHistory = await this.paymentHistoryService.create({
+			await this.paymentHistoryService.create({
 				subscriptionId: newSubscription.id,
 				date: new Date(),
 				method: 'card',
@@ -54,7 +55,6 @@ export class StripeController {
 				stripeSessionId: session.id,
 				userId,
 			});
-			console.log('stripe controller newPaymentHistory', newPaymentHistory);
 
 			res.json({ id: session.id, url: session.url });
 		} catch (err) {
@@ -116,5 +116,25 @@ export class StripeController {
 			updatedPaymentHistory,
 			updatedSubscription,
 		});
+	}
+
+	// view all stripe customers
+	@Get('/customers')
+	async getStripeCustomers(@Res() res: Response) {
+		const customers = await this.stripeService.stripe.customers.list();
+		return res.json(customers);
+	}
+
+	// view user payment details
+	@Get('payment-details/:userId/')
+	async getUserPaymentDetails(
+		@Param() { userId }: { userId: number },
+		@Res() res: Response,
+	) {
+		const user = await User.findOne({ where: { id: userId } });
+
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
 	}
 }

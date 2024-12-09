@@ -27,10 +27,8 @@ import { StripeModule } from './stripe/stripe.module';
 import { SendMailModule } from './send-mail/send-mail.module';
 import { GoldMemberEmailModule } from './gold-member-email/gold-member-email.module';
 
-
 @Module({
 	imports: [
-
 		ThrottlerModule.forRoot([
 			{
 				ttl: 60000,
@@ -66,7 +64,6 @@ import { GoldMemberEmailModule } from './gold-member-email/gold-member-email.mod
 		StripeModule,
 		SendMailModule,
 		GoldMemberEmailModule,
-	
 	],
 	controllers: [AppController],
 	providers: [

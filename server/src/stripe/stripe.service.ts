@@ -30,5 +30,12 @@ export class StripeService {
 		return session;
 	}
 
+	async createCustomer(name: string, email: string): Promise<string> {
+		const customer = await this.stripe.customers.create({
+			name,
+			email,
+		});
 
+		return customer.id;
+	}
 }

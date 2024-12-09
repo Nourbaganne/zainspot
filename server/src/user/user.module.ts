@@ -7,12 +7,12 @@ import { EmailConfirmationModule } from '../email-confirmation/email-confirmatio
 import { RecaptchaService } from './recaptcha.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([User]),
-    forwardRef(() => EmailConfirmationModule),
-  ],
-  exports: [UserService],
-  providers: [UserService, RecaptchaService],
-  controllers: [UserController],
+	imports: [
+		TypeOrmModule.forFeature([User]),
+		forwardRef(() => EmailConfirmationModule),
+	],
+	exports: [UserService],
+	providers: [UserService, RecaptchaService],
+	controllers: [UserController],
 })
-export class UserModule { }
+export class UserModule {}
