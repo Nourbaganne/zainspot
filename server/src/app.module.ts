@@ -27,6 +27,7 @@ import { StripeModule } from './stripe/stripe.module';
 import { SendMailModule } from './send-mail/send-mail.module';
 import { GoldMemberEmailModule } from './gold-member-email/gold-member-email.module';
 import { VisitorModule } from './visitor/visitor.module';
+import { PaymentEmailModule } from './payment-email/payment-email.module';
 
 @Module({
 	imports: [
@@ -66,6 +67,7 @@ import { VisitorModule } from './visitor/visitor.module';
 		SendMailModule,
 		GoldMemberEmailModule,
 		VisitorModule,
+		PaymentEmailModule,
 	],
 	controllers: [AppController],
 	providers: [
