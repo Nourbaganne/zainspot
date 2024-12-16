@@ -23,7 +23,7 @@ import {
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { User } from 'src/entities/user.entity';
 import { RecaptchaService } from './recaptcha.service';
-// import { Permissions } from 'src/decorators/permissions.decorator';
+import { Permissions } from 'src/decorators/permissions.decorator';
 
 @Controller('user')
 export class UserController {
@@ -98,7 +98,6 @@ export class UserController {
 		return this.userService.getUsersStats();
 	}
 
-	// @Permissions({ action: 'read', subject: 'user' })
 	@Get()
 	async findAll(
 		@PaginationParams() paginationParams: Pagination,
@@ -108,13 +107,13 @@ export class UserController {
 		return await this.userService.findAll(paginationParams, name, filter);
 	}
 
-	// @Permissions({ action: 'update', subject: 'user' })
+	@Permissions({ action: 'update', subject: 'user' })
 	@Patch(':id')
 	update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
 		return this.userService.update(+id, updateUserDto);
 	}
 
-	// @Permissions({ action: 'delete', subject: 'user' })
+	@Permissions({ action: 'delete', subject: 'user' })
 	@Delete(':id')
 	async remove(@Param('id') id: string) {
 		const user = await this.userService.findUser(+id);

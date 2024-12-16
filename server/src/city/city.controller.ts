@@ -47,6 +47,7 @@ export class CityController {
 		}
 	}
 
+	@Permissions({ action: 'create', subject: 'city' })
 	@Post()
 	@UseInterceptors(FileInterceptor('imageUrl'))
 	createCity(
@@ -73,6 +74,7 @@ export class CityController {
 		return this.cityService.hideCity(id);
 	}
 
+	@Permissions({ action: 'delete', subject: 'city' })
 	@Delete(':id')
 	removeCity(@Param('id') id: string) {
 		return this.cityService.removeCity(+id);
