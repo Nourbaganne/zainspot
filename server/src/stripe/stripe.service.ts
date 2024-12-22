@@ -9,9 +9,12 @@ export class StripeService {
 		this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 	}
 
-	async createCheckoutSession(stripePricesId: string) {
+	async createCheckoutSession(
+		stripePricesId: string,
+		stripeCustomerId: string,
+	) {
 		const session = await this.stripe.checkout.sessions.create({
-			payment_method_types: ['card'],
+			payment_method_types: ['card', 'paypal'],
 			line_items: [
 				{
 					price: stripePricesId,
@@ -25,6 +28,10 @@ export class StripeService {
 			cancel_url:
 				process.env.CLIENT_URL +
 				'/checkout/cancel?session_id={CHECKOUT_SESSION_ID}',
+			customer: stripeCustomerId,
+			saved_payment_method_options: {
+				payment_method_save: 'enabled',
+			},
 		});
 
 		return session;
@@ -37,5 +44,9 @@ export class StripeService {
 		});
 
 		return customer.id;
+	}
+
+	async getCustomer(stripeCustomerId: string) {
+		return this.stripe.customers.retrieve(stripeCustomerId);
 	}
 }

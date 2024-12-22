@@ -5,6 +5,7 @@ import { PaymentHistoryService } from 'src/payment-history/payment-history.servi
 import { SubscriptionService } from 'src/subscription/subscription.service';
 import { CreateSubscriptionDto } from 'src/subscription/dto/create-subscription.dto';
 import { User } from 'src/entities/user.entity';
+import { UserService } from 'src/user/user.service';
 
 interface CreateCheckoutSessionBodyInterface {
 	stripePriceId: string;
@@ -18,6 +19,7 @@ export class StripeController {
 		private readonly stripeService: StripeService,
 		private readonly paymentHistoryService: PaymentHistoryService,
 		private readonly subscriptionService: SubscriptionService,
+		private readonly userService: UserService,
 	) {}
 
 	@Post('create-checkout-session')
@@ -27,13 +29,19 @@ export class StripeController {
 		{ stripePriceId, subscription, userId }: CreateCheckoutSessionBodyInterface,
 	) {
 		if (!stripePriceId || !subscription || !userId) {
-			return res
-				.status(422)
-				.json({ message: 'StripePriceIds and Subscriptions are required' });
+			return res.status(422).json({ message: 'missing required fields' });
 		}
 
-		const session =
-			await this.stripeService.createCheckoutSession(stripePriceId);
+		const user = await this.userService.findById(userId);
+
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		const session = await this.stripeService.createCheckoutSession(
+			stripePriceId,
+			user.stripeCustomerId,
+		);
 
 		subscription = {
 			...subscription,
@@ -126,7 +134,7 @@ export class StripeController {
 	}
 
 	// view user payment details
-	@Get('payment-details/:userId/')
+	@Get('payment-methods/:userId/')
 	async getUserPaymentDetails(
 		@Param() { userId }: { userId: number },
 		@Res() res: Response,
@@ -136,5 +144,38 @@ export class StripeController {
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
+
+		// let's get the customer first
+		const customer = await this.stripeService.getCustomer(
+			user.stripeCustomerId,
+		);
+
+		const paymentMethods = await this.stripeService.stripe.paymentMethods.list({
+			customer: user.stripeCustomerId,
+		});
+
+		return res.json({
+			customer,
+			paymentMethods,
+		});
+	}
+
+	// update customer
+	@Put('customer-default-payment-method')
+	async updateCustomer(
+		@Body()
+		{ customer, paymentMethod }: { customer: string; paymentMethod: string },
+		@Res() res: Response,
+	) {
+		const updatedCustomer = await this.stripeService.stripe.customers.update(
+			customer,
+			{
+				invoice_settings: {
+					default_payment_method: paymentMethod,
+				},
+			},
+		);
+
+		return res.status(204).json(updatedCustomer);
 	}
 }
