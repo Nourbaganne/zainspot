@@ -92,13 +92,11 @@ export class UserController {
 	}> {
 		return this.userService.getUsersStats();
 	}
-	
+
 	@Get(':id')
 	async findUserById(@Param('id') id: number) {
 		return this.userService.findUser(id);
 	}
-
-	
 
 	@Get()
 	async findAll(

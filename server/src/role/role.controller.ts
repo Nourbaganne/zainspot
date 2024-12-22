@@ -1,11 +1,11 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
+	Controller,
+	Get,
+	Post,
+	Body,
+	Patch,
+	Param,
+	Delete,
 } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
@@ -16,49 +16,50 @@ import { Permissions } from 'src/decorators/permissions.decorator';
 
 @Controller('role')
 export class RoleController {
-  constructor(private readonly roleService: RoleService) {}
+	constructor(private readonly roleService: RoleService) {}
 
-  @Post()
-  create(@Body() createRoleDto: CreateRoleDto) {
-    return this.roleService.create(createRoleDto);
-  }
+	@Post()
+	create(@Body() createRoleDto: CreateRoleDto) {
+		return this.roleService.create(createRoleDto);
+	}
 
-  @Post('add-permission')
-  async addPermissionToRole(@Body() addPermissionDto: AddPermissionDto) {
-    const { roleId, permissionId } = addPermissionDto;
-    return this.roleService.addPermissionToRole(roleId, permissionId);
-  }
+	@Permissions({ action: 'create', subject: 'permission' })
+	@Post('add-permission')
+	async addPermissionToRole(@Body() addPermissionDto: AddPermissionDto) {
+		const { roleId, permissionId } = addPermissionDto;
+		return this.roleService.addPermissionToRole(roleId, permissionId);
+	}
 
-  @Public()
-  @Get()
-  findAll() {
-    return this.roleService.findAll();
-  }
+	@Public()
+	@Get()
+	findAll() {
+		return this.roleService.findAll();
+	}
 
-  @Public()
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.roleService.findOne(+id);
-  }
+	@Public()
+	@Get(':id')
+	findOne(@Param('id') id: string) {
+		return this.roleService.findOne(+id);
+	}
 
-  @Permissions({action: 'update', subject: 'role'})
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
-    return this.roleService.update(+id, updateRoleDto);
-  }
+	@Permissions({ action: 'update', subject: 'role' })
+	@Patch(':id')
+	update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
+		return this.roleService.update(+id, updateRoleDto);
+	}
 
-  @Permissions({action: 'delete', subject: 'role'})
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.roleService.remove(+id);
-  }
+	@Permissions({ action: 'delete', subject: 'role' })
+	@Delete(':id')
+	remove(@Param('id') id: string) {
+		return this.roleService.remove(+id);
+	}
 
-  @Permissions({action: 'delete', subject: 'rolePermission'})
-  @Delete(':roleId/permissions/:permissionId')
-  async removePermissionFromRole(
-    @Param('roleId') roleId: number,
-    @Param('permissionId') permissionId: number,
-  ) {
-    return this.roleService.removePermissionFromRole(roleId, permissionId);
-  }
+	@Permissions({ action: 'delete', subject: 'permissionFromRole' })
+	@Delete(':roleId/permissions/:permissionId')
+	async removePermissionFromRole(
+		@Param('roleId') roleId: number,
+		@Param('permissionId') permissionId: number,
+	) {
+		return this.roleService.removePermissionFromRole(roleId, permissionId);
+	}
 }

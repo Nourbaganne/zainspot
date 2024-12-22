@@ -15,7 +15,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { CityService } from './city.service';
-import { Public } from 'src/decorators/public.decorator';
 import {
 	Pagination,
 	PaginationParams,
@@ -26,9 +25,8 @@ import { Permissions } from 'src/decorators/permissions.decorator';
 
 @Controller('city')
 export class CityController {
-	constructor(private readonly cityService: CityService) { }
+	constructor(private readonly cityService: CityService) {}
 
-	@Public()
 	@Get()
 	getCities(
 		@PaginationParams() paginationParams: Pagination,
@@ -37,7 +35,6 @@ export class CityController {
 		return this.cityService.getCities(paginationParams, name);
 	}
 
-	@Public()
 	@Get(':id')
 	getOneCity(@Param('id') id: string) {
 		try {
