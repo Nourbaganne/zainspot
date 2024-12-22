@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import AvailableCity from './availableCity';
 import UnavailableCity from './unavailableCity';
 import { getCities } from '../lib/getCitites';
 import Loader from './loader';
+import axiosInstance from '../lib/axios/axiosInstance';
+import { AuthContext } from '../contexts/authContext';
 
 interface City {
 	id: number;
@@ -18,6 +20,31 @@ const Cities = () => {
 		queryFn: getCities,
 	});
 	const cities = data?.data.items || [];
+
+	const { user } = useContext(AuthContext);
+
+	const [subscriptions, setSubscriptions] = useState([]);
+
+	useEffect(() => {
+		if (!user) return;
+
+		// get subscriptions for the user
+		if (user.user) {
+			axiosInstance.get(`/subscriptions/${user.user.userId}`).then((res) => {
+				setSubscriptions(res.data);
+			});
+		}
+
+		// build validSubscriptionsByCityId
+		const validSubscriptionsByCityId = subscriptions.reduce((acc, sub) => {
+			const currentDate = new Date();
+			if (sub.cityId && currentDate < new Date(sub.endDate)) {
+				acc[sub.cityId] = sub;
+			}
+			return acc;
+		}, {});
+		console.log('validSubscriptionsByCityId', validSubscriptionsByCityId);
+	}, [user]);
 
 	if (isLoading) {
 		return <Loader />;

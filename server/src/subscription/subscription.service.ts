@@ -22,7 +22,7 @@ export class SubscriptionService {
 		@InjectRepository(PaymentHistory)
 		private readonly paymentHistoryRepository: Repository<PaymentHistory>,
 		private readonly userService: UserService,
-	) { }
+	) {}
 
 	async createSubscription(
 		createSubscriptionDto: CreateSubscriptionDto,
@@ -60,52 +60,74 @@ export class SubscriptionService {
 
 	async getRevenue() {
 		const currentMonth = new Date();
-		const firstDayOfCurrentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-	
+		const firstDayOfCurrentMonth = new Date(
+			currentMonth.getFullYear(),
+			currentMonth.getMonth(),
+			1,
+		);
+
 		// Fetch subscriptions for the current month
 		const subscriptions = await this.subscriptionRepository.find({
 			where: { createdAt: MoreThanOrEqual(firstDayOfCurrentMonth) },
 			relations: ['city'],
 		});
-	
+
 		// Calculate total revenue for the current month
 		const totalRevenue = subscriptions.reduce((sum, sub) => sum + sub.price, 0);
-	
+
 		// Fetch subscriptions for the last month
-		const firstDayOfLastMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
-		const lastDayOfLastMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 0);
-	
+		const firstDayOfLastMonth = new Date(
+			currentMonth.getFullYear(),
+			currentMonth.getMonth() - 1,
+			1,
+		);
+		const lastDayOfLastMonth = new Date(
+			currentMonth.getFullYear(),
+			currentMonth.getMonth(),
+			0,
+		);
+
 		const lastMonthSubscriptions = await this.subscriptionRepository.find({
 			where: {
 				createdAt: Between(firstDayOfLastMonth, lastDayOfLastMonth),
 			},
 			relations: ['city'],
 		});
-	
-		const lastMonthRevenue = lastMonthSubscriptions.reduce((sum, sub) => sum + sub.price, 0);
-	
+
+		const lastMonthRevenue = lastMonthSubscriptions.reduce(
+			(sum, sub) => sum + sub.price,
+			0,
+		);
+
 		const percentageIncrease = lastMonthRevenue
 			? ((totalRevenue - lastMonthRevenue) / lastMonthRevenue) * 100
 			: 0;
-	
+
 		// Group revenue and subscription count by country for the current month
-		const countryStatsMap = subscriptions.reduce((acc, sub) => {
-			const country = sub.city.country;
-	
-			if (!acc[country]) {
-				acc[country] = { revenue: 0, count: 0 };
-			}
-	
-			acc[country].revenue += sub.price;
-			acc[country].count += 1;
-	
-			return acc;
-		}, {} as Record<string, { revenue: number; count: number }>);
-	
+		const countryStatsMap = subscriptions.reduce(
+			(acc, sub) => {
+				const country = sub.city.country;
+
+				if (!acc[country]) {
+					acc[country] = { revenue: 0, count: 0 };
+				}
+
+				acc[country].revenue += sub.price;
+				acc[country].count += 1;
+
+				return acc;
+			},
+			{} as Record<string, { revenue: number; count: number }>,
+		);
+
 		const sortedCountries = Object.entries(countryStatsMap)
-			.map(([country, stats]) => ({ country, revenue: stats.revenue, count: stats.count }))
+			.map(([country, stats]) => ({
+				country,
+				revenue: stats.revenue,
+				count: stats.count,
+			}))
 			.sort((a, b) => b.revenue - a.revenue);
-	
+
 		// Extract the top 2 countries and group the rest as "Others"
 		const [topTwoCountries, others] = sortedCountries.reduce(
 			(acc, item, index) => {
@@ -116,36 +138,50 @@ export class SubscriptionService {
 				}
 				return acc;
 			},
-			[[], []] as [Array<{ country: string; revenue: number; count: number }>, Array<{ country: string; revenue: number; count: number }>]
+			[[], []] as [
+				Array<{ country: string; revenue: number; count: number }>,
+				Array<{ country: string; revenue: number; count: number }>,
+			],
 		);
-	
-		const othersTotalRevenue = others.reduce((sum, country) => sum + country.revenue, 0);
-		const othersTotalCount = others.reduce((sum, country) => sum + country.count, 0);
-	
+
+		const othersTotalRevenue = others.reduce(
+			(sum, country) => sum + country.revenue,
+			0,
+		);
+		const othersTotalCount = others.reduce(
+			(sum, country) => sum + country.count,
+			0,
+		);
+
 		// Fetch all subscriptions for `allCountries`
 		const allSubscriptions = await this.subscriptionRepository.find({
 			relations: ['city'],
 		});
-	
-		const allCountriesMap = allSubscriptions.reduce((acc, sub) => {
-			const country = sub.city.country;
-	
-			if (!acc[country]) {
-				acc[country] = { revenue: 0, count: 0 };
-			}
-	
-			acc[country].revenue += sub.price;
-			acc[country].count += 1;
-	
-			return acc;
-		}, {} as Record<string, { revenue: number; count: number }>);
-	
-		const allCountries = Object.entries(allCountriesMap).map(([country, stats]) => ({
-			name: country,
-			value: stats.revenue,
-			subscribers: stats.count,
-		}));
-	
+
+		const allCountriesMap = allSubscriptions.reduce(
+			(acc, sub) => {
+				const country = sub.city.country;
+
+				if (!acc[country]) {
+					acc[country] = { revenue: 0, count: 0 };
+				}
+
+				acc[country].revenue += sub.price;
+				acc[country].count += 1;
+
+				return acc;
+			},
+			{} as Record<string, { revenue: number; count: number }>,
+		);
+
+		const allCountries = Object.entries(allCountriesMap).map(
+			([country, stats]) => ({
+				name: country,
+				value: stats.revenue,
+				subscribers: stats.count,
+			}),
+		);
+
 		// Construct the result object
 		const result = {
 			totalRevenue,
@@ -164,10 +200,9 @@ export class SubscriptionService {
 			],
 			allCountries,
 		};
-	
+
 		return result;
 	}
-	
 
 	async createMany(subscriptions: any): Promise<Subscription[]> {
 		return new Promise(async (resolve, reject) => {
@@ -258,5 +293,11 @@ export class SubscriptionService {
 		await this.subscriptionRepository.delete(id);
 
 		return `Subscription with ID ${id} deleted successfully`;
+	}
+
+	async findByUserId(userId: number): Promise<Subscription[]> {
+		return this.subscriptionRepository.find({
+			where: { user: { id: userId } },
+		});
 	}
 }

@@ -16,6 +16,11 @@ import { Subscription } from '../entities/subscription.entity';
 export class SubscriptionController {
 	constructor(private readonly subscriptionService: SubscriptionService) {}
 
+	@Get('/:userId')
+	async findByUserId(@Param('userId', ParseIntPipe) userId: number) {
+		return this.subscriptionService.findByUserId(userId);
+	}
+
 	@Post()
 	async createSubscription(
 		@Body() createSubscriptionDto: CreateSubscriptionDto,
@@ -24,10 +29,9 @@ export class SubscriptionController {
 	}
 
 	@Get('/revenue')
-	async getRevenue(){
+	async getRevenue() {
 		return this.subscriptionService.getRevenue();
 	}
-
 
 	@Get(':userId')
 	async getSubscriptionsByUser(
