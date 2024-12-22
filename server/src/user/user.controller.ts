@@ -24,6 +24,7 @@ import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { User } from 'src/entities/user.entity';
 import { RecaptchaService } from './recaptcha.service';
 import { Permissions } from 'src/decorators/permissions.decorator';
+import { StripeService } from 'src/stripe/stripe.service';
 
 @Controller('user')
 export class UserController {
@@ -31,6 +32,7 @@ export class UserController {
 		private readonly userService: UserService,
 		private readonly recaptchaService: RecaptchaService,
 		private readonly emailConfirmationService: EmailConfirmationService,
+		private readonly stripeService: StripeService,
 	) {}
 
 	@Public()
@@ -49,11 +51,12 @@ export class UserController {
 				);
 			}
 
-			// const stripeCustomerId = await this.stripeService.createCustomer(
-			// 	createUserDto.name,
-			// 	createUserDto.email,
-			// );
-			// createUserDto.stripeCustomerId = stripeCustomerId;
+			const stripeCustomerId = await this.stripeService.createCustomer(
+				createUserDto.name,
+				createUserDto.email,
+			);
+			createUserDto.stripeCustomerId = stripeCustomerId;
+			console.log('stripe customer id', stripeCustomerId);
 
 			// Proceed with user registration
 			const user = await this.userService.register(createUserDto);
