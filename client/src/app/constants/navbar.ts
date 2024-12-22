@@ -1,0 +1,30 @@
+export const LANGUAGES_DATA = [
+    { key: "USA", title: "English" },
+    { key: "UK", title: "English" },
+    { key: "FR", title: "Français" },
+    { key: "ES", title: "Español" },
+    { key: "AR", title: "العربية" },
+    { key: "BN", title: "Bangla" },
+    { key: "GUJ", title: "Gujarati" },
+    { key: "HIN", title: "Hindi" },
+    { key: "KN", title: "Kannada" },
+    { key: "MAY", title: "Malay" },
+    { key: "MN", title: "Mandarin" },
+    { key: "MAR", title: "Marathi" },
+    { key: "PA", title: "Punjabi" },
+    { key: "RJ", title: "Rajasthani" },
+    { key: "TM", title: "Tamil" },
+    { key: "TL", title: "Telugu" },
+    { key: "UR", title: "Urdu" },
+];
+
+export const CURRENCIES_DATA = [
+    { key: "EUR", title: "Euro", symbol: "€" },
+    { key: "USD", title: "Dollar", symbol: "$" },
+    { key: "GBP", title: "Pound", symbol: "£" },
+    { key: "INR", title: "Rupee", symbol: "₹" },
+    { key: "AED", title: "AED", symbol: "د.إ" },
+    { key: "AUD", title: "AUD", symbol: "A$" },
+    { key: "BDT", title: "BDT", symbol: "৳" },
+    { key: "SGD", title: "SGD", symbol: "S$" },
+];
