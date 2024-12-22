@@ -4,7 +4,7 @@ import Image from 'next/image';
 import header from './assets/home/header-image.svg';
 import check from './assets/home/check-icon.svg';
 import close from './assets/home/close-icon.svg';
-import { zainspotFeatures, ignoredFeatures } from '@/app/constants/home';
+import { zainspotFeatures, ignoredFeatures } from './constants/home';
 import Translation from './components/translation';
 import {
 	dehydrate,
@@ -15,7 +15,6 @@ import Cities from './components/cities';
 import { getCities } from './lib/getCitites';
 
 function Home() {
-
 	const queryClient = new QueryClient();
 	queryClient.prefetchQuery({
 		queryKey: ['cities'],
