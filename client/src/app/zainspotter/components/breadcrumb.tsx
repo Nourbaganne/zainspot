@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import breadcrumbIcon from '../../assets/zainspotter/breadcrumbIcon.svg';
-import Translation from '../../components/translation';
-import BreadcrumbItem from '../../interfaces/BreadcrumbItem';
+import breadcrumbIcon from '@/app/assets/zainspotter/breadcrumbIcon.svg';
+import Translation from '@/app/components/translation';
+import BreadcrumbItem from '@/app/interfaces/BreadcrumbItem';
 
 interface BreadcrumbProps {
 	items: BreadcrumbItem[];
@@ -17,7 +17,10 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, className }) => {
 			{items.map((item, index) => (
 				<div key={index} className='flex gap-3 items-center'>
 					{item.href ? (
-						<Link href={item.href} className={`flex gap-3  text-primary `}>
+						<Link
+							href={item.href}
+							className={`flex gap-3  text-primary `}
+						>
 							<span className='hover:underline'>
 								<Translation translationKey={item.label} />
 							</span>

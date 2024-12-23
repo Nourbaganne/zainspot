@@ -5,27 +5,17 @@ import Layout from '../Layout';
 import { usePaymentForm } from '@/app/lib/payment-form';
 import InputPassword from '@/app/components/inputPassword';
 import SaveChangesButton from '@/app/components/saveChangesButton';
+import PaypalLogo from '@/app/assets/payment-details/paypal.svg';
+import creditCardLogo from '@/app/assets/payment-details/visa_image.svg';
 import addButton from '@/app/assets/payment-details/add.svg';
 import PaymentCard from './component/paymentCard';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Translation from '@/app/components/translation';
 import { WithAuth } from '@/app/lib/withAuth';
-import axiosInstance from '@/app/lib/axios/axiosInstance';
-import { useAuth } from '@/app/contexts/useAuth';
-import { AuthContext } from '@/app/contexts/authContext';
 
 const Page = () => {
 	const [selectedPayment, setSelectedPayment] = useState('');
-
-	const { user } = useContext(AuthContext);
-	console.log('user', user);
-
-	const formik = usePaymentForm();
-
-	const [paymentMethods, setPaymentMethods] = useState([]);
-
-	if (!user.user) return null;
 
 	const breadcrumbItems = [
 		{ label: 'breadcrumb_home', href: '/' },
@@ -35,19 +25,16 @@ const Page = () => {
 
 	const SAVED_PAYMENT_METHOD = ['Credit Card', 'Paypal', 'Direct Debit'];
 
+	const PREFERED_PAYMENT_METHOD = [
+		{ title: 'Credit Card', logo: creditCardLogo, info: '**** 8753' },
+		{ title: 'Paypal', logo: PaypalLogo, info: 'exemple@gmail.com' },
+	];
+
+	const formik = usePaymentForm();
+
 	const handlePaymentMethodClick = (method: string) => {
 		formik.setFieldValue('paymentMethod', method);
 	};
-
-	axiosInstance
-		.get('/stripe/payment-methods/' + user.user.userId)
-		.then((res) => {
-			console.log('res.data', res.data);
-			setPaymentMethods(res.data.paymentMethods.data);
-			setSelectedPayment(
-				res.data.customer.invoice_settings.default_payment_method,
-			);
-		});
 
 	return (
 		<div className='flex flex-col gap-4 md:gap-6 bg-background-foreground md:px-16 md:py-8 py-6 px-2  md:pb-20'>
@@ -61,7 +48,7 @@ const Page = () => {
 						<Translation translationKey='payment_details_subtitle' />
 					</p>
 
-					{/* <form
+					<form
 						action=''
 						className=' flex flex-col gap-8 pb-8 border-b'
 						onSubmit={(e) => e.preventDefault()}
@@ -122,29 +109,29 @@ const Page = () => {
 							/>
 						</div>
 						<SaveChangesButton />
-					</form> */}
+					</form>
 
 					<div className='flex flex-col gap-6 text-sm'>
 						<div className='flex flex-col gap-2'>
-							{/* <h1 className='text-span font-semibold '>
+							<h1 className='text-span font-semibold '>
 								<Translation translationKey='payment_details_defaultPayment' />
-							</h1> */}
+							</h1>
 							<p className='text-span-foreground'>
 								<Translation translationKey='payment_details_defaultPayment_subtitle' />
 							</p>
 						</div>
 						<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-							{paymentMethods.map((paymentMethod, index) => (
+							{PREFERED_PAYMENT_METHOD.map((card, index) => (
 								<PaymentCard
-									paymentMethod={paymentMethod}
+									title={card.title}
+									logo={card.logo}
+									info={card.info}
 									selected={selectedPayment}
 									setSelected={setSelectedPayment}
-									key={paymentMethod.id}
+									key={index}
 								/>
 							))}
-
-							{/* Add new payment method button */}
-							{/* <div
+							<div
 								className={`flex flex-col border rounded-md p-4 gap-5 justify-center items-center `}
 							>
 								<button className=' p-2 bg-[#DDDDDD] rounded-full w-auto opacity-35 '>
@@ -153,7 +140,7 @@ const Page = () => {
 								<h1 className='text-span font-semibold'>
 									<Translation translationKey='payment_details_addingCard' />
 								</h1>
-							</div> */}
+							</div>
 						</div>
 					</div>
 				</div>

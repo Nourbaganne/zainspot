@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import LoginImage from '../assets/register/login-image.svg';
+import LoginImage from '@/app/assets/register/login-image.svg';
 import Translation from './translation';
 
 export default function WelcomeToBusinessSection() {

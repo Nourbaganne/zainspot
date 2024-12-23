@@ -1,13 +1,14 @@
-'use client';
+'use client'
 import React, { useContext } from 'react';
 import Image from 'next/image';
-import logo from '../assets/footer/zainspot.svg';
-import { FOOTER_DATA } from '../constants/footer';
+import logo from '@/app/assets/footer/zainspot.svg';
+import { FOOTER_DATA } from '@/app/constants/footer';
 import Translation from './translation';
 import Link from 'next/link';
 import { AuthContext } from '../contexts/authContext';
 
 const Footer = () => {
+
 	const { user } = useContext(AuthContext);
 	return (
 		<div className='flex flex-col gap-10 bg-primary text-background md:py-5 md:pt-10 md:px-20 justify-center p-6'>
@@ -23,7 +24,7 @@ const Footer = () => {
 							</span>
 						</div>
 						<div className='mt-4'>
-							{titleData.sections.map((section, index) =>
+							{titleData.sections.map((section, index) => (
 								section.translationKey === 'footer_title_gotomyzainspot' ? (
 									user?.user.role.id === 3 || user?.user === undefined ? (
 										<Link
@@ -42,6 +43,7 @@ const Footer = () => {
 											<Translation translationKey='footer_title_owner' />
 										</Link>
 									)
+
 								) : (
 									<Link
 										key={index}
@@ -50,8 +52,9 @@ const Footer = () => {
 									>
 										<Translation translationKey={section.translationKey} />
 									</Link>
-								),
-							)}
+								)
+
+							))}
 						</div>
 					</div>
 				))}

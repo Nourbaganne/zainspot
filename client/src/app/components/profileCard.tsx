@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
-import Translation from './translation';
+import Translation from '@/app/components/translation';
 
 const ProfileCard = ({
 	logo,

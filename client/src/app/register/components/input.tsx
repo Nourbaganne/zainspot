@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormikProps } from 'formik';
-import Translation from '../../components/translation';
+import Translation from '@/app/components/translation';
 import Image from 'next/image';
-import checked from '../../assets/register/checked.svg';
-import alert from '../../assets/register/alert.svg';
+import checked from '@/app/assets/register/checked.svg';
+import alert from '@/app/assets/register/alert.svg';
 
 interface InputProps {
 	type: string;
@@ -13,15 +13,13 @@ interface InputProps {
 	touched?: boolean | undefined;
 	errors?: string | undefined;
 	handleChange: (
-		e:
-			| React.ChangeEvent<HTMLInputElement>
-			| React.ChangeEvent<HTMLTextAreaElement>,
-	) => void;
+		e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>,
+	  ) => void;
 	formik?: FormikProps<any>;
 	placeholderValue?: string;
 	rows?: number;
 	className?: string;
-}
+} 
 
 export function Input({
 	type,
@@ -47,7 +45,7 @@ export function Input({
 						placeholder={placeholderValue}
 						onChange={handleChange}
 						className={`text-sm border p-3 rounded-md text-span font-light focus:outline-none focus:ring-0 autofill:bg-white resize-none ${
-							(errors && value) || (errors && touched)
+							errors && value || errors && touched 
 								? 'border-alert'
 								: 'border-button focus:border-primary'
 						}`}
@@ -61,7 +59,7 @@ export function Input({
 						onChange={handleChange}
 						placeholder={placeholderValue}
 						className={`text-sm border p-3 rounded-md text-span font-light outline-none focus:outline-none focus:ring-0 autofill:bg-white ${
-							(errors && value) || (errors && touched)
+							errors && value || errors && touched 
 								? 'border-alert'
 								: 'border-button focus:border-primary'
 						}	
@@ -72,9 +70,7 @@ export function Input({
 				<label
 					htmlFor={name}
 					className={`absolute top-[-7px] left-3 pointer-events-none px-1 text-xs bg-white z-0 ${
-						(errors && value) || (errors && touched)
-							? 'text-alert'
-							: 'text-primary'
+						errors && value || errors && touched ? 'text-alert' : 'text-primary'
 					}`}
 				>
 					<Translation translationKey={labelKey} />

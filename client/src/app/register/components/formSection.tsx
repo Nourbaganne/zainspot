@@ -1,13 +1,17 @@
 'use client';
-import React, { useRef, useMemo, useCallback } from 'react';
+import React, {
+	useRef,
+	useMemo,
+	useCallback,
+} from 'react';
 import CountryFlag from 'react-country-flag';
 import { Country, State, City } from 'country-state-city';
 import { Input } from './input';
 import { FormikProps } from 'formik';
-import InputPassword from '../../components/inputPassword';
+import InputPassword from '@/app/components/inputPassword';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import Translation from '../../components/translation';
+import Translation from '@/app/components/translation';
 import {
 	businessTypeOptions,
 	genderOptions,
@@ -90,6 +94,8 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 		recaptchaRef.current?.reset();
 	}, [formik]);
 
+
+
 	const handleCountryChange = useCallback(
 		(option: SingleValue<OptionType>) => {
 			const selectedCountry = option ? option.value : '';
@@ -118,6 +124,7 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 		},
 		[formik],
 	);
+
 
 	return (
 		<>
