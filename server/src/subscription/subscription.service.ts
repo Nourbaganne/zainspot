@@ -295,9 +295,11 @@ export class SubscriptionService {
 		return `Subscription with ID ${id} deleted successfully`;
 	}
 
+	// include city
 	async findByUserId(userId: number): Promise<Subscription[]> {
 		return this.subscriptionRepository.find({
 			where: { user: { id: userId } },
+			relations: ['city'],
 		});
 	}
 }
