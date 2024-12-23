@@ -3,7 +3,7 @@
 	"join": "JOIN",
 	"logout": "LOGOUT",
 	"secure_checkout": "Secure Checkout",
-	"navbar_titles": ["HOW IT WORKS", "SWITCH CUTTENCY", "SWITCH LANGUAGE"],
+	"navbar_titles": ["HOW IT WORKS", "SWITCH CURRENCY", "SWITCH LANGUAGE"],
 	"homepage_header_title": "Your Overseas Offices from ",
 	"homepage_header_span": "40¢ a day",
 	"homepage_header_features": [
