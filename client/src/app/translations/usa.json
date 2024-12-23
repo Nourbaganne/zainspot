@@ -3,11 +3,7 @@
 	"join": "JOIN",
 	"logout": "LOGOUT",
 	"secure_checkout": "Secure Checkout",
-	"navbar_titles": [
-		"HOW IT WORKS",
-		"SWITCH CUTTENCY",
-		"SWITCH LANGUAGE"
-	],
+	"navbar_titles": ["HOW IT WORKS", "SWITCH CUTTENCY", "SWITCH LANGUAGE"],
 	"homepage_header_title": "Your Overseas Offices from ",
 	"homepage_header_span": "40¢ a day",
 	"homepage_header_features": [
@@ -46,6 +42,7 @@
 	"citypage_return_button": "Back to cities",
 	"citypage_subtitle": "Business Address!",
 	"citypage_available_city": "Your Business Adress",
+	"citypage_subscribed_city": "Subscribed",
 	"citypage_unavailable_city": "Opening Soon",
 	"citypage_available_hovering": "Buy it now!",
 	"citypage_cards_subtitle": "Now you're ready to promote your business and Go Global!",
