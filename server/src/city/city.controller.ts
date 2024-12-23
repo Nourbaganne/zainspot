@@ -22,11 +22,13 @@ import {
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { City } from 'src/entities/city.entity';
 import { Permissions } from 'src/decorators/permissions.decorator';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('city')
 export class CityController {
 	constructor(private readonly cityService: CityService) {}
 
+	@Public()
 	@Get()
 	getCities(
 		@PaginationParams() paginationParams: Pagination,
