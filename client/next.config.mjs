@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	images: {
-		domains: ['prod.zainspot.com/'],
-	},
-	experimental: {
-		missingSuspenseWithCSRBailout: false,
-	},
-	reactStrictMode: false,
-	distDir: 'client/.next'
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
+  experimental:{
+    missingSuspenseWithCSRBailout: false,
+  }
 };
 
 export default nextConfig;
