@@ -40,7 +40,6 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [initialCounts, setInitialCounts] = useState<InitialCounts>({});
   const [totalUsers, setTotalUsers] = useState<number>(0);
-  const [existingRole, setExistingRole] = useState<any | null>();
 
   const { user } = useContext(AuthContext);
   const rolesModalRef = useRef<any>(null);
@@ -161,8 +160,7 @@ const Users = () => {
     <div className='flex flex-col gap-6 bg-background-foreground px-4 md:px-24 py-4 md:py-8 md:pb-20'>
       <Breadcrumb items={breadcrumbItems} className='pl-2 overflow-x-auto' />
 
-      {/* Pass roles from context to RolesModal */}
-      <RolesModal rolesModalRef={rolesModalRef} existingRole={existingRole} />
+      <RolesModal rolesModalRef={rolesModalRef} existingRole={null} />
 
       <div className='grid gap-x-8 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3'>
         {USERS_HEADER_DATA.map((data, index) => (
@@ -172,8 +170,6 @@ const Users = () => {
             value={data?.value}
             editPermissions={data?.editPermissions}
             stats={data?.stats}
-            rolesModalRef={rolesModalRef}
-            setExistingRole={setExistingRole}
             roleId={data?.id}
           />
         ))}
@@ -184,9 +180,7 @@ const Users = () => {
           <span className='font-bold'>All Users</span>{' '}
           <span className='font-light'>({totalUsers})</span>
         </h1>
-        {/* Filters */}
         <div className='mt-4 flex flex-col gap-4 md:flex-row justify-between md:items-center'>
-          {/* Filter Buttons and Add Role */}
           <div className="bg-span-background flex items-center gap-2 p-2 rounded-md overflow-x-auto">
             <div className="flex gap-2 whitespace-nowrap">
               {FILTERING_TYPE.map((filter, index) => (
@@ -210,9 +204,7 @@ const Users = () => {
             </button>
           </div>
 
-          {/* Search and Action Buttons */}
           <div className='flex flex-col sm:flex-row gap-4 items-center w-full sm:w-auto'>
-            {/* Search Input */}
             <div className='flex items-center bg-background border border-button text-span rounded-md p-2 w-full sm:w-60'>
               <Image
                 src={searchIcon}

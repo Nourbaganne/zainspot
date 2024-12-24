@@ -549,5 +549,7 @@
 	"notifications_sec_desc": "Alertes concernant des tentatives de connexion suspectes, des violations de sécurité ou d'autres incidents liés à la sécurité.",
 	"notifications_hoc_title": "Notifications manuelles ad hoc",
 	"notifications_hoc_desc": "Messages et alertes importants envoyés manuellement par l'équipe ZainSpotter pour des problèmes ou des mises à jour spécifiques.",
-	"loader_text": "Chargement... Veuillez patienter..."
+	"loader_text": "Chargement... Veuillez patienter...",
+	"login_connecting": "Connexion en cours...",
+	"login_button": "Se connecter à Zainspot"
 }
