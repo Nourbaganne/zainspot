@@ -7,11 +7,7 @@ interface TranslationProps {
 }
 
 const Translation: React.FC<TranslationProps> = ({ translationKey }) => {
-  const { language, loading } = useLanguage();
-
-  if (loading) {
-    return <span>Loading...</span>; 
-  }
+  const { language } = useLanguage();
 
   return <>{translate(translationKey, language)}</>;
 };
