@@ -17,6 +17,13 @@ import { Public } from 'src/decorators/public.decorator';
 export class SubscriptionController {
 	constructor(private readonly subscriptionService: SubscriptionService) {}
 
+
+	@Public()
+	@Get('/revenue')
+	async getRevenue() {
+		return this.subscriptionService.getRevenue();
+	}
+	
 	@Public()
 	@Get('/:userId')
 	async findByUserId(@Param('userId', ParseIntPipe) userId: number) {
@@ -31,11 +38,7 @@ export class SubscriptionController {
 		return this.subscriptionService.createSubscription(createSubscriptionDto);
 	}
 
-	@Public()
-	@Get('/revenue')
-	async getRevenue() {
-		return this.subscriptionService.getRevenue();
-	}
+	
 
 	@Public()
 	@Get(':userId')

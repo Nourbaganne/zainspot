@@ -63,7 +63,7 @@ const HeaderCard = ({ title, value, increasment, navigation }: CardProps) => {
 const Reports = () => {
   const breadcrumbItems = [
     { label: 'owner_dashboard', href: '/owner' },
-    { label: 'Reports' },
+    { label: 'ownerDashboard_reports' },
   ];
 
   const { user } = useContext(AuthContext);
