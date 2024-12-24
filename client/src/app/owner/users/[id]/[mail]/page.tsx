@@ -81,7 +81,7 @@ const Email = () => {
 
         setStatus({ loading: true, message: '', error: false });
         try {
-            const response = await axiosInstance.post('http://localhost:3001/sendMail/send', {
+            const response = await axiosInstance.post('/sendMail/send', {
                 from: formData.from !== 'ZainSpot Support' ? formData.from : undefined,
                 to: formData.to,
                 cc: formData.cc ? formData.cc.split(',').map(email => email.trim()) : undefined,

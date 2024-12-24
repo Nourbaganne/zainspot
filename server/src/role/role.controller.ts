@@ -18,6 +18,7 @@ import { Permissions } from 'src/decorators/permissions.decorator';
 export class RoleController {
 	constructor(private readonly roleService: RoleService) {}
 
+	@Public()
 	@Post()
 	create(@Body() createRoleDto: CreateRoleDto) {
 		return this.roleService.create(createRoleDto);
