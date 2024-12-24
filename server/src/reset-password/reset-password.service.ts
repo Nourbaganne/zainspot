@@ -2,7 +2,6 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import * as nodemailer from 'nodemailer';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class ResetPasswordService {
@@ -32,7 +31,14 @@ export class ResetPasswordService {
                 { secret: process.env.JWT_VERIFICATION_TOKEN_SECRET, expiresIn: '10m' }
             );
 
-            const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
+            let baseUrl= ''
+            if (process.env.NODE_ENV === 'development') {
+              baseUrl = `http://localhost:3000/reset-password?token=${resetToken}`;
+            } else {
+              baseUrl = `http://zainspot.com/reset-password?token=${resetToken}`;
+            }
+
+            const resetLink = baseUrl;
             const html = `
             <div style="background-color: #F3F3F3; width: 100%;">
               <div style="background-color: #E8E8E8; font-family: 'Work Sans', Arial, sans-serif; padding: 20px; max-width: 858px; margin: auto;">
