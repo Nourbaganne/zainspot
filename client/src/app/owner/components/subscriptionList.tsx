@@ -7,10 +7,11 @@ import Loader from '@/app/components/loader';
 import Translation from '@/app/components/translation';
 import { useEffect } from 'react';
 
-
 interface SubscriptionItemProps {
     city: {
-        locationTitle: string,
+        location: {
+            title: string,
+        },
         city: string
         country: string,
     },
@@ -18,10 +19,8 @@ interface SubscriptionItemProps {
     price: number,
     duration: number,
     startDate: string,
-    renewal: {
-        date: Date,
-        status: string
-    }
+    renewalDate: Date,
+    renewalStatus: string,
 }
 
 
@@ -31,7 +30,8 @@ const SubscriptionItem = ({
     price,
     duration,
     startDate,
-    renewal,
+    renewalDate,
+    renewalStatus
 }: SubscriptionItemProps) => {
     const formattedDate = new Date(startDate).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -46,7 +46,7 @@ const SubscriptionItem = ({
 
     return (
         <div className="flex flex-wrap gap-2 md:gap-0 md:grid md:grid-cols-6 text-sm w-full sticky top-0 border-b text-span pb-4 pt-6 px-2 md:px-4">
-            <p className="font-medium max-w-[30%] md:max-w-[100%]">{city.locationTitle}</p>
+            <p className="font-medium max-w-[30%] md:max-w-[100%]">{city.location.title}</p>
 
             <div className="flex flex-col">
                 <h1 className="font-semibold">{city.city}</h1>
@@ -71,9 +71,9 @@ const SubscriptionItem = ({
             </div>
 
             <div>
-                {renewal.date ? (
+                {renewalDate ? (
                     <p>
-                        {new Date(renewal.date).toLocaleDateString('en-GB', {
+                        {new Date(renewalDate).toLocaleDateString('en-GB', {
                             day: '2-digit',
                             month: 'long',
                             year: 'numeric',
@@ -87,10 +87,10 @@ const SubscriptionItem = ({
             </div>
 
             <div>
-                {renewal?.status === 'Upcoming' ? (
-                    <p className="text-primary">{renewal.status}</p>
+                {renewalStatus === 'Upcoming' ? (
+                    <p className="text-primary">{renewalStatus}</p>
                 ) : (
-                    <p className="text-alert">{renewal.status}</p>
+                    <p className="text-alert">{renewalStatus}</p>
                 )}
             </div>
         </div>
@@ -132,11 +132,11 @@ const SubscriptionList = ({
     useEffect(() => {
         if (data?.data) {
             const subscriptionStats = data?.data.map((sub: SubscriptionItemProps) => ({
-                locationTitle: sub.city.locationTitle,
+                locationTitle: sub.city.location.title,
                 city: sub.city.city,
                 price: sub.price,
                 startDate: sub.startDate,
-                renewalStatus: sub.renewal.status,
+                renewalStatus: sub.renewalStatus,
             }));
 
             const totalAmount = subscriptionStats.reduce(
@@ -193,7 +193,8 @@ const SubscriptionList = ({
                                 price={sub.price}
                                 duration={sub.duration}
                                 startDate={sub.startDate}
-                                renewal={sub.renewal}
+                                renewalDate={sub.renewalDate}
+                                renewalStatus={sub.renewalStatus}
                             />
                         ))}
                     </div>
