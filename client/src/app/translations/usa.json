@@ -549,5 +549,7 @@
 	"notifications_sec_desc": "Alerts about suspicious login attempts, security breaches, or other security-related incidents.",
 	"notifications_hoc_title": "Manual Ad Hoc Notifications",
 	"notifications_hoc_desc": "Important messages and alerts sent manually by the ZainSpotter team for specific issues or updates.",
-	"loader_text": "Loading... Please wait..."
+	"loader_text": "Loading... Please wait...",
+	"login_connecting": "Connecting...",
+	"login_button": "Login to Zainspot"
 }
