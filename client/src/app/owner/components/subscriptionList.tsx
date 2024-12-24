@@ -20,7 +20,7 @@ interface SubscriptionItemProps {
     duration: number,
     startDate: string,
     renewalDate: Date,
-    renewalStatus: string,
+    renewalStatus: boolean,
 }
 
 
@@ -87,7 +87,7 @@ const SubscriptionItem = ({
             </div>
 
             <div>
-                {renewalStatus === 'Upcoming' ? (
+                {renewalStatus ? (
                     <p className="text-primary">{renewalStatus}</p>
                 ) : (
                     <p className="text-alert">{renewalStatus}</p>
