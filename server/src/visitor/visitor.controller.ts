@@ -17,6 +17,7 @@ export class VisitorController {
         return { visitorId: savedVisitorId };
     }
 
+	@Public()
     @Get()
     async getVisitorStats(): Promise<{ totalVisitors: number; increasment: number }> {
         return this.visitorService.getVisitorStats();

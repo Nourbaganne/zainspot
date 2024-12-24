@@ -83,6 +83,7 @@ export class UserController {
 		}
 	}
 
+	@Public()
 	@Get('userStats')
 	async getUsersStats(): Promise<{
 		totalUsers: number;
@@ -96,11 +97,13 @@ export class UserController {
 		return this.userService.getUsersStats();
 	}
 
+	@Public()
 	@Get(':id')
 	async findUserById(@Param('id') id: number) {
 		return this.userService.findUser(id);
 	}
 
+	@Public()
 	@Get()
 	async findAll(
 		@PaginationParams() paginationParams: Pagination,
@@ -129,11 +132,13 @@ export class UserController {
 		return this.userService.remove(+id);
 	}
 
+	@Public()
 	@Patch(':id/2FactorEmailActivation')
 	async user2FEmailActivation(@Param('id') id: number) {
 		return this.userService.user2FEmailActivation(id);
 	}
-
+	
+	@Public()
 	@Patch(':id/activation')
 	async usersActivation(@Param('id') id: number, @Body('ids') ids: number[]) {
 		// Validate IDs in the body

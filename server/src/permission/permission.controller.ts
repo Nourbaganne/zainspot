@@ -11,6 +11,7 @@ import { PermissionService } from './permission.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { Permissions } from 'src/decorators/permissions.decorator';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('permission')
 export class PermissionController {
@@ -22,11 +23,13 @@ export class PermissionController {
 		return this.permissionService.create(createPermissionDto);
 	}
 
+	@Public()
 	@Get()
 	findAll() {
 		return this.permissionService.findAll();
 	}
 
+	@Public()
 	@Get(':id')
 	findOne(@Param('id') id: string) {
 		return this.permissionService.findOne(+id);

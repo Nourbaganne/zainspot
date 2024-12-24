@@ -37,6 +37,7 @@ export class CityController {
 		return this.cityService.getCities(paginationParams, name);
 	}
 
+	@Public()
 	@Get(':id')
 	getOneCity(@Param('id') id: string) {
 		try {
