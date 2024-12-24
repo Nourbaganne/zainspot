@@ -12,15 +12,14 @@ interface LanguageContextProps {
 const LanguageContext = createContext<LanguageContextProps | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguageState] = useState<Language | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); 
+  const [language, setLanguageState] = useState<Language>("USA");  
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const storedLanguage =
-      typeof window !== "undefined" ? localStorage.getItem("preferredLanguage") : null;
-    const defaultLanguage = storedLanguage ? (storedLanguage as Language) : "USA"; 
+    const storedLanguage = typeof window !== "undefined" ? localStorage.getItem("preferredLanguage") : null;
+    const defaultLanguage = storedLanguage ? (storedLanguage as Language) : "USA";
     setLanguageState(defaultLanguage);
-    setLoading(false); 
+    setLoading(false);
   }, []);
 
   const setLanguage = (lang: Language) => {
@@ -28,8 +27,12 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("preferredLanguage", lang);
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <LanguageContext.Provider value={{ language: language!, setLanguage, loading }}>
+    <LanguageContext.Provider value={{ language, setLanguage, loading }}>
       {children}
     </LanguageContext.Provider>
   );

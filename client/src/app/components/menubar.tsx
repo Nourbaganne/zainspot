@@ -38,9 +38,8 @@ const Menubar: React.FC<MenubarProps> = ({
 
 	return (
 		<div
-			className={`fixed h-full top-0 right-0 w-52 px-4 flex flex-col gap-5 bg-background transition-transform duration-300 transform ${
-				isOpen ? 'translate-x-0' : 'translate-x-full'
-			} z-20 shadow-lg`}
+			className={`fixed h-full top-0 right-0 w-52 px-4 flex flex-col gap-5 bg-background transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'
+				} z-20 shadow-lg`}
 		>
 			<div className='py-4 flex justify-end'>
 				<Image
@@ -129,10 +128,16 @@ const Menubar: React.FC<MenubarProps> = ({
 						</Link>
 					</div>
 				)}
-				{user?.user.userId && (
-					<button className='text-secondary text-base'>
-						<Translation translationKey='go_to_my_zainspot' />
-					</button>
+				{user && (
+					user.user.role.id === 3 ? (
+						<Link href='/zainspotter' className='text-primary capitalize hover:underline text-center'>
+							<Translation translationKey='footer_title_gotomyzainspot' />{' '}
+						</Link>
+					) : (
+						<Link href='/owner' className='text-primary capitalize hover:underline text-center'>
+							<Translation translationKey='footer_title_owner' />{' '}
+						</Link>
+					)
 				)}
 			</div>
 		</div>
