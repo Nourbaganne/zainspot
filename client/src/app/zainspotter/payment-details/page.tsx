@@ -129,22 +129,31 @@ const Page = () => {
 							{/* <h1 className='text-span font-semibold '>
 								<Translation translationKey='payment_details_defaultPayment' />
 							</h1> */}
-							<p className='text-span-foreground'>
-								<Translation translationKey='payment_details_defaultPayment_subtitle' />
-							</p>
+							{paymentMethods.length > 0 && (
+								<p className='text-span-foreground'>
+									<Translation translationKey='payment_details_defaultPayment_subtitle' />
+								</p>
+							)}
 						</div>
-						<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-							{paymentMethods.map((paymentMethod, index) => (
-								<PaymentCard
-									paymentMethod={paymentMethod}
-									selected={selectedPayment}
-									setSelected={setSelectedPayment}
-									key={paymentMethod.id}
-								/>
-							))}
+						{paymentMethods.length == 0 ? (
+							<div>
+								<p className='text-red-600 font-medium'>
+									<Translation translationKey='payment_details_noPaymentMethod' />
+								</p>
+							</div>
+						) : (
+							<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+								{paymentMethods.map((paymentMethod, index) => (
+									<PaymentCard
+										paymentMethod={paymentMethod}
+										selected={selectedPayment}
+										setSelected={setSelectedPayment}
+										key={paymentMethod.id}
+									/>
+								))}
 
-							{/* Add new payment method button */}
-							{/* <div
+								{/* Add new payment method button */}
+								{/* <div
 								className={`flex flex-col border rounded-md p-4 gap-5 justify-center items-center `}
 							>
 								<button className=' p-2 bg-[#DDDDDD] rounded-full w-auto opacity-35 '>
@@ -154,7 +163,8 @@ const Page = () => {
 									<Translation translationKey='payment_details_addingCard' />
 								</h1>
 							</div> */}
-						</div>
+							</div>
+						)}
 					</div>
 				</div>
 			</Layout>

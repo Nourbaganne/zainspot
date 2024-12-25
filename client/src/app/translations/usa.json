@@ -132,6 +132,7 @@
 	"payment_details_defaultPayment": "Default Payment Method",
 	"payment_details_defaultPayment_subtitle": "Select your preferred payment method",
 	"payment_details_addingCard": "Add New Card",
+	"payment_details_noPaymentMethod": "Payment methods will be added after successful checkout",
 	"cancelation_overview_title": "Overview of Cancellation Policy",
 	"cancelation_overview_description": "At ZainSpotter, we strive to provide exceptional service and support to our subscribers. We understand that circumstances may change, and you may need to cancel your subscription. This policy outlines the terms and conditions for canceling your subscription with us.",
 	"cancelation_requiredPeriod_title": "Notice Period Required",
@@ -407,7 +408,7 @@
 	"faq_zainspotServices_cityAnswer": "Using the Contact link, tell us the cities where you dream of expanding your business. We’re listening to you and we’re dedicated to helping your business Go Global!",
 	"faq_security": "Security and Privacy",
 	"faq_security_zainspotQuestion": "ZainSpot takes security very, very seriously",
-	"faq_security_zainspotAnswer": "Security is our top priority. You are in good and safe hands. We follow strict protocols to protect you and your business. ZainSpotter personal information is password-protected and encrypted.  For your added security, ZainSpot never stores your payment details. ZainSpot will never divulge your personal data to commercial third-parties for any reason. Read more in our Privacy Policy. Privacy is freedom! Your peace of mind sets you free to expand internationally in confidence, feeling safe and secure with ZainSpot to  Go Global!",
+	"faq_security_zainspotAnswer": "Security is our top priority. You are in good and safe hands. We follow strict protocols to protect you and your business. ZainSpotter personal information is password-protected and encrypted.  For your added security, ZainSpot never stores your payment details. ZainSpot will never divulge your personal data to commercial third-parties for any reason. Read more in our Privacy Policy. Privacy is freedom! Your peace of mind sets you free to expand internationally in confidence, feeling safe and secure with ZainSpot to Go Global!",
 	"faq_fees": "Fees and Cancellation",
 	"faq_fees_zainspotQuestion": "It’s true! ZainSpot has zero setup fees",
 	"faq_fees_zainspotAnswer": "ZainSpot is free to join and there are no setup fees. We want nothing to stand in the way of your expansion to Go Global!",
