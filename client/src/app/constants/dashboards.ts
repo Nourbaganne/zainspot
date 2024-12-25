@@ -1,25 +1,25 @@
-import profileDetails from '@/app/assets/profile-details/profileDetails.svg';
-import profileDetailsHovering from '@/app/assets/profile-details/profileDetailsHovering.svg';
-import Security from '@/app/assets/profile-details/Security.svg';
-import SecurityHovering from '@/app/assets/profile-details/SecurityHovering.svg';
-import payment from '@/app/assets/profile-details/payment.svg';
-import paymentHovering from '@/app/assets/profile-details/paymentHovering.svg';
-import Invoices from '@/app/assets/profile-details/Invoices.svg';
-import InvoicesHovering from '@/app/assets/profile-details/InvoicesHovering.svg';
-import notifications from '@/app/assets/profile-details/notifications.svg';
-import notificationsHovering from '@/app/assets/profile-details/notificationsHovering.svg';
-import services from '@/app/assets/profile-details/services.svg';
-import servicesHovering from '@/app/assets/profile-details/servicesHovering.svg';
-import cancelation from '@/app/assets/profile-details/cancelation.svg';
-import cancelationHovering from '@/app/assets/profile-details/cancelationHovering.svg';
-import paymentHistory from '@/app/assets/profile-details/paymentHistory.svg';
-import paymentHistoryHover from '@/app/assets/profile-details/paymentHistoryHover.svg';
-import reportsIcon from '@/app/assets/owner/reportsIcon.svg';
-import reportsHover from '@/app/assets/owner/reportsHover.svg';
-import userIcon from '@/app/assets/owner/userIcon.svg';
-import userHover from '@/app/assets/owner/userHover.svg';
-import locationLogo from '@/app/assets/owner/location-outline.svg';
-import locationHover from '@/app/assets/owner/locationHover.svg';
+import profileDetails from '../assets/profile-details/profileDetails.svg';
+import profileDetailsHovering from '../assets/profile-details/profileDetailsHovering.svg';
+import Security from '../assets/profile-details/Security.svg';
+import SecurityHovering from '../assets/profile-details/SecurityHovering.svg';
+import payment from '../assets/profile-details/payment.svg';
+import paymentHovering from '../assets/profile-details/paymentHovering.svg';
+import Invoices from '../assets/profile-details/Invoices.svg';
+import InvoicesHovering from '../assets/profile-details/InvoicesHovering.svg';
+import notifications from '../assets/profile-details/notifications.svg';
+import notificationsHovering from '../assets/profile-details/notificationsHovering.svg';
+import services from '../assets/profile-details/services.svg';
+import servicesHovering from '../assets/profile-details/servicesHovering.svg';
+import cancelation from '../assets/profile-details/cancelation.svg';
+import cancelationHovering from '../assets/profile-details/cancelationHovering.svg';
+import paymentHistory from '../assets/profile-details/paymentHistory.svg';
+import paymentHistoryHover from '../assets/profile-details/paymentHistoryHover.svg';
+import reportsIcon from '../assets/owner/reportsIcon.svg';
+import reportsHover from '../assets/owner/reportsHover.svg';
+import userIcon from '../assets/owner/userIcon.svg';
+import userHover from '../assets/owner/userHover.svg';
+import locationLogo from '../assets/owner/location-outline.svg';
+import locationHover from '../assets/owner/locationHover.svg';
 
 export const ZAINSPOTTER_DASHBOARD = [
 	{
@@ -88,7 +88,7 @@ export const OWNER_DASHBOARD = [
 		link: 'reports',
 		title: 'ownerDashboard_reports',
 		description: 'ownerDashboard_reports_desc',
-		resource: 'reports'
+		resource: 'reports',
 	},
 	{
 		logo: userIcon,
@@ -96,7 +96,7 @@ export const OWNER_DASHBOARD = [
 		link: 'users',
 		title: 'ownerDashboard_users',
 		description: 'ownerDashboard_users_desc',
-		resource: 'user'
+		resource: 'user',
 	},
 	{
 		logo: locationLogo,
@@ -104,6 +104,6 @@ export const OWNER_DASHBOARD = [
 		link: 'locations',
 		title: 'ownerDashboard_location',
 		description: 'ownerDashboard_location_desc',
-		resource: 'city'
+		resource: 'city',
 	},
 ];

@@ -30,10 +30,11 @@ const Register = () => {
 					<button
 						type='submit'
 						disabled={!(formik.isValid && formik.dirty)}
-						className={`w-full py-3 px-6 rounded-md text-white font-semibold ${formik.isValid && formik.dirty
-							? 'bg-primary hover:bg-primary-dark'
-							: 'bg-button cursor-not-allowed'
-							}`}
+						className={`w-full py-3 px-6 rounded-md text-white font-semibold ${
+							formik.isValid && formik.dirty
+								? 'bg-primary hover:bg-primary-dark'
+								: 'bg-button cursor-not-allowed'
+						}`}
 					>
 						<Translation translationKey='register_submit_button' />
 					</button>

@@ -149,6 +149,17 @@ export class StripeController {
 			return res.status(404).json({ message: 'User not found' });
 		}
 
+		// in case this is old user and the stripeCustomerId was not assigned after signup, create stripeCustomerId for user now
+		if (user.stripeCustomerId === null) {
+			const stripeCustomerId = await this.stripeService.createCustomer(
+				user.businessName,
+				user.email,
+			);
+
+			user.stripeCustomerId = stripeCustomerId;
+			await user.save();
+		}
+
 		// let's get the customer first
 		const customer = await this.stripeService.getCustomer(
 			user.stripeCustomerId,
@@ -158,14 +169,15 @@ export class StripeController {
 			customer: user.stripeCustomerId,
 		});
 
-		return res.json({
+		const responseData = {
 			customer,
 			paymentMethods,
-		});
+		};
+
+		return res.json(responseData);
 	}
 
-	@Public()
-	// update customer
+	// update customer default payment method
 	@Put('customer-default-payment-method')
 	async updateCustomer(
 		@Body()
