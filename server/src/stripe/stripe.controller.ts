@@ -6,6 +6,7 @@ import { SubscriptionService } from 'src/subscription/subscription.service';
 import { CreateSubscriptionDto } from 'src/subscription/dto/create-subscription.dto';
 import { User } from 'src/entities/user.entity';
 import { UserService } from 'src/user/user.service';
+import { Public } from 'src/decorators/public.decorator';
 
 interface CreateCheckoutSessionBodyInterface {
 	stripePriceId: string;
@@ -22,6 +23,7 @@ export class StripeController {
 		private readonly userService: UserService,
 	) {}
 
+	@Public()
 	@Post('create-checkout-session')
 	async createCheckoutSession(
 		@Res() res: Response,
@@ -73,6 +75,7 @@ export class StripeController {
 		}
 	}
 
+	@Public()
 	@Put('payment-history/:stripeSessionId')
 	async updatePaymentHistoryStatus(
 		@Param() { stripeSessionId }: { stripeSessionId: string },
@@ -133,6 +136,7 @@ export class StripeController {
 		return res.json(customers);
 	}
 
+	@Public()
 	// view user payment details
 	@Get('payment-methods/:userId/')
 	async getUserPaymentDetails(

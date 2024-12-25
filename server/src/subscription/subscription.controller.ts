@@ -11,6 +11,7 @@ import { SubscriptionService } from './subscription.service';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { SubscriptionResponseDto } from './dto/subscription-response.dto';
 import { Subscription } from '../entities/subscription.entity';
+import { Public } from 'src/decorators/public.decorator';
 
 @Controller('subscriptions')
 export class SubscriptionController {
@@ -28,6 +29,7 @@ export class SubscriptionController {
 		return this.subscriptionService.createSubscription(createSubscriptionDto);
 	}
 
+	@Public()
 	@Get('/revenue')
 	async getRevenue() {
 		return this.subscriptionService.getRevenue();

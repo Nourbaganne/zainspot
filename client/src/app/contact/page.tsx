@@ -152,55 +152,6 @@ export default function ContactPage() {
 							</div>
 						</form>
 					</div>
-					{/* Contact Information */}
-					<div className='lg:px-8 py-8 lg:flex lg:items-center flex-shrink-0'>
-						<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1'>
-							<div className='col-span-1 md:col-span-2 lg:col-span-1'>
-								<h2 className='text-2xl font-bold'>
-									<Translation translationKey='contact_title' />
-								</h2>
-								<p className='mt-2 text-gray-400'>
-									<Translation translationKey='contact_title_span' />
-								</p>
-							</div>
-							<div className='mt-6'>
-								<h3 className='text-lg font-semibold'>
-									<Translation translationKey='contact_email' />
-								</h3>
-								<div className='mt-1 flex items-center gap-2 text-gray-700'>
-									<FiMail className='h-5 w-5' />
-									<span className='underline font-medium'>example@mail.com</span>
-								</div>
-							</div>
-							<div className='mt-6'>
-								<h3 className='text-lg font-semibold'>
-									<Translation translationKey='contact_call' />
-								</h3>
-								<p className='mt-2 text-gray-400'>
-									<Translation translationKey='contact_call_availability' />
-								</p>
-								<div className='mt-2 flex items-center gap-2 text-gray-700'>
-									<FiPhone className='h-5 w-5' />
-									<span className='underline font-medium'>+1 555 555 5555</span>
-								</div>
-							</div>
-							{/* Vist Us section */}
-							<div className='mt-6'>
-								<h3 className='text-lg font-semibold'>
-									<Translation translationKey='contact_visit' />
-								</h3>
-								<p className='mt-2 text-gray-400'>
-									<Translation translationKey='contact_visit_desc' />
-								</p>
-								<div className='mt-2 flex items-center gap-2 text-gray-700'>
-									<FiMapPin className='h-5 w-5' />
-									<span className='underline font-medium'>
-										6th street, somewhere, Country 65434
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 

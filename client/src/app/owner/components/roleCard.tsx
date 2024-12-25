@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import arrowRight from '@/app/assets/owner/arrow-right.svg'
 import Image from 'next/image'
 import { FiArrowUp } from 'react-icons/fi'
@@ -9,6 +9,7 @@ import axiosInstance from '@/app/lib/axios/axiosInstance'
 import { hasAccess } from '@/app/lib/hasAccess'
 import { AuthContext } from '@/app/contexts/authContext'
 import toast from 'react-hot-toast'
+import RolesModal from '../users/components/RolesModal'
 
 interface RoleCardProps {
   title: string;
@@ -18,14 +19,14 @@ interface RoleCardProps {
     increase: boolean;
     percentage: number;
   };
-  rolesModalRef: any;
-  setExistingRole: (existingRole: any) => void;
   roleId: number;
 }
 
-const RoleCard = ({ title, value, editPermissions, stats, rolesModalRef, setExistingRole, roleId }: RoleCardProps) => {
+const RoleCard = ({ title, value, editPermissions, stats, roleId }: RoleCardProps) => {
   const [displayValue, setDisplayValue] = useState(0);
+  const [existingRole, setExistingRole] = useState<any | null>();
   const { user } = useContext(AuthContext);
+  const rolesModalRef = useRef<any>(null);
 
 
   useEffect(() => {
@@ -71,6 +72,8 @@ const RoleCard = ({ title, value, editPermissions, stats, rolesModalRef, setExis
 
   return (
     <div className='card flex flex-col w-full'>
+      <RolesModal rolesModalRef={rolesModalRef} existingRole={existingRole} />
+
       <div className='flex flex-row mb-8 justify-between items-center'>
         <p className='text-span'>
           {title}

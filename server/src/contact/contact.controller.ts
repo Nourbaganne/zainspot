@@ -13,16 +13,19 @@ export class ContactController {
 		return this.contactService.create(createContactDto);
 	}
 
+	@Public()
 	@Get()
 	findAll() {
 		return this.contactService.findAll();
 	}
 
+	@Public()
 	@Get(':id')
 	findOne(@Param('id') id: string) {
 		return this.contactService.findOne(+id);
 	}
 
+	@Public()
 	@Delete(':id')
 	remove(@Param('id') id: string) {
 		return this.contactService.remove(+id);
