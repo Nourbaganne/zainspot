@@ -7,7 +7,7 @@ import InputPassword from '@/app/components/inputPassword';
 import SaveChangesButton from '@/app/components/saveChangesButton';
 import addButton from '@/app/assets/payment-details/add.svg';
 import PaymentCard from './component/paymentCard';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Translation from '@/app/components/translation';
 import { WithAuth } from '@/app/lib/withAuth';
@@ -20,6 +20,22 @@ const Page = () => {
 
 	const { user } = useContext(AuthContext);
 	console.log('user', user);
+
+	function getUserPaymentMethods() {
+		if (!user.user) return;
+
+		axiosInstance
+			.get('/stripe/payment-methods/' + user.user.userId)
+			.then((res) => {
+				console.log('res.data', res.data);
+				setPaymentMethods(res.data.paymentMethods.data);
+				setSelectedPayment(
+					res.data.customer.invoice_settings.default_payment_method,
+				);
+			});
+	}
+
+	useEffect(getUserPaymentMethods, []);
 
 	const formik = usePaymentForm();
 
@@ -38,16 +54,6 @@ const Page = () => {
 	const handlePaymentMethodClick = (method: string) => {
 		formik.setFieldValue('paymentMethod', method);
 	};
-
-	axiosInstance
-		.get('/stripe/payment-methods/' + user.user.userId)
-		.then((res) => {
-			console.log('res.data', res.data);
-			setPaymentMethods(res.data.paymentMethods.data);
-			setSelectedPayment(
-				res.data.customer.invoice_settings.default_payment_method,
-			);
-		});
 
 	return (
 		<div className='flex flex-col gap-4 md:gap-6 bg-background-foreground md:px-16 md:py-8 py-6 px-2  md:pb-20'>
