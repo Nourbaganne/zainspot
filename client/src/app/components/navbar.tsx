@@ -4,10 +4,10 @@ import Image from 'next/image';
 import { useState, useEffect, useRef, MouseEvent, useContext } from 'react';
 import Link from 'next/link';
 import Translation from './translation';
-import logo from '@/app/assets/navbar/logo-zainspot.svg';
-import chevron from '@/app/assets/navbar/chevron-down-outline.svg';
-import menu from '@/app/assets/navbar/menu.svg';
-import close from '@/app/assets/navbar/close-icon.svg';
+import logo from '../assets/navbar/logo-zainspot.svg';
+import chevron from '../assets/navbar/chevron-down-outline.svg';
+import menu from '../assets/navbar/menu.svg';
+import close from '../assets/navbar/close-icon.svg';
 import MenuButton from './menuButton';
 import { LANGUAGES_DATA, CURRENCIES_DATA } from '../constants/navbar';
 import { Language } from '../lib/translate';
@@ -128,10 +128,7 @@ const Navbar = () => {
 
 				<div className='flex flex-col items-end justify-center h-full gap-2 text-right'>
 					{user ? (
-						<button
-							className='text-alert text-start'
-							onClick={handleLogout}
-						>
+						<button className='text-alert text-start' onClick={handleLogout}>
 							<Translation translationKey='logout' />
 						</button>
 					) : (
@@ -145,17 +142,22 @@ const Navbar = () => {
 						</div>
 					)}
 
-					{user && (
-						user.user.role.id === 3 ? (
-							<Link href='/zainspotter' className='text-primary capitalize hover:underline'>
+					{user &&
+						(user.user.role.id === 3 ? (
+							<Link
+								href='/zainspotter'
+								className='text-primary capitalize hover:underline'
+							>
 								<Translation translationKey='footer_title_gotomyzainspot' />{' '}
 							</Link>
 						) : (
-							<Link href='/owner' className='text-primary capitalize hover:underline'>
+							<Link
+								href='/owner'
+								className='text-primary capitalize hover:underline'
+							>
 								<Translation translationKey='footer_title_owner' />{' '}
 							</Link>
-						)
-					)}
+						))}
 				</div>
 			</div>
 			<div className='md:hidden flex relative'>

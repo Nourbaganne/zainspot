@@ -164,7 +164,6 @@ export class StripeController {
 		});
 	}
 
-	@Public()
 	// update customer
 	@Put('customer-default-payment-method')
 	async updateCustomer(
