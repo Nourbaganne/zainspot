@@ -551,5 +551,21 @@
 	"notifications_hoc_desc": "ZainSpotter团队为特定问题或更新手动发送的重要信息和警报。",
 	"loader_text": "加载中... 请稍候...",
 	"login_connecting": "正在连接...",
-	"login_button": "登录到 Zainspot"
+	"login_button": "登录到 Zainspot",
+	"business_agriculture": "农业",
+	"business_automotive": "汽车",
+	"business_construction": "建筑",
+	"business_education": "教育",
+	"business_finance": "金融",
+	"business_healthcare": "医疗保健",
+	"business_hospitality": "酒店业",
+	"business_information_technology": "信息技术",
+	"business_manufacturing": "制造业",
+	"business_media_entertainment": "媒体与娱乐",
+	"business_real_estate": "房地产",
+	"business_retail": "零售",
+	"business_telecommunications": "电信",
+	"business_transportation_logistics": "运输与物流",
+	"business_utilities_energy": "公共事业与能源",
+	"business_wholesale_trade": "批发贸易"
 }

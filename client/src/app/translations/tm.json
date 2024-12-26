@@ -551,5 +551,21 @@
 	"notifications_hoc_desc": "தனிப்பட்ட சிக்கல்கள் அல்லது புதுப்பிப்புகளுக்காக ZainSpotter குழு அனுப்பும் முக்கிய அறிவிப்புகள்.",
 	"loader_text": "ஏற்றுகிறது... தயவுசெய்து காத்திருக்கவும்...",
 	"login_connecting": "பணியாற்றுகிறது...",
-	"login_button": "Zainspot இல் உள்நுழைக"
+	"login_button": "Zainspot இல் உள்நுழைக",
+	"business_agriculture": "கிராமப்புறம்",
+	"business_automotive": "தயாரிப்பு",
+	"business_construction": "கட்டுமானம்",
+	"business_education": "கல்வி",
+	"business_finance": "நிதி",
+	"business_healthcare": "ஆரோகிய சேவை",
+	"business_hospitality": "உதவித்தன்மை",
+	"business_information_technology": "தகவல் தொழில்நுட்பம்",
+	"business_manufacturing": "உற்பத்தி",
+	"business_media_entertainment": "மீடியா மற்றும் பொழுதுபோக்கு",
+	"business_real_estate": "உறுதிச் சொத்து",
+	"business_retail": "சிறு வியாபாரம்",
+	"business_telecommunications": "தூரத்தொடர்பு",
+	"business_transportation_logistics": "போக்குவரத்து மற்றும் விநியோகம்",
+	"business_utilities_energy": "சேவைகள் மற்றும் ஆற்றல்",
+	"business_wholesale_trade": "முக்கிய வியாபாரம்"
 }

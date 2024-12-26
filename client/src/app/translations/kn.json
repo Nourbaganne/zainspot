@@ -551,5 +551,21 @@
 	"notifications_hoc_desc": "ಜೈನ್ಸ್ಪೋಟರ್ ತಂಡದಿಂದ ನಿರ್ದಿಷ್ಟ ಸಮಸ್ಯೆಗಳಿಗೆ ಅಥವಾ ಅಪ್ಡೇಟ್‌ಗಳಿಗೆ ಸಂಬಂಧಿಸಿದ ಪ್ರಮುಖ ಸಂದೇಶಗಳು ಮತ್ತು ಎಚ್ಚರಿಕೆಗಳು.",
 	"loader_text": "ಲೋಡ್ ಆಗುತ್ತಿದೆ... ದಯವಿಟ್ಟು ಕಾಯಿರಿ...",
 	"login_connecting": "ಕನೆಕ್ಟ್ ಆಗುತ್ತಿದೆ...",
-	"login_button": "ZainSpot ಗೆ ಲಾಗಿನ್ ಮಾಡಿ"
+	"login_button": "ZainSpot ಗೆ ಲಾಗಿನ್ ಮಾಡಿ",
+	"business_agriculture": "ಕೃಷಿ",
+	"business_automotive": "ವಾಹನ",
+	"business_construction": "ನಿರ್ಮಾಣ",
+	"business_education": "ಶಿಕ್ಷಣ",
+	"business_finance": "ಹಣಕಾಸು",
+	"business_healthcare": "ಆರೋಗ್ಯಸೇವೆ",
+	"business_hospitality": "ಆತಿಥ್ಯ",
+	"business_information_technology": "ಮಾಹಿತಿ ತಂತ್ರಜ್ಞಾನ",
+	"business_manufacturing": "ಉತ್ಪಾದನೆ",
+	"business_media_entertainment": "ಮೀಡಿಯಾ ಮತ್ತು ಮನೋರಂಜನೆ",
+	"business_real_estate": "ರಿಯಲ್ ಎಸ್ಟೇಟ್",
+	"business_retail": "ಚಿಲ್ಲರೆ ವ್ಯಾಪಾರ",
+	"business_telecommunications": "ದೂರಸಂಪರ್ಕ",
+	"business_transportation_logistics": "ಸಾರಿಗೆ ಮತ್ತು ಲಾಜಿಸ್ಟಿಕ್ಸ್",
+	"business_utilities_energy": "ಉಪಯೋಗಗಳು ಮತ್ತು ಎನರ್ಜಿ",
+	"business_wholesale_trade": "ಗೂಢಸಂತೆ ವ್ಯಾಪಾರ"
 }

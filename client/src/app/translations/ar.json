@@ -551,5 +551,21 @@
 	"notifications_hoc_desc": "رسائل وتنبيهات هامة يرسلها فريق ZainSpotter يدويًا لمشاكل أو تحديثات معينة.",
 	"loader_text": "جارٍ التحميل... يرجى الانتظار...",
 	"login_connecting": "جاري الاتصال...",
-	"login_button": "تسجيل الدخول إلى Zainspot"
+	"login_button": "تسجيل الدخول إلى Zainspot",
+	"business_agriculture": "الزراعة",
+	"business_automotive": "السيارات",
+	"business_construction": "البناء",
+	"business_education": "التعليم",
+	"business_finance": "التمويل",
+	"business_healthcare": "الرعاية الصحية",
+	"business_hospitality": "الضيافة",
+	"business_information_technology": "تكنولوجيا المعلومات",
+	"business_manufacturing": "التصنيع",
+	"business_media_entertainment": "الإعلام والترفيه",
+	"business_real_estate": "العقارات",
+	"business_retail": "التجزئة",
+	"business_telecommunications": "الاتصالات",
+	"business_transportation_logistics": "النقل والخدمات اللوجستية",
+	"business_utilities_energy": "المرافق والطاقة",
+	"business_wholesale_trade": "تجارة الجملة"
 }

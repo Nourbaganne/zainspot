@@ -27,29 +27,27 @@ const SelectField: React.FC<SelectFieldProps> = ({
 					name={name}
 					value={value}
 					onChange={handleChange}
-					className={`custom-select border px-2 py-3 text-span font-light text-sm rounded-md peer focus:outline-none focus:ring-0 ${
-						errors && touched
+					className={`custom-select border px-2 py-3 text-span font-light text-sm rounded-md peer focus:outline-none focus:ring-0 ${errors && touched
 							? 'border-alert'
 							: 'border-button focus:border-primary'
-					}`}
+						}`}
 				>
 					<option value='' disabled></option>
 					{options.map((option) => (
 						<option key={option.value} value={option.value}>
-							{option.label}
+							<Translation translationKey={option.label} />
 						</option>
 					))}
 				</select>
 				<label
 					htmlFor={name}
-					className={`absolute left-3 bottom-10 pointer-events-none px-1 text-xs bg-white z-10   
-                    ${
-											value && !errors
-												? 'text-primary'
-												: errors && touched
-												? 'text-alert'
-												: 'text-primary'
-										} `}
+					className={`absolute left-3 bottom-9 pointer-events-none px-1 text-xs bg-white z-10   
+                    ${value && !errors
+							? 'text-primary'
+							: errors && touched
+								? 'text-alert'
+								: 'text-primary'
+						} `}
 				>
 					<Translation translationKey={labelKey} />
 				</label>

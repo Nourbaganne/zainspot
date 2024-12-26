@@ -105,7 +105,10 @@ const Page = () => {
 							className={`flex flex-col gap-5 pb-5 ${index !== NOTIFICATIONS_DETAILS.length - 1 && 'border-b'
 								} `}
 						>
-							<p className='text-span text-sm font-semibold'>{data.header}</p>
+							<p className='text-span text-sm font-semibold'>
+								
+								<Translation translationKey={data.header} />
+							</p>
 							<div className='flex flex-col gap-2 font-light'>
 								{data.info.map((info, index) => (
 									<div key={index} className='flex gap-2 '>

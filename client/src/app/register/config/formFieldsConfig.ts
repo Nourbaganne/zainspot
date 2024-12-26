@@ -15,13 +15,20 @@ export const genderOptions = [
 ];
 
 export const businessTypeOptions = [
-  { value: 'business1', label: 'Business 1' },
-  { value: 'business2', label: 'Business 2' },
-  { value: 'business3', label: 'Business 3' },
-];
-
-export const interestRegionOptions = [
-  { value: 'region1', label: 'Region 1' },
-  { value: 'region2', label: 'Region 2' },
-  { value: 'region3', label: 'Region 3' },
+  { value: 'agriculture', label: 'business_agriculture' },
+  { value: 'automotive', label: 'business_automotive' },
+  { value: 'construction', label: 'business_construction' },
+  { value: 'education', label: 'business_education' },
+  { value: 'finance', label: 'business_finance' },
+  { value: 'healthcare', label: 'business_healthcare' },
+  { value: 'hospitality', label: 'business_hospitality' },
+  { value: 'information_technology', label: 'business_information_technology' },
+  { value: 'manufacturing', label: 'business_manufacturing' },
+  { value: 'media_entertainment', label: 'business_media_entertainment' },
+  { value: 'real_estate', label: 'business_real_estate' },
+  { value: 'retail', label: 'business_retail' },
+  { value: 'telecommunications', label: 'business_telecommunications' },
+  { value: 'transportation_logistics', label: 'business_transportation_logistics' },
+  { value: 'utilities_energy', label: 'business_utilities_energy' },
+  { value: 'wholesale_trade', label: 'business_wholesale_trade' },
 ];

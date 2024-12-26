@@ -558,5 +558,21 @@
 	"notifications_hoc_desc": "Mensajes importantes y alertas enviadas manualmente por el equipo de ZainSpotter para problemas o actualizaciones específicas.",
 	"loader_text": "Cargando... Por favor, espera...",
 	"login_connecting": "Conectando...",
-	"login_button": "Iniciar sesión en Zainspot"
+	"login_button": "Iniciar sesión en Zainspot",
+	"business_agriculture": "Agricultura",
+	"business_automotive": "Automotriz",
+	"business_construction": "Construcción",
+	"business_education": "Educación",
+	"business_finance": "Finanzas",
+	"business_healthcare": "Salud",
+	"business_hospitality": "Hospitalidad",
+	"business_information_technology": "Tecnologías de la Información",
+	"business_manufacturing": "Fabricación",
+	"business_media_entertainment": "Medios y Entretenimiento",
+	"business_real_estate": "Bienes Raíces",
+	"business_retail": "Comercio Minorista",
+	"business_telecommunications": "Telecomunicaciones",
+	"business_transportation_logistics": "Transporte y Logística",
+	"business_utilities_energy": "Servicios Públicos y Energía",
+	"business_wholesale_trade": "Comercio Mayorista"
 }

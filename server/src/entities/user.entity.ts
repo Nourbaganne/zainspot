@@ -70,9 +70,6 @@ export class User extends BaseEntity {
 	fullStreetAdress: string;
 
 	@Column()
-	interestRegion: string;
-
-	@Column()
 	name: string;
 
 	@Column({ default: '' })

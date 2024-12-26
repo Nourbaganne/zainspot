@@ -551,5 +551,21 @@
 	"notifications_hoc_desc": "Mesej penting dan amaran yang dihantar secara manual oleh pasukan ZainSpotter untuk isu atau kemas kini tertentu.",
 	"loader_text": "Memuatkan... Sila tunggu...",
 	"login_connecting": "Sedang menyambung...",
-	"login_button": "Log masuk ke Zainspot"
+	"login_button": "Log masuk ke Zainspot",
+	"business_agriculture": "Pertanian",
+	"business_automotive": "Automotif",
+	"business_construction": "Pembinaan",
+	"business_education": "Pendidikan",
+	"business_finance": "Kewangan",
+	"business_healthcare": "Penjagaan Kesihatan",
+	"business_hospitality": "Hospitaliti",
+	"business_information_technology": "Teknologi Maklumat",
+	"business_manufacturing": "Pembuatan",
+	"business_media_entertainment": "Media & Hiburan",
+	"business_real_estate": "Hartanah",
+	"business_retail": "Peruncitan",
+	"business_telecommunications": "Telekomunikasi",
+	"business_transportation_logistics": "Pengangkutan & Logistik",
+	"business_utilities_energy": "Utiliti & Tenaga",
+	"business_wholesale_trade": "Perdagangan Borong"
 }

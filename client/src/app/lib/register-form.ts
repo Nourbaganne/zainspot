@@ -25,7 +25,6 @@
         city: "",
         state: "",
         zipCode: "",
-        interestRegion: "",
         name: "",
         middleName: "",
         lastName: "",
@@ -60,7 +59,6 @@
         fullStreetAdress: Yup.string().required("Full street adress is required"),
         zipCode: Yup.number().required("Zip code is required"),
         state: Yup.string().required("State or Province or Department is required"),
-        interestRegion: Yup.string().required("Regions of interest are required"),
         name: Yup.string().required("Name is required"),
         middleName: Yup.string(),
         lastName: Yup.string().required("Last name is required"),
@@ -72,7 +70,6 @@
         recaptcha: Yup.string().required("Please complete the reCAPTCHA verification"),
       }),
       onSubmit: async (values, { resetForm }) => {
-        // Show loading toast
         const toastId = toast.loading('Registering...');
 
         try {
@@ -92,16 +89,13 @@
             setIsOpenDialog(true);
             setError(null);
 
-            // Update toast to success 
             toast.success("Registration successful!", { id: toastId });
           }
         } catch (error) {
           setError('An unexpected error occurred during registration.');
 
-          // Update toast to error
           toast.error('Registration failed. Please try again.', { id: toastId });
         } finally {
-          // Remove loading toast if the promise completes
           toast.dismiss(toastId);
         }
       }

@@ -551,5 +551,21 @@
 	"owner_dashboard": "مالک کا ڈیش بورڈ",
 	"login_security_disablebutton_title": "غیر فعال کریں",
 	"login_connecting": "جوڑ رہا ہے...",
-	"login_button": "Zainspot میں لاگ ان کریں"
+	"login_button": "Zainspot میں لاگ ان کریں",
+	"business_agriculture": "زراعت",
+	"business_automotive": "خودرو",
+	"business_construction": "تعمیرات",
+	"business_education": "تعلیم",
+	"business_finance": "مالیات",
+	"business_healthcare": "صحت کی دیکھ بھال",
+	"business_hospitality": "مہمان نوازی",
+	"business_information_technology": "معلوماتی ٹیکنالوجی",
+	"business_manufacturing": "تیاری",
+	"business_media_entertainment": "میڈیا اور تفریح",
+	"business_real_estate": "رئیل اسٹیٹ",
+	"business_retail": "ریٹیل",
+	"business_telecommunications": "دورِ ارتباط",
+	"business_transportation_logistics": "نقل و حمل اور لاجسٹکس",
+	"business_utilities_energy": "خدمات اور توانائی",
+	"business_wholesale_trade": "ہول سیل تجارت"
 }

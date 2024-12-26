@@ -551,5 +551,21 @@
 	"notifications_hoc_desc": "ప్రత్యేక సమస్యలు లేదా నవీకరణలు కోసం జైన్స్పాట్ టీమ్ చేత మాన్యువల్‌గా పంపబడిన ముఖ్యమైన సందేశాలు.",
 	"loader_text": "లోడ్ అవుతుంది... దయచేసి వేచి ఉండండి...",
 	"login_connecting": "కనెక్ట్ అవుతున్నది...",
-	"login_button": "Zainspotలో లాగిన్ చేయండి"
+	"login_button": "Zainspotలో లాగిన్ చేయండి",
+	"business_agriculture": "కৃষి",
+	"business_automotive": "ఆటోమోటివ్",
+	"business_construction": "నిర్మాణం",
+	"business_education": "విద్య",
+	"business_finance": "ఆర్ధిక సేవలు",
+	"business_healthcare": "ఆరోగ్య సంరక్షణ",
+	"business_hospitality": "ఆతిథ్యం",
+	"business_information_technology": "సమాచార సాంకేతికత",
+	"business_manufacturing": "తయారీ",
+	"business_media_entertainment": "మీడియా మరియు వినోదం",
+	"business_real_estate": "రియల్ ఎస్టేట్",
+	"business_retail": "చిల్లర వ్యాపారం",
+	"business_telecommunications": "దూరసంపర్కం",
+	"business_transportation_logistics": "రవాణా మరియు లాజిస్టిక్స్",
+	"business_utilities_energy": "సేవలు మరియు శక్తి",
+	"business_wholesale_trade": "తొలగింపు వ్యాపారం"
 }

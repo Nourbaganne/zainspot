@@ -11,7 +11,6 @@ import Translation from '../../components/translation';
 import {
 	businessTypeOptions,
 	genderOptions,
-	interestRegionOptions,
 	personalInfoFields,
 } from '../config/formFieldsConfig';
 import SelectField from './selectField';
@@ -121,7 +120,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 
 	return (
 		<>
-			{/* Email Input */}
 			<Input
 				type='text'
 				labelKey='register_email_label'
@@ -134,7 +132,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 				formik={formik}
 			/>
 
-			{/* Password and Confirm Password */}
 			<div className='flex flex-col md:flex-row gap-6'>
 				<InputPassword
 					labelKey='register_password_label'
@@ -155,7 +152,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 				/>
 			</div>
 
-			{/* Business Number */}
 			<div className='flex flex-col gap-2'>
 				<div className='relative flex flex-col'>
 					<PhoneInput
@@ -201,7 +197,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 				)}
 			</div>
 
-			{/* Business Name and Trade Name */}
 			<div className='flex flex-col md:flex-row gap-6'>
 				<Input
 					type='text'
@@ -225,7 +220,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 				/>
 			</div>
 
-			{/* Business Type and Website */}
 			<div className='flex flex-col md:flex-row gap-6 z-0'>
 				<SelectField
 					value={formik.values.businessType}
@@ -249,9 +243,7 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 				/>
 			</div>
 
-			{/* Country and Full Street Address */}
 			<div className='flex flex-col md:flex-row gap-6 justify-center items-center'>
-				{/* Country Select */}
 				<SelectWrapper
 					labelKey='register_business_country_label'
 					options={countryOptions}
@@ -267,7 +259,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 					name='country'
 				/>
 
-				{/* Full Street Address */}
 				<Input
 					type='text'
 					labelKey='register_business_streetAdress_label'
@@ -280,9 +271,7 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 				/>
 			</div>
 
-			{/* City, State, and Zip Code */}
 			<div className='flex flex-col md:grid grid-cols-8 gap-6'>
-				{/* State Select */}
 				<SelectWrapper
 					labelKey='register_state_label'
 					options={stateOptions}
@@ -298,7 +287,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 					name='state'
 				/>
 
-				{/* City Select */}
 				<SelectWrapper
 					labelKey='register_city_label'
 					options={cityOptions}
@@ -313,7 +301,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 					name='city'
 				/>
 
-				{/* Zip Code Input */}
 				<div className='col-span-2'>
 					<Input
 						type='text'
@@ -328,20 +315,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 				</div>
 			</div>
 
-			{/* Interest Region Select */}
-			<div className='flex flex-col gap-2'>
-				<SelectField
-					value={formik.values.interestRegion}
-					name='interestRegion'
-					labelKey='regster_interest_region_label'
-					handleChange={formik.handleChange}
-					options={interestRegionOptions}
-					errors={formik.errors.interestRegion as string | undefined}
-					touched={formik.touched.interestRegion as boolean | undefined}
-				/>
-			</div>
-
-			{/* Personal Info Fields */}
 			<div className='flex flex-col md:flex-row gap-6'>
 				{personalInfoFields.map((field) => (
 					<Input
@@ -358,9 +331,7 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 				))}
 			</div>
 
-			{/* Gender and Birthday */}
 			<div className='flex flex-col md:grid md:grid-cols-2 gap-4 text-sm w-full items-center justify-center'>
-				{/* Gender Radio Group */}
 				<RadioGroup
 					labelKey='register_gender_label'
 					options={genderOptions}
@@ -371,7 +342,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 					touched={formik.touched.gender as boolean | undefined}
 				/>
 
-				{/* Birthday Input */}
 				<div className='flex flex-col w-full gap-2 place-self-start'>
 					<div className='relative flex gap-2 md:gap-4 items-center'>
 						<h1
@@ -405,7 +375,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 				</div>
 			</div>
 
-			{/* Media Profile Input */}
 			<div className='flex flex-col gap-2'>
 				<Input
 					type='text'
@@ -419,7 +388,6 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 				/>
 			</div>
 
-			{/* reCAPTCHA */}
 			<div>
 				<ReCAPTCHA
 					sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}

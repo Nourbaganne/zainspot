@@ -551,5 +551,21 @@
 	"notifications_hoc_desc": "ਖਾਸ ਸਮੱਸਿਆਵਾਂ ਜਾਂ ਅਪਡੇਟਾਂ ਲਈ ZainSpotter ਟੀਮ ਦੁਆਰਾ ਹਥੋਂ ਭੇਜੀਆਂ ਗਈਆਂ ਮਹੱਤਵਪੂਰਨ ਸੂਚਨਾਵਾਂ ਅਤੇ ਅਲਰਟ।",
 	"loader_text": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ... ਕਿਰਪਾ ਕਰਕੇ ਥੋੜ੍ਹਾ ਸਮਾਂ ਲੈਓ...",
 	"login_connecting": "ਜੜੀ ਹੋ ਰਿਹਾ ਹੈ...",
-	"login_button": "Zainspot ਵਿੱਚ ਲੌਗਿਨ ਕਰੋ"
+	"login_button": "Zainspot ਵਿੱਚ ਲੌਗਿਨ ਕਰੋ",
+	"business_agriculture": "ਖੇਤੀਬਾੜੀ",
+	"business_automotive": "ਆਟੋਮੋਟਿਵ",
+	"business_construction": "ਨਿਰਮਾਣ",
+	"business_education": "ਸਿੱਖਿਆ",
+	"business_finance": "ਵਿੱਤ",
+	"business_healthcare": "ਹੈਲਥ ਕੇਅਰ",
+	"business_hospitality": "ਮਹਿਮਾਨ ਨਵਾਜ਼ੀ",
+	"business_information_technology": "ਜਾਣਕਾਰੀ ਤਕਨਾਲੋਜੀ",
+	"business_manufacturing": "ਉਤਪਾਦਨ",
+	"business_media_entertainment": "ਮੀਡੀਆ ਅਤੇ ਮਨੋਰੰਜਨ",
+	"business_real_estate": "ਰਿਅਲ ਐਸਟੇਟ",
+	"business_retail": "ਖੁਦਰਾ ਵਪਾਰ",
+	"business_telecommunications": "ਦੂਰਸੰਚਾਰ",
+	"business_transportation_logistics": "ਆਵਾਜਾਈ ਅਤੇ ਲਾਜਿਸਟਿਕਸ",
+	"business_utilities_energy": "ਸਹੂਲਤਾਂ ਅਤੇ ਊਰਜਾ",
+	"business_wholesale_trade": "ਥੋਕ ਵਪਾਰ"
 }

@@ -48,8 +48,6 @@ export class CreateUserDto {
 	@IsNotEmpty()
 	state: string;
 
-	@IsNotEmpty()
-	interestRegion: string;
 
 	@IsNotEmpty()
 	name: string;

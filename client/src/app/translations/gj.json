@@ -551,5 +551,21 @@
 	"notifications_hoc_desc": "ZainSpotter ટીમ દ્વારા ખાસ મુદ્દાઓ અથવા અપડેટ્સ માટે મોકલવામાં આવેલી મહત્વપૂર્ણ સંદેશાઓ અને એલર્ટ.",
 	"loader_text": "લોડ થઇ રહ્યું છે... કૃપા કરીને રાહ જુઓ...",
 	"login_connecting": "કનેક્ટ થઈ રહ્યું છે...",
-	"login_button": "ઝૈનસ્પોટમાં લોગિન કરો"
+	"login_button": "ઝૈનસ્પોટમાં લોગિન કરો",
+	"business_agriculture": "કૃષિ",
+	"business_automotive": "મોટરગાડી",
+	"business_construction": "બાંધકામ",
+	"business_education": "શિક્ષણ",
+	"business_finance": "નાણાં",
+	"business_healthcare": "આરોગ્ય સેવા",
+	"business_hospitality": "આતિથ્ય",
+	"business_information_technology": "માહિતી ટેકનોલોજી",
+	"business_manufacturing": "ઉત્પાદન",
+	"business_media_entertainment": "મીડિયા અને મનોરંજન",
+	"business_real_estate": "રિઅલ એસ્ટેટ",
+	"business_retail": "ચોખ્ખું વેચાણ",
+	"business_telecommunications": "દૂરસંચાર",
+	"business_transportation_logistics": "પરિવહન અને લોજિસ્ટિક્સ",
+	"business_utilities_energy": "યુટિલિટીઝ અને ઉર્જા",
+	"business_wholesale_trade": "થોક વેપાર"
 }
