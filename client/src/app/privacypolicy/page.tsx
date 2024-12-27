@@ -3,82 +3,95 @@ import Container from '../components/Container'
 import Translation from '../components/translation';
 
 interface Description {
-    item: string;
-    desc: string;
+    item?: string;
+    cnt?: string[];
 }
 
 interface Privacy {
     title: string;
-    description: string | Description[];
+    description: Description[];
 }
 
 const privacies: Privacy[] = [
     {
-        title: 'privacies_introduction_title',
-        description: 'privacies_introduction_desc'
-    },
-    {
-        title: 'privacies_info_title',
+        title: 'privaciy_collectedInfo_title',
         description: [
-            { item: 'privacies_personal_title', desc: 'privacies_personal_desc' },
-            { item: 'privacies_nonPersonal_title', desc: 'privacies_nonPersonal_desc' }
+            { item: 'privaciy_collectedInfo_desc' },
+            { cnt: ["privaciy_collectedInfo_desc_name", "privaciy_collectedInfo_desc_contact", "privaciy_collectedInfo_desc_info", "privaciy_collectedInfo_desc_business"] },
+            { item: "privaciy_collectedInfo_desc2" }
         ]
     },
     {
-        title: 'privacies_useInfo_title',
+        title: 'privaciy_useInfo_title',
         description: [
-            { item: 'privacies_useInfo_provideServices_title', desc: 'privacies_useInfo_provideServices_desc' },
-            { item: 'privacies_useInfo_comunication_title', desc: 'privacies_useInfo_comunication_desc' },
-            { item: 'privacies_useInfo_improveServices_title', desc: 'privacies_useInfo_improveServices_desc' },
-            { item: 'privacies_useInfo_security_title', desc: 'privacies_useInfo_security_desc' }
+            { item: 'privaciy_useInfo_desc' },
+            {
+                cnt: [
+                    'privaciy_useInfo_desc_record',
+                    'privaciy_useInfo_desc_product',
+                    'privaciy_useInfo_desc_email',
+                    'privaciy_useInfo_desc_payment',
+                ]
+            }
         ]
     },
     {
-        title: 'privacies_sharingInfo_title',
+        title: 'privaciy_security_title',
         description: [
-            { item: 'privacies_sharingInfo_services_title', desc: 'privacies_sharingInfo_services_desc' },
-            { item: 'privacies_sharingInfo_compliance_title', desc: 'privacies_sharingInfo_compliance_desc' },
-            { item: 'privacies_sharingInfo_business_title', desc: 'privacies_sharingInfo_business_desc' }
+            { item: 'privaciy_security_desc' },
         ]
     },
     {
-        title: 'privacies_cookies_title',
+        title: 'privaciy_cookies_title',
         description: [
-            { item: 'privacies_cookies_cookie_title', desc: 'privacies_cookies_cookie_desc' },
-            { item: 'privacies_cookies_analytics_title', desc: 'privacies_cookies_analytics_desc' }
+            { item: 'privaciy_cookies_desc' },
+            {
+                cnt: [
+                    'privaciy_cookies_desc_navigation',
+                    'privaciy_cookies_des_webTraffic'
+                ]
+            },
+            { item: 'privaciy_cookies_des2' }
         ]
     },
     {
-        title: 'privacies_security_title',
-        description: 'privacies_security_desc'
-    },
-    {
-        title: 'privacies_retention_title',
-        description: 'privacies_retention_desc'
-    },
-    {
-        title: 'privacies_rights_title',
+        title: 'privaciy_law_title',
         description: [
-            { item: 'privacies_rights_access_title', desc: 'privacies_rights_access_desc' },
-            { item: 'privacies_rights_optOut_title', desc: 'privacies_rights_optOut_desc' },
-            { item: 'privacies_rights_deletioln_title', desc: 'privacies_rights_deletioln_desc' },
+            { item: 'privaciy_law_desc' },
         ]
     },
     {
-        title: 'privacies_internationalUsers_title',
-        description: 'privacies_internationalUsers_desc'
+        title: 'privaciy_transfers_title',
+        description: [{ item: 'privaciy_transfers_desc' }]
     },
     {
-        title: "privacies_children_title",
-        description: 'privacies_children_desc'
+        title: 'privaciy_links_title',
+        description: [{ item: 'privaciy_links_desc' }]
     },
     {
-        title: 'privacies_changes_title',
-        description: 'privacies_changes_desc'
+        title: 'privaciy_choice_title',
+        description: [
+            { item: 'privaciy_choice_desc' },
+        ]
     },
     {
-        title: 'privacies_contact_title',
-        description: 'privacies_contact_desc'
+        title: 'privaciy_controlling_title',
+        description: [
+            { item: 'privaciy_controlling_desc' },
+            { item: 'privaciy_controlling_desc2' },
+        ]
+    },
+    {
+        title: "privaciy_right_title",
+        description: [
+            { item: 'privaciy_right_desc' },
+        ]
+    },
+    {
+        title: 'privaciy_contact_title',
+        description: [
+            { item: 'privaciy_contact_desc' }
+        ]
     }
 ]
 
@@ -102,35 +115,31 @@ export default function PrivacyPolicy() {
                 </div>
 
                 <div className='bg-background pt-8 px-5 sm:px-[50px] md:px-[150px] xl:px-[300px] pb-20 flex flex-col gap-10 text-sm '>
-                    <ol className='list-decimal pl-6 flex flex-col gap-7'>
+                    <ul className='pl-6 flex flex-col gap-7'>
                         {privacies.map((privacy, index) => (
                             <li key={index} className='text-semibold-24 text-primary '>
                                 <h1 className='font-semibold pb-3 leading-[27px]'>
                                     <Translation translationKey={privacy.title} />
                                 </h1>
-                                {typeof privacy.description === 'string' ? (
-                                    <p className='font-regular text-sm text-span font-light leading-[27px]'
-                                        style={{ wordSpacing: '0.1em', textAlign: 'justify' }}
-                                    >
-                                        <Translation translationKey={privacy.description} />
-                                    </p>
-                                ) : (
-                                    <ul className='list-disc list-inside flex flex-col gap-2 text-sm'>
-                                        {privacy.description.map((item, itemIndex) => (
-                                            <li key={itemIndex} className='text-span'>
-                                                <span>
-                                                    <Translation translationKey={item.item} />
-                                                </span>
-                                                <span className='font-light text-span leading-[27px] pl-2' style={{ wordSpacing: '0.1em', textAlign: 'justify' }}>
-                                                    <Translation translationKey={item.desc} />
-                                                </span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
+                                <div className='flex flex-col gap-2 text-sm'>
+                                    {privacy.description.map((item, itemIndex) => (
+                                        <div key={itemIndex} className='text-span'>
+                                            <p className='font-light text-span leading-[27px] pl-2' style={{ wordSpacing: '0.1em', textAlign: 'justify' }}>
+                                                <Translation translationKey={item.item} />
+                                            </p>
+                                            {
+                                                item.cnt && (
+                                                    <ul className='pl-7 list-disc list-inside'>
+                                                        {item.cnt.map((cnt) => <li><Translation translationKey={cnt} /></li>)}
+                                                    </ul>
+                                                )
+                                            }
+                                        </div>
+                                    ))}
+                                </div>
                             </li>
                         ))}
-                    </ol>
+                    </ul>
                 </div>
             </div>
         </Container>
