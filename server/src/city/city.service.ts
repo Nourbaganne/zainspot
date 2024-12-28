@@ -15,7 +15,7 @@ export class CityService {
 		@InjectRepository(City)
 		private cityRepository: Repository<City>,
 		private stripeService: StripeService,
-	) {}
+	) { }
 
 	async getCities(
 		{ page, limit, size, offset, hidden }: Pagination,

@@ -16,7 +16,7 @@ export interface Pagination {
 export const PaginationParams = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    const { page = '1', limit = '5', hidden } = request.query;
+    const { page = '1', limit = '100', hidden } = request.query;
 
     const parsedPage = parseInt(page, 10);
     const parsedLimit = parseInt(limit, 10);
@@ -48,7 +48,7 @@ export const PaginationParams = createParamDecorator(
       limit: parsedLimit,
       size,
       offset: (parsedPage - 1) * parsedLimit,
-      hidden: parsedHidden, // Include hidden
+      hidden: parsedHidden,
     };
   },
 );
