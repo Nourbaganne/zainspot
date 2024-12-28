@@ -31,6 +31,7 @@ export const FOOTER_DATA: FooterDataInterface[] = [
 		sections: [
 			{ translationKey: 'footer_title_termsofuse', link: '/terms' },
 			{ translationKey: 'footer_title_privacypolicy', link: '/privacypolicy' },
+			{ translationKey: 'cookie_header', link: '/cookiepolicy' },
 		],
 	},
 ];

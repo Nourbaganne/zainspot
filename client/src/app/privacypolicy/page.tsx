@@ -130,7 +130,7 @@ export default function PrivacyPolicy() {
                                             {
                                                 item.cnt && (
                                                     <ul className='pl-7 list-disc list-inside'>
-                                                        {item.cnt.map((cnt) => <li><Translation translationKey={cnt} /></li>)}
+                                                        {item.cnt.map((cnt, key) => <li key={key}><Translation translationKey={cnt} /></li>)}
                                                     </ul>
                                                 )
                                             }

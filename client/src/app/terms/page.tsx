@@ -7,28 +7,32 @@ interface Cnt {
     desc: string;
 }
 
+interface Desc {
+    title: string | string[];
+    cnt: Cnt[];
+}
+
 interface AlphList {
-    title: string;
-    desc: string[];
+    title?: string;
+    desc?: string[];
 }
 
 interface Description {
     item?: string;
-    cnt?: Cnt[];
     alphList?: AlphList;
 }
 
 interface Term {
     title: string;
-    description: (string | Description)[];
+    description: (string | Desc | Description)[];
 }
 
 const terms: Term[] = [
     {
         title: 'terms_def_title',
         description: [
-            { item: 'terms_def_desc' },
             {
+                title: 'terms_def_desc',
                 cnt: [
                     { title: 'terms_def_desc_zainspot_title', desc: 'terms_def_desc_zainspot_desc' },
                     { title: 'terms_def_desc_adress_title', desc: 'terms_def_desc_adress_desc' },
@@ -50,8 +54,8 @@ const terms: Term[] = [
     {
         title: 'terms_mail_title',
         description: [
-            { item: "terms_mail_desc_zainspot" },
             {
+                title: 'terms_mail_desc_zainspot',
                 cnt: [
                     { title: "terms_mail_desc_forwading_title", desc: "terms_mail_desc_forwading_desc" },
                     { title: "terms_mail_desc_collection_title", desc: "terms_mail_desc_collection_desc" },
@@ -84,6 +88,7 @@ const terms: Term[] = [
                 }
             }
         ]
+
     },
     {
         title: 'terms_charges_title',
@@ -121,34 +126,49 @@ const terms: Term[] = [
     },
 ]
 
-const renderDescription = (description: (string | Description)[], prefix: string = '', counter: number = 1): JSX.Element[] => {
+const renderDescription = (
+    description: (string | Desc | Description)[],
+    prefix: string,
+    counter: { value: number }
+): JSX.Element[] => {
     let results: JSX.Element[] = [];
 
-    description.forEach((item, index) => {
+    description.forEach((item) => {
+        const currentPrefix = `${prefix}${counter.value}`;
+        counter.value += 1;
+
         if (typeof item === 'string') {
-            const currentPrefix = `${prefix}${counter++} `;
             results.push(
-                <li key={index} className='font-light text-span leading-[27px]'>
+                <li key={currentPrefix} className="font-light text-span leading-[27px]">
                     {currentPrefix} <Translation translationKey={item} />
                 </li>
             );
-        } else {
-            const currentPrefix = `${prefix}${counter++} `;
+        } else if ('title' in item) {
             results.push(
-                <li key={index} className='font-light text-span leading-[27px]'>
-                    {item.item && (
-                        <span>
-                            {currentPrefix} <Translation translationKey={item.item} />
-                        </span>
-                    )}
-                    {item.cnt && (
+                <li key={currentPrefix} className="font-light text-span leading-[27px]">
+                    <span>
+                        {currentPrefix}{' '}
+                        {typeof item.title === 'string' ? (
+                            <Translation translationKey={item.title} />
+                        ) : (
+                            item.title.map((tite, key) => (
+                                <span key={key}>
+                                    <Translation translationKey={tite} />
+                                </span>
+                            ))
+                        )}
+                    </span>
+
+                    {item.cnt && Array.isArray(item.cnt) && (
                         <ol>
-                            {item.cnt.map((cntItem, cntIndex) => {
-                                const currentCntPrefix = `${prefix}${counter++}`;
+                            {item.cnt.map((cntItem, index) => {
+                                const nestedPrefix = `${prefix}${counter.value}`;
+                                counter.value += 1;
+
                                 return (
-                                    <li key={cntIndex}>
-                                        <span className='font-semibold'>
-                                            {currentCntPrefix} <Translation translationKey={cntItem.title} />
+                                    <li key={`${nestedPrefix}-${index}`}>
+                                        <span className="font-semibold">
+                                            {nestedPrefix} <Translation translationKey={cntItem.title} />
                                         </span>
                                         <Translation translationKey={cntItem.desc} />
                                     </li>
@@ -156,18 +176,29 @@ const renderDescription = (description: (string | Description)[], prefix: string
                             })}
                         </ol>
                     )}
-                    {item.alphList && (
-                        <div>
-                            <strong>{`${prefix}${counter++}`} {item.alphList.title}:</strong>
-                            <ol className='pl-8'>
-                                {item.alphList.desc.map((desc, descIndex) => (
-                                    <li key={descIndex} className='text-span'>
-                                        <Translation translationKey={desc} />
-                                    </li>
-                                ))}
-                            </ol>
-                        </div>
-                    )}
+                </li>
+            );
+        } else if ('item' in item) {
+            results.push(
+                <li key={currentPrefix} className="font-light text-span leading-[27px]">
+                    {currentPrefix} <Translation translationKey={item.item} />
+                </li>
+            );
+        }
+
+        if (typeof item !== 'string' && 'alphList' in item) {
+            results.push(
+                <li key={currentPrefix} className="font-light text-span leading-[27px]">
+                    <strong>
+                        {currentPrefix} <Translation translationKey={item.alphList.title} />
+                    </strong>
+                    <ol className="pl-3">
+                        {item.alphList.desc && item.alphList.desc.map((desc, descIndex) => (
+                            <li key={descIndex} className="text-span">
+                                <Translation translationKey={desc} />
+                            </li>
+                        ))}
+                    </ol>
                 </li>
             );
         }
@@ -175,6 +206,9 @@ const renderDescription = (description: (string | Description)[], prefix: string
 
     return results;
 };
+
+
+
 
 export default function TermsOfUse() {
     return (
@@ -185,30 +219,32 @@ export default function TermsOfUse() {
             ]}
             withPaddingBottom={false}
         >
-            <div className='flex flex-col gap-12'>
-                <div className='flex flex-col justify-center items-center gap-3'>
-                    <h1 className='font-bold text-3xl text-primary'>
-                        <Translation translationKey='footer_title_termsofuse' />
+            <div className="flex flex-col gap-12">
+                <div className="flex flex-col justify-center items-center gap-3">
+                    <h1 className="font-bold text-3xl text-primary">
+                        <Translation translationKey="footer_title_termsofuse" />
                     </h1>
-                    <p className='text-span font-light text-sm font-regular text-center'>
-                        <Translation translationKey='privacyPage_desc' />
+                    <p className="text-span font-light text-sm font-regular text-center">
+                        <Translation translationKey="privacyPage_desc" />
                     </p>
                 </div>
 
-                <div className='bg-background pt-8 px-5 sm:px-[50px] md:px-[150px] xl:px-[300px] pb-20 flex flex-col gap-10 text-sm'>
-                    <p className='font-regular text-sm text-span font-light leading-[27px]'>
-                        <Translation translationKey='terms_introduction' />
+                <div className="bg-background pt-8 px-5 sm:px-[50px] md:px-[150px] xl:px-[300px] pb-20 flex flex-col gap-10 text-sm">
+                    <p className="font-regular text-sm text-span font-light leading-[27px]">
+                        <Translation translationKey="terms_introduction" />
                     </p>
-                    <ol className='list-decimal pl-6 flex flex-col gap-7'>
-                        {terms.map((term, index) => {
-                            const currentPrefix = `${index + 1}.`;
+                    <ol className="list-decimal pl-6 flex flex-col gap-7">
+                        {terms.map((term, termIndex) => {
+                            const counter = { value: 1 };
+                            const currentPrefix = `${termIndex + 1}.`;
+
                             return (
-                                <li key={index} className='text-semibold-24 text-primary'>
-                                    <h1 className='font-semibold pb-3 leading-[27px]'>
+                                <li key={termIndex} className="text-semibold-24 text-primary">
+                                    <h1 className="font-semibold pb-3 leading-[27px]">
                                         <Translation translationKey={term.title} />
                                     </h1>
-                                    <ol className='flex flex-col gap-2 text-sm'>
-                                        {renderDescription(term.description, currentPrefix)}
+                                    <ol className="flex flex-col gap-2 text-sm">
+                                        {renderDescription(term.description, currentPrefix, counter)}
                                     </ol>
                                 </li>
                             );
@@ -217,5 +253,7 @@ export default function TermsOfUse() {
                 </div>
             </div>
         </Container>
-    )
+    );
 }
+
+
