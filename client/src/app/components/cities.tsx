@@ -21,42 +21,6 @@ const Cities = () => {
 	});
 	const cities = data?.data.items || [];
 
-	const { user } = useContext(AuthContext);
-	console.log('user', user);
-
-	const [subscriptions, setSubscriptions] = useState([]);
-
-	const [validSubscriptionsByCityId, setValidSubscriptionsByCityId] = useState(
-		{},
-	);
-
-	useEffect(() => {
-		if (!user) {
-			console.log('user unauthenticated');
-			return;
-		}
-
-		// get subscriptions for the user
-		if (user.user) {
-			axiosInstance.get(`/subscriptions/${user.user.userId}`).then((res) => {
-				const subscriptions = res.data;
-				console.log('subscriptions', subscriptions);
-				setSubscriptions(subscriptions);
-
-				// build a map of valid subscriptions by cityId
-				const validSubscriptionsByCityId = {};
-				for (let i = 0; i < subscriptions.length; i++) {
-					const sub = subscriptions[i];
-					const currentDate = new Date();
-					if (sub.city.id && currentDate < new Date(sub.endDate)) {
-						validSubscriptionsByCityId[sub.city.id] = true;
-					}
-				}
-				setValidSubscriptionsByCityId(validSubscriptionsByCityId);
-			});
-		}
-	}, [user]);
-
 	if (isLoading) {
 		return <Loader />;
 	}
@@ -73,12 +37,7 @@ const Cities = () => {
 					city.hidden ? (
 						<UnavailableCity key={city.id} city={city} index={city?.id} />
 					) : (
-						<AvailableCity
-							key={city.id}
-							city={city}
-							index={city?.id}
-							isSubscribed={validSubscriptionsByCityId[city.id]}
-						/>
+						<AvailableCity key={city.id} city={city} index={city?.id} />
 					),
 				)}
 		</div>

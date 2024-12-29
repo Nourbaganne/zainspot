@@ -1,11 +1,8 @@
 'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { FaCheckCircle } from 'react-icons/fa';
-import { FiArrowRight, FiCheckCircle } from 'react-icons/fi';
-import IMG from '@/app/assets/cart/row-image.png';
+import { useSearchParams } from 'next/navigation';
+import { FiArrowRight } from 'react-icons/fi';
 import CONGRATS_IMG from '@/app/assets/cart/success/celebration-6VFgJeZ9bs.svg';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import { useEffect } from 'react';
@@ -14,8 +11,9 @@ export default function CheckoutSuccessPage() {
 	const searchParams = useSearchParams();
 	const sessionId = searchParams.get('session_id');
 
-	// TODO: Update PaymentHistory status from 'PENDING' to 'SUCCESS' after successfull checkout
+	// update PaymentHistory status from 'FAILED' to 'PAID' after successfull checkout
 	function updatePaymentHistoryStatus() {
+		console.log('updatePaymentHistoryStatus called');
 		function printError(err: any) {
 			alert('Failed to update PaymentHistory status');
 			console.error('Failed to update PaymentHistory status', err);
@@ -25,12 +23,14 @@ export default function CheckoutSuccessPage() {
 			.put(`stripe/payment-history/${sessionId}`)
 			.then((response) => {
 				if (response.status === 200) {
-					console.log('PaymentHistory status updated successfully');
 				} else printError(response);
 			})
 			.catch(printError);
 	}
-	useEffect(updatePaymentHistoryStatus, []);
+	useEffect(() => {
+		if (!sessionId) return;
+		updatePaymentHistoryStatus();
+	}, [sessionId]);
 
 	return (
 		<div className='flex-center flex-col'>

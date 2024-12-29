@@ -6,6 +6,7 @@ import {
 	Body,
 	Delete,
 	ParseIntPipe,
+	Query,
 } from '@nestjs/common';
 import { SubscriptionService } from './subscription.service';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
@@ -17,6 +18,10 @@ import { Public } from 'src/decorators/public.decorator';
 export class SubscriptionController {
 	constructor(private readonly subscriptionService: SubscriptionService) {}
 
+	@Get()
+	async findAll(@Query() query: Record<string, any>): Promise<any> {
+		return this.subscriptionService.findAll(query);
+	}
 
 	@Public()
 	@Get('/revenue')
@@ -35,7 +40,6 @@ export class SubscriptionController {
 	): Promise<Subscription> {
 		return this.subscriptionService.createSubscription(createSubscriptionDto);
 	}
-	
 
 	@Get(':userId')
 	async getSubscriptionsByUser(

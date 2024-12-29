@@ -1,9 +1,5 @@
 'use client';
-
-import Image from 'next/image';
 import Link from 'next/link';
-import { FiArrowRight } from 'react-icons/fi';
-
 import { IoIosWarning } from 'react-icons/io';
 
 export default function CheckoutCancelPage() {

@@ -8,6 +8,7 @@ import PerMonth from '@/app/interfaces/PerMonth';
 interface ZSGoldProps {
 	priceData: PerMonth;
 	onSelect: (args: any) => void;
+	isSubscribed: boolean;
 	selectedItem: {
 		optionType: string;
 		duration: number;
@@ -16,10 +17,19 @@ interface ZSGoldProps {
 	} | null;
 }
 
-const ZsGold = ({ priceData, onSelect, selectedItem }: ZSGoldProps) => {
+const ZsGold = ({
+	priceData,
+	onSelect,
+	selectedItem,
+	isSubscribed,
+}: ZSGoldProps) => {
+	function isSubscribedToThisService() {
+		return isSubscribed && selectedItem?.optionType == 'gold';
+	}
+
 	const { currency } = useCurrency();
 	return (
-		<div className='flex flex-col gap-4 border-2 font-sans rounded-md border-secondary  px-2 py-4'>
+		<div className='flex flex-col gap-4 border-2 font-sans rounded-md border-secondary px-2 py-4'>
 			<div className='flex flex-col'>
 				<div className='flex justify-between items-center'>
 					<h1 className='font-sans font-semibold text-semibold-24 md:text-[36px]'>
@@ -48,7 +58,12 @@ const ZsGold = ({ priceData, onSelect, selectedItem }: ZSGoldProps) => {
 				<Translation translationKey='citypage_cards_subtitle' />
 			</h1>
 
-			<div className='flex justify-between items-center font-semibold text-sm md:text-semibold-18'>
+			<div
+				className={
+					'flex justify-between items-center font-semibold text-sm md:text-semibold-18 capitalize ' +
+					(!isSubscribed || isSubscribedToThisService() ? '' : 'opacity-50')
+				}
+			>
 				<div className='w-1/3 capitalize'>
 					<Translation translationKey='citypage_single_payment' />
 				</div>
@@ -62,7 +77,7 @@ const ZsGold = ({ priceData, onSelect, selectedItem }: ZSGoldProps) => {
 						/>
 					</span>
 				</div>
-				<div className='ml-4 flex items-center gap-2'>
+				<div className={'ml-4 flex items-center gap-2'}>
 					<input
 						type='radio'
 						id='buy-gold'
@@ -78,6 +93,7 @@ const ZsGold = ({ priceData, onSelect, selectedItem }: ZSGoldProps) => {
 							})
 						}
 						onChange={() => {}}
+						disabled={isSubscribed && !isSubscribedToThisService()}
 					/>
 					<label htmlFor='buy-gold'>
 						<Translation translationKey='citypage_radio_label' />

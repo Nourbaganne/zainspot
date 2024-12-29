@@ -2,19 +2,15 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { FaCheckCircle } from 'react-icons/fa';
-import { FiArrowRight, FiCheckCircle } from 'react-icons/fi';
+import { FiArrowRight } from 'react-icons/fi';
 import IMG from '@/app/assets/cart/row-image.png';
-import CONGRATS_IMG from '@/app/assets/cart/success/celebration-6VFgJeZ9bs.svg';
-import { useEffect } from 'react';
 
 interface Props {
 	children: React.ReactNode;
 }
 
 export default function CheckoutSuccessPage({ children }: Props) {
-	const searchParams = useSearchParams();
+	// const searchParams = useSearchParams();
 	// const sessionId = searchParams.get('session_id');
 
 	return (

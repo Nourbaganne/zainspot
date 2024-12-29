@@ -5,9 +5,11 @@ import {
 	Column,
 	CreateDateColumn,
 	BaseEntity,
+	OneToOne,
 } from 'typeorm';
 import { User } from './user.entity';
 import { City } from './city.entity';
+import { PaymentHistory } from './payment-history.entity';
 
 @Entity()
 export class Subscription extends BaseEntity {
@@ -18,6 +20,14 @@ export class Subscription extends BaseEntity {
 		onDelete: 'CASCADE',
 	})
 	user: User;
+
+	// when subscription is removed, remove payment history as well
+	@OneToOne(
+		() => PaymentHistory,
+		(paymentHistory) => paymentHistory.subscription,
+		{ cascade: true },
+	)
+	paymentHistory: PaymentHistory;
 
 	@ManyToOne(() => City, (city) => city.subscriptions)
 	city: City;
