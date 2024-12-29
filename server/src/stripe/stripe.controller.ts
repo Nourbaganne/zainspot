@@ -81,8 +81,6 @@ export class StripeController {
 		@Param() { stripeSessionId }: { stripeSessionId: string },
 		@Res() res: Response,
 	) {
-		console.log('stripe controller updatePaymentHistoryStatus has been hit');
-
 		if (!stripeSessionId) {
 			return res.status(422).json({ message: 'Stripe session ID is required' });
 		}
