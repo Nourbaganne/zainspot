@@ -85,11 +85,11 @@ export class StripeController {
 			return res.status(422).json({ message: 'Stripe session ID is required' });
 		}
 
+		// check session payment status after checkout
 		const session =
 			await this.stripeService.stripe.checkout.sessions.retrieve(
 				stripeSessionId,
 			);
-
 		if (session.payment_status.toLowerCase() != 'paid') {
 			return res.status(400).json({ message: 'Payment failed' });
 		}
@@ -116,7 +116,8 @@ export class StripeController {
 			paymentHistory.subscription.id,
 			{
 				renewalDate: new Date(),
-				renewalStatus: 'YES',
+				renewalStatus: 'NO',
+				// maybe rename it to autoRenewal and save boolean value in it for better storage efficiency
 			},
 		);
 

@@ -28,7 +28,7 @@ export class SubscriptionService {
 		// if you want to filter data by cityId, send city.id in request query, same for userId, send user.id, etc...
 		const data: any = await this.subscriptionRepository.find({
 			where: query,
-			relations: ['paymentHistory'],
+			relations: ['paymentHistory', 'city'],
 		});
 
 		return data;
