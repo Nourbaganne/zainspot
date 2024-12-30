@@ -33,24 +33,21 @@ const Cities = () => {
 			console.log('no auth user');
 			return;
 		}
-		console.log('getSubscriptions called');
 		axiosInstance
 			.get('/subscriptions?user.id=' + user.user.userId)
 			.then(function (res) {
 				const subscriptions = res.data;
-				console.log('subscriptions', subscriptions);
 				// build subscribed by userId
 				const currDate = new Date();
-				console.log('currDate', currDate);
 				const subscribedCities: Set<number> = new Set();
 				for (let i = 0; i < subscriptions.length; i++) {
-					if (new Date(subscriptions[i].endDate) > currDate) {
+					if (
+						new Date(subscriptions[i].endDate) > currDate &&
+						subscriptions[i].paymentHistory.status === 'PAID'
+					) {
 						subscribedCities.add(subscriptions[i].city.id);
-						console.log('pushed city', subscriptions[i].city.id);
 					}
 				}
-
-				console.log('subscribedCities', subscribedCities);
 				setSubscribedCities(subscribedCities);
 			})
 			.catch(function (error) {

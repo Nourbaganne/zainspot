@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 // import type { Metadata } from 'next';
 import { Work_Sans } from 'next/font/google';
 import './globals.css';
@@ -12,7 +13,6 @@ import { Toaster } from 'react-hot-toast';
 import { RolesProvider } from './contexts/RoleContext';
 import CookieBanner from './components/cookieBanner';
 
-
 const workSans = Work_Sans({ subsets: ['latin'] });
 
 // export const metadata: Metadata = {
@@ -25,7 +25,6 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-
 	return (
 		<html lang='en'>
 			<body className={workSans.className}>
@@ -37,9 +36,7 @@ export default function RootLayout({
 									<Navbar />
 									<Toaster position='top-right' />
 									<CookieBanner />
-									<main>
-										{children}
-									</main>
+									<main>{children}</main>
 									<Footer />
 								</RolesProvider>
 							</CurrencyProvider>

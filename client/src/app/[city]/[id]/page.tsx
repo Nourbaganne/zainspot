@@ -15,6 +15,7 @@ import { AuthContext } from '@/app/contexts/authContext';
 import City from '@/app/interfaces/City';
 import { FiArrowLeft, FiArrowRight, FiChevronLeft } from 'react-icons/fi';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 export interface SelectedItem {
 	duration: number;
@@ -24,6 +25,7 @@ export interface SelectedItem {
 }
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
+	const router = useRouter();
 	const { user } = useContext(AuthContext);
 
 	const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
@@ -126,7 +128,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 		axiosInstance
 			.post('stripe/create-checkout-session', reqBody)
 			.then((res) => {
-				window.location.href = res.data.url;
+				router.replace(res.data.url);
 			})
 			.catch((err) => {
 				console.error(err);

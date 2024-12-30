@@ -1,3 +1,5 @@
+import PaymentHistory from './PaymentHistory';
+
 export default interface Subscription {
 	id: number;
 	cityId: number;
@@ -10,4 +12,5 @@ export default interface Subscription {
 	endDate: Date;
 	renewalDate?: Date;
 	renewalStatus?: string;
+	paymentHistory?: PaymentHistory;
 }
