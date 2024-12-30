@@ -37,6 +37,9 @@ export class CityService {
 			});
 		}
 
+		// Add sorting: unhidden cities first, then hidden cities
+		queryBuilder = queryBuilder.orderBy('city.hidden', 'ASC');
+
 		// Get total number of locations (all entries in the city table after filters)
 		const totalLocations = await queryBuilder.getCount();
 
@@ -93,6 +96,7 @@ export class CityService {
 			hasPreviousPage,
 		};
 	}
+
 
 	async getCity(id: number): Promise<City> {
 		const city = await this.cityRepository.findOne({ where: { id } });

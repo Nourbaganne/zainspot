@@ -18,6 +18,8 @@ const Cities = () => {
 	const { data, isLoading, isError, error } = useQuery({
 		queryKey: ['cities'],
 		queryFn: getCities,
+		refetchOnMount: 'always',
+		refetchOnWindowFocus: true,
 	});
 	const cities = data?.data.items || [];
 

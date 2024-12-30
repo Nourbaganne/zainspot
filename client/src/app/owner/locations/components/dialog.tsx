@@ -301,8 +301,8 @@ const Dialog: FC<DialogProps> = ({ onClose, isOpen, isEdit, id }) => {
 										type='submit'
 										className='py-3 px-4 bg-primary text-white rounded-lg'
 									>
-										<Translation translationKey={isEdit ? '' : ''} />
-										{isEdit ? 'locationsDialog_update' : 'locationsDialog_create'}
+										<Translation translationKey={isEdit ? 'locationsDialog_update' : 'locationDialog_header'}/>
+										
 									</button>
 								</div>
 							</div>
