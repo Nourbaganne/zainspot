@@ -98,17 +98,14 @@ export const useAddCity = ({ onClose }: { onClose: () => void }) => {
 			imageUrl: Yup.mixed().required('Image is required'),
 		}),
 
-		onSubmit: async (
-			values: CityData,
-			{ resetForm }: FormikHelpers<CityData>,
-		) => {
+		onSubmit: async (values, { resetForm }) => {
 			toast.loading('Adding city...');
 			try {
 				await mutation.mutateAsync(values);
-				resetForm();
+				resetForm(); // Reset only on success
 			} catch (error) {
-				console.error('Error during form submission:', error);
-				toast.error('Failed to add the city. Please try again.');
+				console.error('Error during submission:', error);
+				toast.error('Failed to add the city.');
 			}
 		},
 	});

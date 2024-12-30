@@ -167,7 +167,7 @@
 	"ownerDashboard_users_desc": "A detailed list of Zainspot users, admins and managers",
 	"ownerDashboard_location": "Zainspot Locations",
 	"ownerDashboard_location_desc": "View, edit or add locations, cities and countries where Zainspot is available",
-	"locationDialog_header": "Create New Location",
+	"locationDialog_header": "CREATE LOCATION",
 	"locationDialog_info": "Location Info",
 	"locationDialog_info_city": "City",
 	"locationDialog_info_country": "Country",
