@@ -5,12 +5,9 @@ interface City {
 	city: string;
 	imageUrl: string;
 }
-const UnavailableCity = ({ city, index }: { city: City; index: number }) => {
+const UnavailableCity = ({ city }: { city: City }) => {
 	return (
-		<div
-			key={index}
-			className=' flex bg-secondary-foreground gap-4 items-center '
-		>
+		<div className=' flex bg-secondary-foreground gap-4 items-center '>
 			<div className='w-44 h-40 relative'>
 				<Image
 					src={city.imageUrl}

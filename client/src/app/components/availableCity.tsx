@@ -2,9 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Translation from './translation';
 import { useRouter } from 'next/navigation';
+import { AuthContext } from '../contexts/authContext';
+import axiosInstance from '../lib/axios/axiosInstance';
 
 interface City {
 	id: number;
@@ -14,10 +16,10 @@ interface City {
 
 interface Props {
 	city: City;
-	index: number;
+	isSubscribed: boolean;
 }
 
-const AvailableCity = ({ city, index }: Props) => {
+const AvailableCity = ({ city, isSubscribed }: Props) => {
 	const router = useRouter();
 
 	function handleClick() {
@@ -28,7 +30,6 @@ const AvailableCity = ({ city, index }: Props) => {
 		<button
 			onClick={handleClick}
 			className={`text-left relative flex bg-secondary-foreground hover:bg-background gap-4 items-center cursor-pointer group hover:shadow-lg `}
-			key={index}
 		>
 			<div className='w-44 h-40 relative'>
 				<Image
@@ -45,8 +46,12 @@ const AvailableCity = ({ city, index }: Props) => {
 				<p className='text-primary font-sans font-medium text-sm'>
 					<Translation translationKey='citypage_available_city' />
 				</p>
-				<p className='text-primary hidden group-hover:block underline'>
-					<Translation translationKey='citypage_available_hovering' />
+				<p className='text-primary hidden group-hover:block underline italic'>
+					{isSubscribed ? (
+						'Subscribed'
+					) : (
+						<Translation translationKey='citypage_available_hovering' />
+					)}
 				</p>
 			</div>
 		</button>

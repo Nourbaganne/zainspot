@@ -6,6 +6,7 @@ import { getCities } from '../lib/getCitites';
 import Loader from './loader';
 import axiosInstance from '../lib/axios/axiosInstance';
 import { AuthContext } from '../contexts/authContext';
+import Subscription from '../interfaces/Subscription';
 
 interface City {
 	id: number;
@@ -21,6 +22,47 @@ const Cities = () => {
 	});
 	const cities = data?.data.items || [];
 
+	// get all subscriptions for current user
+	const { user } = useContext(AuthContext);
+
+	const [subscribedCities, setSubscribedCities] = useState<Set<number>>(
+		new Set(),
+	);
+	function getSubscriptions() {
+		if (!user) {
+			console.log('no auth user');
+			return;
+		}
+		console.log('getSubscriptions called');
+		axiosInstance
+			.get('/subscriptions?user.id=' + user.user.userId)
+			.then(function (res) {
+				const subscriptions = res.data;
+				console.log('subscriptions', subscriptions);
+				// build subscribed by userId
+				const currDate = new Date();
+				console.log('currDate', currDate);
+				const subscribedCities: Set<number> = new Set();
+				for (let i = 0; i < subscriptions.length; i++) {
+					if (new Date(subscriptions[i].endDate) > currDate) {
+						subscribedCities.add(subscriptions[i].city.id);
+						console.log('pushed city', subscriptions[i].city.id);
+					}
+				}
+
+				console.log('subscribedCities', subscribedCities);
+				setSubscribedCities(subscribedCities);
+			})
+			.catch(function (error) {
+				console.error('Failed to get subscriptions', error);
+			});
+	}
+	useEffect(getSubscriptions, [user]);
+
+	useEffect(() => {
+		console.log('subscribedCities', subscribedCities);
+	}, [subscribedCities]);
+
 	if (isLoading) {
 		return <Loader />;
 	}
@@ -35,9 +77,13 @@ const Cities = () => {
 				cities.length > 0 &&
 				cities.map((city: City) =>
 					city.hidden ? (
-						<UnavailableCity key={city.id} city={city} index={city?.id} />
+						<UnavailableCity key={city.id} city={city} />
 					) : (
-						<AvailableCity key={city.id} city={city} index={city?.id} />
+						<AvailableCity
+							key={city.id}
+							city={city}
+							isSubscribed={subscribedCities.has(city.id)}
+						/>
 					),
 				)}
 		</div>
