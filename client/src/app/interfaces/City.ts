@@ -3,7 +3,7 @@ import PerMonth from './PerMonth';
 export default interface City {
 	id?: number;
 	city: string;
-	imageUrl: string | File | null;
+	imageUrl: string;
 	country: string;
 	hidden: boolean;
 	location: { title: string; locationLink: string };

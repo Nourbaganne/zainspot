@@ -1,3 +1,4 @@
+import City from './City';
 import PaymentHistory from './PaymentHistory';
 
 export default interface Subscription {
@@ -13,4 +14,5 @@ export default interface Subscription {
 	renewalDate?: Date;
 	renewalStatus?: string;
 	paymentHistory?: PaymentHistory;
+	city?: City;
 }
