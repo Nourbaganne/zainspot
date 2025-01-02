@@ -4,7 +4,7 @@ import { Work_Sans } from 'next/font/google';
 import './globals.css';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
-import { LanguageProvider } from './contexts/LanguageContext';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
 import { QueryProvider } from './queryProvider';
 import { AuthContextProvider } from './contexts/authContext';
@@ -26,8 +26,9 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 
+	const lang = localStorage.getItem("preferredLanguage") || "en";
 	return (
-		<html lang='en'>
+		<html lang={lang}>
 			<body className={workSans.className}>
 				<QueryProvider>
 					<AuthContextProvider>

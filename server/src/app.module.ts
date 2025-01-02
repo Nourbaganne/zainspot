@@ -28,6 +28,7 @@ import { SendMailModule } from './send-mail/send-mail.module';
 import { GoldMemberEmailModule } from './gold-member-email/gold-member-email.module';
 import { VisitorModule } from './visitor/visitor.module';
 import { PaymentEmailModule } from './payment-email/payment-email.module';
+import { TranslationModule } from './translation/translation.module';
 
 @Module({
 	imports: [
@@ -68,6 +69,7 @@ import { PaymentEmailModule } from './payment-email/payment-email.module';
 		GoldMemberEmailModule,
 		VisitorModule,
 		PaymentEmailModule,
+		TranslationModule,
 	],
 	controllers: [AppController],
 	providers: [

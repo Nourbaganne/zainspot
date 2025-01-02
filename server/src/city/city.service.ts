@@ -9,12 +9,14 @@ import { Pagination } from 'src/decorators/pagination-params.decorator';
 import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { StripeService } from 'src/stripe/stripe.service';
 import PerMonth from 'src/interfaces/PerMonth';
+import { TranslationService } from 'src/translation/translation.service';
 @Injectable()
 export class CityService {
 	constructor(
 		@InjectRepository(City)
 		private cityRepository: Repository<City>,
 		private stripeService: StripeService,
+		private translationService: TranslationService,
 	) { }
 
 	async getCities(
@@ -98,12 +100,23 @@ export class CityService {
 	}
 
 
-	async getCity(id: number): Promise<City> {
+	async getCity(id: number, lang?: string): Promise<any> {
 		const city = await this.cityRepository.findOne({ where: { id } });
 		if (!city) {
 			throw new NotFoundException('City not found');
 		}
-		return city;
+
+		const translatedCity = {
+			...city,
+			description: await this.translationService.translateText(city.description, 'en', lang),
+			location: {
+				...city.location,
+				title: await this.translationService.translateText(city.location.title, 'en', lang),
+			}
+		}
+
+
+		return translatedCity;
 	}
 
 	async uploadImageToCloudinary(file: Express.Multer.File): Promise<string> {

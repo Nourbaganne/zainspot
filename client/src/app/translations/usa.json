@@ -599,6 +599,7 @@
 	"cookie_types_marketing_title": "Marketing Cookies",
 	"cookie_types_marketing_desc": "We use limited third-party cookies, including those from Facebook, LinkedIn, and Google, to monitor the eectiveness of our marketing campaigns.",
 	"cookie_types_personalization_title": "Personalization Cookies",
-	"cookie_types_personalization_desc": "These cookies enable us to remember your preferences (e.g., username, language) and deliver a more tailored experience."
+	"cookie_types_personalization_desc": "These cookies enable us to remember your preferences (e.g., username, language) and deliver a more tailored experience.",
+	"role_all": "View All"
 	
 }

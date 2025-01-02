@@ -15,6 +15,7 @@ import { AuthContext } from '@/app/contexts/authContext';
 import City from '@/app/interfaces/City';
 import { FiArrowLeft, FiArrowRight, FiChevronLeft } from 'react-icons/fi';
 import React from 'react';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
 export interface SelectedItem {
 	duration: number;
@@ -25,11 +26,14 @@ export interface SelectedItem {
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 	const { user } = useContext(AuthContext);
+	const { language } = useLanguage();
 
 	const { data, isLoading, isError, error } = useQuery({
 		queryKey: ['city', params.id],
-		queryFn: () => axiosInstance.get(`/city/${params.id}`),
+		queryFn: () => axiosInstance.get(`/city/${params.id}?lang=${language.toLowerCase()}`),
 	});
+
+
 
 	const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
 

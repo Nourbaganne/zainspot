@@ -52,4 +52,5 @@ export class City extends BaseEntity {
 
 	@OneToMany(() => Subscription, (subscription) => subscription.city)
 	subscriptions: Subscription[];
+
 }
