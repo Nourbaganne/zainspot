@@ -22,7 +22,12 @@ export class EmailConfirmationService {
       expiresIn: `${process.env.JWT_VERIFICATION_TOKEN_EXPIRATION_TIME}s`,
     });
 
-    const frontendUrl = `${process.env.CLIENT_URL}/email-confirmation?token=${token}`;
+    let frontendUrl = '';
+    if (process.env.NODE_ENV === 'development') {
+      frontendUrl = `http://localhost:3000/email-confirmation?token=${token}`;
+    } else {
+      frontendUrl = `http://zainspot.com/email-confirmation?token=${token}`;
+    }
     const html = `
     <div style="background-color: #F3F3F3; width: 100%;">
       <div style="background-color: #E8E8E8; font-family: 'Work Sans', Arial, sans-serif; padding: 20px; max-width: 858px; margin: auto;">

@@ -29,6 +29,7 @@ export class SubscriptionController {
 		return this.subscriptionService.getRevenue();
 	}
 
+	@Public()
 	@Get('/:userId')
 	async findByUserId(@Param('userId', ParseIntPipe) userId: number) {
 		return this.subscriptionService.findByUserId(userId);
