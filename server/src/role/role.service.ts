@@ -3,10 +3,13 @@ import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { Role } from 'src/entities/role.entity';
 import { Permission } from 'src/entities/permission.entity';
+import { TranslationService } from 'src/translation/translation.service';
 
 @Injectable()
 export class RoleService {
-  constructor() { }
+  constructor(
+    private translationService: TranslationService
+  ) { }
 
   async create(createRoleDto: CreateRoleDto): Promise<Role> {
     const newRole = Role.create({
@@ -16,17 +19,26 @@ export class RoleService {
     return Role.save(newRole);
   }
 
-  findAll(): Promise<Role[]> {
-    return Role.find({ relations: ['permissions'] });
+  async findAll(lang: string): Promise<Role[]> {
+    const roles = await Role.find({ relations: ['permissions'] });
+
+    for (const role of roles) {
+      role.name = await this.translationService.translateText(role.name, 'en', lang);
+    }
+
+    return roles; 
   }
 
-  async findOne(id: number): Promise<Role> {
+  async findOne(id: number, lang?: string): Promise<Role> {
     const role = await Role.findOne({
       where: { id },
       relations: ['permissions'],
     });
     if (!role) {
       throw new NotFoundException(`Role with ID ${id} not found`);
+    }
+    if (lang){
+      role.name = await this.translationService.translateText(role.name, 'en', lang)
     }
     return role;
   }

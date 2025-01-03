@@ -592,5 +592,13 @@
 	"cookie_types_marketing_title": "Cookies marketing",
 	"cookie_types_marketing_desc": "Nous utilisons des cookies tiers limités, y compris ceux de Facebook, LinkedIn et Google, pour suivre l'efficacité de nos campagnes marketing.",
 	"cookie_types_personalization_title": "Cookies de personnalisation",
-	"cookie_types_personalization_desc": "Ces cookies nous permettent de nous souvenir de vos préférences (par exemple, votre nom d'utilisateur, la langue) et de vous offrir une expérience plus personnalisée."
+	"cookie_types_personalization_desc": "Ces cookies nous permettent de nous souvenir de vos préférences (par exemple, votre nom d'utilisateur, la langue) et de vous offrir une expérience plus personnalisée.",
+	"users_all": "Tous les utilisateurs",
+
+	"user_legalName": "Nom légal",
+	"user_tradinglName": "Nom commercial",
+	"user_businessType": "Type d'entreprise",
+	"user_email": "Email",
+	"user_number": "Numéro",
+	"user_website": "Site web"
 }

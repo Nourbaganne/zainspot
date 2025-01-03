@@ -3,6 +3,7 @@
 import React, { createContext, useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '../lib/axios/axiosInstance';
+import LanguageContext, { useLanguage } from './LanguageContext';
 
 // Define the shape of your roles data
 interface Role {
@@ -26,10 +27,12 @@ const RolesContext = createContext<RolesContextType | undefined>(undefined);
 export const RolesProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
+	const { language } = useLanguage();
+
 	const { data, isLoading, isError, error, refetch } = useQuery<Role[]>({
 		queryKey: ['roles'],
 		queryFn: async () => {
-			const response = await axiosInstance.get('/role');
+			const response = await axiosInstance.get(`/role?lang=${language.toLowerCase()}`);
 			return response.data;
 		},
 		staleTime: 5 * 60 * 1000, // 5 minutes

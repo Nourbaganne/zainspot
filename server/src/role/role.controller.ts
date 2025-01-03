@@ -6,6 +6,7 @@ import {
 	Patch,
 	Param,
 	Delete,
+	Query,
 } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
@@ -16,7 +17,7 @@ import { Permissions } from 'src/decorators/permissions.decorator';
 
 @Controller('role')
 export class RoleController {
-	constructor(private readonly roleService: RoleService) {}
+	constructor(private readonly roleService: RoleService) { }
 
 	@Public()
 	@Post()
@@ -33,14 +34,19 @@ export class RoleController {
 
 	@Public()
 	@Get()
-	findAll() {
-		return this.roleService.findAll();
+	findAll(
+		@Query('lang') lang?: string,
+	) {
+		return this.roleService.findAll(lang);
 	}
 
 	@Public()
 	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.roleService.findOne(+id);
+	findOne(
+		@Param('id') id: string,
+		@Query('lang') lang?: string,
+	) {
+		return this.roleService.findOne(+id, lang);
 	}
 
 	@Permissions({ action: 'update', subject: 'role' })

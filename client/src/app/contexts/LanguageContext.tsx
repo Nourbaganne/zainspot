@@ -21,8 +21,8 @@ export const useLanguage = () => {
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const initialLanguage: Language =
     typeof window !== "undefined"
-      ? (localStorage.getItem("preferredLanguage") as Language) || "USA"
-      : "USA";
+      ? (localStorage.getItem("preferredLanguage") as Language) || "EN"
+      : "EN";
 
   const [language, setLanguage] = useState<Language>(initialLanguage);
 

@@ -592,5 +592,13 @@
 	"cookie_types_marketing_title": "كوكيز التسويق",
 	"cookie_types_marketing_desc": "نستخدم بعض الكوكيز من أطراف ثالثة، بما في ذلك تلك من فيسبوك ولينكد إن وجوجل، لمراقبة فعالية حملاتنا التسويقية.",
 	"cookie_types_personalization_title": "كوكيز التخصيص",
-	"cookie_types_personalization_desc": "تمكننا هذه الكوكيز من تذكر تفضيلاتك (مثل اسم المستخدم، اللغة) وتقديم تجربة أكثر تخصيصًا."
+	"cookie_types_personalization_desc": "تمكننا هذه الكوكيز من تذكر تفضيلاتك (مثل اسم المستخدم، اللغة) وتقديم تجربة أكثر تخصيصًا.",
+	"users_all": "جميع المستخدمين",
+
+	"user_legalName": "الاسم القانوني للأعمال",
+	"user_tradinglName": "الاسم التجاري للأعمال",
+	"user_businessType": "نوع الأعمال",
+	"user_email": "البريد الإلكتروني",
+	"user_number": "الرقم",
+	"user_website": "الموقع الإلكتروني"
 }

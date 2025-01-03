@@ -177,11 +177,13 @@ const Users = () => {
 
       <div className='w-full pl-2 md:pl-0'>
         <h1 className='text-xl sm:text-2xl font-bold'>
-          <span className='font-bold'>All Users</span>{' '}
+          <span className='font-bold'>
+            <Translation translationKey='users_all' />
+          </span>{' '}
           <span className='font-light'>({totalUsers})</span>
         </h1>
         <div className='mt-4 flex flex-col gap-4 md:flex-row justify-between md:items-center'>
-          <div className="bg-span-background flex items-center gap-2 p-2 rounded-md overflow-x-auto">
+          <div className="bg-span-background flex items-center gap-2 p-2 rounded-md md:max-w-[540px] overflow-x-auto">
             <div className="flex gap-2 whitespace-nowrap">
               {FILTERING_TYPE.map((filter, index) => (
                 <div

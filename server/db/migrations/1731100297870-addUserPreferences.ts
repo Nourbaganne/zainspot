@@ -4,7 +4,7 @@ export class AddUserPreferences1731100297870 implements MigrationInterface {
     name = 'AddUserPreferences1731100297870'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE \`user\` ADD \`preferedLanguage\` varchar(255) NOT NULL DEFAULT 'USA'`);
+        await queryRunner.query(`ALTER TABLE \`user\` ADD \`preferedLanguage\` varchar(255) NOT NULL DEFAULT 'EN'`);
         await queryRunner.query(`ALTER TABLE \`user\` ADD \`preferedCurrency\` varchar(255) NOT NULL DEFAULT 'USD'`);
     }
 
