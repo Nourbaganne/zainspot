@@ -49,7 +49,7 @@ const Subscription = ({
                             <Translation translationKey='zainspot_title' />
                         </h1>
                         <span className='font-light text-span text-xs'>
-                            {city?.locationTitle?.split(',')[0]}
+                            {city?.location.title?.split(',')[0]}
                         </span>
                     </div>
                     <div className='hidden text-sm md:flex gap-2'>
@@ -68,7 +68,7 @@ const Subscription = ({
                     )}
                     <div className='flex gap-2 text-xs pl-4 md:pl-0'>
                         <Image src={locationLogo} alt='location-logo' />
-                        <p className='text-text-foreground text-xs'>{city?.locationTitle}</p>
+                        <p className='text-text-foreground text-xs'>{city?.location.locationLink}</p>
                     </div>
                 </div>
                 <div className='md:hidden text-sm flex flex-col gap-1'>

@@ -11,6 +11,18 @@ import Loader from '@/app/components/loader';
 import { WithAuth } from '@/app/lib/withAuth';
 import Translation from '@/app/components/translation';
 
+interface locationProps {
+	title: string;
+	locationLink: string;
+}
+
+interface cityProps {
+	id: number;
+	city: string;
+	imageUrl: string;
+	location: locationProps
+}
+
 export interface SubscriptionProps {
 	id: number;
 	access_token: string | undefined;
@@ -19,12 +31,7 @@ export interface SubscriptionProps {
 	optionType: string;
 	duration: number;
 	price: number;
-	city: {
-		id: number;
-		city: string;
-		imageUrl: string;
-		locationTitle: string;
-	};
+	city: cityProps;
 	user: {
 		email: string;
 		businessNumber: number | undefined;

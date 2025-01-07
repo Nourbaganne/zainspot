@@ -75,7 +75,7 @@ const ZsClassic = ({ pricesData, onSelect, selectedItem }: ZSClassisProps) => {
 								)?.stripePriceId,
 							})
 						}
-						onChange={() => {}}
+						onChange={() => { }}
 					/>
 					<label htmlFor='buy-classic-12'>
 						<Translation translationKey='citypage_radio_label' />
@@ -92,7 +92,9 @@ const ZsClassic = ({ pricesData, onSelect, selectedItem }: ZSClassisProps) => {
 						<div key={index} className='flex justify-between font-semibold'>
 							<h1 className='flex gap-2'>
 								{month?.duration}
-								<span>{month?.duration === 1 ? 'month' : 'months'}</span>
+								<span>
+									<Translation translationKey={month?.duration === 1 ? 'monthly' : 'citypage_month'} />
+								</span>
 							</h1>
 							<h1 className='text-primary'>
 								<MoneyValue
