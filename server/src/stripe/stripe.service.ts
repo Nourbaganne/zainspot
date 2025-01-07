@@ -23,11 +23,11 @@ export class StripeService {
 			],
 			mode: 'subscription',
 			success_url:
-				process.env.CLIENT_URL +
-				'/checkout/success?session_id={CHECKOUT_SESSION_ID}',
+				(process.env.NODE_ENV == 'development' ?
+				'http://localhost:3000/' : 'http://zainspot.com/') + 'checkout/success?session_id={CHECKOUT_SESSION_ID}',
 			cancel_url:
-				process.env.CLIENT_URL +
-				'/checkout/cancel?session_id={CHECKOUT_SESSION_ID}',
+			(process.env.NODE_ENV == 'development' ?
+				'http://localhost:3000/' : 'http://zainspot.com/') + 'checkout/cancel?session_id={CHECKOUT_SESSION_ID}',
 			customer: stripeCustomerId,
 			saved_payment_method_options: {
 				payment_method_save: 'enabled',

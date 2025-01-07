@@ -24,6 +24,16 @@ export class SubscriptionService {
 		private readonly userService: UserService,
 	) {}
 
+	async findAll(query: Record<string, any>): Promise<any> {
+		// if you want to filter data by cityId, send city.id in request query, same for userId, send user.id, etc...
+		const data: any = await this.subscriptionRepository.find({
+			where: query,
+			relations: ['paymentHistory', 'city'],
+		});
+
+		return data;
+	}
+
 	async createSubscription(
 		createSubscriptionDto: CreateSubscriptionDto,
 	): Promise<Subscription> {
@@ -148,10 +158,10 @@ export class SubscriptionService {
 			(sum, country) => sum + country.revenue,
 			0,
 		);
-		const othersTotalCount = others.reduce(
-			(sum, country) => sum + country.count,
-			0,
-		);
+		// const othersTotalCount = others.reduce(
+		// 	(sum, country) => sum + country.count,
+		// 	0,
+		// );
 
 		// Fetch all subscriptions for `allCountries`
 		const allSubscriptions = await this.subscriptionRepository.find({

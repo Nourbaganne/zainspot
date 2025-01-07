@@ -2,9 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Translation from './translation';
 import { useRouter } from 'next/navigation';
+import { AuthContext } from '../contexts/authContext';
+import axiosInstance from '../lib/axios/axiosInstance';
 
 interface City {
 	id: number;
@@ -15,17 +17,12 @@ interface City {
 interface Props {
 	city: City;
 	isSubscribed: boolean;
-	index: number;
 }
 
-const AvailableCity = ({ city, isSubscribed, index }: Props) => {
+const AvailableCity = ({ city, isSubscribed }: Props) => {
 	const router = useRouter();
 
 	function handleClick() {
-		if (isSubscribed) {
-			alert('You are already subscribed to this city');
-			return;
-		}
 		router.push(`/${city.city}/${city?.id}`);
 	}
 
@@ -33,7 +30,6 @@ const AvailableCity = ({ city, isSubscribed, index }: Props) => {
 		<button
 			onClick={handleClick}
 			className={`text-left relative flex bg-secondary-foreground hover:bg-background gap-4 items-center cursor-pointer group hover:shadow-lg `}
-			key={index}
 		>
 			<div className='w-44 h-40 relative'>
 				<Image
@@ -43,28 +39,20 @@ const AvailableCity = ({ city, isSubscribed, index }: Props) => {
 					objectFit='cover'
 				/>
 			</div>
-
 			<div className='flex flex-col gap-2'>
 				<h1 className='font-semibold font-sans text-text-foreground'>
 					<Translation translationKey='city_directionText' /> {city.city}
 				</h1>
-				{isSubscribed ? (
-					<>
-						<p className='text-gray-400 font-sans font-medium text-md italic underline'>
-							<Translation translationKey='citypage_subscribed_city' />
-						</p>
-					</>
-				) : (
-					<>
-						<p className='text-primary font-sans font-medium text-sm'>
-							<Translation translationKey='citypage_available_city' />
-						</p>
-
-						<p className='text-primary hidden group-hover:block underline'>
-							<Translation translationKey='citypage_available_hovering' />
-						</p>
-					</>
-				)}
+				<p className='text-primary font-sans font-medium text-sm'>
+					<Translation translationKey='citypage_available_city' />
+				</p>
+				<p className='text-primary hidden group-hover:block underline italic'>
+					{isSubscribed ? (
+						'Subscribed'
+					) : (
+						<Translation translationKey='citypage_available_hovering' />
+					)}
+				</p>
 			</div>
 		</button>
 	);

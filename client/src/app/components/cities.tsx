@@ -6,6 +6,7 @@ import { getCities } from '../lib/getCitites';
 import Loader from './loader';
 import axiosInstance from '../lib/axios/axiosInstance';
 import { AuthContext } from '../contexts/authContext';
+import Subscription from '../interfaces/Subscription';
 
 interface City {
 	id: number;
@@ -23,41 +24,43 @@ const Cities = () => {
 	});
 	const cities = data?.data.items || [];
 
+	// get all subscriptions for current user
 	const { user } = useContext(AuthContext);
-	console.log('user', user);
 
-	const [subscriptions, setSubscriptions] = useState([]);
-
-	const [validSubscriptionsByCityId, setValidSubscriptionsByCityId] = useState(
-		{},
+	const [subscribedCities, setSubscribedCities] = useState<Set<number>>(
+		new Set(),
 	);
-
-	useEffect(() => {
+	function getSubscriptions() {
 		if (!user) {
-			console.log('user unauthenticated');
+			console.log('no auth user');
 			return;
 		}
-
-		// get subscriptions for the user
-		if (user.user) {
-			axiosInstance.get(`/subscriptions/${user.user.userId}`).then((res) => {
+		axiosInstance
+			.get('/subscriptions?user.id=' + user.user.userId)
+			.then(function (res) {
 				const subscriptions = res.data;
-				console.log('subscriptions', subscriptions);
-				setSubscriptions(subscriptions);
-
-				// build a map of valid subscriptions by cityId
-				const validSubscriptionsByCityId = {};
+				// build subscribed by userId
+				const currDate = new Date();
+				const subscribedCities: Set<number> = new Set();
 				for (let i = 0; i < subscriptions.length; i++) {
-					const sub = subscriptions[i];
-					const currentDate = new Date();
-					if (sub.city.id && currentDate < new Date(sub.endDate)) {
-						validSubscriptionsByCityId[sub.city.id] = true;
+					if (
+						new Date(subscriptions[i].endDate) > currDate &&
+						subscriptions[i].paymentHistory.status === 'PAID'
+					) {
+						subscribedCities.add(subscriptions[i].city.id);
 					}
 				}
-				setValidSubscriptionsByCityId(validSubscriptionsByCityId);
+				setSubscribedCities(subscribedCities);
+			})
+			.catch(function (error) {
+				console.error('Failed to get subscriptions', error);
 			});
-		}
-	}, [user]);
+	}
+	useEffect(getSubscriptions, [user]);
+
+	useEffect(() => {
+		console.log('subscribedCities', subscribedCities);
+	}, [subscribedCities]);
 
 	if (isLoading) {
 		return <Loader />;
@@ -73,13 +76,12 @@ const Cities = () => {
 				cities.length > 0 &&
 				cities.map((city: City) =>
 					city.hidden ? (
-						<UnavailableCity key={city.id} city={city} index={city?.id} />
+						<UnavailableCity key={city.id} city={city} />
 					) : (
 						<AvailableCity
 							key={city.id}
 							city={city}
-							index={city?.id}
-							isSubscribed={validSubscriptionsByCityId[city.id]}
+							isSubscribed={subscribedCities.has(city.id)}
 						/>
 					),
 				)}

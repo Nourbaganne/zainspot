@@ -29,7 +29,7 @@ export class PaymentHistory extends BaseEntity {
 	amount: number;
 
 	@Column()
-	status: string = 'PENDING';
+	status: string = 'FAILED'; // FAILED or PAID
 
 	@Column({ nullable: true })
 	stripeSessionId: string;
@@ -39,12 +39,13 @@ export class PaymentHistory extends BaseEntity {
 	})
 	user: User;
 
-	@OneToOne(() => Subscription)
+	@OneToOne(() => Subscription, (subscription) => subscription.paymentHistory)
 	@JoinColumn()
 	subscription: Subscription;
 
 	@AfterUpdate()
 	async createInvoice() {
+		console.log('createInvoice called');
 		if (this.status.toLowerCase() == 'paid') {
 			try {
 				const paymentHistoryService = new PaymentHistoryService();

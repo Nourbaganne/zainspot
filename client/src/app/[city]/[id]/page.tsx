@@ -10,12 +10,12 @@ import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/app/lib/axios/axiosInstance';
 import Loader from '@/app/components/loader';
 import Map from '@/app/components/map';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
 import City from '@/app/interfaces/City';
 import { FiArrowLeft, FiArrowRight, FiChevronLeft } from 'react-icons/fi';
 import React from 'react';
-import { useLanguage } from '@/app/contexts/LanguageContext';
+import { useRouter } from 'next/navigation';
 
 export interface SelectedItem {
 	duration: number;
@@ -25,8 +25,47 @@ export interface SelectedItem {
 }
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
+	const router = useRouter();
 	const { user } = useContext(AuthContext);
-	const { language } = useLanguage();
+
+	const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
+
+	function checkIfSubscribed() {
+		if (!user) {
+			return;
+		}
+
+		if (user.user) {
+			axiosInstance
+				.get(`/subscriptions?user.id=${user.user.userId}&city.id=${params.id}`)
+				.then((res) => {
+					const subscriptions = res.data;
+
+					console.log('no subscriptions', subscriptions.length);
+
+					for (let i = 0; i < subscriptions.length; i++) {
+						const subscription = subscriptions[i];
+						const endDate = new Date(subscription.endDate);
+						const currentDate = new Date();
+						if (
+							endDate > currentDate &&
+							subscription.paymentHistory.status == 'PAID'
+						) {
+							setIsSubscribed(true);
+							console.log('isSubscribed', true);
+							setSelectedItem({
+								amount: subscription.price / subscription.duration,
+								duration: subscription.duration,
+								optionType: subscription.optionType,
+								stripePriceId: subscription.stripePriceId,
+							});
+							break;
+						}
+					}
+				});
+		}
+	}
+	useEffect(checkIfSubscribed, [user]);
 
 	const { data, isLoading, isError, error } = useQuery({
 		queryKey: ['city', params.id],
@@ -45,11 +84,19 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 		optionType: 'gold' | 'classic';
 		stripePriceId: string;
 	}) {
-		console.log('selected item', item);
+		if (isSubscribed) {
+			alert('You are already subscribed');
+			return;
+		}
 		setSelectedItem(item);
 	}
 
 	function handleCheckout() {
+		if (isSubscribed) {
+			alert('You are already subscribed');
+			return;
+		}
+
 		if (!user?.user.userId) {
 			alert('Please login first');
 			return;
@@ -83,7 +130,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 		axiosInstance
 			.post('stripe/create-checkout-session', reqBody)
 			.then((res) => {
-				window.location.href = res.data.url;
+				router.replace(res.data.url);
 			})
 			.catch((err) => {
 				console.error(err);
@@ -147,7 +194,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 								<Translation translationKey='city_captcha' />{' '}
 								<span className='text-primary'>
 									<Translation translationKey='zainspot_title' />
-								</span>{" "}
+								</span>{' '}
 								<Translation translationKey='citypage_subtitle' />
 							</h1>
 							<p className='font-light px-0 md:px-6 leading-[23px] md:leading-[27px] font-sans'>
@@ -170,8 +217,10 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						priceData={city?.goldPrice}
 						onSelect={handleSelect}
 						selectedItem={selectedItem}
+						isSubscribed={isSubscribed}
 					/>
 					<ZsClassic
+						isSubscribed={isSubscribed}
 						selectedItem={selectedItem}
 						pricesData={city?.classicPrice}
 						onSelect={handleSelect}
@@ -198,12 +247,25 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						</div>
 						<button
 							onClick={handleCheckout}
-							className='flex flex-col items-center font-medium py-1 text-secondary border-2 border-secondary rounded-md px-12'
+							className={
+								'flex flex-col items-center font-medium py-1 border-2 rounded-md px-12 ' +
+								(selectedItem && !isSubscribed
+									? 'text-secondary border-secondary'
+									: 'border-gray-300 text-gray-400') +
+								(isSubscribed ? ' cursor-not-allowed uppercase' : '')
+							}
 						>
-							<Translation translationKey='cityDetails_btn' />
-							{' '}
+							{isSubscribed ? (
+								'Already'
+							) : (
+								<Translation translationKey='cityDetails_btn'></Translation>
+							)}
 							<span className='text-xl font-bold'>
-								<Translation translationKey='secure_checkout' />
+								{isSubscribed ? (
+									'Subscribed'
+								) : (
+									<Translation translationKey='secure_checkout' />
+								)}
 							</span>
 						</button>
 					</div>

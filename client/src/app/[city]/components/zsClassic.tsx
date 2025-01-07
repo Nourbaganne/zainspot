@@ -14,10 +14,27 @@ interface ZSClassisProps {
 	pricesData: ClassicPrice;
 	onSelect: (args: any) => void;
 	selectedItem: SelectedItem | null;
+	isSubscribed: boolean;
 }
 
-const ZsClassic = ({ pricesData, onSelect, selectedItem }: ZSClassisProps) => {
+const ZsClassic = ({
+	pricesData,
+	onSelect,
+	selectedItem,
+	isSubscribed,
+}: ZSClassisProps) => {
 	const { currency } = useCurrency();
+
+	function isSubscribedToThisService(pm: PerMonth) {
+		if (!pm) return false;
+
+		return (
+			isSubscribed &&
+			selectedItem.duration == pm.duration &&
+			selectedItem.amount == pm.amount &&
+			selectedItem.optionType == 'classic'
+		);
+	}
 
 	return (
 		<div className='flex flex-col gap-4 border-2 rounded-md border-secondary px-2 py-4 '>
@@ -40,7 +57,14 @@ const ZsClassic = ({ pricesData, onSelect, selectedItem }: ZSClassisProps) => {
 				<Translation translationKey='citypage_cards_subtitle' />
 			</h1>
 
-			<div className='flex justify-between items-center font-semibold text-semibold-14 md:text-semibold-18'>
+			<div
+				className={
+					'flex justify-between items-center font-semibold text-semibold-14 md:text-semibold-18 capitalize ' +
+					(!isSubscribed || isSubscribedToThisService(pricesData.perMonth[0])
+						? ''
+						: ' opacity-50')
+				}
+			>
 				<div className='capitalize w-1/3'>
 					<Translation translationKey='citypage_single_payment' />
 				</div>
@@ -54,18 +78,20 @@ const ZsClassic = ({ pricesData, onSelect, selectedItem }: ZSClassisProps) => {
 						/>
 					</span>
 				</div>
-				<div className='flex items-center gap-4 pr-1'>
+				<div className={'flex items-center gap-4 pr-1'}>
 					<input
 						type='radio'
 						id='buy-classic-12'
 						name='buy'
-						className='w-6 h-6 border-4 border-text-foreground text-primary focus:ring-primary'
+						className={
+							'w-6 h-6 border-4 border-text-foreground text-primary focus:ring-primary'
+						}
 						checked={
 							selectedItem != null &&
 							selectedItem.optionType == 'classic' &&
 							selectedItem.duration == 12
 						}
-						onClick={() =>
+						onClick={() => {
 							onSelect({
 								optionType: 'classic',
 								duration: 12,
@@ -73,23 +99,35 @@ const ZsClassic = ({ pricesData, onSelect, selectedItem }: ZSClassisProps) => {
 								stripePriceId: pricesData?.perMonth.find(
 									(p) => p.duration === 12,
 								)?.stripePriceId,
-							})
+							});
+						}}
+						onChange={() => {}}
+						disabled={
+							isSubscribed &&
+							!isSubscribedToThisService(pricesData?.perMonth[0])
 						}
-						onChange={() => { }}
 					/>
 					<label htmlFor='buy-classic-12'>
 						<Translation translationKey='citypage_radio_label' />
 					</label>
 				</div>
 			</div>
-			<div className='flex flex-col gap-4 px-4'>
+			<div className='flex flex-col gap-4 px-4 capitalize'>
 				<p className='font-normal text-sm text-center'>
 					<Translation translationKey='citypage_permonth' />
 				</p>
 				{pricesData?.perMonth
 					.filter((month) => month.duration !== 12)
 					.map((month, index) => (
-						<div key={index} className='flex justify-between font-semibold'>
+						<div
+							key={index}
+							className={
+								'flex justify-between font-semibold ' +
+								(!isSubscribed || isSubscribedToThisService(month)
+									? ''
+									: 'opacity-50')
+							}
+						>
 							<h1 className='flex gap-2'>
 								{month?.duration}
 								<span>
@@ -104,7 +142,7 @@ const ZsClassic = ({ pricesData, onSelect, selectedItem }: ZSClassisProps) => {
 									decimals={0}
 								/>
 							</h1>
-							<div className='flex items-center gap-4'>
+							<div className={'flex items-center gap-4'}>
 								<input
 									type='radio'
 									id={'buy-classic-' + month.duration}
@@ -123,6 +161,8 @@ const ZsClassic = ({ pricesData, onSelect, selectedItem }: ZSClassisProps) => {
 											stripePriceId: month.stripePriceId,
 										})
 									}
+									onChange={() => {}}
+									disabled={isSubscribed && !isSubscribedToThisService(month)}
 								/>
 								<label htmlFor={'buy-classic-' + month.duration}>
 									<Translation translationKey='citypage_radio_label' />
