@@ -211,27 +211,29 @@ const Page = () => {
 												</li>
 												<li className='col-span-2 pl-4'>
 													<MoneyValue
-														value={payment.amount}
+														value={payment.amount / 100}
 														fromCurrency='USD'
 														toCurrency={currency}
 														decimals={0}
 													/>
 												</li>
 												<li
-													className={`col-span-2 pl-4 flex items-center gap-2 uppercase ${payment.status === 'paid'
-														? 'text-primary'
-														: payment.status === 'pending'
+													className={`col-span-2 pl-4 flex items-center gap-2 uppercase ${
+														payment.status === 'paid'
+															? 'text-primary'
+															: payment.status === 'pending'
 															? 'text-yellow-500'
 															: 'text-alert'
-														}`}
+													}`}
 												>
 													<span
-														className={`w-3 h-3 rounded-full ${payment.status === 'paid'
-															? 'bg-primary'
-															: payment.status === 'pending'
+														className={`w-3 h-3 rounded-full ${
+															payment.status === 'paid'
+																? 'bg-primary'
+																: payment.status === 'pending'
 																? 'bg-yellow-500'
 																: 'bg-alert'
-															}`}
+														}`}
 													></span>
 													{payment.status}
 												</li>

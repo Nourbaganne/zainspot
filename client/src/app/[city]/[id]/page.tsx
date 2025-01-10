@@ -16,6 +16,7 @@ import City from '@/app/interfaces/City';
 import { FiArrowLeft, FiArrowRight, FiChevronLeft } from 'react-icons/fi';
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
 export interface SelectedItem {
 	duration: number;
@@ -65,14 +66,16 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 				});
 		}
 	}
+
+	const { language } = useLanguage();
+
 	useEffect(checkIfSubscribed, [user]);
 
 	const { data, isLoading, isError, error } = useQuery({
 		queryKey: ['city', params.id],
-		queryFn: () => axiosInstance.get(`/city/${params.id}?lang=${language.toLowerCase()}`),
+		queryFn: () =>
+			axiosInstance.get(`/city/${params.id}?lang=${language.toLowerCase()}`),
 	});
-
-
 
 	const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
 
