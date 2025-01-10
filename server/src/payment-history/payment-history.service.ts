@@ -5,6 +5,7 @@ import { CreatePaymentHistoryDto } from './dto/create-payment-history';
 import { User } from 'src/entities/user.entity';
 import { Subscription } from 'src/entities/subscription.entity';
 import { UpdatePaymentHistoryDto } from './dto/update-payment-history';
+import { TranslationService } from 'src/translation/translation.service';
 
 @Injectable()
 export class PaymentHistoryService {

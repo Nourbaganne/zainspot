@@ -8,7 +8,7 @@ import axiosInstance from '../lib/axios/axiosInstance';
 import { AuthContext } from '../contexts/authContext';
 import Subscription from '../interfaces/Subscription';
 
-interface City {
+export interface City {
 	id: number;
 	city: string;
 	hidden: boolean;

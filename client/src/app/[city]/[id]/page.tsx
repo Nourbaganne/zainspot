@@ -16,6 +16,7 @@ import City from '@/app/interfaces/City';
 import { FiArrowLeft, FiArrowRight, FiChevronLeft } from 'react-icons/fi';
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
 export interface SelectedItem {
 	duration: number;
@@ -27,6 +28,7 @@ export interface SelectedItem {
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 	const router = useRouter();
 	const { user } = useContext(AuthContext);
+	const { language } = useLanguage();
 
 	const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
 
