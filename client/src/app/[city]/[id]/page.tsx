@@ -28,6 +28,7 @@ export interface SelectedItem {
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 	const router = useRouter();
 	const { user } = useContext(AuthContext);
+	const { language } = useLanguage();
 
 	const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
 

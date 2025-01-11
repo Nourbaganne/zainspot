@@ -105,6 +105,10 @@ export class CityService {
 			throw new NotFoundException('City not found');
 		}
 
+		if (!lang || lang === 'usa') {
+			lang = 'en';
+		}
+
 		const translatedCity = {
 			...city,
 			description: await this.translationService.translateText(

@@ -6,20 +6,9 @@ import check from './assets/home/check-icon.svg';
 import close from './assets/home/close-icon.svg';
 import { zainspotFeatures, ignoredFeatures } from './constants/home';
 import Translation from './components/translation';
-import {
-	dehydrate,
-	HydrationBoundary,
-	QueryClient,
-} from '@tanstack/react-query';
 import Cities from './components/cities';
-import { getCities } from './lib/getCitites';
 
 function Home() {
-	const queryClient = new QueryClient();
-	queryClient.prefetchQuery({
-		queryKey: ['cities'],
-		queryFn: getCities,
-	});
 
 	return (
 		<div className='flex flex-col work-sans'>
@@ -83,9 +72,7 @@ function Home() {
 							<Translation translationKey='homepage_cities_title_span' />
 						</span>
 					</h1>
-					<HydrationBoundary state={dehydrate(queryClient)}>
-						<Cities />
-					</HydrationBoundary>
+					<Cities />
 				</div>
 			</div>
 		</div>
