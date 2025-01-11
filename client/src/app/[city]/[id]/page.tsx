@@ -65,8 +65,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 		}
 	}
 
-	const { language } = useLanguage();
-
 	useEffect(checkIfSubscribed, [user]);
 
 	const { data, isLoading, isError, error } = useQuery({
