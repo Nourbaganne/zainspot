@@ -17,7 +17,7 @@ export class CityService {
 		private cityRepository: Repository<City>,
 		private stripeService: StripeService,
 		private translationService: TranslationService,
-	) { }
+	) {}
 
 	async getCities(
 		{ page, limit, size, offset, hidden }: Pagination,
@@ -99,8 +99,7 @@ export class CityService {
 		};
 	}
 
-
-	async getCity(id: number, lang?: string): Promise<any> {
+	async getCity(id: number, lang: string = 'en'): Promise<any> {
 		const city = await this.cityRepository.findOne({ where: { id } });
 		if (!city) {
 			throw new NotFoundException('City not found');
@@ -108,13 +107,20 @@ export class CityService {
 
 		const translatedCity = {
 			...city,
-			description: await this.translationService.translateText(city.description, 'en', lang),
+			description: await this.translationService.translateText(
+				city.description,
+				'en',
+				lang,
+			),
 			location: {
 				...city.location,
-				title: await this.translationService.translateText(city.location.title, 'en', lang),
-			}
-		}
-
+				title: await this.translationService.translateText(
+					city.location.title,
+					'en',
+					lang,
+				),
+			},
+		};
 
 		return translatedCity;
 	}

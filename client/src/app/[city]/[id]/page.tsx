@@ -42,8 +42,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 				.then((res) => {
 					const subscriptions = res.data;
 
-					console.log('no subscriptions', subscriptions.length);
-
 					for (let i = 0; i < subscriptions.length; i++) {
 						const subscription = subscriptions[i];
 						const endDate = new Date(subscription.endDate);
@@ -53,7 +51,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 							subscription.paymentHistory.status == 'PAID'
 						) {
 							setIsSubscribed(true);
-							console.log('isSubscribed', true);
 							setSelectedItem({
 								amount: subscription.price / subscription.duration,
 								duration: subscription.duration,
@@ -123,10 +120,18 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 			cityId: parseInt(params.id),
 		};
 
+		if (!selectedItem.stripePriceId) {
+			console.log(
+				'Please assign a Stripe Price ID to the selected item by editing the city price for this option',
+			);
+			alert('Check console for error');
+			return;
+		}
+
 		const reqBody = {
 			stripePriceId: selectedItem.stripePriceId,
 			subscription: newSubscription,
-			userId: user?.user.userId,
+			userId: user.user.userId,
 		};
 		console.log('reqBody', reqBody);
 
