@@ -9,7 +9,6 @@ import Translation from './components/translation';
 import Cities from './components/cities';
 
 function Home() {
-
 	return (
 		<div className='flex flex-col work-sans'>
 			<div className='relative flex flex-col'>
