@@ -29,6 +29,7 @@ import { GoldMemberEmailModule } from './gold-member-email/gold-member-email.mod
 import { VisitorModule } from './visitor/visitor.module';
 import { PaymentEmailModule } from './payment-email/payment-email.module';
 import { TranslationModule } from './translation/translation.module';
+import { ChatbotModule } from './chatbot/chatbot.module';
 
 @Module({
 	imports: [
@@ -70,6 +71,7 @@ import { TranslationModule } from './translation/translation.module';
 		VisitorModule,
 		PaymentEmailModule,
 		TranslationModule,
+		ChatbotModule,
 	],
 	controllers: [AppController],
 	providers: [
