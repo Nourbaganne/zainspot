@@ -46,7 +46,7 @@ export class PaymentHistoryService {
 
 	async findOneByStripeSessionId(
 		stripeSessionId: string,
-		relations: string[] = [],
+		relations: string[] = ['subscription'],
 	): Promise<PaymentHistory> {
 		return PaymentHistory.findOne({
 			where: { stripeSessionId },

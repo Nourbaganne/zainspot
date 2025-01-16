@@ -20,13 +20,13 @@ const workSans = Work_Sans({ subsets: ['latin'] });
 // 	description: 'E-commerce website to help business',
 // };
 
-export default function RootLayout({
-	children,
-}: {
+interface RootLayoutProps {
 	children: React.ReactNode;
-}) {
+}
 
-	const lang = localStorage.getItem("preferredLanguage") || "en";
+export default function RootLayout({ children }: RootLayoutProps) {
+	let lang = localStorage.getItem('preferredLanguage') || 'en';
+
 	return (
 		<html lang={lang}>
 			<body className={workSans.className}>

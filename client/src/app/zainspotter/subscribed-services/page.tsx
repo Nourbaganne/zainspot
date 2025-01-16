@@ -20,7 +20,7 @@ interface cityProps {
 	id: number;
 	city: string;
 	imageUrl: string;
-	location: locationProps
+	location: locationProps;
 }
 
 export interface SubscriptionProps {
@@ -64,24 +64,28 @@ const Page = () => {
 		<div className='flex flex-col gap-4 md:gap-6 bg-background-foreground md:px-16 md:py-8 py-6 px-2 md:pb-20'>
 			<Breadcrumb items={breadcrumbItems} />
 			<Layout>
-				<div className='p-4 px-6 bg-background border pb-10 mb-20 flex flex-col gap-5'>
+				<div className='px-6 py-4 bg-background border flex flex-col gap-5'>
 					<h1 className='font-bold'>Subscribed Services</h1>
 					{data?.data.length > 0 ? (
 						<div className='flex flex-col gap-4'>
 							{data?.data.map(
 								(subscription: SubscriptionProps, index: number) => (
-									<Subscription
+									<div
 										key={index}
-										id={subscription?.id}
-										access_token={user?.access_token}
-										startDate={subscription?.startDate}
-										endDate={subscription?.endDate}
-										optionType={subscription?.optionType}
-										duration={subscription?.duration}
-										price={subscription?.price}
-										city={subscription?.city}
-										user={subscription?.user}
-									/>
+										className={index > 0 && 'border-t pt-6 ' + ''}
+									>
+										<Subscription
+											id={subscription?.id}
+											access_token={user?.access_token}
+											startDate={subscription?.startDate}
+											endDate={subscription?.endDate}
+											optionType={subscription?.optionType}
+											duration={subscription?.duration}
+											price={subscription?.price}
+											city={subscription?.city}
+											user={subscription?.user}
+										/>
+									</div>
 								),
 							)}
 						</div>
