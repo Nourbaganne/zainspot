@@ -217,7 +217,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						</div>
 					</div>
 				</div>
-				<div className='col-span-2 flex flex-col gap-7 px-4 md:px-6 '>
+				<div className='col-span-2 flex flex-col gap-7 px-4 md:px-6 pt-0 md:pt-6 '>
 					<ZsGold
 						priceData={city?.goldPrice}
 						onSelect={handleSelect}
