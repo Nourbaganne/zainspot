@@ -2,7 +2,7 @@
 	"login": "LOGIN",
 	"join": "JOIN",
 	"logout": "LOGOUT",
-	"secure_checkout": "Secure Checkout",
+	"secure_checkout": "Checkout",
 	"navbar_titles": [
 		"HOW IT WORKS",
 		"SWITCH CURRENCY",

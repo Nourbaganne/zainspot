@@ -29,55 +29,42 @@ const ZsGold = ({
 
 	const { currency } = useCurrency();
 	return (
-		<div className='flex flex-col gap-4 border-2 font-sans rounded-md border-secondary px-2 py-4'>
+		<div className='flex flex-col gap-4 border-2 font-sans rounded-md border-span-background px-8 py-7'>
 			<div className='flex flex-col'>
-				<div className='flex justify-between items-center'>
-					<h1 className='font-sans font-semibold text-semibold-24 md:text-[36px]'>
-						ZS Gold
+				<div className='flex gap-2 items-center'>
+					<h1 className='font-sans font-semibold text-semibold-18 md:text-[28px]'>
+						<Translation translationKey='locationDialog_gold' />
 					</h1>
 					<h1
-						className='font-sans font-extrabold text-[18px] md:text-bold-italic-22 italic  text-alert uppercase'
+						className='font-sans font-bold text-[16px] md:text-xl  text-alert uppercase'
 						style={{ letterSpacing: '-0.01em' }}
 					>
 						<Translation translationKey='citypage_zg_gold_alert' />
 					</h1>
 				</div>
-				<p className='font-sans font-extrabold leading-normal md:leading-[26.1px] uppercase text-primary'>
+				<p className='font-sans font-bold leading-normal md:leading-[26.1px] uppercase text-primary'>
 					<Translation translationKey='citypage_zg_gold_title' />
 				</p>
 			</div>
 
 			<p
-				className='font-sans font-semibold text-semibold-15 md:text-lg leading-[27px] tracking-wide'
+				className='font-sans text-description-foreground text-semibold-15 md:text-lg leading-[27px] tracking-wide'
 				style={{ wordSpacing: '0.2em', textAlign: 'justify' }}
 			>
 				<Translation translationKey='citypage_zg_gold_description' />
 			</p>
 
-			<h1 className='text-center font-bold text-bold-16 md:text-xl'>
+			<h1 className=' font-bold text-bold-16 md:text-xl'>
 				<Translation translationKey='citypage_cards_subtitle' />
 			</h1>
 
 			<div
 				className={
-					'flex justify-between items-center font-semibold text-sm md:text-semibold-18 capitalize ' +
+					'flex justify-between items-center font-semibold text-sm md:text-semibold-18 pt-3 capitalize ' +
 					(!isSubscribed || isSubscribedToThisService() ? '' : 'opacity-50')
 				}
 			>
-				<div className='w-1/3 capitalize'>
-					<Translation translationKey='citypage_single_payment' />
-				</div>
-				<div>
-					<span className='text-primary text-lg'>
-						<MoneyValue
-							value={priceData.amount}
-							fromCurrency='USD'
-							toCurrency={currency}
-							decimals={0}
-						/>
-					</span>
-				</div>
-				<div className={'ml-4 flex items-center gap-2'}>
+				<div className='capitalize flex items-center gap-2'>
 					<input
 						type='radio'
 						id='buy-gold'
@@ -92,12 +79,22 @@ const ZsGold = ({
 								stripePriceId: priceData.stripePriceId,
 							})
 						}
-						onChange={() => {}}
+						onChange={() => { }}
 						disabled={isSubscribed && !isSubscribedToThisService()}
 					/>
-					<label htmlFor='buy-gold'>
-						<Translation translationKey='citypage_radio_label' />
+					<label htmlFor='buy-gold' className='w-full'>
+						<Translation translationKey='citypage_single_payment' />
 					</label>
+				</div>
+				<div>
+					<span className='text-primary text-lg'>
+						<MoneyValue
+							value={priceData.amount}
+							fromCurrency='USD'
+							toCurrency={currency}
+							decimals={0}
+						/>
+					</span>
 				</div>
 			</div>
 		</div>
