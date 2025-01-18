@@ -592,5 +592,12 @@
 	"cookie_types_marketing_title": "Kuki Pemasaran",
 	"cookie_types_marketing_desc": "Kami menggunakan kuki pihak ketiga terhad, termasuk dari Facebook, LinkedIn, dan Google, untuk memantau keberkesanan kempen pemasaran kami.",
 	"cookie_types_personalization_title": "Kuki Penyesuaian",
-	"cookie_types_personalization_desc": "Kuki ini membolehkan kami mengingati keutamaan anda (contohnya, nama pengguna, bahasa) dan memberikan pengalaman yang lebih disesuaikan."
+	"cookie_types_personalization_desc": "Kuki ini membolehkan kami mengingati keutamaan anda (contohnya, nama pengguna, bahasa) dan memberikan pengalaman yang lebih disesuaikan.",
+	"users_all": "Semua Pengguna",
+	"user_legalName": "Nama Sahaja Perniagaan",
+	"user_tradinglName": "Nama Perdagangan Perniagaan",
+	"user_businessType": "Jenis Perniagaan",
+	"user_email": "E-mel",
+	"user_number": "Nombor",
+	"user_website": "Laman web"
 }

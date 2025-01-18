@@ -5,15 +5,16 @@ import { Permission } from 'src/entities/permission.entity';
 
 @Injectable()
 export class PermissionService {
-  constructor() {}
+  constructor() { }
 
   async create(createPermissionDto: CreatePermissionDto): Promise<Permission> {
     const newPermission = Permission.create(createPermissionDto);
     return Permission.save(newPermission);
   }
 
-  findAll(): Promise<Permission[]> {
-    return Permission.find();
+  async findAll(): Promise<Permission[]> {
+    const permissions = await Permission.find();
+    return permissions;
   }
 
   async findOne(id: number): Promise<Permission> {

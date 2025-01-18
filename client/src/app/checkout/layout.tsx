@@ -26,6 +26,7 @@ export default function CheckoutSuccessPage({ children }: Props) {
 	});
 
 	const cities = data?.data.items || [];
+	console.log('cities', cities);
 
 	const { user } = useContext(AuthContext);
 
@@ -49,10 +50,11 @@ export default function CheckoutSuccessPage({ children }: Props) {
 			return !subscribed && !city.hidden;
 		});
 
+		console.log('all available cities', availableCities);
 		availableCities = availableCities.slice(0, 2);
 		setAvailableCities(availableCities);
 	}
-	useEffect(getAvailableCities, []);
+	useEffect(getAvailableCities, [cities]);
 
 	if (!user) {
 		return <p>Unauthorized</p>;
@@ -79,14 +81,14 @@ export default function CheckoutSuccessPage({ children }: Props) {
 						Interested in subscribing to more cities? We can help you go global!
 					</p>
 					<div className='mt-6 gap-y-4 flex flex-col'>
-						{availableCities.map((city: City) => {
+						{availableCities.map((city: City) => (
 							<Link
 								key={city.id}
-								href='/'
+								href={`/${city.city}/${city.id}`}
 								className='border rounded-lg overflow-hidden flex items-center gap-2 group'
 							>
 								<Image
-									src={city.imageUrl}
+									src={city.imageUrl as string}
 									width={140}
 									height={100}
 									alt={city.city}
@@ -100,8 +102,8 @@ export default function CheckoutSuccessPage({ children }: Props) {
 								<div className='ml-auto px-6'>
 									<FiArrowRight className='h-7 w-7 text-gray-800 group-hover:translate-x-2 group-hover:text-primary duration-75' />
 								</div>
-							</Link>;
-						})}
+							</Link>
+						))}
 					</div>
 				</div>
 			)}

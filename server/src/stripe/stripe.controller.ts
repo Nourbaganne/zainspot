@@ -61,7 +61,7 @@ export class StripeController {
 				date: new Date(),
 				method: 'card',
 				amount: session.amount_total,
-				status: 'PENDING',
+				status: 'FAILED',
 				stripeSessionId: session.id,
 				userId,
 			});

@@ -13,9 +13,10 @@ import Map from '@/app/components/map';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/app/contexts/authContext';
 import City from '@/app/interfaces/City';
-import { FiArrowLeft, FiArrowRight, FiChevronLeft } from 'react-icons/fi';
+import { FiArrowRight, FiChevronLeft } from 'react-icons/fi';
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { useLanguage } from '@/app/contexts/LanguageContext';
 
 export interface SelectedItem {
 	duration: number;
@@ -27,6 +28,7 @@ export interface SelectedItem {
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 	const router = useRouter();
 	const { user } = useContext(AuthContext);
+	const { language } = useLanguage();
 
 	const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
 
@@ -41,8 +43,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 				.then((res) => {
 					const subscriptions = res.data;
 
-					console.log('no subscriptions', subscriptions.length);
-
 					for (let i = 0; i < subscriptions.length; i++) {
 						const subscription = subscriptions[i];
 						const endDate = new Date(subscription.endDate);
@@ -52,7 +52,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 							subscription.paymentHistory.status == 'PAID'
 						) {
 							setIsSubscribed(true);
-							console.log('isSubscribed', true);
 							setSelectedItem({
 								amount: subscription.price / subscription.duration,
 								duration: subscription.duration,
@@ -65,11 +64,13 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 				});
 		}
 	}
+
 	useEffect(checkIfSubscribed, [user]);
 
 	const { data, isLoading, isError, error } = useQuery({
 		queryKey: ['city', params.id],
-		queryFn: () => axiosInstance.get(`/city/${params.id}`),
+		queryFn: () =>
+			axiosInstance.get(`/city/${params.id}?lang=${language.toLowerCase()}`),
 	});
 
 	const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
@@ -118,10 +119,18 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 			cityId: parseInt(params.id),
 		};
 
+		if (!selectedItem.stripePriceId) {
+			console.log(
+				'Please assign a Stripe Price ID to the selected item by editing the city price for this option',
+			);
+			alert('Check console for error');
+			return;
+		}
+
 		const reqBody = {
 			stripePriceId: selectedItem.stripePriceId,
 			subscription: newSubscription,
-			userId: user?.user.userId,
+			userId: user.user.userId,
 		};
 		console.log('reqBody', reqBody);
 
@@ -157,19 +166,19 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
 	return (
 		city && (
-			<div className='flex flex-col md:grid md:grid-cols-2 font-sans md:pt-5 text-text-foreground '>
-				<div className='flex flex-col py-2 md:py-0 gap-8 md:gap-4'>
+			<div className='flex flex-col md:grid md:grid-cols-5 font-sans md:pt-5 md:pb-14 md:px-10 text-text-foreground '>
+				<div className='col-span-3 flex flex-col py-2 md:py-0 gap-8 md:gap-4'>
 					<Link href={'/'} className='px-4 text-sm flex gap-1 hover:underline'>
 						<FiChevronLeft className='h-5 w-5' />
 						<Translation translationKey='citypage_return_button' />
 					</Link>
 					<div>
-						<div className='px-4 md:px-0 text-text-foreground flex flex-col gap-2 '>
-							<h1 className='font-bold text-4xl md:text-bold-56 font-sans leading-[3rem] pl-0 md:pl-4'>
+						<div className='px-4 md:px-0 text-text-foreground flex flex-col md:flex-row md:items-center md:gap-2  '>
+							<h1 className='font-bold text-4xl md:text-semibold-36 font-sans leading-[3rem] '>
 								{city.city}
 								<Translation translationKey='zainspot_title' />
 							</h1>
-							<h1 className='md:text-3xl text-semibold-18 font-semibold text-end'>
+							<h1 className='md:text-xl font-regular self-end md:self-center '>
 								{city?.location?.title.split(',')[0]}
 							</h1>
 						</div>
@@ -182,23 +191,21 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 							/>
 						</div>
 						<div className='flex flex-col px-4 md:px-2 gap-7 pt-4 text-text-foreground'>
-							<p
-								className='font-sans font-semibold text-lg md:text-[18px] leading-[27px]  tracking-wide'
-								style={{ wordSpacing: '0.2em', textAlign: 'justify' }}
-							>
-								{city?.description && formatDescription(city.description)}
-							</p>
-							<h1 className='text-center font-sans font-extrabold text-xl md:text-2xl'>
+
+							<h1 className=' font-sans font-extrabold text-xl md:text-[27px] '>
 								<Translation translationKey='city_captcha' />{' '}
 								<span className='text-primary'>
 									<Translation translationKey='zainspot_title' />
 								</span>{' '}
 								<Translation translationKey='citypage_subtitle' />
 							</h1>
-							<p className='font-light px-0 md:px-6 leading-[23px] md:leading-[27px] font-sans'>
-								{city?.catchphrase}
+							<p
+								className='font-regular text-description-foreground text-lg md:text-[16px] leading-[27px] tracking-wide'
+								style={{ wordSpacing: '0.2em', textAlign: 'justify' }}
+							>
+								{city?.description && formatDescription(city.description)}
 							</p>
-							<div className='flex flex-col gap-3 bg-white-700 mx-auto mb-5 w-full h-[480px] overflow-hidden px-0 md:px-8'>
+							<div className='flex flex-col gap-3 bg-white-700 mx-auto mb-5 w-full h-[480px] overflow-hidden'>
 								<div className='flex gap-1 items-center'>
 									<Image src={locationLogo} alt='location-logo' />
 									<h1 className='font-semibold font-sans'>
@@ -210,7 +217,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						</div>
 					</div>
 				</div>
-				<div className='flex flex-col gap-7 px-4 md:px-6 '>
+				<div className='col-span-2 flex flex-col gap-7 px-4 md:px-6 pt-0 md:pt-6 '>
 					<ZsGold
 						priceData={city?.goldPrice}
 						onSelect={handleSelect}
@@ -223,13 +230,12 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						pricesData={city?.classicPrice}
 						onSelect={handleSelect}
 					/>
-					<div className='flex justify-between items-center gap-5 py-6'>
-						<div className='flex flex-col gap-2'>
+					<div className='flex items-center gap-5 py-6'>
+						<div className='flex flex-col gap-2 w-full'>
 							<Link
 								href='/'
-								className='text-lg flex items-center font-bold text-gray-400 hover:text-gray-600 flex-shrink-0 uppercase'
+								className='flex text-sm items-center font-bold text-primary border-2 rounded-md border-primary px-6 py-4 uppercase'
 							>
-								<FiArrowLeft className='h-6 w-6 mr-2' />
 								<Translation translationKey='select_another_city' />{' '}
 							</Link>
 							{!user?.user.userId && (
@@ -246,23 +252,24 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						<button
 							onClick={handleCheckout}
 							className={
-								'flex flex-col items-center font-medium py-1 border-2 rounded-md px-12 ' +
+								'flex flex-col text-sm items-center font-medium border-2 rounded-md px-6 py-4 uppercase w-full ' +
 								(selectedItem && !isSubscribed
-									? 'text-secondary border-secondary'
+									? 'text-white bg-primary border-primary rounded-md '
 									: 'border-gray-300 text-gray-400') +
 								(isSubscribed ? ' cursor-not-allowed uppercase' : '')
 							}
 						>
-							{isSubscribed ? (
+							{isSubscribed && (
 								'Already'
-							) : (
-								<Translation translationKey='cityDetails_btn'></Translation>
 							)}
-							<span className='text-xl font-bold'>
+							<span className=' font-bold'>
 								{isSubscribed ? (
 									'Subscribed'
 								) : (
-									<Translation translationKey='secure_checkout' />
+									<div className='flex items-center justify-center gap-4'>
+										<Translation translationKey='secure_checkout' />
+										<FiArrowRight size={18}/>
+									</div>
 								)}
 							</span>
 						</button>

@@ -65,12 +65,12 @@ const Page = ({ params }: { params: { id: number } }) => {
   ];
 
   const BUSINESS_LIST = [
-    { title: 'Business Legal Name', value: currentUser?.businessName },
-    { title: 'Business Trading Name', value: currentUser?.tradeName },
-    { title: 'Business Type', value: currentUser?.businessType },
-    { title: 'Email', value: currentUser?.email },
-    { title: 'Number', value: currentUser?.businessNumber },
-    { title: 'Website', value: currentUser?.businessWebsite },
+    { title: 'user_legalName', value: currentUser?.businessName },
+    { title: 'user_tradinglName', value: currentUser?.tradeName },
+    { title: 'user_businessType', value: currentUser?.businessType },
+    { title: 'user_email', value: currentUser?.email },
+    { title: 'user_number', value: currentUser?.businessNumber },
+    { title: 'user_website', value: currentUser?.businessWebsite },
     {
       title: 'Location',
       value: `${currentUser?.city}, ${currentUser?.state}, ${currentUser?.country}`,
@@ -181,7 +181,9 @@ const Page = ({ params }: { params: { id: number } }) => {
             <div className='flex flex-col gap-3'>
               {BUSINESS_LIST.map((item, index) => (
                 <div key={index} className='grid grid-cols-3 gap-4 text-sm'>
-                  <p className='col-span-1 text-span'>{item.title}</p>
+                  <p className='col-span-1 text-span'>
+                    <Translation translationKey={item.title} />
+                  </p>
                   <h1 className='col-span-2'>{item.value}</h1>
                 </div>
               ))}

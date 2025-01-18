@@ -5,7 +5,7 @@ import { Work_Sans } from 'next/font/google';
 import './globals.css';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
-import { LanguageProvider } from './contexts/LanguageContext';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
 import { QueryProvider } from './queryProvider';
 import { AuthContextProvider } from './contexts/authContext';
@@ -20,13 +20,15 @@ const workSans = Work_Sans({ subsets: ['latin'] });
 // 	description: 'E-commerce website to help business',
 // };
 
-export default function RootLayout({
-	children,
-}: {
+interface RootLayoutProps {
 	children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
+	let lang = localStorage.getItem('preferredLanguage') || 'en';
+
 	return (
-		<html lang='en'>
+		<html lang={lang}>
 			<body className={workSans.className}>
 				<QueryProvider>
 					<AuthContextProvider>

@@ -6,6 +6,7 @@ import {
 	Patch,
 	Param,
 	Delete,
+	Query,
 } from '@nestjs/common';
 import { PermissionService } from './permission.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
@@ -15,7 +16,7 @@ import { Public } from 'src/decorators/public.decorator';
 
 @Controller('permission')
 export class PermissionController {
-	constructor(private readonly permissionService: PermissionService) {}
+	constructor(private readonly permissionService: PermissionService) { }
 
 	@Permissions({ action: 'create', subject: 'permission' })
 	@Post()
@@ -31,7 +32,9 @@ export class PermissionController {
 
 	@Public()
 	@Get(':id')
-	findOne(@Param('id') id: string) {
+	findOne(
+		@Param('id') id: string,
+	) {
 		return this.permissionService.findOne(+id);
 	}
 

@@ -1,6 +1,6 @@
 export const LANGUAGES_DATA = [
-    { key: "USA", title: "English" },
-    { key: "UK", title: "English" },
+    { key: "EN", title: "English" },
+    { key: "EN", title: "English" },
     { key: "FR", title: "Français" },
     { key: "ES", title: "Español" },
     { key: "AR", title: "العربية" },

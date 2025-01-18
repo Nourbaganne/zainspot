@@ -15,9 +15,7 @@ export const zainspotFeatures = [
 	'Your Local Phone Number',
 	'Unlimited Mail',
 	'Unlimited Calls',
-	'Unlimited Scanning & Storage',
-	'Answered in Your Business Name',
-	'Transcript of Your Calls Emailed to You',
+	'Unlimited Scanning & Storage'
 ];
 
 export const ignoredFeatures = [

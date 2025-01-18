@@ -592,5 +592,12 @@
 	"cookie_types_marketing_title": "मार्केटिंग कुकीज़",
 	"cookie_types_marketing_desc": "हम सीमित तृतीय-पक्ष कुकीज़ का उपयोग करते हैं, जिनमें से कुछ Facebook, LinkedIn और Google से हैं, ताकि हम अपने मार्केटिंग अभियानों की प्रभावशीलता को ट्रैक कर सकें।",
 	"cookie_types_personalization_title": "व्यक्तिगत कुकीज़",
-	"cookie_types_personalization_desc": "ये कुकीज़ हमें आपकी प्राथमिकताओं (जैसे, उपयोगकर्ता नाम, भाषा) को याद रखने में मदद करती हैं और एक अधिक व्यक्तिगत अनुभव प्रदान करती हैं।"
+	"cookie_types_personalization_desc": "ये कुकीज़ हमें आपकी प्राथमिकताओं (जैसे, उपयोगकर्ता नाम, भाषा) को याद रखने में मदद करती हैं और एक अधिक व्यक्तिगत अनुभव प्रदान करती हैं।",
+	"users_all": "सभी उपयोगकर्ता",
+	"user_legalName": "व्यापार का कानूनी नाम",
+	"user_tradinglName": "व्यापार का व्यापारिक नाम",
+	"user_businessType": "व्यापार का प्रकार",
+	"user_email": "ईमेल",
+	"user_number": "नंबर",
+	"user_website": "वेबसाइट"
 }

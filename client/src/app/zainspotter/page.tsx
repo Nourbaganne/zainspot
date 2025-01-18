@@ -19,7 +19,9 @@ const Page = () => {
 			<div className='grid grid-cols-12 gap-8'>
 				{/* Left (Some text) */}
 				<div className='col-span-12 lg:col-span-7 xl:col-span-8'>
-					<h1 className='h1'>My Zainspot</h1>
+					<h1 className='h1'>
+						<Translation translationKey='breadcrumb_zainspotter' />
+					</h1>
 					<p className='mt-4 text-base max-w-3xl text-gray-400'>
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
 						eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim

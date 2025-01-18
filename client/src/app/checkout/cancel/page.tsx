@@ -1,8 +1,31 @@
 'use client';
+import axiosInstance from '@/app/lib/axios/axiosInstance';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 import { IoIosWarning } from 'react-icons/io';
 
 export default function CheckoutCancelPage() {
+	const searchParams = useSearchParams();
+	const sessionId = searchParams.get('session_id');
+	// since payment failed, delete subscription
+	// find payment_history by stripeSessionId
+	// find associated subscription
+	// delete subscription
+	function deleteSubscription() {
+		axiosInstance
+			.delete(`subscriptions/${sessionId}`)
+			.then(function (response) {
+				if (response.status == 200) {
+					console.log('Subscription deleted');
+				}
+			})
+			.catch(function (error) {
+				console.log('Error:', error);
+			});
+	}
+	useEffect(deleteSubscription, [sessionId]);
+
 	return (
 		<div>
 			<div className='text-center flex-center flex-col'>

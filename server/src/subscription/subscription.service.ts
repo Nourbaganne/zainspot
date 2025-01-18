@@ -309,7 +309,7 @@ export class SubscriptionService {
 	async findByUserId(userId: number): Promise<Subscription[]> {
 		return this.subscriptionRepository.find({
 			where: { user: { id: userId } },
-			relations: ['city'],
+			relations: ['city', 'user'],
 		});
 	}
 }

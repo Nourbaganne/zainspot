@@ -39,9 +39,12 @@ export class CityController {
 
 	@Public()
 	@Get(':id')
-	getOneCity(@Param('id') id: string) {
+	getOneCity(
+		@Param('id') id: string,
+		@Query('lang') lang?: string,
+	) {
 		try {
-			return this.cityService.getCity(+id);
+			return this.cityService.getCity(+id, lang);
 		} catch (err) {
 			throw new NotFoundException();
 		}

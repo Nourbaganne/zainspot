@@ -592,5 +592,12 @@
 	"cookie_types_marketing_title": "营销Cookie",
 	"cookie_types_marketing_desc": "我们使用有限的第三方Cookie，包括来自Facebook、LinkedIn和Google的Cookie，用于监控我们的营销活动的有效性。",
 	"cookie_types_personalization_title": "个性化Cookie",
-	"cookie_types_personalization_desc": "这些Cookie使我们能够记住您的偏好（例如，用户名、语言），并提供更具个性化的体验。"
+	"cookie_types_personalization_desc": "这些Cookie使我们能够记住您的偏好（例如，用户名、语言），并提供更具个性化的体验。",
+	"users_all": "所有用户",
+	"user_legalName": "企业法定名称",
+	"user_tradinglName": "企业贸易名称",
+	"user_businessType": "企业类型",
+	"user_email": "电子邮件",
+	"user_number": "电话号码",
+	"user_website": "网站"
 }
