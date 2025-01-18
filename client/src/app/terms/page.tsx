@@ -126,90 +126,6 @@ const terms: Term[] = [
     },
 ]
 
-const renderDescription = (
-    description: (string | Desc | Description)[],
-    prefix: string,
-    counter: { value: number }
-): JSX.Element[] => {
-    let results: JSX.Element[] = [];
-
-    description.forEach((item) => {
-        const currentPrefix = `${prefix}${counter.value}`;
-        counter.value += 1;
-
-        if (typeof item === 'string') {
-            results.push(
-                <li key={currentPrefix} className="font-light text-span leading-[27px]">
-                    {currentPrefix} <Translation translationKey={item} />
-                </li>
-            );
-        } else if ('title' in item) {
-            results.push(
-                <li key={currentPrefix} className="font-light text-span leading-[27px]">
-                    <span>
-                        {currentPrefix}{' '}
-                        {typeof item.title === 'string' ? (
-                            <Translation translationKey={item.title} />
-                        ) : (
-                            item.title.map((tite, key) => (
-                                <span key={key}>
-                                    <Translation translationKey={tite} />
-                                </span>
-                            ))
-                        )}
-                    </span>
-
-                    {item.cnt && Array.isArray(item.cnt) && (
-                        <ol>
-                            {item.cnt.map((cntItem, index) => {
-                                const nestedPrefix = `${prefix}${counter.value}`;
-                                counter.value += 1;
-
-                                return (
-                                    <li key={`${nestedPrefix}-${index}`}>
-                                        <span className="font-semibold">
-                                            {nestedPrefix} <Translation translationKey={cntItem.title} />
-                                        </span>
-                                        <Translation translationKey={cntItem.desc} />
-                                    </li>
-                                );
-                            })}
-                        </ol>
-                    )}
-                </li>
-            );
-        } else if ('item' in item) {
-            results.push(
-                <li key={currentPrefix} className="font-light text-span leading-[27px]">
-                    {currentPrefix} <Translation translationKey={item.item} />
-                </li>
-            );
-        }
-
-        if (typeof item !== 'string' && 'alphList' in item) {
-            results.push(
-                <li key={currentPrefix} className="font-light text-span leading-[27px]">
-                    <strong>
-                        {currentPrefix} <Translation translationKey={item.alphList.title} />
-                    </strong>
-                    <ol className="pl-3">
-                        {item.alphList.desc && item.alphList.desc.map((desc, descIndex) => (
-                            <li key={descIndex} className="text-span">
-                                <Translation translationKey={desc} />
-                            </li>
-                        ))}
-                    </ol>
-                </li>
-            );
-        }
-    });
-
-    return results;
-};
-
-
-
-
 export default function TermsOfUse() {
     return (
         <Container
@@ -233,27 +149,75 @@ export default function TermsOfUse() {
                     <p className="font-regular text-sm text-span font-light leading-[27px]">
                         <Translation translationKey="terms_introduction" />
                     </p>
-                    <ol className="list-decimal pl-6 flex flex-col gap-7">
-                        {terms.map((term, termIndex) => {
-                            const counter = { value: 1 };
-                            const currentPrefix = `${termIndex + 1}.`;
-
-                            return (
-                                <li key={termIndex} className="text-semibold-24 text-primary">
-                                    <h1 className="font-semibold pb-3 leading-[27px]">
-                                        <Translation translationKey={term.title} />
-                                    </h1>
-                                    <ol className="flex flex-col gap-2 text-sm">
-                                        {renderDescription(term.description, currentPrefix, counter)}
-                                    </ol>
-                                </li>
-                            );
-                        })}
+                    <ol className='list-decimal pl-6 flex flex-col gap-7'>
+                        {terms.map((term, index) => (
+                            <li key={index} className='text-semibold-24 text-primary'>
+                                <h1 className='font-semibold pb-3 leading-[27px]'>
+                                    <Translation translationKey={term.title} />
+                                </h1>
+                                <ul
+                                    className={`text-sm text-span leading-[27px] ${index === 0 ? 'list-none' : 'list-disc'} pl-6`}
+                                >
+                                    {term.description.map((desc, descIndex) => {
+                                        if (typeof desc === 'string') {
+                                            return (
+                                                <li
+                                                    key={descIndex}
+                                                    className='font-light'
+                                                    style={{ wordSpacing: '0.1em', textAlign: 'justify' }}
+                                                >
+                                                    <Translation translationKey={desc} />
+                                                </li>
+                                            );
+                                        } else if ('cnt' in desc) {
+                                            return (
+                                                <li key={descIndex}>
+                                                    <h2 className="font-semibold">
+                                                        <Translation translationKey={desc.title as string} />
+                                                    </h2>
+                                                    <ul className="list-disc pl-6">
+                                                        {desc.cnt.map((item, itemIndex) => (
+                                                            <li key={itemIndex}>
+                                                                <strong>
+                                                                    <Translation translationKey={item.title} />
+                                                                </strong>
+                                                                <Translation translationKey={item.desc} />
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </li>
+                                            );
+                                        } else if ('alphList' in desc) {
+                                            return (
+                                                <li key={descIndex}>
+                                                    <h2 className="font-semibold">
+                                                        <Translation translationKey={desc.alphList?.title || ''} />
+                                                    </h2>
+                                                    <ul className="list-disc pl-6">
+                                                        {desc.alphList?.desc?.map((item, itemIndex) => (
+                                                            <li key={itemIndex}>
+                                                                <Translation translationKey={item} />
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </li>
+                                            );
+                                        } else if ('item' in desc) {
+                                            return (
+                                                <li key={descIndex}>
+                                                    <Translation translationKey={desc.item || ''} />
+                                                </li>
+                                            );
+                                        }
+                                        return null;
+                                    })}
+                                </ul>
+                            </li>
+                        ))}
                     </ol>
                 </div>
             </div>
         </Container>
     );
 }
-
 
