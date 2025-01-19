@@ -113,7 +113,6 @@ export class UserController {
 		return await this.userService.findAll(paginationParams, name, filter);
 	}
 
-	@Permissions({ action: 'update', subject: 'user' })
 	@Patch(':id')
 	update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
 		return this.userService.update(+id, updateUserDto);

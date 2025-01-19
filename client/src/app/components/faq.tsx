@@ -199,12 +199,12 @@ export default function FaqPage() {
 											<Translation translationKey={faq.question} />
 										</h2>
 										{openAnswers[`${index}-${faqIndex}`] ? (
-											<IoChevronDownOutline
-												className="h-6 w-6 text-primary cursor-pointer"
-												onClick={() => toggleAnswer(index, faqIndex)}
-											/>
-										) : (
 											<IoChevronUp
+											className="h-6 w-6 text-primary cursor-pointer"
+											onClick={() => toggleAnswer(index, faqIndex)}
+										/>
+										) : (
+											<IoChevronDownOutline
 												className="h-6 w-6 text-primary cursor-pointer"
 												onClick={() => toggleAnswer(index, faqIndex)}
 											/>

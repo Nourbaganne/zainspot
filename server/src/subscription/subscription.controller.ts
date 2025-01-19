@@ -22,6 +22,7 @@ export class SubscriptionController {
 		private readonly paymentHistoryService: PaymentHistoryService,
 	) {}
 
+	@Public()
 	@Get()
 	async findAll(@Query() query: Record<string, any>): Promise<any> {
 		return this.subscriptionService.findAll(query);
@@ -46,6 +47,7 @@ export class SubscriptionController {
 		return this.subscriptionService.createSubscription(createSubscriptionDto);
 	}
 
+	@Public()
 	@Get(':userId')
 	async getSubscriptionsByUser(
 		@Param('userId', ParseIntPipe) userId: number,
