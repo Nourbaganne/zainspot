@@ -27,10 +27,12 @@ export class Invoice extends BaseEntity {
 	@Column()
 	status: string;
 
-	@OneToOne(() => PaymentHistory)
+	@OneToOne(() => PaymentHistory, { onDelete: 'CASCADE' })
 	@JoinColumn()
 	paymentHistory: PaymentHistory;
 
-	@ManyToOne(() => User, (user) => user.paymentHistories)
+	@ManyToOne(() => User, (user) => user.paymentHistories, {
+		onDelete: 'CASCADE',
+	})
 	user: User;
 }

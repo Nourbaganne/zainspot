@@ -24,7 +24,7 @@ export class SubscriptionService {
 		private readonly userService: UserService,
 	) {}
 
-	async findAll(query: Record<string, any>): Promise<any> {
+	async findAll(query: Record<string, any> = {}): Promise<any> {
 		// if you want to filter data by cityId, send city.id in request query, same for userId, send user.id, etc...
 		const data: any = await this.subscriptionRepository.find({
 			where: query,
@@ -311,5 +311,9 @@ export class SubscriptionService {
 			where: { user: { id: userId } },
 			relations: ['city', 'user'],
 		});
+	}
+
+	async deleteMany(ids: number[]) {
+		return this.subscriptionRepository.delete(ids);
 	}
 }
