@@ -1,5 +1,5 @@
 import axiosInstance from "./axios/axiosInstance";
 
 export async function getCities() {
-    return await axiosInstance.get(`/city`)
+    return await axiosInstance.get(`/city/home`)
 }

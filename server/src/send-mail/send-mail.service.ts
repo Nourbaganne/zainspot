@@ -29,8 +29,8 @@ export class SendMailService {
     html?: string;
     attachments?: Array<{
       filename: string;
-      path?: string; // Use 'path' to specify file path
-      content?: string; // Use 'content' for base64-encoded strings
+      path?: string; 
+      content?: string; 
       encoding?: string;
     }>;
   }): Promise<void> {
@@ -45,9 +45,9 @@ export class SendMailService {
         html: options.html,
         attachments: options.attachments?.map(attachment => ({
           filename: attachment.filename,
-          path: attachment.path, // Optionally use 'path' to attach a file directly
-          content: attachment.content, // Or use 'content' for base64-encoded content
-          encoding: attachment.encoding || 'base64', // Default to base64 encoding
+          path: attachment.path, 
+          content: attachment.content, 
+          encoding: attachment.encoding || 'base64', 
         })),
       };
 

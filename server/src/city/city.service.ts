@@ -99,6 +99,19 @@ export class CityService {
 		};
 	}
 
+
+	async getHomeCities(): Promise<City[]> {
+		// Create a query builder to fetch all cities
+		const queryBuilder = this.cityRepository.createQueryBuilder('city');
+		
+		// Add sorting: unhidden cities first
+		const cities = await queryBuilder
+			.orderBy('city.hidden', 'ASC')
+			.getMany();
+	
+		return cities;
+	}
+	
 	async getCity(id: number, lang: string = 'en'): Promise<any> {
 		const city = await this.cityRepository.findOne({ where: { id } });
 		if (!city) {
