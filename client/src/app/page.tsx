@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import header from './assets/home/header-image.svg';
+import header from './assets/home/headerImg.svg';
+import star from './assets/home/star.svg';
 import check from './assets/home/check-icon.svg';
 import close from './assets/home/close-icon.svg';
 import { zainspotFeatures, ignoredFeatures } from './constants/home';
@@ -17,18 +18,18 @@ function Home() {
 					src={header}
 					alt='header-image'
 				/>
-				<div className='flex flex-col z-10 md:w-full md:pt-[400px] md:pl-14 md:gap-10 px-12 py-14 gap-4'>
-					<h1 className='md:text-[56px] text-3xl  font-sans font-bold text-background'>
+				<div className='flex flex-col z-10 px-4 md:w-full md:pl-14 md:gap-10 py-14'>
+					<h1 className='md:text-[56px] text-3xl font-sans font-bold text-background'>
 						<Translation translationKey='homepage_header_title' />
 						<span className='text-primary'>
 							<Translation translationKey='homepage_header_span' />
 						</span>
 					</h1>
-					<div className='flex flex-col bg-background rounded-md p-4 md:max-w-fit md:pt-5 gap-2 font-semibold font-sans md:ml-20'>
-						<div className='grid grid-cols-1 md:grid-cols-2 text-primary gap-3'>
+					<div className='flex flex-col rounded-md p-4 md:max-w-fit py-0 md:py-16 md:pt-5 gap-4 font-semibold font-sans md:ml-20 self-end'>
+						<div className='grid grid-cols-1 text-primary gap-3'>
 							{zainspotFeatures.map((feature, index) => (
 								<div
-									className='flex items-center gap-2 text-primar'
+									className='flex text-lg items-center gap-2 text-primary font-bold'
 									key={index}
 								>
 									<Image src={check} alt='check-feature' />
@@ -38,9 +39,9 @@ function Home() {
 								</div>
 							))}
 						</div>
-						<div className='flex flex-col md:flex-row gap-3 md:gap-7'>
+						<div className='flex flex-col gap-3 md:gap-2'>
 							{ignoredFeatures.map((igf, index) => (
-								<div className='flex gap-1' key={index}>
+								<div className='flex gap-1 font-bold text-lg' key={index}>
 									<Image src={close} alt='ignore-feature' />
 									<h1 className='text-span'>
 										<Translation
@@ -51,13 +52,28 @@ function Home() {
 							))}
 						</div>
 					</div>
-					<h1 className='md:text-[24px] text-medium font-semibold font-sans text-secondary pl-8 '>
+					<h1 className='md:text-[36px] text-medium font-semibold font-sans text-background pl-8 '>
 						<Translation translationKey='homepage_header_summary' />
+						<span className='text-primary'>
+							<Translation translationKey='homepage_header_zainspot' />
+						</span>
 					</h1>
 				</div>
 			</div>
-			<div className='bg-primary p-6  md:pl-20 md:py-10 font-semibold font-sans text-background text-2xl md:text-[45px]'>
-				<Translation translationKey='homepage_description' />
+			<div className="bg-primary p-6 flex items-center md:pl-20 md:py-10 font-semibold font-sans text-background text-2xl md:text-[45px] gap-4">
+				<div className='flex'>
+					{Array(5)
+						.fill(null)
+						.map((_, index) => (
+							<Image
+								key={index}
+								src={star}
+								alt="star"
+								className="w-6 mr-1 last:mr-0"
+							/>
+						))}
+				</div>
+				<Translation translationKey="homepage_description" />
 			</div>
 
 			<div className='flex flex-col py-12 md:px-14 px-5 gap-9 '>

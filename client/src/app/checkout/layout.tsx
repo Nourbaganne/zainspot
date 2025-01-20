@@ -88,7 +88,7 @@ export default function CheckoutSuccessPage({ children }: Props) {
 								className='border rounded-lg overflow-hidden flex items-center gap-2 group'
 							>
 								<Image
-									src={city.imageUrl}
+									src={city.imageUrl as string}
 									width={140}
 									height={100}
 									alt={city.city}
