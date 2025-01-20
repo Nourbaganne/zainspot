@@ -230,16 +230,16 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						pricesData={city?.classicPrice}
 						onSelect={handleSelect}
 					/>
-					<div className='flex items-center gap-5 py-6'>
+					<div className='flex items-start gap-5 py-6'>
 						<div className='flex flex-col gap-2 w-full'>
 							<Link
 								href='/'
-								className='flex text-sm items-center font-bold text-primary border-2 rounded-md border-primary px-6 py-4 uppercase'
+								className='flex text-sm items-center font-bold text-primary border-2 rounded-md border-primary px-4 py-[5px] md:px-6 md:py-4 uppercase'
 							>
 								<Translation translationKey='select_another_city' />{' '}
 							</Link>
 							{!user?.user.userId && (
-								<div className='flex gap-6 text-lg font-bold text-primary'>
+								<div className='flex gap-6 pl-4 text-lg font-bold text-primary'>
 									<Link href='/register' className='hover:underline uppercase'>
 										<Translation translationKey='join' />
 									</Link>
