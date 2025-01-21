@@ -28,6 +28,14 @@ import { Public } from 'src/decorators/public.decorator';
 export class CityController {
 	constructor(private readonly cityService: CityService) {}
 
+
+
+	@Public()
+	@Get('home')
+	getHomeCities(): Promise<City[]>{
+		return this.cityService.getHomeCities();
+	}
+
 	@Public()
 	@Get()
 	getCities(
@@ -37,12 +45,7 @@ export class CityController {
 		return this.cityService.getCities(paginationParams, name);
 	}
 
-	@Public()
-	@Get('/home')
-	getHomeCities(){
-		return this.cityService.getHomeCities();
-	}
-
+	
 	@Public()
 	@Get(':id')
 	getOneCity(
