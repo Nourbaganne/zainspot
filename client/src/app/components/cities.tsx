@@ -22,8 +22,10 @@ const Cities = () => {
 		refetchOnMount: 'always',
 		refetchOnWindowFocus: true,
 	});
-	const cities = data?.data.items || [];
+	const cities = data?.data || [];
 
+
+	
 	// get all subscriptions for current user
 	const { user } = useContext(AuthContext);
 

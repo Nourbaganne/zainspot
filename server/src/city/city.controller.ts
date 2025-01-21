@@ -38,6 +38,12 @@ export class CityController {
 	}
 
 	@Public()
+	@Get('/home')
+	getHomeCities(){
+		return this.cityService.getHomeCities();
+	}
+
+	@Public()
 	@Get(':id')
 	getOneCity(
 		@Param('id') id: string,

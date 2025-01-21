@@ -12,7 +12,6 @@ import { User } from './user.entity';
 import { Subscription } from './subscription.entity';
 import { Invoice } from './invoice.entity';
 import { PaymentHistoryService } from 'src/payment-history/payment-history.service';
-import { TranslationService } from 'src/translation/translation.service';
 
 @Entity()
 export class PaymentHistory extends BaseEntity {
@@ -39,7 +38,9 @@ export class PaymentHistory extends BaseEntity {
 	})
 	user: User;
 
-	@OneToOne(() => Subscription, (subscription) => subscription.paymentHistory)
+	@OneToOne(() => Subscription, (subscription) => subscription.paymentHistory, {
+		onDelete: 'SET NULL',
+	})
 	@JoinColumn()
 	subscription: Subscription;
 

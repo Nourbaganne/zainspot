@@ -13,6 +13,6 @@ export const dataSourceOptions: DataSourceOptions = {
 	database: process.env.DB_NAME,
 	entities: [join(__dirname, '..', '**', '*.entity.{ts,js}')],
 	migrations: [join(__dirname, '..', 'db', 'migrations', '*.{ts,js}')],
-	// synchronize: true //only use this for dev db(data might get lost)
+	synchronize: true, //only use this for dev db(data might get lost)
 };
 export const dataSource = new DataSource(dataSourceOptions);

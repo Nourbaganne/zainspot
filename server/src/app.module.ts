@@ -30,6 +30,7 @@ import { VisitorModule } from './visitor/visitor.module';
 import { PaymentEmailModule } from './payment-email/payment-email.module';
 import { TranslationModule } from './translation/translation.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
+import { Subscription } from './entities/subscription.entity';
 
 @Module({
 	imports: [
@@ -52,6 +53,7 @@ import { ChatbotModule } from './chatbot/chatbot.module';
 			}),
 		}),
 		TypeOrmModule.forRoot(dataSourceOptions),
+		TypeOrmModule.forFeature([Subscription]),
 		AuthModule,
 		UserModule,
 		CityModule,
