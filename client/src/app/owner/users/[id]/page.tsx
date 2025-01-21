@@ -75,10 +75,6 @@ const Page = ({ params }: { params: { id: number } }) => {
       title: 'Location',
       value: `${currentUser?.city}, ${currentUser?.state}, ${currentUser?.country}`,
     },
-    {
-      title: 'Future Regions of Interest for expansion',
-      value: currentUser?.interestRegion,
-    },
     { title: 'Social Media Pages', value: currentUser?.mediaProfile },
   ];
 

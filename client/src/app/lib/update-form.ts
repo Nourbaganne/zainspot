@@ -21,7 +21,6 @@ export interface UserData {
     state?: string;
     fullStreetAdress?: string;
     zipCode?: string;
-    interestRegion?: string;
     name?: string;
     middleName?: string;
     lastName?: string;
@@ -52,7 +51,6 @@ export const useUpdateForm = (userData: UserData) => {
         fullStreetAdress: userData?.fullStreetAdress || "",
         zipCode: userData?.zipCode || "",
         state: userData?.state || "",
-        interestRegion: userData?.interestRegion || "",
         name: userData?.name || "",
         middleName: userData?.middleName || "",
         lastName: userData?.lastName || "",
