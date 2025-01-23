@@ -83,7 +83,7 @@ function Home() {
 				<div className='flex flex-col md:pl-12 gap-5'>
 					<h1 className='text-span text-2xl md:text-4xl font-semibold font-sans flex gap-2'>
 						<Translation translationKey='homepage_cities_title' />
-						<span className='text-primary'>
+						<span className='text-primary italic'>
 							<Translation translationKey='homepage_cities_title_span' />
 						</span>
 					</h1>
