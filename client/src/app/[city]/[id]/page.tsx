@@ -17,6 +17,7 @@ import { FiArrowRight, FiChevronLeft } from 'react-icons/fi';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/app/contexts/LanguageContext';
+import HighlightText from '../components/highlightText';
 
 export interface SelectedItem {
 	duration: number;
@@ -192,13 +193,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						</div>
 						<div className='flex flex-col px-4 md:px-2 gap-7 pt-4 text-text-foreground'>
 
-							<h1 className=' font-sans font-extrabold text-xl md:text-[27px] '>
-								<Translation translationKey='city_captcha' />{' '}
-								<span className='text-primary'>
-									<Translation translationKey='zainspot_title' />
-								</span>{' '}
-								<Translation translationKey='citypage_subtitle' />
-							</h1>
+							<HighlightText text={city?.catchphrase} />
 							<p
 								className='font-regular text-description-foreground text-lg md:text-[16px] leading-[27px] tracking-wide'
 								style={{ wordSpacing: '0.2em', textAlign: 'justify' }}

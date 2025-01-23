@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCityDto } from './dto/create-city.dto';
@@ -101,16 +101,16 @@ export class CityService {
 
 
 	async getHomeCities(): Promise<City[]> {
-		// Create a query builder to fetch all cities
-		const queryBuilder = this.cityRepository.createQueryBuilder('city');
-		
-		// Add sorting: unhidden cities first
-		const cities = await queryBuilder
-			.orderBy('city.hidden', 'ASC')
-			.getMany();
-	
-		return cities;
+		try {
+			const queryBuilder = this.cityRepository.createQueryBuilder('city');
+			const cities = await queryBuilder.orderBy('city.hidden', 'ASC').getMany();
+			return cities;
+		} catch (error) {
+			console.error('Error fetching home cities:', error);
+			throw new InternalServerErrorException('Failed to fetch home cities');
+		}
 	}
+	
 	
 	async getCity(id: number, lang: string = 'en'): Promise<any> {
 		const city = await this.cityRepository.findOne({ where: { id } });
