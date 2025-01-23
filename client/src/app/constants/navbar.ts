@@ -1,8 +1,8 @@
 export const LANGUAGES_DATA = [
-    { key: "EN", title: "English" },
-    { key: "EN", title: "English" },
+    { key: "US", title: "English" },
+    { key: "UK", title: "English" },
     { key: "FR", title: "Français" },
-    { key: "ES", title: "Español" },
+    { key: "ESP", title: "Español" },
     { key: "AR", title: "العربية" },
     { key: "BN", title: "Bangla" },
     { key: "GUJ", title: "Gujarati" },
