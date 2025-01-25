@@ -14,14 +14,12 @@ export class TranslationService {
       // Split and sanitize text
       const chunks = this.splitAndSanitizeText(text);
 
-      // Translate each chunk
-      const translatedChunks = await Promise.all(
-        chunks.map(async (chunk) => {
-          const url = `${this.apiUrl}/${sourceLanguage}/${targetLanguage}/${encodeURIComponent(chunk)}`;
-          const response = await axios.get(url);
-          return response.data.translation;
-        }),
-      );
+      // Translate each chunk with a delay between requests
+      const translatedChunks = [];
+      for (const chunk of chunks) {
+        const translation = await this.translateWithDelay(chunk, sourceLanguage, targetLanguage);
+        translatedChunks.push(translation);
+      }
 
       // Combine translated chunks
       return translatedChunks.join(' ');
@@ -30,6 +28,34 @@ export class TranslationService {
       return text; // Return original text as fallback
     }
   }
+
+
+
+  async translateMultipleTexts(
+    texts: string[],
+    sourceLanguage: string,
+    targetLanguage: string,
+  ): Promise<string[]> {
+    try {
+      // Combine texts with a delimiter
+      const delimiter = '|||'; // Ensure this doesn't exist in your texts
+      const combinedText = texts.join(delimiter);
+
+      // Translate the combined text
+      const translatedCombinedText = await this.translateText(
+        combinedText,
+        sourceLanguage,
+        targetLanguage,
+      );
+
+      // Split the translated result back into separate fields
+      return translatedCombinedText.split(delimiter);
+    } catch (error) {
+      console.error('Batch translation error:', error.response?.data || error.message);
+      return texts; // Fallback to original texts
+    }
+  }
+
 
   private splitAndSanitizeText(text: string, maxLength = 300): string[] {
     // Normalize line breaks and trim whitespace
@@ -53,5 +79,27 @@ export class TranslationService {
     }
 
     return chunks;
+  }
+
+  private async translateWithDelay(
+    text: string,
+    sourceLanguage: string,
+    targetLanguage: string,
+    delayMs = 1000, // Delay between requests (1 second by default)
+  ): Promise<string> {
+    try {
+      const url = `${this.apiUrl}/${sourceLanguage}/${targetLanguage}/${encodeURIComponent(text)}`;
+      const response = await axios.get(url);
+      // Introduce delay between requests
+      await this.delay(delayMs);
+      return response.data.translation;
+    } catch (error) {
+      console.error('Translation error:', error.response?.data || error.message);
+      return text; // Return original text as fallback
+    }
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
