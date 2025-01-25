@@ -9,10 +9,10 @@ const MenuButton = ({
   setOpenLanguagesMenu,
   type,
 }: {
-  lang: Language | Currency; 
+  lang: Language | Currency;
   title: string;
-  setOpenLanguagesMenu?: ((value: boolean) => void) | undefined; 
-  type: 'language' | 'currency'; 
+  setOpenLanguagesMenu?: ((value: boolean) => void) | undefined;
+  type: 'language' | 'currency';
 }) => {
   const { setLanguage } = useLanguage();
   const { setCurrency } = useCurrency();
@@ -20,10 +20,11 @@ const MenuButton = ({
   const handleSelection = (value: Language | Currency) => {
     if (type === 'language') {
       setLanguage(value as Language);
-      if (setOpenLanguagesMenu) setOpenLanguagesMenu(false); 
+      if (setOpenLanguagesMenu) setOpenLanguagesMenu(false);
+      window.location.reload();
     } else if (type === 'currency') {
-      setCurrency(value as Currency); 
-      if (setOpenLanguagesMenu) setOpenLanguagesMenu(false); 
+      setCurrency(value as Currency);
+      if (setOpenLanguagesMenu) setOpenLanguagesMenu(false);
     }
   };
 
