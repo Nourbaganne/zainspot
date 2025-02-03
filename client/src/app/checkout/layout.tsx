@@ -26,7 +26,6 @@ export default function CheckoutSuccessPage({ children }: Props) {
 	});
 
 	const cities = data?.data.items || [];
-	console.log('cities', cities);
 
 	const { user } = useContext(AuthContext);
 
@@ -41,6 +40,7 @@ export default function CheckoutSuccessPage({ children }: Props) {
 	// loop through subscriptions and exclude cities that user has subscribed to
 	const [availableCities, setAvailableCities] = useState<City[]>([]);
 	function getAvailableCities() {
+		console.log('cities', cities);
 		let availableCities = cities.filter((city: City) => {
 			const subscribed = subscriptions.find(
 				(subscription: Subscription) =>
@@ -54,7 +54,7 @@ export default function CheckoutSuccessPage({ children }: Props) {
 		availableCities = availableCities.slice(0, 2);
 		setAvailableCities(availableCities);
 	}
-	useEffect(getAvailableCities, [cities]);
+	useEffect(getAvailableCities, []);
 
 	if (!user) {
 		return <p>Unauthorized</p>;
