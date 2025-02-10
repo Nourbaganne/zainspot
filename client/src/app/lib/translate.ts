@@ -3,7 +3,6 @@ import fr_translations from '../translations/fr.json';
 import sp_translations from '../translations/sp.json';
 import ar_translations from '../translations/ar.json';
 import bn_translations from '../translations/bn.json';
-import br_translations from '../translations/br.json';
 import gj_translations from '../translations/gj.json';
 import hn_translations from '../translations/hn.json';
 import kn_translations from '../translations/kn.json';
@@ -16,7 +15,7 @@ import tm_translations from '../translations/tm.json';
 import tl_translations from '../translations/tl.json';
 import ur_translations from '../translations/ur.json';
 
-export type Language = "EN" | "BR" | "FR" | "ES" | "AR" | "BN" | "GUJ" | "HIN" | "KN" | "MAY" | "MN" | "MAR" | "PA" | "RJ" | "TM" | "TL" | "UR";
+export type Language = "EN"  | "FR" | "ES" | "AR" | "BN" | "GUJ" | "HIN" | "KN" | "MAY" | "MN" | "MAR" | "PA" | "RJ" | "TM" | "TL" | "UR";
 
 interface Translations {
   [key: string]: string | string[];
@@ -34,8 +33,6 @@ function getTranslations(lang: Language): Translations {
       return ar_translations;
     case 'BN':
       return bn_translations;
-    case 'BR':
-      return br_translations;
     case 'GUJ':
       return gj_translations;
     case 'HIN':

@@ -19,7 +19,7 @@ function Home() {
 					alt='header-image'
 				/>
 				<div className='flex flex-col z-10 px-4 md:w-full md:pl-14 gap-10 py-14'>
-					<h1 className='md:text-[57px] text-3xl font-sans font-bold text-background'>
+					<h1 className='md:text-[57px] text-3xl font-sans font-bold text-background '>
 						<Translation translationKey='homepage_header_title' />
 						<span className='text-primary'>
 							<Translation translationKey='homepage_header_span' />
@@ -54,7 +54,7 @@ function Home() {
 					</div>
 					<h1 className='md:text-[36px] text-xl font-semibold font-sans text-background pl-2 md:pl-8 '>
 						<Translation translationKey='homepage_header_summary' />
-						<span className='text-primary'>
+						<span className='text-primary md:text-[46px]'>
 							<Translation translationKey='homepage_header_zainspot' />
 						</span>
 					</h1>

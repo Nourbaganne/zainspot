@@ -27,7 +27,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 		if (preferredLanguage) {
 			setLang(preferredLanguage);
 		}
-	}, []);
+	}, []); 
 
 	return (
 		<html lang={lang}>
