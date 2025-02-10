@@ -17,7 +17,7 @@ export class CityService {
 		private cityRepository: Repository<City>,
 		private stripeService: StripeService,
 		private translationService: TranslationService,
-	) {}
+	) { }
 
 	async getCities(
 		{ page, limit, size, offset, hidden }: Pagination,
@@ -110,8 +110,8 @@ export class CityService {
 			throw new InternalServerErrorException('Failed to fetch home cities');
 		}
 	}
-	
-	
+
+
 	async getCity(id: number, lang: string = 'en'): Promise<any> {
 		const city = await this.cityRepository.findOne({ where: { id } });
 		if (!city) {
@@ -122,25 +122,35 @@ export class CityService {
 			lang = 'en';
 		}
 
-		const translatedCity = {
-			...city,
-			description: await this.translationService.translateText(
-				city.description,
+		// Prepare fields to be translated
+		const textsToTranslate = [
+			city.catchphrase,
+			city.description,
+			city.location.title,
+		];
+
+		// Translate all fields in one request
+		const [translatedCatchphrase, translatedDescription, translatedTitle] =
+			await this.translationService.translateMultipleTexts(
+				textsToTranslate,
 				'en',
 				lang,
-			),
+			);
+
+		// Build the translated city object
+		const translatedCity = {
+			...city,
+			catchphrase: translatedCatchphrase,
+			description: translatedDescription,
 			location: {
 				...city.location,
-				title: await this.translationService.translateText(
-					city.location.title,
-					'en',
-					lang,
-				),
+				title: translatedTitle,
 			},
 		};
 
 		return translatedCity;
 	}
+
 
 	async uploadImageToCloudinary(file: Express.Multer.File): Promise<string> {
 		return new Promise((resolve, reject) => {
