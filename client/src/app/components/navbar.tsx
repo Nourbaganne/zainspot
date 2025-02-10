@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect, useRef, MouseEvent, useContext } from 'react';
 import Link from 'next/link';
 import Translation from './translation';
-import logo from '../assets/navbar/logo-zainspot.svg';
+import logo from '../assets/navbar/navbar-logo.svg';
 import chevron from '../assets/navbar/chevron-down-outline.svg';
 import menu from '../assets/navbar/menu.svg';
 import close from '../assets/navbar/close-icon.svg';
@@ -89,7 +89,7 @@ const Navbar = () => {
 							<Image src={chevron} alt='currency' />
 						</button>
 						{openCurrencyMenu && (
-							<div className='absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md left-0'>
+							<div className='absolute flex flex-col z-40 bg-white p-2 w-full max-h-36 overflow-auto shadow-lg rounded-md left-0'>
 								{CURRENCIES_DATA.map((currency) => (
 									<MenuButton
 										key={currency.key}
@@ -111,7 +111,7 @@ const Navbar = () => {
 							<Image src={chevron} alt='language' />
 						</button>
 						{openLanguagesMenu && (
-							<div className='absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md left-0'>
+							<div className='absolute flex flex-col z-40 bg-white p-2 w-full max-h-36 overflow-auto shadow-lg rounded-md left-0'>
 								{LANGUAGES_DATA.map((language, index) => (
 									<MenuButton
 										key={index}

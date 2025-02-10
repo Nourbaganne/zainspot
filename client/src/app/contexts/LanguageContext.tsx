@@ -19,16 +19,27 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const initialLanguage: Language =
-    typeof window !== "undefined"
-      ? (localStorage.getItem("preferredLanguage") as Language) || "EN"
-      : "EN";
-
-  const [language, setLanguage] = useState<Language>(initialLanguage);
+  const [language, setLanguage] = useState<Language>("EN");
+  const [loading, setLoading] = useState<boolean>(true); // Add loading state
 
   useEffect(() => {
-    localStorage.setItem("preferredLanguage", language);
+    // Simulate a delay for fetching the language
+    const preferredLanguage = localStorage.getItem("preferredLanguage");
+    setLanguage(preferredLanguage ? (preferredLanguage as Language) : "EN");
+
+    // Once the language is set, stop the loading state
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (language !== "EN") {
+      localStorage.setItem("preferredLanguage", language);
+    }
   }, [language]);
+
+  if (loading) {
+    return ;
+  }
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>
@@ -38,4 +49,3 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export default LanguageContext;
-

@@ -15,7 +15,7 @@ import tm_translations from '../translations/tm.json';
 import tl_translations from '../translations/tl.json';
 import ur_translations from '../translations/ur.json';
 
-export type Language = "EN"  | "FR" | "ES" | "AR" | "BN" | "GUJ" | "HIN" | "KN" | "MAY" | "MN" | "MAR" | "PA" | "RJ" | "TM" | "TL" | "UR";
+export type Language = "EN"  | "FR" | "ESP" | "AR" | "BN" | "GUJ" | "HIN" | "KN" | "MAY" | "MN" | "MAR" | "PA" | "RJ" | "TM" | "TL" | "UR";
 
 interface Translations {
   [key: string]: string | string[];
@@ -25,7 +25,7 @@ function getTranslations(lang: Language): Translations {
   switch (lang) {
     case 'FR':
       return fr_translations;
-    case 'ES':
+    case 'ESP':
       return sp_translations;
     case 'EN':
       return usa_translations;

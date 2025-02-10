@@ -66,7 +66,7 @@ const Menubar: React.FC<MenubarProps> = ({
 						<Translation translationKey={`navbar_titles[1]`} />
 					</button>
 					{openCurrencyMenu && (
-						<div className='absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md right-[180px] top-2'>
+						<div className='absolute flex flex-col z-40 bg-white p-2 w-full max-h-36 overflow-auto shadow-lg rounded-md right-[180px] top-2'>
 							{CURRENCIES_DATA.map((currency) => (
 								<MenuButton
 									key={currency.key}
@@ -92,7 +92,7 @@ const Menubar: React.FC<MenubarProps> = ({
 						<Translation translationKey={`navbar_titles[2]`} />
 					</button>
 					{openLanguagesMenu && (
-						<div className='absolute flex flex-col z-40 bg-white p-2 w-full gap-2 max-h-36 overflow-auto shadow-lg rounded-md right-[180px] top-2'>
+						<div className='absolute flex flex-col z-40 bg-white p-2 w-full max-h-36 overflow-auto shadow-lg rounded-md right-[180px] top-2'>
 							{LANGUAGES_DATA.map((language, index) => (
 								<MenuButton
 									key={index}
