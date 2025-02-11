@@ -34,6 +34,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
   
   return (
     <html lang={lang}>
+      <head>
+        <title>ZainSpot</title>
+        <meta name="description" content="Welcome to ZainSpot" />
+      </head>
       <body className={workSans.className}>
         <QueryProvider>
           <AuthContextProvider>
