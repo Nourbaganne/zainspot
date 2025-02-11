@@ -27,7 +27,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     if (preferredLanguage) {
       setLang(preferredLanguage);
     } else {
-      setLang('en'); 
+      setLang('EN'); 
     }
   }, []);
 

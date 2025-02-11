@@ -20,7 +20,7 @@ export const useLanguage = () => {
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>("EN");
-  const [loading, setLoading] = useState<boolean>(true); // Add loading state
+  const [loading, setLoading] = useState<boolean>(true); 
 
   useEffect(() => {
     // Simulate a delay for fetching the language
@@ -32,13 +32,13 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    if (language !== "EN") {
+    if (language) {
       localStorage.setItem("preferredLanguage", language);
     }
   }, [language]);
 
   if (loading) {
-    return ;
+    return;
   }
 
   return (

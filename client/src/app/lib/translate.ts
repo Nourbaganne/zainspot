@@ -15,7 +15,7 @@ import tm_translations from '../translations/tm.json';
 import tl_translations from '../translations/tl.json';
 import ur_translations from '../translations/ur.json';
 
-export type Language = "EN"  | "FR" | "ESP" | "AR" | "BN" | "GUJ" | "HIN" | "KN" | "MAY" | "MN" | "MAR" | "PA" | "RJ" | "TM" | "TL" | "UR";
+export type Language = "EN"  | "FR" | "ES" | "AR" | "BN" | "GU" | "HI" | "KN" | "MS" | "MN" | "MR" | "PA" | "RJ" | "TA" | "TE" | "UR";
 
 interface Translations {
   [key: string]: string | string[];
@@ -25,7 +25,7 @@ function getTranslations(lang: Language): Translations {
   switch (lang) {
     case 'FR':
       return fr_translations;
-    case 'ESP':
+    case 'ES':
       return sp_translations;
     case 'EN':
       return usa_translations;
@@ -33,25 +33,25 @@ function getTranslations(lang: Language): Translations {
       return ar_translations;
     case 'BN':
       return bn_translations;
-    case 'GUJ':
+    case 'GU':
       return gj_translations;
-    case 'HIN':
+    case 'HI':
       return hn_translations;
     case 'KN':
       return kn_translations;
     case 'MN':
       return mn_translations
-    case 'MAY':
+    case 'MS':
       return ml_translations;
-    case 'MAR':
+    case 'MR':
       return mr_translations;
     case 'PA':
       return pn_translations;
     case 'RJ':
       return rj_translations;
-    case 'TM':
+    case 'TA':
       return tm_translations;
-    case 'TL':
+    case 'TE':
       return tl_translations;
     case 'UR':
       return ur_translations;
