@@ -17,7 +17,6 @@ import { WithAuth } from '@/app/lib/withAuth';
 import { useUpdateUserPassword } from '@/app/lib/updatePassword';
 
 const Page = () => {
-  const [isOpenDialog, setIsOpenDialog] = useState(false);
   const { user } = useContext(AuthContext);
 
   const { data, isLoading, isError, error, refetch } = useQuery({
@@ -55,22 +54,15 @@ const Page = () => {
           </form>
           <Authentification
             isEmailAuthenticated={data?.EmailAuthentication}
+            isEmailConfirmed={data?.isEmailConfirmed}
             userId={user?.user.userId}
             access_token={user?.access_token}
             refetch={refetch}
             email={data?.email}
-            setIsOpenDialog={setIsOpenDialog}
           />
 
         </div>
       </Layout>
-      {isOpenDialog && (
-        <Dialog
-          email={data?.email}
-          isOpenDialog={isOpenDialog}
-          setIsOpenDialog={setIsOpenDialog}
-        />
-      )}
     </div>
   );
 };

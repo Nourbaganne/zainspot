@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { handleEmailVerification } from '../lib/email-verification';
 import { useRouter } from 'next/navigation';
 import Translation from './translation';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/authContext';
 
 interface DialogProps {
 	email: string | undefined;
@@ -11,6 +13,7 @@ interface DialogProps {
 }
 
 const Dialog = ({ email, isOpenDialog, setIsOpenDialog }: DialogProps) => {
+	const { user } = useContext(AuthContext)
 	const router = useRouter();
 
 	if (!isOpenDialog) return null;
@@ -42,7 +45,7 @@ const Dialog = ({ email, isOpenDialog, setIsOpenDialog }: DialogProps) => {
 				</h1>
 				<p className='text-gray-600 text-lg leading-relaxed mb-6 text-center'>
 					<Translation translationKey='emailVerification_desc' />
-					<span className='text-secondary font-semibold'>{email}</span>.
+					<span className='text-secondary font-semibold'>{" "}{email}</span>.{" "}
 					<Translation translationKey='emailVerification_span' />
 					<br />
 					<span className='block mt-4'>
@@ -55,14 +58,19 @@ const Dialog = ({ email, isOpenDialog, setIsOpenDialog }: DialogProps) => {
 						</span>
 					</span>
 				</p>
-				<div className='flex justify-center'>
-					<button
-						className='bg-primary text-white font-semibold py-2 px-6 rounded-full shadow-md hover:bg-primary-dark transition-transform duration-200 transform hover:scale-105 focus:outline-none'
-						onClick={handleRouting}
-					>
-						<Translation translationKey='login_redirection' />
-					</button>
-				</div>
+				{
+					!user && (
+						<div className='flex justify-center'>
+							<button
+								className='bg-primary text-white font-semibold py-2 px-6 rounded-full shadow-md hover:bg-primary-dark transition-transform duration-200 transform hover:scale-105 focus:outline-none'
+								onClick={handleRouting}
+							>
+								<Translation translationKey='login_redirection' />
+							</button>
+						</div>
+					)
+				}
+
 			</div>
 		</div>
 	);
