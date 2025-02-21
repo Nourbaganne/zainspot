@@ -9,6 +9,7 @@ import { City } from '../entities/city.entity';
 import { PaymentHistory } from '../entities/payment-history.entity';
 import { User } from 'src/entities/user.entity';
 import { UserService } from 'src/user/user.service';
+import { TelnyxService } from 'src/telnyx/telnyx.service';
 
 @Module({
 	imports: [
@@ -20,6 +21,7 @@ import { UserService } from 'src/user/user.service';
 		PaymentHistoryService,
 		SubscriptionService,
 		UserService,
+		TelnyxService
 	],
 })
 export class StripeModule {}

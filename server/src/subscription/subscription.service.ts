@@ -9,6 +9,7 @@ import { SubscriptionResponseDto } from './dto/subscription-response.dto';
 import { PaymentHistory } from 'src/entities/payment-history.entity';
 import { updateSubscriptionDto } from './dto/update-subscription.dto';
 import { UserService } from 'src/user/user.service';
+import { TelnyxService } from 'src/telnyx/telnyx.service';
 
 @Injectable()
 export class SubscriptionService {
@@ -22,6 +23,7 @@ export class SubscriptionService {
 		@InjectRepository(PaymentHistory)
 		private readonly paymentHistoryRepository: Repository<PaymentHistory>,
 		private readonly userService: UserService,
+		private readonly telnyxService: TelnyxService
 	) {}
 
 	async findAll(query: Record<string, any> = {}): Promise<any> {
@@ -63,6 +65,11 @@ export class SubscriptionService {
 		// update the user's suite number
 		if (!user.suiteNumber) {
 			this.userService.suiteNumberVerification(user);
+		}
+
+		// purchase phone number for gold plan
+		if (subscription.optionType.toLowerCase() === 'gold'){
+			this.telnyxService.purchaseNumber("US")
 		}
 
 		return this.subscriptionRepository.save(subscription);

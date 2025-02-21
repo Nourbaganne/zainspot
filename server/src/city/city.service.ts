@@ -118,7 +118,7 @@ export class CityService {
 			throw new NotFoundException('City not found');
 		}
 
-		if (!lang || lang === 'usa') {
+		if (!lang || lang === 'en') {
 			lang = 'en';
 		}
 

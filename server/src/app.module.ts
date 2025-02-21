@@ -73,7 +73,7 @@ import { Subscription } from './entities/subscription.entity';
 		VisitorModule,
 		PaymentEmailModule,
 		TranslationModule,
-		ChatbotModule,
+		ChatbotModule
 	],
 	controllers: [AppController],
 	providers: [

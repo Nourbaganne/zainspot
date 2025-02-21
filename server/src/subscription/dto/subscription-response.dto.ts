@@ -20,4 +20,5 @@ export class SubscriptionResponseDto {
 	paymentHistory?: {
 		id: number;
 	};
+	telnyxNumber?: string;
 }

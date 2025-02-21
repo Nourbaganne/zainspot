@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
 
 export class CreateSubscriptionDto {
 	@IsNotEmpty()
@@ -35,4 +35,7 @@ export class CreateSubscriptionDto {
 
 	@IsOptional()
 	paymentHistoryId: number;
+
+	@IsPositive()
+	telnyxNumber: string;
 }
