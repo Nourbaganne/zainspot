@@ -1,3 +1,4 @@
+//needs to be changed before deployment
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -29,6 +30,39 @@ export const useLoginForm = (
 		}),
 		onSubmit: async (values, { resetForm }) => {
 			try {
+				// Check for test support user first
+				if (values.email === 'support@test.com' && values.password === 'support123') {
+					const testSupportUser = {
+						access_token: 'test-support-token-' + Date.now(),
+						expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
+						user: {
+							email: 'support@test.com',
+							role: {
+								id: 1,
+								name: 'support',
+								permissions: [{
+									id: 1,
+									action: 'access',
+									resource: 'support_dashboard'
+								}],
+							},
+							userId: 1,
+						},
+					};
+					
+					// Store auth data first
+					localStorage.setItem('user', JSON.stringify(testSupportUser));
+					localStorage.setItem('token', testSupportUser.access_token);
+					
+					// Then update context
+					dispatch({ type: 'LOGIN', payload: testSupportUser });
+					
+					// Finally redirect
+					router.push('/admin/support');
+					return;
+				}
+
+				// Regular login logic
 				const response = await axiosInstance.post('/auth', values);
 
 				if (response.status === 201) {
@@ -41,6 +75,8 @@ export const useLoginForm = (
 						setCurrency(response.data.user.preferedCurrency);
 						setLanguage(response.data.user.preferedLanguage);
 						dispatch({ type: 'LOGIN', payload: response.data });
+						// Store both user and token
+						localStorage.setItem('user', JSON.stringify(response.data));
 						localStorage.setItem('token', response.data.access_token);
 						router.push('/zainspotter');
 

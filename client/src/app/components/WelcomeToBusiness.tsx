@@ -8,7 +8,7 @@ export default function WelcomeToBusinessSection() {
 			<h2 className='h1 text-text-foreground mb-4 mx-2'>
 				<Translation translationKey='business_header' />
 			</h2>
-			<Image src={LoginImage} alt='Checkout' className='w-full' />
+			<Image src={LoginImage} alt='Checkout' className='w-full' priority />
 		</div>
 	);
 }

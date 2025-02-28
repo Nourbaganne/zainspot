@@ -12,6 +12,8 @@ import { AuthContextProvider } from './contexts/authContext';
 import { Toaster } from 'react-hot-toast';
 import { RolesProvider } from './contexts/RoleContext';
 import CookieBanner from './components/cookieBanner';
+import Chatbot from './components/Chatbot';
+import { useState, useEffect } from 'react';
 
 const workSans = Work_Sans({ subsets: ['latin'] });
 
@@ -25,7 +27,14 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
-	let lang = localStorage.getItem('preferredLanguage') || 'en';
+	const [lang, setLang] = useState('en');
+
+	useEffect(() => {
+		const storedLang = localStorage.getItem('preferredLanguage');
+		if (storedLang) {
+			setLang(storedLang);
+		}
+	}, []);
 
 	return (
 		<html lang={lang}>
@@ -38,6 +47,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 									<Navbar />
 									<Toaster position='top-right' />
 									<CookieBanner />
+									<Chatbot />
 									<main>{children}</main>
 									<Footer />
 								</RolesProvider>

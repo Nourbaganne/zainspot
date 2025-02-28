@@ -22,7 +22,7 @@ const Navbar = () => {
 	const [openCurrencyMenu, setOpenCurrencyMenu] = useState(false);
 	const [isClient, setIsClient] = useState(false);
 	const router = useRouter();
-	const { user, dispatch } = useContext(AuthContext);
+	const { user, dispatch, isSupport } = useContext(AuthContext);
 
 	const languagesMenuRef = useRef<HTMLDivElement>(null);
 	const currencyMenuRef = useRef<HTMLDivElement>(null);
@@ -128,9 +128,34 @@ const Navbar = () => {
 
 				<div className='flex flex-col items-end justify-center h-full gap-2 text-right'>
 					{user ? (
-						<button className='text-alert text-start' onClick={handleLogout}>
-							<Translation translationKey='logout' />
-						</button>
+						<div className="flex items-center space-x-4">
+							{isSupport() && (
+								<Link
+									href="/admin/support"
+									className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+								>
+									Support Dashboard
+								</Link>
+							)}
+							<button className='text-alert text-start' onClick={handleLogout}>
+								<Translation translationKey='logout' />
+							</button>
+							{user.user.role.id === 3 ? (
+								<Link
+									href='/zainspotter'
+									className='text-primary capitalize hover:underline'
+								>
+									<Translation translationKey='footer_title_gotomyzainspot' />{' '}
+								</Link>
+							) : (
+								<Link
+									href='/owner'
+									className='text-primary capitalize hover:underline'
+								>
+									<Translation translationKey='footer_title_owner' />{' '}
+								</Link>
+							)}
+						</div>
 					) : (
 						<div className='flex gap-2 text-primary'>
 							<Link href={'/register'}>
@@ -141,23 +166,6 @@ const Navbar = () => {
 							</Link>
 						</div>
 					)}
-
-					{user &&
-						(user.user.role.id === 3 ? (
-							<Link
-								href='/zainspotter'
-								className='text-primary capitalize hover:underline'
-							>
-								<Translation translationKey='footer_title_gotomyzainspot' />{' '}
-							</Link>
-						) : (
-							<Link
-								href='/owner'
-								className='text-primary capitalize hover:underline'
-							>
-								<Translation translationKey='footer_title_owner' />{' '}
-							</Link>
-						))}
 				</div>
 			</div>
 			<div className='md:hidden flex relative'>
