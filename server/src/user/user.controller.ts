@@ -119,6 +119,7 @@ export class UserController {
 		return this.userService.update(+id, updateUserDto);
 	}
 
+	@Public()
 	@Permissions({ action: 'delete', subject: 'user' })
 	@Delete(':id')
 	async remove(@Param('id') id: string) {

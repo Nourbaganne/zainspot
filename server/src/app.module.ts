@@ -31,6 +31,7 @@ import { PaymentEmailModule } from './payment-email/payment-email.module';
 import { TranslationModule } from './translation/translation.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
 import { Subscription } from './entities/subscription.entity';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
 	imports: [
@@ -73,7 +74,8 @@ import { Subscription } from './entities/subscription.entity';
 		VisitorModule,
 		PaymentEmailModule,
 		TranslationModule,
-		ChatbotModule
+		ChatbotModule,
+		NotificationsModule
 	],
 	controllers: [AppController],
 	providers: [

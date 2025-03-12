@@ -21,4 +21,5 @@ export class SubscriptionResponseDto {
 		id: number;
 	};
 	telnyxNumber?: string;
+	numberStatus?: string;
 }

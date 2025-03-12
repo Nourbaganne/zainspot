@@ -6,6 +6,7 @@ import {
 	JoinColumn,
 	ManyToOne,
 	OneToMany,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm';
@@ -13,6 +14,7 @@ import * as bcrypt from 'bcrypt';
 import { Role } from './role.entity';
 import { PaymentHistory } from './payment-history.entity';
 import { Subscription } from './subscription.entity';
+import { Notifications } from './notifications.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -97,7 +99,7 @@ export class User extends BaseEntity {
 	role: Role;
 
 	@OneToMany(() => PaymentHistory, (paymentHistory) => paymentHistory.user, {
-		cascade: ['remove'], // Cascade delete when user is deleted
+		cascade: ['remove'], 
 	})
 	paymentHistories: PaymentHistory[];
 
@@ -105,6 +107,11 @@ export class User extends BaseEntity {
 		cascade: ['remove'], // Cascade delete when user is deleted
 	})
 	subscriptions: Subscription[];
+
+	@OneToOne(() => Notifications, (notifications) => notifications.user, {
+		cascade: ['remove'], // Cascade delete when user is deleted
+	})
+    notifications: Notifications;
 
 	@Column({ default: true })
 	activation: boolean;
@@ -126,4 +133,5 @@ export class User extends BaseEntity {
 
 	@Column({ default: 'USD' })
 	preferedCurrency: string;
+
 }

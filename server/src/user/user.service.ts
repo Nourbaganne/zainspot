@@ -18,6 +18,7 @@ import {
 } from 'src/utils/date-utils';
 import { In } from 'typeorm';
 import * as fuzzy from 'fuzzy';
+import { Notifications } from 'src/entities/notifications.entity';
 
 type RoleCounts = Record<string, number>;
 type PercentageChange = Record<string, number>;
@@ -34,29 +35,32 @@ export class UserService {
 	async register(createUserDto: CreateUserDto): Promise<User> {
 		const hashedPassword = await this.hashPassword(createUserDto.password);
 		const defaultRole = await Role.findOne({ where: { name: 'zainspotter' } });
-
+	
 		const existEmail = await User.findOne({
 			where: { email: createUserDto.email },
 		});
 		if (existEmail) {
 			throw new HttpException('Email already exists!', HttpStatus.BAD_REQUEST);
 		}
-
-		const user = User.create({
-			...createUserDto,
-			password: hashedPassword,
-			isEmailConfirmed: false,
-			role: defaultRole,
-		});
-
-		user.tradeName = this.normalizeName(user.tradeName);
-		user.businessName = this.normalizeName(user.businessName);
-
-		await User.save(user);
-
+	
+		const user = new User();
+		user.email = createUserDto.email;
+		user.password = hashedPassword;
+		user.isEmailConfirmed = false;
+		user.role = defaultRole;
+		user.tradeName = this.normalizeName(createUserDto.tradeName);
+		user.businessName = this.normalizeName(createUserDto.businessName);
+	
+		await user.save();
+	
+		const notifications = new Notifications();
+		notifications.user = user;
+		await notifications.save(); 
+	
 		delete user.password;
 		return user;
 	}
+	
 
 	async suiteNumberVerification(user: User) {
 		// Find users in the same company
@@ -137,7 +141,8 @@ export class UserService {
 			.leftJoinAndSelect('user.role', 'role')
 			.leftJoinAndSelect('user.paymentHistories', 'paymentHistories')
 			.leftJoinAndSelect('user.subscriptions', 'subscriptions')
-			.leftJoinAndSelect('subscriptions.city', 'city');
+			.leftJoinAndSelect('subscriptions.city', 'city')
+			.leftJoinAndSelect('user.notifications', 'notifications');
 
 		if (filter) {
 			queryBuilder = queryBuilder.andWhere('role.name LIKE :filter', {

@@ -98,7 +98,7 @@ export class StripeController {
 		const paymentHistory =
 			await this.paymentHistoryService.findOneByStripeSessionId(
 				stripeSessionId,
-				['subscription'],
+				['subscription', 'subscription.city'],
 			);
 		if (!paymentHistory) {
 			return res.status(404).json({ message: 'Payment history not found' });

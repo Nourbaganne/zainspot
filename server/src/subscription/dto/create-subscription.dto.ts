@@ -36,6 +36,9 @@ export class CreateSubscriptionDto {
 	@IsOptional()
 	paymentHistoryId: number;
 
-	@IsPositive()
+	@IsOptional()
 	telnyxNumber: string;
+
+	@IsOptional()
+	numberStatus: string;
 }

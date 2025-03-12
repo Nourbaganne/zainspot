@@ -56,8 +56,11 @@ export class Subscription extends BaseEntity {
 	@CreateDateColumn()
 	createdAt: Date;
 
-	@Column({default: ''})
+	@Column({ nullable: true, default: ''})
 	telnyxNumber: string;
+
+	@Column({nullable: true})
+	numberStatus: string;
 }
 
 // ? You can get the stripePriceId using cityId, optionType, and duration
