@@ -9,7 +9,14 @@ export class NotificationsController {
         private readonly notificationService: NotificationsService
     ) { }
 
-    @Public()
+
+    @Get(':userId')
+    async getUserNotifications(
+        @Param('userId') userId: number,
+    ) {
+        return this.notificationService.getUserNotifications(userId)
+    }
+
     @Get(':notificationType')
     async getUsersWithNewCityNotif(
         @Param('notificationType') notificationType: string,
@@ -35,7 +42,7 @@ export class NotificationsController {
         return await this.notificationService.sendNewNotification(body.object, notificationType);
     }
 
-    
+
 
 
 }

@@ -10,6 +10,7 @@ import { PaginatedResource } from 'src/decorators/dto/paginated-resources.dto';
 import { StripeService } from 'src/stripe/stripe.service';
 import PerMonth from 'src/interfaces/PerMonth';
 import { TranslationService } from 'src/translation/translation.service';
+import { NotificationsService } from 'src/notifications/notifications.service';
 @Injectable()
 export class CityService {
 	constructor(
@@ -17,6 +18,7 @@ export class CityService {
 		private cityRepository: Repository<City>,
 		private stripeService: StripeService,
 		private translationService: TranslationService,
+		private notificationService: NotificationsService
 	) { }
 
 	async getCities(
@@ -230,7 +232,10 @@ export class CityService {
 		createCityDto =
 			await this.assignStripePriceIdToEachCityPrice(createCityDto);
 		const newCity = this.cityRepository.create(createCityDto);
-		console.log('new city', newCity);
+		
+		// send city notification
+		this.notificationService.sendNewNotification('newCityNotif', 'newCityNotif')
+		
 		return await this.cityRepository.save(newCity);
 	}
 

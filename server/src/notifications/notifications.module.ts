@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Notifications } from 'src/entities/notifications.entity';
 import { User } from 'src/entities/user.entity';
 import { UserService } from 'src/user/user.service';
+import { CityService } from 'src/city/city.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Notifications, User])],

@@ -14,6 +14,15 @@ export class NotificationsService {
         private readonly emailService: EmailService,
     ) { }
 
+
+    async getUserNotifications(userId: number) {
+        try {
+            return this.notificationsRepository.findOne({ where: { user: { id: userId } } })
+        } catch (error) {
+            throw new NotFoundException('Invalid user id')
+        }
+    }
+
     async notificationActivation(userId: number, notificationType: string) {
 
         let userNotifications = await this.notificationsRepository.findOne({
