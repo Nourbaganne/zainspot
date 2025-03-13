@@ -312,13 +312,6 @@ export class UserService {
 		};
 	}
 
-
-
-
-
-
-
-
 	async getRoleCounts(): Promise<RoleCounts> {
 		const roleCounts = await User.createQueryBuilder('user')
 			.select('role.name AS role')
@@ -587,4 +580,14 @@ export class UserService {
 
 		return users;
 	}
+
+
+	async findUsersWithBirthday(month: number, day: number): Promise<User[]> {
+		return User
+		  .createQueryBuilder('user')
+		  .where('MONTH(user.birthday) = :month', { month })
+		  .andWhere('DAY(user.birthday) = :day', { day })
+		  .getMany();
+	  }
+
 }

@@ -170,7 +170,7 @@ export class NotificationsService {
                     <a href="[dashboard_link]" style="color: #007bff; text-decoration: underline;">View Notification</a>
                 `,
             },
-            
+
         };
 
         return templates[notificationType] || { subject: "ZainSpot Notification", html: "<p>Default email content.</p>" };
@@ -291,6 +291,32 @@ export class NotificationsService {
             throw new InternalServerErrorException(error.message);
         }
     }
+
+    async sendBirthdayNotification(userId: number) {
+        try {
+            // Fetch the user's notification preferences
+            const userNotifs = await this.notificationsRepository.findOne({
+                where: {
+                    user: { id: userId },
+                    birthdayNotif: true
+                },
+                relations: ['user']
+            });
+    
+            if (!userNotifs) {
+                console.log(`User with ID ${userId} has not enabled birthday notifications.`);
+                return;
+            }
+    
+            // Send email notification
+            await this.sendNotifMail(userNotifs.user.email, 'birthdayNotif');
+            console.log(`Birthday notification sent to (${userNotifs.user.email})`);
+        } catch (error) {
+            console.error(`Error sending birthday notification for user ID ${userId}:`, error);
+            throw new InternalServerErrorException(error.message);
+        }
+    }
+
 
 
 }
