@@ -17,13 +17,6 @@ export class NotificationsController {
         return this.notificationService.getUserNotifications(userId)
     }
 
-    @Get(':notificationType')
-    async getUsersWithNewCityNotif(
-        @Param('notificationType') notificationType: string,
-    ) {
-        return this.notificationService.sendNewNotification("asa", notificationType)
-    }
-
     @Public()
     @Patch(':userId/:notificationType')
     async updateNotificationStatus(
@@ -37,9 +30,8 @@ export class NotificationsController {
     @Post('send/:notificationType')
     async sendNewNotification(
         @Param('notificationType') notificationType: string,
-        @Body() body: { object: string }
     ) {
-        return await this.notificationService.sendNewNotification(body.object, notificationType);
+        return await this.notificationService.sendNewNotification( notificationType);
     }
 
 

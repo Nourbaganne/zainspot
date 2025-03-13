@@ -234,7 +234,7 @@ export class CityService {
 		const newCity = this.cityRepository.create(createCityDto);
 		
 		// send city notification
-		this.notificationService.sendNewNotification('newCityNotif', 'newCityNotif')
+		this.notificationService.sendNewNotification('newCityNotif')
 		
 		return await this.cityRepository.save(newCity);
 	}
