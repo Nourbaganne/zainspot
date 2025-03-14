@@ -27,7 +27,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
 	const hasError = touched && error;
 
 	return (
-		<div className='flex flex-col gap-2'>
+		<div className='flex flex-col gap-2 w-full'>
 			<div
 				className={`relative flex flex-col border rounded-md pl-4 pr-14 py-3 
                 ${hasError ? 'border-alert' : 'border-button'}`}

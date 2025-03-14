@@ -35,32 +35,35 @@ export class UserService {
 	async register(createUserDto: CreateUserDto): Promise<User> {
 		const hashedPassword = await this.hashPassword(createUserDto.password);
 		const defaultRole = await Role.findOne({ where: { name: 'zainspotter' } });
-	
+
 		const existEmail = await User.findOne({
 			where: { email: createUserDto.email },
 		});
 		if (existEmail) {
 			throw new HttpException('Email already exists!', HttpStatus.BAD_REQUEST);
 		}
-	
+
 		const user = new User();
+
+		Object.assign(user, createUserDto);
+
 		user.email = createUserDto.email;
 		user.password = hashedPassword;
 		user.isEmailConfirmed = false;
 		user.role = defaultRole;
 		user.tradeName = this.normalizeName(createUserDto.tradeName);
 		user.businessName = this.normalizeName(createUserDto.businessName);
-	
+
 		await user.save();
-	
+
 		const notifications = new Notifications();
 		notifications.user = user;
-		await notifications.save(); 
-	
+		await notifications.save();
+
 		delete user.password;
 		return user;
 	}
-	
+
 
 	async suiteNumberVerification(user: User) {
 		// Find users in the same company
@@ -583,11 +586,11 @@ export class UserService {
 
 
 	async findUsersWithBirthday(month: number, day: number): Promise<User[]> {
-		return User
-		  .createQueryBuilder('user')
-		  .where('MONTH(user.birthday) = :month', { month })
-		  .andWhere('DAY(user.birthday) = :day', { day })
-		  .getMany();
-	  }
+		return await User.createQueryBuilder('user')
+			.where('MONTH(user.birthday) = :month', { month })
+			.andWhere('DAY(user.birthday) = :day', { day })
+			.getMany();
+	}
+
 
 }

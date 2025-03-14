@@ -82,6 +82,7 @@
               : null,
           };
 
+
           const response = await axiosInstance.post("/user/register", formattedValues);
 
           if (response.status === 201) {

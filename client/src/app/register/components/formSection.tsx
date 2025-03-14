@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useMemo, useCallback } from 'react';
+import React, { useRef, useMemo, useCallback, useState } from 'react';
 import CountryFlag from 'react-country-flag';
 import { Country, State, City } from 'country-state-city';
 import { Input } from './input';
@@ -28,6 +28,7 @@ interface FormSectionProps {
 interface OptionType {
 	label: React.ReactNode;
 	value: string;
+	key?: string;
 }
 
 const getCountryOptions = (): OptionType[] => {
@@ -42,7 +43,8 @@ const getCountryOptions = (): OptionType[] => {
 				<span>{country.name}</span>
 			</div>
 		),
-		value: country.isoCode,
+		value: country.name,
+		key: country.isoCode
 	}));
 };
 
@@ -65,15 +67,16 @@ const getCityOptions = (
 
 const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 	const recaptchaRef = useRef<ReCAPTCHA>(null);
+	const [countryCode, setCountryCode] = useState('')
 
 	const countryOptions = useMemo(() => getCountryOptions(), []);
 	const stateOptions = useMemo(() => {
-		return formik.values.country ? getStateOptions(formik.values.country) : [];
+		return formik.values.country ? getStateOptions(countryCode) : [];
 	}, [formik.values.country]);
 
 	const cityOptions = useMemo(() => {
 		return formik.values.country && formik.values.state
-			? getCityOptions(formik.values.country, formik.values.state)
+			? getCityOptions(countryCode, formik.values.state)
 			: [];
 	}, [formik.values.country, formik.values.state]);
 
@@ -92,6 +95,7 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 	const handleCountryChange = useCallback(
 		(option: SingleValue<OptionType>) => {
 			const selectedCountry = option ? option.value : '';
+			setCountryCode(option.key)
 			formik.setFieldValue('country', selectedCountry);
 			// Reset state and city when country changes
 			formik.setFieldValue('state', '');
@@ -331,7 +335,7 @@ const FormSection: React.FC<FormSectionProps> = ({ formik }) => {
 				))}
 			</div>
 
-			<div className='flex flex-col md:grid md:grid-cols-2 gap-4 text-sm w-full items-center justify-center'>
+			<div className='flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-4 text-sm w-full items-center justify-center'>
 				<RadioGroup
 					labelKey='register_gender_label'
 					options={genderOptions}
