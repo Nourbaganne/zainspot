@@ -2,7 +2,7 @@
 	"login": "LOGIN",
 	"join": "JOIN",
 	"logout": "LOGOUT",
-	"secure_checkout": "Checkout",
+	"secure_checkout": "SECURE CHECKOUT",
 	"navbar_titles": [
 		"HOW ZAINSPOT WORKS",
 		"SWITCH CURRENCY",

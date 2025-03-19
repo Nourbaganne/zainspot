@@ -15,6 +15,7 @@ import { Currency } from '../lib/currencyConvert';
 import { useRouter } from 'next/navigation';
 import { AuthContext } from '../contexts/authContext';
 import Menubar from './menubar';
+import { useCart } from '../contexts/CartContext';
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,9 @@ const Navbar = () => {
 	const [openCurrencyMenu, setOpenCurrencyMenu] = useState(false);
 	const [isClient, setIsClient] = useState(false);
 	const router = useRouter();
+	const { state } = useCart()
 	const { user, dispatch } = useContext(AuthContext);
+
 
 	const languagesMenuRef = useRef<HTMLDivElement>(null);
 	const currencyMenuRef = useRef<HTMLDivElement>(null);
@@ -142,22 +145,19 @@ const Navbar = () => {
 						</div>
 					)}
 
-					{user &&
-						(user.user.role.id === 3 ? (
-							<Link
-								href='/zainspotter'
-								className='text-primary capitalize hover:underline'
-							>
-								<Translation translationKey='footer_title_gotomyzainspot' />{' '}
-							</Link>
-						) : (
-							<Link
-								href='/owner'
-								className='text-primary capitalize hover:underline'
-							>
-								<Translation translationKey='footer_title_owner' />{' '}
-							</Link>
-						))}
+
+
+					<Link
+						href='/cart'
+						className='flex justify-center items-center gap-2 text-secondary text-sm font-bold hover:underline'
+					>
+						<Translation translationKey='secure_checkout' />
+						<p className='bg-secondary px-[6px] rounded-full text-background'>
+							{state.items.length}
+						</p>
+					</Link>
+					
+
 				</div>
 			</div>
 			<div className='md:hidden flex relative'>

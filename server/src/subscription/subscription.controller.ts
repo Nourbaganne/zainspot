@@ -54,12 +54,12 @@ export class SubscriptionController {
 	): Promise<SubscriptionResponseDto[]> {
 		return this.subscriptionService.getSubscriptionsByUser(userId);
 	}
-
+	@Public()
 	@Delete('remove/:id')
 	async remove(@Param('id', ParseIntPipe) id: number): Promise<string> {
 		return this.subscriptionService.remove(id);
 	}
-
+	@Public()
 	@Delete(':sessionId')
 	async deleteSubscription(@Param('sessionId') sessionId: string) {
 		const paymentHistory =

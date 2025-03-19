@@ -18,6 +18,8 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/app/contexts/LanguageContext';
 import HighlightText from '../components/highlightText';
+import { useCart } from '@/app/contexts/CartContext';
+import toast from 'react-hot-toast';
 
 export interface SelectedItem {
 	duration: number;
@@ -27,6 +29,7 @@ export interface SelectedItem {
 }
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
+	const { addToCart } = useCart()
 	const router = useRouter();
 	const { user } = useContext(AuthContext);
 	const { language } = useLanguage();
@@ -76,6 +79,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
 	const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
 
+
 	// amout is the price
 	// duration is in months
 	function handleSelect(item: {
@@ -91,19 +95,76 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 		setSelectedItem(item);
 	}
 
-	function handleCheckout() {
-		if (isSubscribed) {
-			alert('You are already subscribed');
-			return;
-		}
+	// function handleCheckout() {
+	// 	if (isSubscribed) {
+	// 		alert('You are already subscribed');
+	// 		return;
+	// 	}
 
-		if (!user?.user.userId) {
-			alert('Please login first');
+	// 	if (!user?.user.userId) {
+	// 		alert('Please login first');
+	// 		return;
+	// 	}
+
+	// 	if (!selectedItem) {
+	// 		alert('Please select an option first');
+	// 		return;
+	// 	}
+
+	// 	const startDate = new Date();
+	// 	const newSubscription = {
+	// 		startDate,
+	// 		endDate: new Date(
+	// 			startDate.setMonth(startDate.getMonth() + selectedItem.duration),
+	// 		),
+	// 		optionType: selectedItem.optionType,
+	// 		duration: selectedItem.duration,
+	// 		price: selectedItem.amount * selectedItem.duration,
+	// 		userId: user?.user.userId,
+	// 		cityId: parseInt(params.id),
+	// 	};
+
+	// 	if (!selectedItem.stripePriceId) {
+	// 		console.log(
+	// 			'Please assign a Stripe Price ID to the selected item by editing the city price for this option',
+	// 		);
+	// 		alert('Check console for error');
+	// 		return;
+	// 	}
+
+	// 	const reqBody = {
+	// 		stripePriceId: selectedItem.stripePriceId,
+	// 		subscription: newSubscription,
+	// 		userId: user.user.userId,
+	// 	};
+
+
+	// 	axiosInstance
+	// 		.post('stripe/create-checkout-session', reqBody)
+	// 		.then((res) => {
+	// 			router.replace(res.data.url);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.error(err);
+	// 		});
+	// }
+
+	function handleAddToCart() {
+		if (isSubscribed) {
+			toast.error('You are already subscribed')
 			return;
 		}
 
 		if (!selectedItem) {
-			alert('Please select an option first');
+			toast.error('Please select an option first')
+			return;
+		}
+
+		if (!selectedItem.stripePriceId) {
+			console.log(
+				'Please assign a Stripe Price ID to the selected item by editing the city price for this option',
+			);
+			alert('Check console for error');
 			return;
 		}
 
@@ -115,34 +176,21 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 			),
 			optionType: selectedItem.optionType,
 			duration: selectedItem.duration,
-			price: selectedItem.amount * selectedItem.duration,
-			userId: user?.user.userId,
+			price: selectedItem.amount,
 			cityId: parseInt(params.id),
+			cityImg: city.imageUrl,
+			cityName: city.city,
+			cityAdress: city.location.title,
+			stripeId: selectedItem.stripePriceId
 		};
 
-		if (!selectedItem.stripePriceId) {
-			console.log(
-				'Please assign a Stripe Price ID to the selected item by editing the city price for this option',
-			);
-			alert('Check console for error');
-			return;
-		}
 
-		const reqBody = {
-			stripePriceId: selectedItem.stripePriceId,
-			subscription: newSubscription,
-			userId: user.user.userId,
-		};
-		console.log('reqBody', reqBody);
 
-		axiosInstance
-			.post('stripe/create-checkout-session', reqBody)
-			.then((res) => {
-				router.replace(res.data.url);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
+
+
+		// Add subscription to cart instead of checking out
+		addToCart(newSubscription);
+		toast.success('Item added to cart!')
 	}
 
 	if (isLoading) {
@@ -229,7 +277,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						<div className='flex flex-col gap-2 w-full'>
 							<Link
 								href='/'
-								className='flex text-sm items-center font-bold text-primary border-2 rounded-md border-primary px-4 py-[5px] md:px-6 md:py-4 uppercase'
+								className='flex text-sm  font-bold text-primary border-2 rounded-md border-primary px-4 py-[5px] md:px-6 md:py-4 uppercase'
 							>
 								<Translation translationKey='select_another_city' />{' '}
 							</Link>
@@ -245,7 +293,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 							)}
 						</div>
 						<button
-							onClick={handleCheckout}
+							onClick={handleAddToCart}
 							className={
 								'flex flex-col text-sm items-center font-medium border-2 rounded-md px-6 py-4 uppercase w-full ' +
 								(selectedItem && !isSubscribed
@@ -262,8 +310,8 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 									'Subscribed'
 								) : (
 									<div className='flex items-center justify-center gap-4'>
-										<Translation translationKey='secure_checkout' />
-										<FiArrowRight size={18}/>
+										<h1>Add To Cart</h1>
+										<FiArrowRight size={18} />
 									</div>
 								)}
 							</span>

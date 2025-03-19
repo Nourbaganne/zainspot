@@ -12,6 +12,7 @@ import { AuthContextProvider } from './contexts/authContext';
 import { Toaster } from 'react-hot-toast';
 import { RolesProvider } from './contexts/RoleContext';
 import CookieBanner from './components/cookieBanner';
+import { CartProvider } from './contexts/CartContext';
 
 const workSans = Work_Sans({ subsets: ['latin'] });
 
@@ -27,11 +28,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
     if (preferredLanguage) {
       setLang(preferredLanguage);
     } else {
-      setLang('EN'); 
+      setLang('EN');
     }
   }, []);
 
-  
+
   return (
     <html lang={lang}>
       <head>
@@ -40,19 +41,21 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
       <body className={workSans.className}>
         <QueryProvider>
-          <AuthContextProvider>
-            <LanguageProvider>
-              <CurrencyProvider>
-                <RolesProvider>
-                  <Navbar />
-                  <Toaster position="top-right" />
-                  <CookieBanner />
-                  <main>{children}</main>
-                  <Footer />
-                </RolesProvider>
-              </CurrencyProvider>
-            </LanguageProvider>
-          </AuthContextProvider>
+          <CartProvider>
+            <AuthContextProvider>
+              <LanguageProvider>
+                <CurrencyProvider>
+                  <RolesProvider>
+                    <Navbar />
+                    <Toaster position="top-right" />
+                    <CookieBanner />
+                    <main>{children}</main>
+                    <Footer />
+                  </RolesProvider>
+                </CurrencyProvider>
+              </LanguageProvider>
+            </AuthContextProvider>
+          </CartProvider>
         </QueryProvider>
       </body>
     </html>

@@ -9,8 +9,8 @@ import { UserService } from 'src/user/user.service';
 import { Public } from 'src/decorators/public.decorator';
 
 interface CreateCheckoutSessionBodyInterface {
-	stripePriceId: string;
-	subscription: CreateSubscriptionDto;
+	stripePriceIds: string[];
+	subscriptions: CreateSubscriptionDto[];
 	userId: number;
 }
 
@@ -21,59 +21,70 @@ export class StripeController {
 		private readonly paymentHistoryService: PaymentHistoryService,
 		private readonly subscriptionService: SubscriptionService,
 		private readonly userService: UserService,
-	) {}
+	) { }
 
 	@Public()
 	@Post('create-checkout-session')
 	async createCheckoutSession(
 		@Res() res: Response,
 		@Body()
-		{ stripePriceId, subscription, userId }: CreateCheckoutSessionBodyInterface,
+		{ stripePriceIds, subscriptions, userId }: CreateCheckoutSessionBodyInterface,
 	) {
-		if (!stripePriceId || !subscription || !userId) {
-			return res.status(422).json({ message: 'missing required fields' });
+		if (!stripePriceIds || !subscriptions || !userId || stripePriceIds.length === 0) {
+			return res.status(422).json({ message: 'Missing required fields' });
 		}
 
 		const user = await this.userService.findById(userId);
-
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
 
+		// Ensure all subscriptions have the same duration
+		const uniqueDurations = new Set(subscriptions.map(sub => sub.duration));
+		if (uniqueDurations.size > 1) {
+			return res.status(400).json({ message: 'All subscriptions must have the same duration' });
+		}
+
+		// Create Stripe Checkout session for multiple subscriptions
 		const session = await this.stripeService.createCheckoutSession(
-			stripePriceId,
-			user.stripeCustomerId,
+			stripePriceIds,
+			user.stripeCustomerId
 		);
 
-		subscription = {
-			...subscription,
-			renewalDate: subscription.endDate,
-			renewalStatus: 'YES',
-		};
-
-		const newSubscription =
-			await this.subscriptionService.createSubscription(subscription);
-
-		// create payment history record
 		try {
-			await this.paymentHistoryService.create({
-				subscriptionId: newSubscription.id,
-				date: new Date(),
-				method: 'card',
-				amount: session.amount_total,
-				status: 'FAILED',
-				stripeSessionId: session.id,
-				userId,
-			});
+			// Save each subscription in DB
+			const newSubscriptions = await Promise.all(
+				subscriptions.map(async (subscription) => {
+					return await this.subscriptionService.createSubscription({
+						...subscription,
+						renewalDate: subscription.endDate,
+						renewalStatus: 'YES',
+					});
+				})
+			);
+
+			// Create payment history records for each subscription
+			await Promise.all(
+				newSubscriptions.map(async (newSubscription, index) => {
+					return await this.paymentHistoryService.create({
+						subscriptionId: newSubscription.id,
+						date: new Date(),
+						method: 'card',
+						amount: session.amount_total / newSubscriptions.length, // Divide total amount
+						status: 'FAILED',
+						stripeSessionId: session.id,
+						userId,
+					});
+				})
+			);
 
 			res.json({ id: session.id, url: session.url });
 		} catch (err) {
 			console.error(err);
-			return res
-				.status(500)
-				.json({ message: 'Error creating payment history', error: err });
+			return res.status(500).json({ message: 'Error creating payment history', error: err });
 		}
 	}
+
 
 	@Public()
 	@Put('payment-history/:stripeSessionId')

@@ -16,4 +16,5 @@ export default interface City {
 	};
 	createdAt?: Date;
 	updatedAt?: Date;
+	stripeId?: string;
 }
