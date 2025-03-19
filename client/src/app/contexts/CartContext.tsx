@@ -92,31 +92,16 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
 	const [state, dispatch] = useReducer(cartReducer, initialState);
 
-	const addToCart = (subscription: CartSubscription): boolean => {
-		const existingItemIndex = state.items.findIndex(
-			(item) => item.cityId === subscription.cityId
-		);
-
-		let newItems;
-		if (existingItemIndex !== -1) {
-			// Remove the existing item and add the new one
-			newItems = state.items.filter((item) => item.cityId !== subscription.cityId);
-		} else {
-			newItems = [...state.items];
-		}
-
-		newItems.push(subscription);
-
+	const addToCart = (subscription: CartSubscription): void => {
+		const newItems = [...state.items, subscription];
+	
 		const updatedCart = { ...state, items: newItems };
-
+	
 		if (typeof window !== 'undefined') {
 			window.localStorage.setItem('cart', JSON.stringify(updatedCart));
 		}
-
+	
 		dispatch({ type: 'ADD_TO_CART', payload: subscription });
-
-		// Check if the item exists in the cart after adding
-		return updatedCart.items.some((item) => item.cityId === subscription.cityId);
 	};
 
 	const removeFromCart = (subscription: CartSubscription): boolean => {

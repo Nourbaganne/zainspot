@@ -24,7 +24,7 @@ export class SubscriptionService {
 		private readonly paymentHistoryRepository: Repository<PaymentHistory>,
 		private readonly userService: UserService,
 		private readonly telnyxService: TelnyxService
-	) {}
+	) { }
 
 	async findAll(query: Record<string, any> = {}): Promise<any> {
 		// if you want to filter data by cityId, send city.id in request query, same for userId, send user.id, etc...
@@ -68,7 +68,7 @@ export class SubscriptionService {
 		}
 
 		// purchase phone number for gold plan
-		if (subscription.optionType.toLowerCase() === 'gold'){
+		if (subscription.optionType.toLowerCase() === 'gold') {
 			this.telnyxService.purchaseNumber("US")
 		}
 
@@ -318,6 +318,21 @@ export class SubscriptionService {
 			where: { user: { id: userId } },
 			relations: ['city', 'user'],
 		});
+	}
+
+	async getSubscriptionByUserCity(userId: number, cityId: number): Promise<boolean> {
+		const sub = this.subscriptionRepository.findOne({
+			where: {
+				user: { id: userId },
+				city: { id: cityId }
+			},
+			relations: ['city', 'user'],
+		})
+		if (sub) {
+			return true
+		} else {
+			return false
+		}
 	}
 
 	async deleteMany(ids: number[]) {

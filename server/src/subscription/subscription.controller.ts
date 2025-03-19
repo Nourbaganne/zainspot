@@ -74,4 +74,13 @@ export class SubscriptionController {
 
 		return this.subscriptionService.remove(subscriptionId);
 	}
+
+	@Public()
+	@Get(':userId/:cityId')
+	async getSubscriptionByUserCity(
+		@Param('userId', ParseIntPipe) userId: number,
+		@Param('cityId', ParseIntPipe) cityId: number,
+	): Promise<boolean>{
+		return this.subscriptionService.getSubscriptionByUserCity(userId, cityId);
+	}
 }

@@ -132,25 +132,25 @@ export class CityService {
 		];
 
 		// Translate all fields in one request
-		const [translatedCatchphrase, translatedDescription, translatedTitle] =
-			await this.translationService.translateMultipleTexts(
-				textsToTranslate,
-				'en',
-				lang,
-			);
+		// const [translatedCatchphrase, translatedDescription, translatedTitle] =
+		// 	await this.translationService.translateMultipleTexts(
+		// 		textsToTranslate,
+		// 		'en',
+		// 		lang,
+		// 	);
 
 		// Build the translated city object
-		const translatedCity = {
-			...city,
-			catchphrase: translatedCatchphrase,
-			description: translatedDescription,
-			location: {
-				...city.location,
-				title: translatedTitle,
-			},
-		};
+		// const translatedCity = {
+		// 	...city,
+		// 	catchphrase: translatedCatchphrase,
+		// 	description: translatedDescription,
+		// 	location: {
+		// 		...city.location,
+		// 		title: translatedTitle,
+		// 	},
+		// };
 
-		return translatedCity;
+		return city;
 	}
 
 

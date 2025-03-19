@@ -15,7 +15,6 @@ import { AuthContext } from '@/app/contexts/authContext';
 import City from '@/app/interfaces/City';
 import { FiArrowRight, FiChevronLeft } from 'react-icons/fi';
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/app/contexts/LanguageContext';
 import HighlightText from '../components/highlightText';
 import { useCart } from '@/app/contexts/CartContext';
@@ -29,9 +28,9 @@ export interface SelectedItem {
 }
 
 const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
-	const { addToCart } = useCart()
-	const router = useRouter();
+	const { addToCart } = useCart();
 	const { user } = useContext(AuthContext);
+	const { state } = useCart();
 	const { language } = useLanguage();
 
 	const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
@@ -80,6 +79,10 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 	const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
 
 
+	function checkCityInCart() {
+		return state.items.some((subscription) => subscription.cityId === city.id);
+	}
+
 	// amout is the price
 	// duration is in months
 	function handleSelect(item: {
@@ -89,7 +92,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 		stripePriceId: string;
 	}) {
 		if (isSubscribed) {
-			alert('You are already subscribed');
+			toast.error('You are already subscribed');
 			return;
 		}
 		setSelectedItem(item);
@@ -149,6 +152,8 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 	// 		});
 	// }
 
+
+
 	function handleAddToCart() {
 		if (isSubscribed) {
 			toast.error('You are already subscribed')
@@ -167,6 +172,11 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 			alert('Check console for error');
 			return;
 		}
+
+		if (checkCityInCart()) { 
+			toast.error('This city already exists in the cart!');
+			return;
+		  }
 
 		const startDate = new Date();
 		const newSubscription = {
@@ -190,6 +200,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
 		// Add subscription to cart instead of checking out
 		addToCart(newSubscription);
+		setSelectedItem(null);
 		toast.success('Item added to cart!')
 	}
 
