@@ -7,6 +7,7 @@ import React, {
     ReactNode,
     useState,
 } from 'react';
+import { useCart } from './CartContext';
 
 interface Permission {
     id: number;
@@ -77,6 +78,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 }) => {
     const [state, dispatch] = useReducer(authReducer, defaultState);
     const [loading, setLoading] = useState(true);
+    const { clearCart } = useCart()
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -91,6 +93,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
             localStorage.setItem('user', JSON.stringify(state.user));
         } else {
             localStorage.removeItem('user');
+            clearCart();
         }
     }, [state.user]);
 
