@@ -4,7 +4,9 @@ import {
 	IsString,
 	IsDate,
 	IsOptional,
+	IsObject,
 } from 'class-validator';
+import { City } from 'src/entities/city.entity';
 
 export class CreatePaymentHistoryDto {
 	@IsNotEmpty()
@@ -34,4 +36,7 @@ export class CreatePaymentHistoryDto {
 	@IsOptional()
 	@IsString()
 	stripeSessionId: string;
+
+	@IsObject()
+	city: City;
 }

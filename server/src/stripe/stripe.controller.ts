@@ -70,10 +70,11 @@ export class StripeController {
 						subscriptionId: newSubscription.id,
 						date: new Date(),
 						method: 'card',
-						amount: session.amount_total / newSubscriptions.length, // Divide total amount
+						amount: session.amount_total / newSubscriptions.length, 
 						status: 'FAILED',
 						stripeSessionId: session.id,
 						userId,
+						city: newSubscription.city,
 					});
 				})
 			);

@@ -7,11 +7,13 @@ import {
 	OneToOne,
 	JoinColumn,
 	AfterUpdate,
+	OneToMany,
 } from 'typeorm';
 import { User } from './user.entity';
 import { Subscription } from './subscription.entity';
 import { Invoice } from './invoice.entity';
 import { PaymentHistoryService } from 'src/payment-history/payment-history.service';
+import { City } from './city.entity';
 
 @Entity()
 export class PaymentHistory extends BaseEntity {
@@ -28,7 +30,7 @@ export class PaymentHistory extends BaseEntity {
 	amount: number;
 
 	@Column()
-	status: string = 'FAILED'; // FAILED or PAID
+	status: string = 'FAILED';
 
 	@Column({ nullable: true })
 	stripeSessionId: string;
@@ -43,6 +45,9 @@ export class PaymentHistory extends BaseEntity {
 	})
 	@JoinColumn()
 	subscription: Subscription;
+
+	@OneToMany(() => City, (city) => city.paymentHistory)
+	city: City;
 
 	@AfterUpdate()
 	async createInvoice() {

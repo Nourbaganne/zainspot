@@ -6,9 +6,11 @@ import {
 	UpdateDateColumn,
 	OneToMany,
 	BaseEntity,
+	ManyToOne,
 } from 'typeorm';
 import { Subscription } from './subscription.entity';
 import PerMonth from 'src/interfaces/PerMonth';
+import { PaymentHistory } from './payment-history.entity';
 
 @Entity('city')
 export class City extends BaseEntity {
@@ -52,5 +54,8 @@ export class City extends BaseEntity {
 
 	@OneToMany(() => Subscription, (subscription) => subscription.city)
 	subscriptions: Subscription[];
+
+	@ManyToOne(() => PaymentHistory, (paymentHistory) => paymentHistory.city)
+	paymentHistory: PaymentHistory[];
 
 }
