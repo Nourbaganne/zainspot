@@ -83,8 +83,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 		return state.items.some((subscription) => subscription.cityId === city.id);
 	}
 
-	// amout is the price
-	// duration is in months
+
 	function handleSelect(item: {
 		duration: number;
 		amount: number;
@@ -97,61 +96,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 		}
 		setSelectedItem(item);
 	}
-
-	// function handleCheckout() {
-	// 	if (isSubscribed) {
-	// 		alert('You are already subscribed');
-	// 		return;
-	// 	}
-
-	// 	if (!user?.user.userId) {
-	// 		alert('Please login first');
-	// 		return;
-	// 	}
-
-	// 	if (!selectedItem) {
-	// 		alert('Please select an option first');
-	// 		return;
-	// 	}
-
-	// 	const startDate = new Date();
-	// 	const newSubscription = {
-	// 		startDate,
-	// 		endDate: new Date(
-	// 			startDate.setMonth(startDate.getMonth() + selectedItem.duration),
-	// 		),
-	// 		optionType: selectedItem.optionType,
-	// 		duration: selectedItem.duration,
-	// 		price: selectedItem.amount * selectedItem.duration,
-	// 		userId: user?.user.userId,
-	// 		cityId: parseInt(params.id),
-	// 	};
-
-	// 	if (!selectedItem.stripePriceId) {
-	// 		console.log(
-	// 			'Please assign a Stripe Price ID to the selected item by editing the city price for this option',
-	// 		);
-	// 		alert('Check console for error');
-	// 		return;
-	// 	}
-
-	// 	const reqBody = {
-	// 		stripePriceId: selectedItem.stripePriceId,
-	// 		subscription: newSubscription,
-	// 		userId: user.user.userId,
-	// 	};
-
-
-	// 	axiosInstance
-	// 		.post('stripe/create-checkout-session', reqBody)
-	// 		.then((res) => {
-	// 			router.replace(res.data.url);
-	// 		})
-	// 		.catch((err) => {
-	// 			console.error(err);
-	// 		});
-	// }
-
 
 
 	function handleAddToCart() {
@@ -194,11 +138,6 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 			stripeId: selectedItem.stripePriceId
 		};
 
-
-
-
-
-		// Add subscription to cart instead of checking out
 		addToCart(newSubscription);
 		setSelectedItem(null);
 		toast.success('Item added to cart!')
@@ -226,19 +165,19 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 
 	return (
 		city && (
-			<div className='flex flex-col md:grid md:grid-cols-5 font-sans md:pt-5 md:pb-14 md:px-10 text-text-foreground '>
-				<div className='col-span-3 flex flex-col py-2 md:py-0 gap-8 md:gap-4'>
+			<div className='flex flex-col lg:grid lg:grid-cols-5 font-sans lg:pt-5 lg:pb-14 lg:px-10 text-text-foreground '>
+				<div className='col-span-3 flex flex-col py-2 lg:py-0 gap-8 lg:gap-4'>
 					<Link href={'/'} className='px-4 text-sm flex gap-1 hover:underline'>
 						<FiChevronLeft className='h-5 w-5' />
 						<Translation translationKey='citypage_return_button' />
 					</Link>
 					<div>
-						<div className='px-4 md:px-0 text-text-foreground flex flex-col md:flex-row md:items-center md:gap-2  '>
-							<h1 className='font-bold text-4xl md:text-semibold-36 font-sans leading-[3rem] '>
+						<div className='px-4 lg:px-0 text-text-foreground flex flex-col lg:flex-row lg:items-center lg:gap-2  '>
+							<h1 className='font-bold text-4xl lg:text-semibold-36 font-sans leading-[3rem] '>
 								{city.city}
 								<Translation translationKey='zainspot_title' />
 							</h1>
-							<h1 className='md:text-xl font-regular self-end md:self-center '>
+							<h1 className='lg:text-xl font-regular self-end lg:self-center '>
 								{city?.location?.title.split(',')[0]}
 							</h1>
 						</div>
@@ -250,11 +189,11 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 								height={300}
 							/>
 						</div>
-						<div className='flex flex-col px-4 md:px-2 gap-7 pt-4 text-text-foreground'>
+						<div className='flex flex-col px-4 lg:px-2 gap-7 pt-4 text-text-foreground'>
 
 							<HighlightText text={city?.catchphrase} />
 							<p
-								className='font-regular text-description-foreground text-lg md:text-[16px] leading-[27px] tracking-wide'
+								className='font-regular text-description-foreground text-lg lg:text-[16px] leading-[27px] tracking-wide'
 								style={{ wordSpacing: '0.2em', textAlign: 'justify' }}
 							>
 								{city?.description && formatDescription(city.description)}
@@ -271,7 +210,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						</div>
 					</div>
 				</div>
-				<div className='col-span-2 flex flex-col gap-7 px-4 md:px-6 pt-0 md:pt-6 '>
+				<div className='col-span-2 flex flex-col gap-7 px-4 lg:px-6 pt-0 lg:pt-6 '>
 					<ZsGold
 						priceData={city?.goldPrice}
 						onSelect={handleSelect}
@@ -288,7 +227,7 @@ const CityDetails = ({ params }: { params: { city: string; id: string } }) => {
 						<div className='flex flex-col gap-2 w-full'>
 							<Link
 								href='/'
-								className='flex text-sm  font-bold text-primary border-2 rounded-md border-primary px-4 py-[5px] md:px-6 md:py-4 uppercase'
+								className='flex text-sm  font-bold text-primary border-2 rounded-md border-primary px-4 py-[5px] lg:px-6 lg:py-4 uppercase'
 							>
 								<Translation translationKey='select_another_city' />{' '}
 							</Link>

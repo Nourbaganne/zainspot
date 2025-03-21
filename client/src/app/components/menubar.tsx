@@ -10,6 +10,7 @@ import { LANGUAGES_DATA, CURRENCIES_DATA } from '../constants/navbar';
 import MenuButton from './menuButton';
 import { Language } from '../lib/translate';
 import { Currency } from '../lib/currencyConvert';
+import { useCart } from '../contexts/CartContext';
 
 interface MenubarProps {
 	isOpen: boolean;
@@ -35,6 +36,7 @@ const Menubar: React.FC<MenubarProps> = ({
 	languagesMenuRef,
 }) => {
 	const { user } = useContext(AuthContext);
+	const { state } = useCart()
 
 	return (
 		<div
@@ -128,7 +130,7 @@ const Menubar: React.FC<MenubarProps> = ({
 						</Link>
 					</div>
 				)}
-				{user && (
+				{/* {user && (
 					user.user.role.id === 3 ? (
 						<Link href='/zainspotter' className='text-primary capitalize hover:underline text-center'>
 							<Translation translationKey='footer_title_gotomyzainspot' />{' '}
@@ -138,7 +140,16 @@ const Menubar: React.FC<MenubarProps> = ({
 							<Translation translationKey='footer_title_owner' />{' '}
 						</Link>
 					)
-				)}
+				)} */}
+				<Link
+					href='/cart'
+					className='flex justify-center items-center gap-2 text-secondary text-sm font-bold hover:underline'
+				>
+					<Translation translationKey='secure_checkout' />
+					<p className='bg-secondary px-[6px] rounded-full text-background'>
+						{state.items.length}
+					</p>
+				</Link>
 			</div>
 		</div>
 	);

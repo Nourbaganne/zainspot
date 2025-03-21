@@ -4,7 +4,7 @@ import Translation from './translation';
 
 export default function WelcomeToBusinessSection() {
 	return (
-		<div className='hidden lg:col-span-1 lg:w-full md:block w-1/2 pt-2'>
+		<div className='hidden lg:col-span-1 lg:w-full lg:block w-1/2 pt-2'>
 			<h2 className='h1 text-text-foreground mb-4 mx-2'>
 				<Translation translationKey='business_header' />
 			</h2>
