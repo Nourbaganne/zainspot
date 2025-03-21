@@ -1,8 +1,6 @@
 'use client';
 
-// context/cartContext.tsx
-import { createContext, useContext, useReducer, ReactNode } from 'react';
-
+import { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
 
 export interface CartSubscription {
 	startDate: Date;
@@ -14,43 +12,37 @@ export interface CartSubscription {
 	cityImg: string | File;
 	cityName: string;
 	cityAdress: string;
-	stripeId: string
+	stripeId: string;
 }
 
-// Define state structure
-export interface CartState {
+interface CartState {
 	items: CartSubscription[];
 }
 
-// Define actions
 type CartAction =
 	| { type: 'ADD_TO_CART'; payload: CartSubscription }
 	| { type: 'REMOVE_FROM_CART'; payload: CartSubscription }
 	| { type: 'CLEAR_CART' };
 
-// Initial state for the cart
-const savedCart = typeof window !== "undefined" && window.localStorage.getItem('cart');
-const initialState: CartState = savedCart
-	? JSON.parse(savedCart)
-	: {
-		items: [],
-	};
+interface CartContextType {
+	state: CartState;
+	addToCart: (subscription: CartSubscription) => void;
+	removeFromCart: (subscription: CartSubscription) => boolean;
+	clearCart: () => void;
+}
 
-// Cart reducer function
+const initialState: CartState = { items: [] };
+
+
 function cartReducer(state: CartState, action: CartAction): CartState {
 	switch (action.type) {
 		case 'ADD_TO_CART':
-			let newItems = state.items.filter(
-				(item) => item.cityId != action.payload.cityId,
-			);
-			newItems.push(action.payload);
-			let data = {
+			return {
 				...state,
-				items: newItems,
+				items: [...state.items.filter((item) => item.cityId !== action.payload.cityId), action.payload],
 			};
-			return data;
 		case 'REMOVE_FROM_CART':
-			const newData = {
+			return {
 				...state,
 				items: state.items.filter(
 					(item) =>
@@ -59,110 +51,15 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 						item.duration !== action.payload.duration
 				),
 			};
-
-			if (typeof window !== 'undefined') {
-				window.localStorage.setItem('cart', JSON.stringify(newData));
-			}
-
-			return newData;
 		case 'CLEAR_CART':
-			if (typeof window !== 'undefined') {
-				window.localStorage.removeItem('cart');
-			}
-			return {
-				items: [],
-			};
+			return { items: [] };
 		default:
 			return state;
 	}
 }
 
-// Create Cart Context type
-interface CartContextType {
-	state: CartState;
-	addToCart: (subscription: CartSubscription) => void;
-	removeFromCart: (subscription: CartSubscription) => boolean;
-	clearCart: () => void;
-}
-
-// Create Cart Context
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// Cart Provider component to wrap around the app
-export function CartProvider({ children }: { children: ReactNode }) {
-	const [state, dispatch] = useReducer(cartReducer, initialState);
-
-	const addToCart = (subscription: CartSubscription): void => {
-		const newItems = [...state.items, subscription];
-	
-		const updatedCart = { ...state, items: newItems };
-	
-		if (typeof window !== 'undefined') {
-			window.localStorage.setItem('cart', JSON.stringify(updatedCart));
-		}
-	
-		dispatch({ type: 'ADD_TO_CART', payload: subscription });
-	};
-
-	const removeFromCart = (subscription: CartSubscription): boolean => {
-		const existingItemIndex = state.items.findIndex(
-			(item) =>
-				item.cityId === subscription.cityId &&
-				item.optionType === subscription.optionType &&
-				item.duration === subscription.duration
-		);
-
-		if (existingItemIndex === -1) {
-			return false; // Item not found in the cart
-		}
-
-		const newItems = state.items.filter(
-			(item) =>
-				item.cityId !== subscription.cityId ||
-				item.optionType !== subscription.optionType ||
-				item.duration !== subscription.duration
-		);
-
-		const updatedCart = { ...state, items: newItems };
-
-		if (typeof window !== 'undefined') {
-			window.localStorage.setItem('cart', JSON.stringify(updatedCart));
-		}
-
-		dispatch({ type: 'REMOVE_FROM_CART', payload: subscription });
-
-		return !updatedCart.items.some(
-			(item) =>
-				item.cityId === subscription.cityId &&
-				item.optionType === subscription.optionType &&
-				item.duration === subscription.duration
-		);
-	};
-
-	const clearCart = (): boolean => {
-		if (state.items.length === 0) {
-			return false; // Cart is already empty
-		}
-
-		if (typeof window !== 'undefined') {
-			window.localStorage.removeItem('cart');
-		}
-
-		dispatch({ type: 'CLEAR_CART' });
-
-		return state.items.length === 0; // Should return true after clearing
-	};
-
-	return (
-		<CartContext.Provider
-			value={{ state, addToCart, removeFromCart, clearCart }}
-		>
-			{children}
-		</CartContext.Provider>
-	);
-}
-
-// Custom hook to use the cart context
 export const useCart = () => {
 	const context = useContext(CartContext);
 	if (!context) {
@@ -170,3 +67,67 @@ export const useCart = () => {
 	}
 	return context;
 };
+
+
+export function CartProvider({ children }: { children: ReactNode }) {
+	// Initialize cart from localStorage
+	const [state, dispatch] = useReducer(cartReducer, initialState, () => {
+		if (typeof window !== 'undefined') {
+			const savedCart = localStorage.getItem('cart');
+			if (savedCart) {
+				try {
+					const parsedCart = JSON.parse(savedCart, (key, value) => {
+						// Convert date strings back to Date objects
+						if (key === 'startDate' || key === 'endDate') {
+							return new Date(value);
+						}
+						return value;
+					});
+					return parsedCart;
+				} catch (error) {
+					console.error('Failed to parse cart from localStorage:', error);
+				}
+			}
+		}
+		return initialState;
+	});
+
+	// Save cart to localStorage whenever it changes
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			try {
+				localStorage.setItem('cart', JSON.stringify(state));
+			} catch (error) {
+				console.error('Failed to save cart to localStorage:', error);
+			}
+		}
+	}, [state.items]);
+
+	const addToCart = (subscription: CartSubscription): void => {
+		dispatch({ type: 'ADD_TO_CART', payload: subscription });
+	};
+
+	const removeFromCart = (subscription: CartSubscription): boolean => {
+		const itemExists = state.items.some(
+			(item) =>
+				item.cityId === subscription.cityId &&
+				item.optionType === subscription.optionType &&
+				item.duration === subscription.duration
+		);
+		if (!itemExists) return false;
+
+		dispatch({ type: 'REMOVE_FROM_CART', payload: subscription });
+		return true;
+	};
+
+	const clearCart = (): void => {
+		dispatch({ type: 'CLEAR_CART' });
+	};
+
+	return (
+		<CartContext.Provider value={{ state, addToCart, removeFromCart, clearCart }}>
+			{children}
+		</CartContext.Provider>
+	);
+}
+

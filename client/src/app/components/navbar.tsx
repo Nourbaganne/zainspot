@@ -73,12 +73,12 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className='flex justify-between md:px-10 px-5 py-2 border border-b-gray-200'>
+		<div className='flex justify-between lg:px-10 px-5 py-2 border border-b-gray-200'>
 			<Link href='/'>
-				<Image src={logo} alt='logo-zainspot' className='w-48 md:w-72' />
+				<Image src={logo} alt='logo-zainspot' className='w-48 lg:w-72' />
 			</Link>
 
-			<div className='hidden md:flex gap-10 font-sans font-bold items-center'>
+			<div className='hidden lg:flex gap-10 font-sans font-bold items-center'>
 				<div className='flex gap-4 text-text-foreground h-full items-end text-sm pb-3'>
 					<Link href={'/how-it-works'} className='min-w-[150px]'>
 						<Translation translationKey={`navbar_titles[0]`} />
@@ -160,7 +160,7 @@ const Navbar = () => {
 
 				</div>
 			</div>
-			<div className='md:hidden flex relative'>
+			<div className='lg:hidden flex relative'>
 				<Image
 					src={isOpen ? close : menu}
 					alt='menu-bar'

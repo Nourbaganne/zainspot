@@ -108,6 +108,7 @@ const Page = () => {
 			}),
 	});
 
+
 	if (isLoading) {
 		return <Loader />;
 	}
@@ -122,7 +123,6 @@ const Page = () => {
 		});
 	}
 
-	console.log("data :", data?.data)
 
 	return (
 		<div className='flex flex-col gap-4 md:gap-6 bg-background-foreground md:px-16 md:py-8 py-6 px-2 md:pb-20'>
@@ -218,22 +218,20 @@ const Page = () => {
 													/>
 												</li>
 												<li
-													className={`col-span-2 pl-4 flex items-center gap-2 uppercase ${
-														payment.status === 'paid'
+													className={`col-span-2 pl-4 flex items-center gap-2 uppercase ${payment.status === 'paid'
 															? 'text-primary'
 															: payment.status === 'pending'
-															? 'text-yellow-500'
-															: 'text-alert'
-													}`}
+																? 'text-yellow-500'
+																: 'text-alert'
+														}`}
 												>
 													<span
-														className={`w-3 h-3 rounded-full ${
-															payment.status === 'paid'
+														className={`w-3 h-3 rounded-full ${payment.status === 'paid'
 																? 'bg-primary'
 																: payment.status === 'pending'
-																? 'bg-yellow-500'
-																: 'bg-alert'
-														}`}
+																	? 'bg-yellow-500'
+																	: 'bg-alert'
+															}`}
 													></span>
 													{payment.status}
 												</li>
